@@ -33,6 +33,16 @@ Erreurs faciles à commettre dans un jeu spatial pour enfants. Avant d'écrire u
 - **Eau recyclée** : l'ISS recycle **98 %** de son eau (segment américain, depuis 2023), sueur et urine comprises.
 - **Construction imprimée en 3D** : Mars Dune Alpha (CHAPEA) a été imprimé sur Terre en **matériau type béton, pas en sol martien**. Le projet MMPACT développe l'impression avec du **régolithe lunaire**.
 
+## Objets du catalogue
+
+- **Perte osseuse** : ~1 % par mois **malgré** 2 h de sport par jour. Ne jamais écrire « sans exercice, on perd X % » (pas de source primaire).
+- **Serre et oxygène** : les jardins spatiaux actuels produisent une quantité d'O₂ négligeable pour un équipage.
+- **Alerte radiation** : la NASA ne publie pas de délai d'alerte avant une tempête de particules. Ne pas afficher « X minutes d'alerte ». Les 15–60 min parfois citées concernent les tempêtes géomagnétiques, pas les particules.
+- **Relais Mars** : dire « des satellites comme MRO, MAVEN et TGO (ESA) », pas « MRO » seul.
+- **MMPACT** : aucune démonstration en vol n'a eu lieu ; aucune donnée publique de puissance ni de durée d'impression.
+- **iROSA** : ne pas inventer de rapport de masse avec les anciens panneaux.
+- **Réserves d'O₂ de l'ISS** : l'essentiel vient de l'électrolyse ; les réservoirs et bougies sont des secours.
+
 ## Lune, Mars, voyage
 
 - **Délai de communication (aller)** : Lune ≈ 1,3 s ; Mars **4 à 24 min** selon les positions (aller-retour jusqu'à ~48 min).

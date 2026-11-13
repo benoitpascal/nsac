@@ -47,12 +47,66 @@ La résolution est automatique : une fois la phase lancée, le joueur n'intervie
 | Données | DONKI, Moon Trek | DONKI, InSight, Mars Trek |
 | Objets favorisés | Batteries, blindage | Batteries, serre, conversion du CO₂ |
 
-## Objets (v0 : 6 à 8 de base)
+## Catalogue d'objets (v1)
 
-Panneau solaire · Batterie · Réservoir d'eau · Module habitat · Électrolyseur · Serre · Recycleur d'eau · Imprimante 3D · Convertisseur de CO₂ (Mars uniquement)
-Ressources locales (sur la planète uniquement) : Régolithe · CO₂ martien. **Elles ne sont pas gratuites** : les extraire coûte de l'énergie et l'outil qui les exploite prend une case (règle « aucun choix gratuit »).
+**Principe** : plus d'objets, mais **pas plus de concepts**. Chaque objet agit sur les 3 jauges (Énergie, Support de vie, Dose) et/ou sur les ⭐ de science. La boutique n'en montre que 4–5 à la fois : le catalogue peut être large sans surcharger le joueur.
+
+★ = proposé pour le MVP de samedi (~10 objets). Les autres arrivent dimanche matin si la boucle tient. Chaque fait cité est sourcé dans `DATA.md` (vérifié le 2026-11-13).
+
+### ⚡ Énergie
+
+| Objet | Apporte | Coûte / limite | Mauvais choix quand | Fait réel |
+|---|---|---|---|---|
+| ★ Panneau solaire | Beaucoup d'énergie le jour | 2 cases ; rien la nuit ni sous la poussière ; 43 % de sa puissance sur Mars | Tempête de poussière sans batterie | InSight : la poussière a fait chuter sa production de 5 000 à 500 Wh par sol |
+| Panneau déroulable | Énergie dans peu de place | Cher | Petit budget | ROSA / iROSA sur l'ISS : se roule « comme un tapis » pour le lancement, presque moitié plus petit que les anciens panneaux |
+| ★ Batterie | Stocke l'énergie pour la nuit | 1 case ; ne produit rien | Trop de batteries, pas assez de production | – |
+| Générateur nucléaire | Énergie constante, jour et nuit, insensible à la poussière | Très cher, lourd, faible puissance, perd quelques % par an | Besoin de beaucoup d'énergie d'un coup | MMRTG de Curiosity et Perseverance : ~110 W, « autant qu'une ampoule » |
+| Pile à combustible | Énergie **+ eau potable en bonus** | Consomme de l'O₂ et de l'hydrogène emportés | O₂ déjà juste | Apollo et la navette : l'eau produite servait à boire |
+
+### 🫁 Support de vie
+
+| Objet | Apporte | Coûte / limite | Mauvais choix quand | Fait réel |
+|---|---|---|---|---|
+| ★ Réserve d'O₂ | O₂ immédiat, secours | S'épuise, ne se renouvelle pas | Mission longue | ISS : réservoirs et « bougies » d'oxygène en secours |
+| ★ Électrolyseur | O₂ renouvelable | Beaucoup d'énergie + de l'eau | Énergie ou eau trop justes | ISS : l'oxygène est fabriqué en cassant de l'eau avec de l'électricité |
+| Filtre à CO₂ | Garde l'air respirable | Énergie ou cartouches à remplacer | Mission très courte | Apollo 13 : filtres carrés, trous ronds, réparation en carton, sacs et scotch. ISS : système CDRA |
+| Recycleur d'eau | Récupère presque toute l'eau | Énergie, 1 case | Mission très courte | ISS : 98 % de l'eau recyclée, sueur et urine comprises |
+| ★ Rations | Nourriture immédiate (et blindage d'appoint, voir abri) | Cases ; s'épuisent | Mission longue | Orion : l'équipage s'abrite derrière des sacs de nourriture et d'eau |
+| ★ Serre | Nourriture durable | Énergie + eau ; lente ; **presque pas d'O₂** | Mission courte | Veggie (laitue mangée en 2015). Pour l'O₂ d'un seul astronaute, il faudrait un jardin grand comme une salle de classe |
+| Convertisseur de CO₂ (Mars) | O₂ tiré de l'air martien | Énergie ; production très faible | Énergie juste | MOXIE : 122 g d'O₂ en tout, une démonstration |
+
+### 🛡️ Radiation
+
+| Objet | Apporte | Coûte / limite | Mauvais choix quand | Fait réel |
+|---|---|---|---|---|
+| ★ Réservoir d'eau | Blindage + eau | Lourd, 2 cases ; l'eau sert aussi à boire et à l'O₂ | Un seul réservoir pour trois usages | L'eau et les matériaux riches en hydrogène bloquent bien les particules |
+| Plaques de polyéthylène | Blindage léger | Ne sert qu'à ça | Période solaire calme | Mesures sur l'ISS (ALTEA) : les matériaux riches en hydrogène protègent le mieux |
+| Dosimètre | L'équipage **se met à l'abri automatiquement** quand la dose monte | 1 case, aucune protection directe | Pas d'abri à bord | Dosimètres actifs sur l'ISS ; l'équipe SRAG de la NASA surveille le Soleil et dit aux astronautes quand s'abriter |
+| Imprimante à régolithe (surface) | Murs de blindage avec la poussière locale | Énergie + temps de construction (valeurs inventées, voir `DATA.md`) | Mission courte | MMPACT : la NASA développe l'impression de pistes et d'habitats en régolithe lunaire |
+
+### 🔬 Science (l'objectif de mission)
+
+| Objet | Apporte | Coûte / limite | Mauvais choix quand | Fait réel |
+|---|---|---|---|---|
+| ★ Labo | ⭐ | Énergie ; n'aide pas à survivre | Marge de survie trop faible | – |
+| Rover / sortie d'exploration | Beaucoup de ⭐ | L'équipage dehors est plus exposé aux radiations | Tempête solaire en cours | La NASA planifie les sorties selon la météo spatiale |
+| ★ Antenne relais | Les ⭐ ne comptent **que si elles sont transmises** | Énergie ; transmission retardée | Énergie juste | Perseverance envoie 99,9 % de ses données via des satellites en orbite (MRO, MAVEN, TGO), reçues par le Deep Space Network |
+| Vélo d'exercice | Équipage en forme → plus de ⭐ | Énergie + 1 case | Mission très courte | ISS : 2 h de sport par jour, et on perd quand même ~1 % d'os par mois (cartes santé OSDR) |
+
+### Multiplier la variété sans multiplier les objets
+
+- **Formes** : 1×1, 1×2, en L, 2×2. La soute devient un casse-tête spatial, sans concept nouveau.
+- **Niveaux** : deux objets identiques fusionnent en niveau 2.
+- **Voisinage** : batterie à côté d'un panneau, serre à côté d'un recycleur…
+- **Modificateurs par destination** : panneau à 43 % sur Mars, longue nuit sur la Lune, convertisseur de CO₂ seulement sur Mars.
+
+### Technique
+
+Les objets sont décrits dans un **fichier JSON** (forme, coût, effets, texte enfant, fait réel, lien source), lu par `core/`. Ajouter un objet = ~10 minutes, pas de code. Chaque nouvel objet passe par `junior-mission-review` (coût, cas de mauvais choix, source).
 
 ## Fusions (une fusion = une vraie technologie)
+
+Le **Module habitat** n'est pas acheté : c'est le module de base, déjà placé dans la soute au départ (il prend des cases). Il sert de partenaire de fusion pour l'Abri.
 
 | A | + B | = Fusion | Référence réelle (sources dans `DATA.md`) |
 |---|---|---|---|
@@ -136,17 +190,9 @@ Issues d'une revue critique du design. Ce sont des **propositions**, pas des dé
 9. **Usage en classe** : une graine de mission partageable par URL (toute la classe joue la même mission).
 10. **Couvrir OSDR et RadLab** : 3 cartes santé rédigées à la main (avec leur OSD-xxx) et une dose de fond ISS.
 
-### Liste d'objets proposée (MVP)
+### Objets du MVP
 
-| Objet | Apporte | Coûte | Mauvais choix quand |
-|---|---|---|---|
-| Panneau solaire | Énergie le jour | 2 cases ; rien la nuit ni sous la poussière | Tempête de poussière sans batterie |
-| Batterie | Stocke l'énergie | 1 case ; ne produit rien | Trop de batteries, pas assez de production |
-| Réservoir d'eau | Eau (boire, O₂, blindage) | Lourd, 2 cases | Un seul réservoir pour trois usages |
-| Électrolyseur | O₂ | Beaucoup d'énergie + de l'eau | Énergie trop juste |
-| Rations | Nourriture immédiate | Cases ; s'épuisent | Mission longue |
-| Serre | Nourriture durable | Énergie + eau ; production lente | Mission courte |
-| Labo science | Étoiles (objectif) | Énergie ; n'aide pas à survivre | Marge de survie trop faible |
+Voir le **Catalogue d'objets** : les objets marqués ★.
 
 Fusions MVP : Micro-réseau, Abri anti-tempête, Générateur d'O₂, Support de vie biologique (+ Oxygène martien sur Mars, avec un coût en énergie). Imprimante 3D et régolithe : hors MVP.
 
