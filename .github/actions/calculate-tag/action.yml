@@ -1,0 +1,97 @@
+name: Calculate next Docker tag
+description: Reads existing registry tags and computes the next semver tag
+
+inputs:
+  image:
+    description: Docker image name
+    required: true
+  branch:
+    description: Current git branch
+    required: true
+  registry:
+    description: Docker registry URL
+    required: true
+  docker_user:
+    description: Docker registry username
+    required: true
+  docker_pass:
+    description: Docker registry password
+    required: true
+
+outputs:
+  tag:
+    description: Next semver tag
+    value: ${{ steps.compute.outputs.tag }}
+
+runs:
+  using: composite
+  steps:
+    - name: Fetch registry tags
+      shell: bash
+      run: |
+        curl -s -u "${{ inputs.docker_user }}:${{ inputs.docker_pass }}" \
+          "https://${{ inputs.registry }}/v2/${{ inputs.image }}/tags/list" > /tmp/registry-tags.json
+
+    - name: Compute next tag
+      id: compute
+      shell: bash
+      env:
+        BRANCH: ${{ inputs.branch }}
+      run: |
+        node -e "
+          const fs = require('fs');
+          const branch = process.env.BRANCH;
+
+          let data;
+          try {
+            data = JSON.parse(fs.readFileSync('/tmp/registry-tags.json', 'utf8'));
+          } catch(e) {
+            data = { tags: [] };
+          }
+
+          const tags = (data.tags || []).filter(t => /^\d+\.\d+\.\d+(-beta\d+)?$/.test(t));
+
+          function parseVersion(tag) {
+            const [main, betaS] = tag.split('-beta');
+            const beta = betaS !== undefined ? Number(betaS) : -1;
+            const parts = main.split('.').map(Number);
+            return { major: parts[0]||0, minor: parts[1]||0, patch: parts[2]||0, beta, isBeta: beta >= 0, raw: tag };
+          }
+
+          function compareVersions(a, b) {
+            if (a.major !== b.major) return a.major - b.major;
+            if (a.minor !== b.minor) return a.minor - b.minor;
+            if (a.patch !== b.patch) return a.patch - b.patch;
+            if (a.beta === -1 && b.beta >= 0) return 1;
+            if (b.beta === -1 && a.beta >= 0) return -1;
+            return a.beta - b.beta;
+          }
+
+          let nextTag;
+
+          if (tags.length === 0) {
+            nextTag = branch === 'main' ? '0.0.1' : '0.0.1-beta0001';
+          } else {
+            const parsed = tags.map(parseVersion);
+            const sorted = parsed.sort((a, b) => compareVersions(b, a));
+
+            if (branch === 'main') {
+              const latestStable = sorted.find(v => !v.isBeta) || { major: 0, minor: 0, patch: 0 };
+              nextTag = latestStable.major + '.' + latestStable.minor + '.' + (latestStable.patch + 1);
+            } else {
+              const latestStable = sorted.find(v => !v.isBeta) || { major: 0, minor: 0, patch: 1 };
+              const latestBeta = sorted.find(v =>
+                v.isBeta &&
+                v.major === latestStable.major &&
+                v.minor === latestStable.minor &&
+                v.patch === latestStable.patch
+              );
+              const nextBeta = latestBeta ? latestBeta.beta + 1 : 1;
+              const betaStr = String(nextBeta).padStart(4, '0');
+              nextTag = latestStable.major + '.' + latestStable.minor + '.' + latestStable.patch + '-beta' + betaStr;
+            }
+          }
+
+          console.log('✅ Next tag: ' + nextTag);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, 'tag=' + nextTag + '\n');
+        "

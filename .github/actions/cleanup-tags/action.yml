@@ -1,0 +1,114 @@
+name: Cleanup old Docker registry tags
+description: Deletes old semver tags from the private Docker registry
+
+inputs:
+  image:
+    description: Docker image name
+    required: true
+  current_tag:
+    description: Current tag just pushed
+    required: true
+  registry:
+    description: Docker registry URL
+    required: true
+  docker_user:
+    description: Docker registry username
+    required: true
+  docker_pass:
+    description: Docker registry password
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Compute tags to delete
+      shell: bash
+      env:
+        CURRENT_TAG: ${{ inputs.current_tag }}
+        IMAGE: ${{ inputs.image }}
+        REGISTRY: ${{ inputs.registry }}
+        DOCKER_USER: ${{ inputs.docker_user }}
+        DOCKER_PASS: ${{ inputs.docker_pass }}
+      run: |
+        curl -s -u "${DOCKER_USER}:${DOCKER_PASS}" \
+          "https://${REGISTRY}/v2/${IMAGE}/tags/list" > /tmp/all-tags.json
+
+        node -e "
+          const fs = require('fs');
+          const currentTag = process.env.CURRENT_TAG;
+          const data = JSON.parse(fs.readFileSync('/tmp/all-tags.json', 'utf8'));
+          const allTags = (data.tags || []).filter(t => /^\d+\.\d+\.\d+(-beta\d+)?$/.test(t));
+
+          function parseVersion(tag) {
+            const [main, betaS] = tag.split('-beta');
+            const beta = betaS !== undefined ? Number(betaS) : -1;
+            const parts = main.split('.').map(Number);
+            return { major: parts[0]||0, minor: parts[1]||0, patch: parts[2]||0, beta, isBeta: beta >= 0, raw: tag };
+          }
+
+          function compareVersions(a, b) {
+            if (a.major !== b.major) return a.major - b.major;
+            if (a.minor !== b.minor) return a.minor - b.minor;
+            if (a.patch !== b.patch) return a.patch - b.patch;
+            if (a.beta === -1 && b.beta >= 0) return 1;
+            if (b.beta === -1 && a.beta >= 0) return -1;
+            return a.beta - b.beta;
+          }
+
+          const current = parseVersion(currentTag);
+          const tagsToDelete = [];
+
+          if (current.isBeta) {
+            const betas = allTags.map(parseVersion)
+              .filter(v => v.isBeta)
+              .sort((a, b) => compareVersions(b, a));
+            tagsToDelete.push(...betas.slice(5).map(v => v.raw));
+          } else {
+            for (const v of allTags.map(parseVersion)) {
+              if (v.raw === currentTag) continue;
+              if (v.isBeta) {
+                const patchDiff = current.patch - v.patch;
+                if (v.major === current.major && v.minor === current.minor && patchDiff >= 2) tagsToDelete.push(v.raw);
+                if (v.major < current.major || (v.major === current.major && v.minor < current.minor)) tagsToDelete.push(v.raw);
+              } else {
+                const patchDiff = current.patch - v.patch;
+                if (v.major === current.major && v.minor === current.minor && patchDiff >= 5) tagsToDelete.push(v.raw);
+                if (v.major < current.major - 1 || (v.major === current.major && v.minor < current.minor - 1)) tagsToDelete.push(v.raw);
+              }
+            }
+          }
+
+          console.log('🗑️ Tags to delete: ' + tagsToDelete.length);
+          tagsToDelete.forEach(t => console.log(' - ' + t));
+          fs.writeFileSync('/tmp/tags-to-delete.txt', tagsToDelete.join('\n'));
+        "
+
+    - name: Delete tags from registry
+      shell: bash
+      env:
+        IMAGE: ${{ inputs.image }}
+        REGISTRY: ${{ inputs.registry }}
+        DOCKER_USER: ${{ inputs.docker_user }}
+        DOCKER_PASS: ${{ inputs.docker_pass }}
+      run: |
+        if [ ! -s /tmp/tags-to-delete.txt ]; then
+          echo "✅ Nothing to clean up"
+          exit 0
+        fi
+
+        while IFS= read -r TAG; do
+          [ -z "$TAG" ] && continue
+          DIGEST=$(curl -s -I \
+            -u "${DOCKER_USER}:${DOCKER_PASS}" \
+            -H "Accept: application/vnd.docker.distribution.manifest.v2+json" \
+            "https://${REGISTRY}/v2/${IMAGE}/manifests/${TAG}" \
+            | grep -i "docker-content-digest" | tr -d '\r' | awk '{print $2}')
+          if [ -n "$DIGEST" ]; then
+            curl -s -X DELETE \
+              -u "${DOCKER_USER}:${DOCKER_PASS}" \
+              "https://${REGISTRY}/v2/${IMAGE}/manifests/${DIGEST}"
+            echo "✅ Deleted $TAG"
+          else
+            echo "⚠️ No digest found for $TAG"
+          fi
+        done < /tmp/tags-to-delete.txt

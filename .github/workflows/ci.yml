@@ -1,0 +1,243 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, dev]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Skip docker push'
+        type: boolean
+        default: false
+
+env:
+  NODE_VERSION: '20'
+  WORKING_DIR: .
+  REGISTRY: hub.c2.agence418.fr
+
+jobs:
+  test:
+    name: Test & Quality
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIR }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Setup private npm registry
+        run: |
+          echo "@agence418:registry=https://npm.c2.agence418.fr" >> .npmrc
+          echo "//npm.c2.agence418.fr/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run type check
+        run: pnpm run type-check
+
+      - name: Run linter
+        run: pnpm run lint
+
+      - name: Check formatting
+        run: pnpm run format:check
+
+      - name: Security
+        run: pnpm audit --prod
+        continue-on-error: true
+
+      - name: Build application
+        run: pnpm run build
+
+      - name: Check commit messages (PR only)
+        if: github.event_name == 'pull_request'
+        run: pnpx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+
+      - name: Notify on test failure
+        if: failure()
+        continue-on-error: true
+        run: |
+          curl -s -X POST "${{ secrets.N8N_NOTIFY_WEBHOOK }}" \
+            -H "Content-Type: application/json" \
+            -H "x-api-key: ${{ secrets.N8N_NOTIFY_APIKEY }}" \
+            -d "{\"msg\": \"❌ CI FAILED — ${{ github.repository }} | branch: ${{ github.ref_name }} | commit: ${{ github.sha }}\"}"
+
+  docker:
+    name: Build & Push
+    runs-on: ubuntu-latest
+    needs: test
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to private Docker registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Validate docker config
+        id: pkg
+        run: |
+          IMAGE=$(node -p "require('./package.json').cd?.image ?? ''")
+          REF=$(node -p "require('./package.json').cd?.ref ?? ''")
+          FOLDER=$(node -p "require('./package.json').cd?.folder ?? '.'")
+          CONTEXT=$(node -p "require('./package.json').cd?.context ?? '.'")
+          DOCKERFILE=$(node -p "require('./package.json').cd?.dockerfile ?? 'Dockerfile'")
+
+          if [ -z "$IMAGE" ]; then
+            echo "❌ Missing cd.image in package.json"
+            exit 1
+          fi
+
+          echo "✅ Docker image: $IMAGE"
+          echo "✅ Ref: $REF"
+          echo "✅ Folder: $FOLDER"
+          echo "✅ Context: $CONTEXT"
+          echo "✅ Dockerfile: $DOCKERFILE"
+
+          echo "image=$IMAGE" >> $GITHUB_OUTPUT
+          echo "ref=$REF" >> $GITHUB_OUTPUT
+          echo "folder=$FOLDER" >> $GITHUB_OUTPUT
+          echo "context=$CONTEXT" >> $GITHUB_OUTPUT
+          echo "dockerfile=$DOCKERFILE" >> $GITHUB_OUTPUT
+
+      - name: Calculate next tag
+        id: tag
+        uses: ./.github/actions/calculate-tag
+        with:
+          image: ${{ steps.pkg.outputs.image }}
+          branch: ${{ github.ref_name }}
+          registry: ${{ env.REGISTRY }}
+          docker_user: ${{ secrets.DOCKER_USERNAME }}
+          docker_pass: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Show calculated tag
+        run: echo "🏷️ Next tag → ${{ steps.tag.outputs.tag }}"
+
+      - name: Build & Push
+        id: build-push
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ steps.pkg.outputs.folder }}/${{ steps.pkg.outputs.context }}
+          file: ${{ steps.pkg.outputs.folder }}/${{ steps.pkg.outputs.dockerfile }}
+          platforms: linux/amd64
+          push: ${{ (github.ref_name == 'main' || github.ref_name == 'dev') && github.event.inputs.dry_run != 'true' }}
+          tags: ${{ env.REGISTRY }}/${{ steps.pkg.outputs.image }}:${{ steps.tag.outputs.tag }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Detect migrations dockerfile
+        id: migrations
+        run: |
+          FILE="${{ steps.pkg.outputs.folder }}/${{ steps.pkg.outputs.dockerfile }}.migrations"
+
+          if [ -f "$FILE" ]; then
+            echo "✅ Migrations dockerfile: $FILE"
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "ℹ️ No migrations dockerfile"
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+          echo "file=$FILE" >> $GITHUB_OUTPUT
+
+      - name: Build & Push migrations
+        id: build-push-migrations
+        if: steps.migrations.outputs.exists == 'true'
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ steps.pkg.outputs.folder }}/${{ steps.pkg.outputs.context }}
+          file: ${{ steps.migrations.outputs.file }}
+          platforms: linux/amd64
+          push: ${{ (github.ref_name == 'main' || github.ref_name == 'dev') && github.event.inputs.dry_run != 'true' }}
+          tags: ${{ env.REGISTRY }}/${{ steps.pkg.outputs.image }}-migrations:${{ steps.tag.outputs.tag }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Create Git tag
+        if: steps.build-push.outcome == 'success' && (github.ref_name == 'main' || github.ref_name == 'dev') && github.event.inputs.dry_run != 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag ${{ steps.tag.outputs.tag }}
+          git push origin ${{ steps.tag.outputs.tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        if: steps.build-push.outcome == 'success' && (github.ref_name == 'main' || github.ref_name == 'dev') && github.event.inputs.dry_run != 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          generate_release_notes: true
+          prerelease: ${{ github.ref_name == 'dev' }}
+
+      - name: Deploy via Dolibarr
+        if: steps.build-push.outcome == 'success' && (github.ref_name == 'main' || github.ref_name == 'dev') && github.event.inputs.dry_run != 'true'
+        env:
+          DOLIBARR_URL: ${{ secrets.DOLIBARR_URL }}
+          DOLIBARR_API_KEY: ${{ secrets.DOLIBARR_API_KEY }}
+          DOCKER_REF: ${{ steps.pkg.outputs.ref }}
+          DEPLOY_ENV: ${{ github.ref_name == 'main' && 'prod' || 'staging' }}
+        run: |
+          curl -s -X POST "$DOLIBARR_URL/servermanager/applications/$DOCKER_REF/action" \
+            -H "Content-Type: application/json" \
+            -H "DOLAPIKEY: $DOLIBARR_API_KEY" \
+            -d "{\"action\": \"upgrade\", \"env\": \"$DEPLOY_ENV\"}"
+
+      - name: Cleanup old registry tags
+        if: steps.build-push.outcome == 'success' && (github.ref_name == 'main' || github.ref_name == 'dev') && github.event.inputs.dry_run != 'true'
+        continue-on-error: true
+        uses: ./.github/actions/cleanup-tags
+        with:
+          image: ${{ steps.pkg.outputs.image }}
+          current_tag: ${{ steps.tag.outputs.tag }}
+          registry: ${{ env.REGISTRY }}
+          docker_user: ${{ secrets.DOCKER_USERNAME }}
+          docker_pass: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Notify on success
+        if: success() && (github.ref_name == 'main' || github.ref_name == 'dev') && github.event.inputs.dry_run != 'true'
+        continue-on-error: true
+        run: |
+          curl -s -X POST "${{ secrets.N8N_NOTIFY_WEBHOOK }}" \
+            -H "Content-Type: application/json" \
+            -H "x-api-key: ${{ secrets.N8N_NOTIFY_APIKEY }}" \
+            -d "{\"msg\": \"✅ DEPLOYED — ${{ github.repository }} | ${{ steps.pkg.outputs.image }}:${{ steps.tag.outputs.tag }} | branch: ${{ github.ref_name }}\"}"
+
+      - name: Notify on failure
+        if: failure()
+        continue-on-error: true
+        run: |
+          curl -s -X POST "${{ secrets.N8N_NOTIFY_WEBHOOK }}" \
+            -H "Content-Type: application/json" \
+            -H "x-api-key: ${{ secrets.N8N_NOTIFY_APIKEY }}" \
+            -d "{\"msg\": \"❌ BUILD FAILED — ${{ github.repository }} | branch: ${{ github.ref_name }} | commit: ${{ github.sha }}\"}"

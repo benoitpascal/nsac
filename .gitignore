@@ -1,0 +1,19 @@
+# dependencies
+/node_modules
+
+# build
+/dist
+
+# misc
+.DS_Store
+*.pem
+*.tsbuildinfo
+
+# debug
+npm-debug.log*
+.pnpm-debug.log*
+
+# env files
+.env*
+
+.idea
