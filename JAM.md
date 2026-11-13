@@ -1,22 +1,38 @@
 # JAM — NASA Space Apps Challenge 2026
 
-> Plan de hackathon (format du skill `game-jam`). Les infos marquées ⚠️ viennent de résumés de recherche : **les confirmer sur le site officiel** (le guide de soumission 2026 est publié le 13/11).
+> Plan de hackathon (format du skill `game-jam`). Règles confirmées par le Project Submission Guide 2026 (publié le 13/11).
 
 ## Règles
 
 | | |
 |---|---|
 | Événement | NASA Space Apps Challenge 2026 — challenge « Build a Junior Astronaut Mission Trainer » |
-| Fenêtre | **Samedi 14/11 09:00 → dimanche 15/11 23:59, heure locale** ⚠️ (fuseau à confirmer) |
-| Dépôt | Page projet sur spaceappschallenge.org, **en anglais** |
-| Démo | **Vidéo de 30 s max** (sous-titres anglais) **ou 7 slides max** titre compris ⚠️ — hébergée ailleurs (YouTube / Drive), **lien public** |
-| Données | Données ouvertes NASA / agences partenaires, **sources citées** et usage expliqué (→ `DATA.md`) |
-| Code | Projet open source, code partagé ⚠️ (règle des éditions précédentes) |
-| Code écrit avant le début | ⚠️ à vérifier dans le guide 2026 (notre boilerplate Vite existe déjà) |
-| Règle IA | ⚠️ à vérifier dans le guide 2026 |
-| Jugement | À partir du 16/11 ; nominés en décembre, gagnants globaux en janvier 2027 |
+| Fenêtre | **Samedi 14/11 09:00 → dimanche 15/11 23:59, heure de notre Local Event** (Universal Event : heure locale du Team Owner). Tout ce qui est enregistré après 23:59 n'est pas jugé |
+| Page projet | Onglet « Project » de l'équipe (apparaît samedi 09:00). **Tout en anglais.** Bouton « Save Progress » souvent ; activer le « Lock » d'édition et se coordonner : un coéquipier peut lever le verrou et écraser des changements |
+| Champs obligatoires | Project Name · High-Level Project Summary · Link to Project Demo · Link to Final Project · Detailed Project Description · **Use of Super Intelligence (SI)** · NASA Data · Space Agency Partner Data and Other References |
+| Démo | **Vidéo ≤ 30 s** (sous-titres anglais si on parle une autre langue) **ou ≤ 7 slides** titre et intro compris, en anglais. **Au-delà : inéligible au jugement global.** Hébergée ailleurs (YouTube, Drive, GitHub…), lien public sans connexion, testé en navigation privée |
+| Contenu des slides (si slides) | Nom de l'équipe, noms des membres, challenge choisi, image du projet, expérience utilisateur, rôle des données NASA / agences partenaires |
+| Images sur la page | JPG, PNG, GIF jusqu'à 10 Mo. Pas de vidéo ni de document en upload |
+| ⛔ Mineurs | **Aucune image, vidéo, audio ni ressemblance d'une personne de moins de 18 ans** dans la démo ni dans le projet. Pour un jeu destiné aux 7–12 ans : **ne pas filmer ni photographier d'enfants qui testent**, pas de voix d'enfant, pas de photo d'enfant dans le jeu. Personnages dessinés non réalistes uniquement |
+| Soumission | Cocher « Terms and Conditions » et **« Confirm All Work is Original »**, puis « Submit for Judging ». Une bannière confirme. Re-soumission possible jusqu'à la fin ; seule la dernière version est jugée |
+| Équipe | Tous les membres confirmés au **même Local Event** (sinon inéligible aux prix) |
+| Critères de jugement | **Impact, Creativity, Validity, Relevance, Presentation** (détail : Judging and Awards Guide) |
+| Site web | Notre jeu est un nouveau site : faire la **demande de classification FortiGuard** (catégorie « Education », Company Name « N/A ») pour éviter qu'il soit bloqué chez les juges. Pas obligatoire, mais à faire dès que l'URL de prod est stable |
+| Usage de l'IA | Champ « Use of Super Intelligence (SI) » à remplir honnêtement : décrire comment on a utilisé l'IA (assistant de code, revue, recherche) |
+| Code écrit avant le début | Non traité par le guide. Notre boilerplate Vite et les skills sont de l'outillage, mais à mentionner dans la description pour rester transparents vis-à-vis de « Confirm All Work is Original » |
+| Certificat | Téléchargeable dans le profil après soumission ; le nom vient du champ « Full Name » |
 
-Liens : https://www.spaceappschallenge.org/2026/ · https://www.spaceappschallenge.org/resources/project-submission-guide/ · https://www.spaceappschallenge.org/resources/participant-faqs/ · https://www.spaceappschallenge.org/resources/judging-awards-guide
+Liens : https://www.spaceappschallenge.org/2026/ · https://www.spaceappschallenge.org/resources/project-submission-guide/ · https://www.spaceappschallenge.org/resources/judging-awards-guide
+
+### Trame de la vidéo de 30 s (recommandée par le guide)
+
+| Temps | Contenu |
+|---|---|
+| 0:00 | Qui on est (noms, équipe) |
+| 0:02 | Le challenge et pourquoi on l'a choisi |
+| 0:05 | Titre du projet + accroche |
+| 0:10 | Comment ça marche : capture du jeu, expérience du joueur, rôle des données NASA (DONKI, InSight…) |
+| 0:20–0:30 | Le futur : ce que ça peut apporter (classes, familles, autres missions) |
 
 ## Concept (une phrase)
 
@@ -45,16 +61,16 @@ Liens : https://www.spaceappschallenge.org/2026/ · https://www.spaceappschallen
 
 | Créneau | Objectif |
 |---|---|
-| Sam 09:00–10:00 | Trancher les « Propositions de revue » de `GAME_DESIGN.md`, se répartir les rôles, script d'archive DONKI/InSight |
+| Sam 09:00–10:00 | Vérifier que tout le monde est confirmé au même Local Event. Trancher les « Propositions de revue » de `GAME_DESIGN.md`, se répartir les rôles, script d'archive DONKI/InSight |
 | Sam 10:00–14:00 | Moteur `core/` + données archivées en JSON. **Boucle jouable en primitives à 14:00** |
 | Sam 14:00–20:00 | Grille DOM + résolution + débrief v1. Premier test avec un enfant / un proche si possible |
 | Sam 20:00 | ✅ Point de contrôle : revue `junior-mission-review` complète, couper si la boucle n'est pas fun |
 | Nuit | Dormir |
 | Dim 09:00–15:00 | Contrefactuel, « Retenter », page Sources, textes et faits sourcés, seconde période solaire |
 | Dim 15:00 | 🧊 **Gel des fonctionnalités** : seulement crashs et blocages |
-| Dim 15:00–19:00 | Habillage, game feel, tournage de la vidéo de 30 s ou des 7 slides, page projet en anglais |
+| Dim 15:00–19:00 | Habillage, game feel, vidéo de 30 s ou 7 slides (sans aucun mineur à l'image), remplir **tous** les champs de la page projet en anglais, tester les liens en navigation privée |
 | Dim 19:00 | ✅ Revue `junior-mission-review` avant démo |
-| Dim 21:00 | **Soumettre** (marge de 3 h), puis vérifier que le projet apparaît bien |
+| Dim 21:00 | **Submit for Judging** (marge de 3 h), vérifier la bannière de confirmation |
 
 ## Rôles (à remplir)
 

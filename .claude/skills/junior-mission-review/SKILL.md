@@ -34,6 +34,7 @@ Pendant le hackathon, ne pas le lancer à chaque commit : faire une revue compl�
 - **Pas de peur ni de mort** : l'équipage n'est jamais montré mourant. Un échec = « mission interrompue, l'équipage rentre à l'abri / sur Terre ». La radiation est un risque pour la santé à limiter, pas une menace d'horreur.
 - **Pas de lecture obligatoire longue** : un texte de plus de 3 lignes doit être découpé ou illustré.
 - **Pas seulement la couleur** pour signaler un danger : icône + mot.
+- ⛔ **Règle Space Apps** : aucune image, vidéo, audio ni ressemblance d'une personne de moins de 18 ans dans le jeu ni dans la démo (pas de photo ou voix d'enfant, pas d'enfant filmé en test). Personnages dessinés non réalistes uniquement.
 
 Test rapide : lire le texte à voix haute comme à un enfant de 8 ans. Si on a envie d'ajouter « c'est-à-dire… », il faut réécrire.
 
