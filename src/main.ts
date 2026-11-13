@@ -1,7 +1,9 @@
-const app = document.querySelector<HTMLElement>('#app');
+import { mountStarfield } from '@/modules/starfield/ui/starfield.view';
 
-if (!app) {
-  throw new Error('Missing #app root element');
+const canvas = document.querySelector<HTMLCanvasElement>('#starfield');
+
+if (!canvas) {
+  throw new Error('Missing #starfield canvas element');
 }
 
-app.textContent = 'Hello world';
+mountStarfield(canvas);
