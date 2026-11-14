@@ -1,0 +1,124 @@
+.mg-power-grid {
+  display: grid;
+  gap: 0.8rem;
+  justify-items: center;
+  width: 100%;
+  padding: 0.8rem;
+}
+
+.mg-power-grid-hud {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  width: min(28rem, 100%);
+}
+
+.mg-power-grid-level {
+  font-family: 'Space Mono', monospace;
+  color: var(--signal-cyan);
+}
+
+.mg-power-grid-reset {
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(77, 227, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(5, 6, 15, 0.4);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+.mg-power-grid-reset:hover,
+.mg-power-grid-reset:focus-visible {
+  border-color: var(--signal-cyan);
+  outline: none;
+}
+
+.mg-power-grid-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--mg-power-grid-size), 1fr);
+  width: min(28rem, 100%);
+  aspect-ratio: 1;
+  border: 2px solid rgba(77, 227, 255, 0.35);
+  border-radius: 0.6rem;
+  background: rgba(5, 6, 15, 0.7);
+  touch-action: none;
+  user-select: none;
+  cursor: pointer;
+  isolation: isolate;
+  transition: box-shadow 0.3s;
+}
+
+.mg-power-grid-grid--lit {
+  border-color: var(--signal-cyan);
+  box-shadow: 0 0 1.5rem rgba(77, 227, 255, 0.6);
+}
+
+.mg-power-grid-cables {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.mg-power-grid-cable {
+  fill: none;
+  stroke: var(--mg-power-grid-color);
+  stroke-width: 0.32;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mg-power-grid-square {
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(154, 168, 209, 0.12);
+}
+
+.mg-power-grid-square--filled {
+  background: color-mix(in srgb, var(--mg-power-grid-color) 18%, transparent);
+}
+
+.mg-power-grid-socket {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 72%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--mg-power-grid-color);
+  box-shadow: 0 0 0.6rem var(--mg-power-grid-color);
+  color: var(--space-deep);
+  font-size: clamp(0.9rem, 4vw, 1.3rem);
+  line-height: 1;
+}
+
+.mg-power-grid-c0 {
+  --mg-power-grid-color: #ff5a5a;
+}
+.mg-power-grid-c1 {
+  --mg-power-grid-color: #4de3ff;
+}
+.mg-power-grid-c2 {
+  --mg-power-grid-color: #ffd23d;
+}
+.mg-power-grid-c3 {
+  --mg-power-grid-color: #5ee36b;
+}
+.mg-power-grid-c4 {
+  --mg-power-grid-color: #c48bff;
+}
+.mg-power-grid-c5 {
+  --mg-power-grid-color: #ff9a3d;
+}
+.mg-power-grid-c6 {
+  --mg-power-grid-color: #ff7ad9;
+}
+.mg-power-grid-c7 {
+  --mg-power-grid-color: #f0f4ff;
+}

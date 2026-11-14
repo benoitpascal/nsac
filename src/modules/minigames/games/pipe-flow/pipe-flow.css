@@ -1,0 +1,109 @@
+.mg-pipe-flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.mg-pipe-flow-hud {
+  display: flex;
+  gap: 1.5rem;
+  color: var(--ink-muted);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.mg-pipe-flow-stage {
+  width: min(100%, 32rem);
+}
+
+.mg-pipe-flow-grid {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 0.7fr)
+    repeat(var(--mg-pipe-flow-size), minmax(0, 1fr))
+    minmax(0, 0.7fr);
+  gap: 2px;
+  width: 100%;
+}
+
+.mg-pipe-flow-tile {
+  aspect-ratio: 1;
+  min-width: 0;
+  padding: 0;
+  border: 1px solid rgba(154, 168, 209, 0.25);
+  border-radius: 0.4rem;
+  background: rgba(11, 22, 56, 0.85);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.mg-pipe-flow-tile:hover {
+  background: rgba(36, 54, 110, 0.9);
+}
+
+.mg-pipe-flow-tile:focus-visible {
+  outline: 3px solid var(--flare-orange);
+  outline-offset: -3px;
+}
+
+.mg-pipe-flow-drawing {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: rotate(var(--mg-pipe-flow-turn, 0deg));
+  transition: transform 0.15s ease-out;
+}
+
+.mg-pipe-flow-pipe {
+  fill: none;
+  stroke: var(--ink-muted);
+  stroke-width: 22;
+  stroke-linecap: butt;
+}
+
+.mg-pipe-flow-hub {
+  fill: var(--ink-muted);
+}
+
+.mg-pipe-flow-rock {
+  fill: rgba(154, 168, 209, 0.2);
+}
+
+.mg-pipe-flow-tile--wet .mg-pipe-flow-pipe {
+  stroke: var(--signal-cyan);
+}
+
+.mg-pipe-flow-tile--wet .mg-pipe-flow-hub {
+  fill: var(--signal-cyan);
+}
+
+.mg-pipe-flow-end {
+  display: grid;
+  place-items: center;
+  font-size: clamp(1rem, 5vw, 2rem);
+  border-radius: 50%;
+}
+
+.mg-pipe-flow-drill {
+  background: rgba(77, 227, 255, 0.25);
+}
+
+.mg-pipe-flow-tank {
+  background: rgba(154, 168, 209, 0.15);
+  transition: background 0.3s ease-out;
+}
+
+.mg-pipe-flow-tank--full {
+  background: rgba(77, 227, 255, 0.55);
+  box-shadow: 0 0 1rem var(--signal-cyan);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-pipe-flow-drawing,
+  .mg-pipe-flow-tank {
+    transition: none;
+  }
+}

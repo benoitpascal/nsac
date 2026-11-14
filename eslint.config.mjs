@@ -62,7 +62,7 @@ const eslintConfig = [
         },
         {
           selector:
-            ':matches(ImportDeclaration, ExportNamedDeclaration, ExportAllDeclaration, ImportExpression)[source.value=/\\.(js|ts)$/]',
+            ':matches(ImportDeclaration, ExportNamedDeclaration, ExportAllDeclaration, ImportExpression)[source.value=/^\\..*\\.(js|ts)$/]',
           message: 'Pas d’extension .js/.ts dans les imports.',
         },
       ],

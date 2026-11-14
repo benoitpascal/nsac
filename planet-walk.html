@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Planet walk</title>
+    <meta name="description" content="Walk and jump on the Moon, Mars and other worlds, and feel their gravity." />
+    <meta name="theme-color" content="#05060f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono&display=swap"
+    />
+    <link rel="stylesheet" href="/src/pages.css" />
+  </head>
+  <body>
+    <main class="planet-walk-page" aria-label="Planet walk">
+      <canvas id="planet-walk" class="planet-walk" aria-label="View from the walker's eyes"></canvas>
+      <div class="planet-walk__aim" aria-hidden="true"></div>
+    </main>
+
+    <a class="page-link" href="/">Back</a>
+    <aside id="walk-facts" class="walk-facts" aria-label="Gravity" aria-live="polite"></aside>
+
+    <button id="pilot-prompt" class="pilot-prompt" type="button" hidden></button>
+    <p id="excavator-hud" class="excavator-hud" hidden></p>
+
+    <section id="station-dashboard" class="station-dashboard" aria-labelledby="station-dashboard-title" aria-live="polite" hidden>
+      <header class="station-dashboard__header">
+        <h2 id="station-dashboard-title" class="station-dashboard__title">Station dashboard</h2>
+        <button class="station-dashboard__close" type="button" aria-label="Close the dashboard">✕</button>
+      </header>
+      <dl class="station-dashboard__readings"></dl>
+      <button class="station-dashboard__drive" type="button">Drive the excavator</button>
+    </section>
+
+    <div id="touch-pad" class="touch-pad">
+      <div class="touch-pad__cluster" role="group" aria-label="Walk and turn">
+        <button class="touch-pad__button touch-pad__button--top" type="button" data-key="ArrowUp" aria-label="Forward">▲</button>
+        <button class="touch-pad__button touch-pad__button--left" type="button" data-key="ArrowLeft" aria-label="Turn left">◀</button>
+        <button class="touch-pad__button touch-pad__button--right" type="button" data-key="ArrowRight" aria-label="Turn right">▶</button>
+        <button class="touch-pad__button touch-pad__button--bottom" type="button" data-key="ArrowDown" aria-label="Back">▼</button>
+      </div>
+      <div class="touch-pad__cluster" role="group" aria-label="Actions">
+        <button class="touch-pad__button touch-pad__button--top" type="button" data-key="Space" aria-label="Jump">Jump</button>
+        <button class="touch-pad__button touch-pad__button--left touch-pad__button--action" type="button" data-key="KeyE" aria-label="Action (E)">E</button>
+        <button class="touch-pad__button touch-pad__button--right" type="button" data-key="ShiftLeft" aria-label="Run">Run</button>
+        <button class="touch-pad__button touch-pad__button--bottom" type="button" data-key="KeyV" aria-label="Change the view">View</button>
+      </div>
+    </div>
+
+    <div class="walk-controls">
+      <div id="world-picker" class="speed-picker" role="group" aria-label="World to walk on"></div>
+      <button id="view-toggle" class="speed-picker__option" type="button" aria-pressed="false">First person</button>
+      <p class="walk-controls__help">
+        Walk with Z and S (hold Shift to run), turn with Q and D (W A S D on a QWERTY keyboard) or the arrows, jump
+        with Space. Drag the view to look around, press V to change the view. Press E at the base's airlock
+        door to go in or out, and at the terminal in the middle of the base to open the station dashboard,
+        where you can take over the excavator robot: Space digs in the grey zone and unloads in the orange
+        drop-off zone by the workshops; driving, digging and unloading drain its battery, and it stops for
+        good when the battery is empty.
+      </p>
+    </div>
+
+    <script type="module" src="/src/planet-walk.ts"></script>
+  </body>
+</html>

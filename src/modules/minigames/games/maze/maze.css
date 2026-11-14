@@ -1,0 +1,137 @@
+.mg-maze {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 2rem;
+  width: 100%;
+  padding: 0.5rem;
+  color: var(--ink);
+  user-select: none;
+}
+
+.mg-maze-hud {
+  display: flex;
+  flex-basis: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1.5rem;
+  font-size: 1.4rem;
+}
+
+.mg-maze-levels {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.mg-maze-dot {
+  opacity: 0.3;
+  filter: grayscale(1);
+}
+
+.mg-maze-dot--done {
+  opacity: 1;
+  filter: none;
+}
+
+.mg-maze-dot--current {
+  opacity: 1;
+  filter: grayscale(1) drop-shadow(0 0 0.4rem var(--signal-cyan));
+}
+
+.mg-maze-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mg-maze-timer-bar {
+  width: min(12rem, 40vw);
+  height: 0.8rem;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: var(--space-deep);
+  box-shadow: inset 0 0 0 1px var(--ink-muted);
+}
+
+.mg-maze-timer-fill {
+  display: block;
+  height: 100%;
+  background: var(--signal-cyan);
+}
+
+.mg-maze-seconds {
+  min-width: 2ch;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.mg-maze-timer--low .mg-maze-timer-fill {
+  background: var(--flare-orange);
+}
+
+.mg-maze-timer--low .mg-maze-seconds {
+  color: var(--flare-orange);
+}
+
+.mg-maze-board {
+  width: min(100%, 26rem, 60vh);
+  aspect-ratio: 1;
+  touch-action: none;
+}
+
+.mg-maze-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.75rem;
+  box-shadow: 0 0 1.5rem rgba(77, 227, 255, 0.2);
+}
+
+.mg-maze-pad {
+  display: grid;
+  grid-template-areas:
+    '. up .'
+    'left . right'
+    '. down .';
+  grid-template-columns: repeat(3, 4rem);
+  grid-template-rows: repeat(3, 4rem);
+  gap: 0.35rem;
+}
+
+.mg-maze-pad-button {
+  border: 2px solid var(--signal-cyan);
+  border-radius: 1rem;
+  color: var(--signal-cyan);
+  background: var(--space-navy);
+  font-size: 1.6rem;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.mg-maze-pad-button:active {
+  color: var(--space-deep);
+  background: var(--signal-cyan);
+}
+
+.mg-maze-pad-button:focus-visible {
+  outline: 3px solid var(--flare-orange);
+  outline-offset: 2px;
+}
+
+.mg-maze-pad-up {
+  grid-area: up;
+}
+
+.mg-maze-pad-down {
+  grid-area: down;
+}
+
+.mg-maze-pad-left {
+  grid-area: left;
+}
+
+.mg-maze-pad-right {
+  grid-area: right;
+}

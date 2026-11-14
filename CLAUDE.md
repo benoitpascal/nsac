@@ -28,7 +28,14 @@ pnpm format       # Run Prettier on src/
 
 ## Architecture
 
-Entry point: `index.html` loads `src/main.ts` and `src/styles.css`.
+Pages (declared in `vite.config.ts` under `build.rolldownOptions.input`):
+
+- `index.html` loads `src/main.ts` and `src/styles.css`.
+- `solar-system.html` loads `src/solar-system.ts`.
+- `planet-walk.html` loads `src/planet-walk.ts`.
+- `minigames.html` loads `src/minigames.ts`.
+
+The three last pages share `src/pages.css`.
 
 ### Layers
 

@@ -1,0 +1,226 @@
+.mg-hidden-objects {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.mg-hidden-objects-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.mg-hidden-objects-clock {
+  position: relative;
+  flex: 0 0 5rem;
+  height: 2rem;
+  overflow: hidden;
+  border: 2px solid var(--signal-cyan);
+  border-radius: 1rem;
+}
+
+.mg-hidden-objects-clock-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: rgba(77, 227, 255, 0.35);
+  transition: width 0.2s linear;
+}
+
+.mg-hidden-objects-clock.is-low {
+  border-color: var(--flare-orange);
+}
+
+.mg-hidden-objects-clock.is-low .mg-hidden-objects-clock-fill {
+  background: rgba(255, 107, 61, 0.45);
+}
+
+.mg-hidden-objects-clock-seconds {
+  position: relative;
+  display: block;
+  font-weight: 700;
+  line-height: 1.75rem;
+  text-align: center;
+}
+
+.mg-hidden-objects-targets {
+  display: flex;
+  flex: 1 1 18rem;
+  justify-content: center;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-hidden-objects-target {
+  position: relative;
+  display: flex;
+  flex: 0 1 4.2rem;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.25rem;
+  border: 1px solid rgba(154, 168, 209, 0.4);
+  border-radius: 0.6rem;
+  background: rgba(11, 22, 56, 0.8);
+  transition: opacity 0.3s;
+}
+
+.mg-hidden-objects-target svg {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+.mg-hidden-objects-target span {
+  overflow: hidden;
+  max-width: 100%;
+  color: var(--ink-muted);
+  font-size: 0.7rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mg-hidden-objects-target.is-found {
+  border-color: #3ddc84;
+  opacity: 0.5;
+}
+
+.mg-hidden-objects-target.is-found::after {
+  position: absolute;
+  top: 0.6rem;
+  left: 50%;
+  width: 0.8rem;
+  height: 1.5rem;
+  border: solid #3ddc84;
+  border-width: 0 0.3rem 0.3rem 0;
+  content: '';
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.mg-hidden-objects-hint-button {
+  flex: 0 0 auto;
+  padding: 0.45rem 0.8rem;
+  border: 2px solid #ffd54a;
+  border-radius: 1rem;
+  color: #ffd54a;
+  background: transparent;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.mg-hidden-objects-hint-button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.mg-hidden-objects-scene {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.8rem;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.mg-hidden-objects-backdrop,
+.mg-hidden-objects-sparkle,
+.mg-hidden-objects-hint {
+  pointer-events: none;
+}
+
+.mg-hidden-objects-item {
+  cursor: pointer;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.mg-hidden-objects-hit {
+  fill: transparent;
+}
+
+.mg-hidden-objects-item.is-found {
+  pointer-events: none;
+  animation: mg-hidden-objects-collect 0.6s ease-in forwards;
+}
+
+.mg-hidden-objects-item.is-wrong {
+  animation: mg-hidden-objects-wrong 0.4s ease-in-out;
+}
+
+.mg-hidden-objects-sparkle {
+  stroke: #fff07a;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mg-hidden-objects-burst 0.6s ease-out forwards;
+}
+
+.mg-hidden-objects-hint {
+  fill: none;
+  stroke: #ffd54a;
+  stroke-width: 3;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mg-hidden-objects-pulse 0.5s ease-in-out 4 alternate;
+}
+
+@keyframes mg-hidden-objects-collect {
+  to {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+@keyframes mg-hidden-objects-wrong {
+  0%,
+  100% {
+    filter: none;
+    transform: translateX(0);
+  }
+  25% {
+    filter: drop-shadow(0 0 3px #e5484d);
+    transform: translateX(-3px);
+  }
+  75% {
+    filter: drop-shadow(0 0 3px #e5484d);
+    transform: translateX(3px);
+  }
+}
+
+@keyframes mg-hidden-objects-burst {
+  from {
+    opacity: 1;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+@keyframes mg-hidden-objects-pulse {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0.4;
+    transform: scale(1.3);
+  }
+}
+
+@media (max-width: 30rem) {
+  .mg-hidden-objects-targets {
+    order: 3;
+    flex-basis: 100%;
+  }
+
+  .mg-hidden-objects-target svg {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+}
