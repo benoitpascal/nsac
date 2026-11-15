@@ -65,7 +65,8 @@
   --cut-start: 26px;
   --cut-end: 20px;
   --stroke: 2px;
-  --fill: linear-gradient(var(--figma-primary-1000-60), var(--figma-primary-1000-60)),
+  --fill:
+    linear-gradient(var(--figma-primary-1000-60), var(--figma-primary-1000-60)),
     var(--figma-primary-1001);
 
   position: relative;
@@ -145,6 +146,27 @@
   outline: none;
   filter: drop-shadow(0 0 13.4px rgba(53, 233, 253, 0.3))
     drop-shadow(0 0 20px rgba(182, 247, 254, 0.6));
+}
+
+/* Exit dashboard (terminal control row): red stroke and tint and a door icon, unlike the cyan
+   buttons that go on with the screen. */
+.cut-button.control-row__leave {
+  --figma-gradient: linear-gradient(90deg, var(--figma-danger), #f59a7b);
+  --fill:
+    linear-gradient(rgba(237, 95, 121, 0.22), rgba(237, 95, 121, 0.22)), var(--figma-primary-1001);
+
+  color: #ffe3e8;
+}
+
+.control-row__leave-icon {
+  width: 30px;
+  height: 30px;
+  color: var(--figma-danger);
+}
+
+.cut-button.control-row__leave:not(:disabled):is(:hover, :focus-visible) {
+  filter: drop-shadow(0 0 13.4px rgba(237, 95, 121, 0.4))
+    drop-shadow(0 0 20px rgba(255, 190, 200, 0.55));
 }
 
 @media (prefers-reduced-motion: reduce) {

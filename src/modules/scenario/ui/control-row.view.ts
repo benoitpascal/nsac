@@ -17,6 +17,21 @@ const withSound = (button: HTMLButtonElement, sound: string) => {
   return button;
 };
 
+/** A door with an arrow walking out of it: leaving, not going on with the screen. */
+const EXIT_ICON =
+  '<svg class="control-row__leave-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 4H5v16h8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M10 12h11m-4-4 4 4-4 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+/**
+ * Exit dashboard leaves the console: red and with a door icon, it looks unlike the buttons that go
+ * on with the screen, so that it is not pressed by mistake.
+ */
+const exitButton = (leave: () => void) => {
+  const exit = cutButton('Exit dashboard', 'wide', leave, 'control-row__leave');
+  const chevrons = exit.querySelector('.cut-button__chevrons');
+  if (chevrons) chevrons.outerHTML = EXIT_ICON;
+  return exit;
+};
+
 /** Creates a button in its place that cannot be used: shown greyed out, disabled. */
 const placed = (button: HTMLButtonElement, enabled: boolean) => {
   button.disabled = !enabled;
@@ -45,7 +60,7 @@ export const fillControlRow = (row: HTMLElement, options: ControlRowOptions) => 
   exit.append(
     placed(
       withSound(
-        cutButton('Exit dashboard', 'wide', () => leave?.()),
+        exitButton(() => leave?.()),
         'exit',
       ),
       leave !== undefined,

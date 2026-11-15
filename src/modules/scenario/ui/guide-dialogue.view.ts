@@ -131,7 +131,7 @@ export const playDialogue = (
     if (voice) bubble.append(repeatButton(voice, () => spoken));
     (
       bubble.querySelector<HTMLElement>('.guide__option') ??
-      actions.querySelector<HTMLElement>('.cut-button--wide')
+      actions.querySelector<HTMLElement>('.guide__next:not(:disabled)')
     )?.focus();
   };
   const onKey = (event: KeyboardEvent) => {
