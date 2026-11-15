@@ -5,6 +5,7 @@ import { layOutRocks, rockObstacles } from './terrain/rock-layout';
 import { createRocks } from './terrain/rocks.mesh';
 import { createStars, paintSky } from './terrain/sky';
 import { BASE_SITE } from './base/base-layout';
+import { flashBeacons } from './base/beacon';
 import { createSpaceBase } from './base/space-base';
 import { createLightRig, FIXED_SUN } from './sky/light-rig';
 import { createLunarSkyDome } from './sky/lunar-sky-dome';
@@ -37,10 +38,8 @@ export const createWalkScene = (renderer: WebGLRenderer, loadStars: () => Promis
   const showWorld = (id: WalkWorldId) => {
     worldId = id;
     const appearance = WORLD_APPEARANCES[id];
-    for (const part of surface) {
-      scene.remove(part);
-      disposeObject(part);
-    }
+    scene.remove(...surface);
+    surface.forEach((part) => disposeObject(part));
     ground.paint(appearance);
     surface = [createRocks(appearance.rock, rocks)];
     scene.add(...surface);
@@ -56,6 +55,7 @@ export const createWalkScene = (renderer: WebGLRenderer, loadStars: () => Promis
     const dayShare = localDayShare(WORLD_CONDITIONS[worldId], timestamp);
     if (lunar) lunarSky.update(dayShare, timestamp);
     if (lunar) lights.follow(lunarSky.toSun, earthFullness(dayShare));
+    flashBeacons(timestamp);
     sunlit = lunar ? daylight(dayShare) : 1;
     followDaylight(sunlit);
     spaceBase.aimSolarPanels(lunar ? lunarSky.toSun : FIXED_SUN);

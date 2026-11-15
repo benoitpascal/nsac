@@ -1,13 +1,10 @@
-import type { GroundZone } from '../../core/excavator/ground-zone';
+import { createCrateStack } from './outpost/cargo-crates.mesh';
+import { createGeodesicDome } from './outpost/geodesic-dome.mesh';
+import { createSecondaryModule } from './outpost/secondary-module.mesh';
+import { createTankSkid } from './outpost/tank-skid.mesh';
+import { createLatticeMast } from './lattice-mast.mesh';
 import type { Assembler } from '@/modules/globe/ui/bodies/satellite/assembled.body';
-import { assembleBattery } from '@/modules/globe/ui/bodies/equipment/parts/battery.parts';
-import { assembleElectrolyzer } from '@/modules/globe/ui/bodies/equipment/parts/electrolyzer.parts';
-import { assembleGreenhouse } from '@/modules/globe/ui/bodies/equipment/parts/greenhouse.parts';
-import { assembleHabitatModule } from '@/modules/globe/ui/bodies/equipment/parts/habitat-module.parts';
-import { assembleLab } from '@/modules/globe/ui/bodies/equipment/parts/lab.parts';
-import { assembleOxygenTanks } from '@/modules/globe/ui/bodies/equipment/parts/oxygen-tanks.parts';
-import { assembleRelayAntenna } from '@/modules/globe/ui/bodies/equipment/parts/relay-antenna.parts';
-import { assembleWaterTank } from '@/modules/globe/ui/bodies/equipment/parts/water-tank.parts';
+import type { GroundZone } from '../../core/excavator/ground-zone';
 
 /** One piece of equipment: its model, size factor, place (m, from the base center) and turn. */
 export type Placement = { assemble: Assembler; scale: number; x: number; z: number; turn?: number };
@@ -27,14 +24,54 @@ export const DIG_ZONE: GroundZone = { minX: -6, maxX: 10, minZ: -5, maxZ: 5 };
 /** Where the robot drops off its regolith, from the base center (m): outside, along the workshops' wing. */
 export const DROP_ZONE: GroundZone = { minX: -22, maxX: -16, minZ: 32, maxZ: 38 };
 
+const HALF_TURN = Math.PI;
+const QUARTER_TURN = Math.PI / 2;
+
+/**
+ * The outpost around the walker's way in, as on the base's poster: two crew modules and a lab, a
+ * glass greenhouse dome, battery crates, water and oxygen tanks, the electrolyzer making oxygen from
+ * water, and a relay mast.
+ */
 export const LAYOUT: Placement[] = [
-  { assemble: assembleHabitatModule, scale: 4, x: -5, z: 0 },
-  { assemble: assembleHabitatModule, scale: 4, x: 5, z: 0, turn: Math.PI },
-  { assemble: assembleLab, scale: 3, x: 0, z: -7 },
-  { assemble: assembleGreenhouse, scale: 3, x: -13, z: -5 },
-  { assemble: assembleBattery, scale: 2.5, x: -12, z: 6 },
-  { assemble: assembleWaterTank, scale: 2.5, x: 12, z: -6 },
-  { assemble: assembleOxygenTanks, scale: 2.5, x: 13, z: 0 },
-  { assemble: assembleElectrolyzer, scale: 2.5, x: 12, z: 6 },
-  { assemble: assembleRelayAntenna, scale: 3, x: -18, z: 2 },
+  {
+    assemble: () => createSecondaryModule({ width: 4, height: 3, length: 7 }),
+    scale: 1,
+    x: -5,
+    z: 0,
+  },
+  {
+    assemble: () => createSecondaryModule({ width: 4, height: 3, length: 7 }),
+    scale: 1,
+    x: 5,
+    z: 0,
+  },
+  {
+    assemble: () => createSecondaryModule({ width: 4.4, height: 3.4, length: 8 }),
+    scale: 1,
+    x: 0,
+    z: -9,
+    turn: QUARTER_TURN,
+  },
+  { assemble: createGeodesicDome, scale: 1, x: -13, z: -6 },
+  { assemble: createCrateStack, scale: 1, x: -12, z: 6, turn: HALF_TURN / 8 },
+  {
+    assemble: () => createTankSkid({ count: 1, radius: 1, length: 3, upright: false }),
+    scale: 1,
+    x: 12,
+    z: -6,
+  },
+  {
+    assemble: () => createTankSkid({ count: 3, radius: 0.45, length: 1.2, upright: true }),
+    scale: 1,
+    x: 13,
+    z: 0,
+  },
+  {
+    assemble: () => createSecondaryModule({ width: 3, height: 2.6, length: 4 }),
+    scale: 1,
+    x: 12,
+    z: 6,
+    turn: -QUARTER_TURN,
+  },
+  { assemble: () => createLatticeMast(9), scale: 1, x: -20, z: 3 },
 ];

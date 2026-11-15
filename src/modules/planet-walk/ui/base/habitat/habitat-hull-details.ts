@@ -5,7 +5,14 @@ const FRAME_COLOR = 0xff6b3d;
 const WINDOW_GLOW = 0xffd28a;
 const WINDOW = { radius: 0.25, spacing: 2, height: 0.4 };
 /** Amber marker lights running along both shoulders of the hull, so that it shows in the dark. */
-const STRIP = { color: 0xff6a10, angle: 0.95, width: 0.09, thickness: 0.04, glow: 1.3, gapM: 0.5 };
+const STRIP = {
+  color: 0xff6a10,
+  angle: Math.PI / 4,
+  width: 0.09,
+  thickness: 0.04,
+  glow: 1.3,
+  gapM: 0.5,
+};
 
 /** Glowing round windows along both sides of a hull of the given length (m). */
 export const windows = (length: number) => {

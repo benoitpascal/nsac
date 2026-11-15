@@ -65,7 +65,7 @@ export const createWalkFrame = (parts: FrameParts) => {
     parts.dashboard.update(seconds, driving.isDigging());
     const underRoof = ceilingAt(world.obstacles, walker, walker.height) < Infinity;
     const lamp = underRoof ? 0 : (1 - world.daylight()) ** 2;
-    avatar.follow(walker, drivingRobot || view.mode() === 'third', lamp);
+    avatar.follow(walker, drivingRobot || view.mode() === 'third', lamp, seconds, parts.gravity());
     const followed = drivingRobot ? { ...driving.vehicle(), height: 0, verticalSpeed: 0 } : walker;
     const [mode, walls] = drivingRobot
       ? (['third', world.obstacles] as const)
