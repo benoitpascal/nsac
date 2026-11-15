@@ -126,3 +126,6 @@ Frame 26 [63:1911] mission progress bar, flex=vertical gap=14.6
   Frame 24 [63:1915] flex=horizontal gap=0: Rectangle 18 fill=#41acf5 (progress) + Rectangle 19 fill=#0e1934 (track), 20px high
 Frame 25 [63:1910] same bar at 500 wide (10px text, 11px bar)
 Icon-direction [63:1923] arrow fill=#f24822 on Ellipse 5 [63:1920] 260x260 fill=#d9d9d9 (compass draft)
+Ecran - Bandeau [79:707] component 1919x140: Logotype 163x77 at 60,32; Planet MOON 369x141 on the right; Vector 12 bottom line at y=140; Frame 29 [79:744] holds the two Info HUD (JOUR 01, 08:28 AM) at 1589,43
+Ecran - Dashboard [79:700] fill=gradient_linear(#0b0f1c → #141c33); Ellipse 6 glows #5973cd at 13-14% opacity (Frames 27/28, clipped); Robot 1 [79:701] 457x682 at 104,305; header = instance of Ecran - Bandeau
+Rectangle 21-23 [79:751/753/754] 48x48 #35e9fd vectors (header stripe drafts)
