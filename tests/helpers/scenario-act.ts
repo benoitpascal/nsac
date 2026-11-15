@@ -1,6 +1,6 @@
 import type { Act, Mission } from '@/modules/scenario/core/scenario-content';
 
-/** A mission played after packing a bag, like the excavator one. */
+/** A mission played after packing a bag, for missions where the astronaut goes outside. */
 export const missionWithBag: Mission = {
   id: 'excavator',
   title: 'Dig regolith',
@@ -12,21 +12,25 @@ export const missionWithBag: Mission = {
   scoring: 'excavator',
 };
 
-/** A mission played straight away, like the laser one. */
+/** A mission played straight away, like the printer calibration. */
 export const missionWithoutBag: Mission = {
   ...missionWithBag,
-  id: 'laser-comms',
+  id: 'printer',
   preparation: false,
   game: { kind: 'minigame', id: 'laser-mirrors' },
-  scoring: 'laser',
+  scoring: 'printer',
 };
 
-/** One day of two missions, then a second day with none. */
+/** One day of two missions played in the order the player picks, then a second day with none. */
 export const twoMissionAct: Act = {
   id: 'moon',
   days: [
-    { title: 'Day one', statusCards: [], missions: [missionWithBag, missionWithoutBag] },
-    { title: 'Day two', statusCards: [], missions: [] },
+    {
+      title: 'Day one',
+      opening: [],
+      missions: [missionWithBag, missionWithoutBag],
+    },
+    { title: 'Day two', opening: [], missions: [] },
   ],
   ending: [],
 };

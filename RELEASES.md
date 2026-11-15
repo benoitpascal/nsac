@@ -3,6 +3,8 @@
 ## [Unreleased]
 
 ### What's new
+On day one, you choose which job to start with: digging regolith with the robot, or tuning the 3D printer. At the end of the day, decide whether the printer works overnight to turn your regolith into bricks. It costs power, and a well-tuned printer makes more bricks.
+
 The act selection screen has a new look: big planet cards, a short objective, and the planet you point at shows up at the top of the screen. Pick the Moon, then press Start mission.
 
 A friendly robot mascot now guides you through each day on the Moon. It welcomes you, asks you questions, teaches you how real NASA machines work, helps you pack your bag, then tells you how much air, power and water your mission cost.

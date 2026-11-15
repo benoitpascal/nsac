@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { scoreExcavator, scoreLaser } from '@/modules/scenario/core/scoring';
+import { scoreExcavator, scorePrinter } from '@/modules/scenario/core/scoring';
 
 describe('excavator mission, driven from inside the base', () => {
   it('is efficient when the goal is met with little robot power, and costs no air', () => {
@@ -17,17 +17,17 @@ describe('excavator mission, driven from inside the base', () => {
   });
 });
 
-describe('laser mission', () => {
-  it('is efficient with a good score and costs a little power', () => {
-    const result = scoreLaser(true, 90);
-    expect([result.verdict, result.used.power]).toEqual(['efficient', 3]);
+describe('printer calibration (laser mirrors)', () => {
+  it('is efficient and optimal with a good score, and costs a little power', () => {
+    const result = scorePrinter(true, 90);
+    expect([result.verdict, result.used.power, result.details.score]).toEqual(['efficient', 3, 90]);
   });
 
   it('is wasteful with many mirror flips', () => {
-    expect(scoreLaser(true, 40).verdict).toBe('wasteful');
+    expect(scorePrinter(true, 40).verdict).toBe('wasteful');
   });
 
   it('is unfinished when given up', () => {
-    expect(scoreLaser(false, 0).verdict).toBe('unfinished');
+    expect(scorePrinter(false, 0).verdict).toBe('unfinished');
   });
 });

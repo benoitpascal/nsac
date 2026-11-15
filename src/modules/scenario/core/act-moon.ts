@@ -1,9 +1,10 @@
 import {
+  DAY_ONE_OPENING,
   EXCAVATOR_ACADEMY,
   EXCAVATOR_BRIEFING,
-  LASER_ACADEMY,
-  LASER_BRIEFING,
   MOON_ENDING,
+  PRINTER_ACADEMY,
+  PRINTER_BRIEFING,
 } from './moon-texts';
 import type { Act } from './scenario-content';
 
@@ -13,7 +14,7 @@ export const MOON_ACT: Act = {
   days: [
     {
       title: 'Day one',
-      statusCards: [],
+      opening: DAY_ONE_OPENING,
       missions: [
         {
           id: 'excavator',
@@ -26,18 +27,18 @@ export const MOON_ACT: Act = {
           scoring: 'excavator',
         },
         {
-          id: 'laser-comms',
-          title: 'Call Earth',
-          goal: "Send today's data to Earth with the laser.",
-          briefing: LASER_BRIEFING,
-          academy: LASER_ACADEMY,
+          id: 'printer',
+          title: 'Tune the 3D printer',
+          goal: 'Aim the printer laser with the mirrors.',
+          briefing: PRINTER_BRIEFING,
+          academy: PRINTER_ACADEMY,
           preparation: false,
           game: { kind: 'minigame', id: 'laser-mirrors' },
-          scoring: 'laser',
+          scoring: 'printer',
         },
       ],
     },
-    { title: 'Day two', statusCards: [], missions: [] },
+    { title: 'Day two', opening: [], missions: [] },
   ],
   ending: MOON_ENDING,
 };

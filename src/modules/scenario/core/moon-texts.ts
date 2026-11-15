@@ -8,13 +8,9 @@ const RASSOR = {
   label: 'NASA · RASSOR digging robot',
   url: 'https://technology.nasa.gov/patent/KSC-TOPS-7',
 };
-const LLCD = {
-  label: 'NASA · Lunar Laser Communication Demonstration (2013)',
-  url: 'https://www.nasa.gov/directorates/somd/space-communications-navigation-program/lunar-laser-communication-demonstration/',
-};
 
-/** Day one, first mission: the welcome to the station. */
-export const EXCAVATOR_BRIEFING: GuidePage[] = [
+/** Day one: the welcome to the station, ending with the pick of the first job. */
+export const DAY_ONE_OPENING: GuidePage[] = [
   {
     kind: 'text',
     text: "Hello, astronaut! Welcome to Arcadia, our base on the Moon. I'm your station assistant, and I'll help you all along.",
@@ -78,7 +74,31 @@ export const EXCAVATOR_BRIEFING: GuidePage[] = [
   },
   {
     kind: 'text',
-    text: 'Today, our robot must dig 50 kg of regolith: the dust and broken rock that cover the Moon. Press Launch mission when you are ready!',
+    text: 'Today we have two jobs. The robot must dig regolith, the dust and broken rock that covers the Moon. And our 3D printer must be tuned, so it can turn that regolith into bricks!',
+  },
+  {
+    kind: 'choice',
+    text: 'You are the commander. What do we start with?',
+    options: [
+      {
+        label: 'Dig regolith with the robot',
+        reply: [{ kind: 'text', text: "Let's get that robot rolling!" }],
+        effect: { kind: 'startMission', missionId: 'excavator' },
+      },
+      {
+        label: 'Tune the 3D printer',
+        reply: [{ kind: 'text', text: 'Good idea: a well-tuned printer wastes less regolith.' }],
+        effect: { kind: 'startMission', missionId: 'printer' },
+      },
+    ],
+  },
+];
+
+/** Day one, robot job: what it is about. */
+export const EXCAVATOR_BRIEFING: GuidePage[] = [
+  {
+    kind: 'text',
+    text: 'The robot must bring 50 kg of regolith to the base. Before you drive it, a quick lesson at the academy!',
   },
 ];
 
@@ -126,79 +146,73 @@ export const EXCAVATOR_ACADEMY: GuidePage[] = [
   },
 ];
 
-/** Day one, second mission: sending the day's data home. */
-export const LASER_BRIEFING: GuidePage[] = [
+/** Day one, printer job: what it is about. */
+export const PRINTER_BRIEFING: GuidePage[] = [
   {
     kind: 'text',
-    text: 'Good job with the robot! Now the people on Earth want to know how our day went.',
+    text: 'Our 3D printer melts regolith into bricks with a laser beam. Before it can print, its laser must be aimed just right.',
   },
   {
     kind: 'choice',
-    text: 'We will send them our pictures and readings. How do you think we send them?',
+    text: 'Why make bricks here instead of bringing them from Earth?',
     options: [
       {
-        label: 'By radio',
+        label: 'Rockets cannot carry much',
         reply: [
           {
             kind: 'text',
-            text: 'Radio works, but it is slow for big pictures. We have something faster.',
+            text: 'Exactly! Every kilogram sent to the Moon costs a lot. Regolith is already here.',
           },
         ],
       },
       {
-        label: 'With a laser',
-        reply: [{ kind: 'text', text: 'Exactly! A laser beam can carry a lot of data.' }],
+        label: 'Bricks from Earth would break',
+        reply: [
+          {
+            kind: 'text',
+            text: 'Not really. The real reason: rockets can carry only a little, and regolith is free here.',
+          },
+        ],
       },
     ],
-  },
-  {
-    kind: 'text',
-    text: "Today's job: aim the laser at Earth. Press Launch mission when you are ready.",
   },
 ];
 
-/** Day one, second mission: why a laser, with real facts. */
-export const LASER_ACADEMY: GuidePage[] = [
+/** Day one, printer job: how a printer can use regolith. */
+export const PRINTER_ACADEMY: GuidePage[] = [
   {
     kind: 'text',
-    text: 'Earth is about 384,400 km away. Light needs only about 1.3 seconds to get there!',
+    text: 'NASA is testing machines that heat regolith until its grains stick together, to build landing pads and walls on the Moon.',
   },
   {
     kind: 'text',
-    text: 'In 2013, NASA tested a laser link from a spacecraft orbiting the Moon. It sent data to Earth at 622 megabits per second.',
-    source: LLCD,
+    text: 'Our printer does it with a laser. Mirrors guide the beam to the right spot, like light bouncing off a bathroom mirror.',
   },
   {
     kind: 'question',
-    text: 'What is the hard part with a laser?',
+    text: 'What happens if the printer is badly tuned?',
     answers: [
       {
-        label: 'It must be aimed very precisely',
+        label: 'It wastes regolith',
         correct: true,
-        explanation:
-          'Yes! The beam is thin, so it must hit the receiver exactly. Mirrors guide it.',
+        explanation: 'Yes! A badly aimed laser melts the wrong spots, so fewer bricks come out.',
       },
       {
-        label: 'It only works at night',
+        label: 'It makes more bricks',
         correct: false,
-        explanation: 'A laser works day and night. The hard part is aiming it.',
-      },
-      {
-        label: 'It is too slow',
-        correct: false,
-        explanation: 'It is very fast! The hard part is aiming it.',
+        explanation: 'No, the opposite: a badly aimed laser wastes regolith.',
       },
     ],
   },
   {
     kind: 'text',
-    text: 'Flip the mirrors to guide the beam to every receiver. Each flip costs the laser some power, so think first!',
+    text: 'Flip the mirrors to guide the beam to every target. Each flip uses the laser, so think before you flip!',
   },
 ];
 
 /** End of the act for now. */
 export const MOON_ENDING: GuidePage[] = [
-  { kind: 'text', text: 'What a first day! The base has regolith, and Earth got our news.' },
+  { kind: 'text', text: 'What a first day! The robot dug regolith, and the printer is ready.' },
   {
     kind: 'text',
     text: 'New missions are on their way. Until then, you can start a new game and try to use even less air and power!',

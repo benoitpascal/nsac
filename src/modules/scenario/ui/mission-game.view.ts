@@ -1,6 +1,6 @@
 import { currentMission, recordResult } from '../core/campaign';
 import { DASHBOARD_PAGE } from '../core/mission-route';
-import { scoreLaser } from '../core/scoring';
+import { scorePrinter } from '../core/scoring';
 import type { CampaignState } from '../core/campaign';
 import type { Act } from '../core/scenario-content';
 import type { MiniGame } from '@/modules/minigames/core/minigame';
@@ -29,7 +29,7 @@ export const playMissionGame = (title: HTMLElement, board: HTMLElement, deps: Mi
   }
   title.textContent = mission.title;
   game.start(board, ({ won, score }) => {
-    deps.save(recordResult(deps.state, scoreLaser(won, score)));
+    deps.save(recordResult(deps.state, scorePrinter(won, score)));
     deps.navigate(DASHBOARD_PAGE);
   });
 };

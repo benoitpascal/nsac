@@ -30,7 +30,15 @@ export const renderDashboard = (
     el('p', 'briefing__text', mission.goal),
   );
   const stores = el('section', 'hud-panel');
-  stores.append(el('h3', 'hud-panel__heading', 'Base resources'), renderGauges(state.stores));
+  stores.append(
+    el('h3', 'hud-panel__heading', 'Base resources'),
+    renderGauges(state.stores),
+    el(
+      'p',
+      'briefing__text',
+      `Regolith ${Math.floor(state.cargo.regolithKg)} kg · Bricks ${state.cargo.bricks}`,
+    ),
+  );
   const panels = el('div', 'briefing__panels');
   panels.append(goal, stores);
   let confirming = false;

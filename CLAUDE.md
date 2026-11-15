@@ -36,7 +36,7 @@ Pages (declared in `vite.config.ts` under `build.rolldownOptions.input`):
 - `moon-intro.html` (Moon landing cutscene) loads `src/moon-intro.ts`, `src/styles.css` and `src/moon-intro.css`; it plays the clips of `public/game-design/` listed in `modules/moon-intro/core/intro-shots.ts`, then opens Day One.
 - `day.html` (title of the day starting, with the base conditions on the game date) loads `src/day.ts`, `src/styles.css`, `src/day-one.css` and `src/status-card.css`.
 - `mission.html` (mini-game of the current mission) loads `src/mission.ts` and `src/pages.css`.
-- `briefing.html` (station dashboard, the scenario's router: welcome, dashboard, academy, bag, debrief) loads `src/briefing.ts`, `src/styles.css`, `src/hud.css`, `src/briefing.css` and `src/guide.css`.
+- `briefing.html` (base terminal, the scenario's router: the mascot's discussion — day opening and pick of a job, academy, bag, debrief, end of the day — and the dashboard when a mission is ready) loads `src/briefing.ts`, `src/styles.css`, `src/hud.css`, `src/briefing.css` and `src/guide.css`.
 - `information.html` (context, goal, how to play, controls, credits) loads `src/information.ts`, `src/styles.css`, `src/hud.css` and `src/information.css`.
 - `solar-system.html` loads `src/solar-system.ts`.
 - `planet-walk.html` loads `src/planet-walk.ts`.
@@ -50,7 +50,7 @@ No page hardcodes the site domain: absolute URLs (share tags of `index.html`) us
 
 ### Scenario
 
-`src/modules/scenario/` holds the Moon act: content (`core/act-moon.ts`, `core/moon-texts.ts`), the saved game and its stages (`core/campaign.ts`), dialogue with choices and questions (`core/dialogue.ts`), bag (`core/loadout.ts`), scoring and debrief (`core/scoring.ts`, `core/debrief-text.ts`), saved in `localStorage` by `infra/campaign-storage.ts`. Plan: `docs/plans/scenario-moon-act.md`. Tests: `pnpm test` (Vitest, `tests/`).
+`src/modules/scenario/` holds the Moon act: content (`core/act-moon.ts`, `core/moon-texts.ts`), the saved game and its stages (`core/campaign.ts`), dialogue with choices, questions and option effects (`core/dialogue.ts`), bag for outdoor missions (`core/loadout.ts`), printer and night rules (`core/printer.ts`), end-of-day dialogue (`core/day-closing.ts`), scoring and debrief (`core/scoring.ts`, `core/debrief-text.ts`), saved in `localStorage` by `infra/campaign-storage.ts`. Plan: `docs/plans/scenario-moon-act.md`. Tests: `pnpm test` (Vitest, `tests/`).
 
 ### Layers
 

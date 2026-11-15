@@ -3,6 +3,8 @@
 ## [Unreleased]
 
 ### Nouveautés
+Le premier jour, vous choisissez par quelle tâche commencer : creuser le régolithe avec le robot ou calibrer l'imprimante 3D. Le soir, décidez si l'imprimante travaille la nuit pour transformer votre régolithe en briques. Cela coûte de l'électricité, et une imprimante bien calibrée fait plus de briques.
+
 L'écran de choix de l'acte fait peau neuve : de grandes cartes planète, un court objectif, et la planète que vous pointez s'affiche en haut de l'écran. Choisissez la Lune, puis appuyez sur Start mission.
 
 Une mascotte robot vous guide désormais chaque jour sur la Lune. Elle vous accueille, vous pose des questions, vous apprend comment fonctionnent de vraies machines de la NASA, vous aide à préparer votre sac, puis vous dit combien d'air, d'électricité et d'eau votre mission a coûté.

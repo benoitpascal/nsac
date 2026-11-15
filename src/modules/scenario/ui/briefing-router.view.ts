@@ -1,14 +1,16 @@
 import {
+  chooseMission,
+  closeDay,
   confirmLoadout,
   continueAfterDebrief,
   currentMission,
   dayDate,
   finishAcademy,
+  missionsLeft,
   newCampaign,
-  openAcademy,
-  readBriefing,
   retryMission,
 } from '../core/campaign';
+import { dayClosingPages } from '../core/day-closing';
 import { debriefPages } from '../core/debrief-text';
 import { DAY_PAGE, EXPLORE_PAGE, gamePage } from '../core/mission-route';
 import { renderDashboard } from './dashboard.view';
@@ -16,7 +18,7 @@ import { button, el } from './dom';
 import { playDialogue } from './guide-dialogue.view';
 import { renderPreparation } from './preparation.view';
 import type { CampaignState } from '../core/campaign';
-import type { Act, GuidePage } from '../core/scenario-content';
+import type { Act, DialogueEffect, GuidePage, Mission } from '../core/scenario-content';
 
 export type BriefingDeps = {
   act: Act;
@@ -27,8 +29,9 @@ export type BriefingDeps = {
 };
 
 /**
- * The station dashboard page, driven by the saved game: the mascot on the left, and on the right
- * the screen of the current stage (welcome, dashboard, academy, bag, debrief, end of act).
+ * The base terminal, driven by the saved game: the mascot on the left, and on the right the
+ * discussion of the current stage (the day's opening and the pick of a job, academy, bag,
+ * debrief, end of the day, end of the act), or the dashboard when a mission is ready to launch.
  */
 export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
   let state = deps.load() ?? newCampaign(deps.now());
@@ -42,69 +45,71 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
     deps.save(state);
     render();
   };
-  const talk = (pages: readonly GuidePage[], onEnd: () => void) => {
+  const talk = (pages: readonly GuidePage[], onEnd: (effect?: DialogueEffect) => void) => {
     const bubble = el('div', 'hud-panel guide__bubble');
     bubble.setAttribute('aria-live', 'polite');
     side.replaceChildren(bubble);
     stopDialogue = playDialogue(bubble, pages, onEnd);
   };
   const restart = () => update(newCampaign(deps.now()));
+  const openDay = () =>
+    talk(deps.act.days[state.dayIndex]?.opening ?? [], (effect) => {
+      const picked =
+        effect?.kind === 'startMission' ? effect.missionId : missionsLeft(deps.act, state)[0]?.id;
+      if (picked) update(chooseMission(state, deps.act, picked));
+    });
+  const closeTheDay = () =>
+    talk(dayClosingPages(state), (effect) =>
+      update(closeDay(state, effect?.kind === 'printBricks')),
+    );
+  const showDebrief = (mission: Mission) => {
+    if (!state.lastResult) return update(continueAfterDebrief(state, deps.act));
+    const result = state.lastResult;
+    talk(debriefPages(result), () => {
+      const row = el('div', 'guide__actions');
+      if (result.verdict !== 'efficient')
+        row.append(
+          button('Retry the mission', 'hud-back', () => update(retryMission(state, mission))),
+        );
+      row.append(
+        button('Continue', 'hud-action', () => update(continueAfterDebrief(state, deps.act))),
+      );
+      side.replaceChildren(row);
+    });
+  };
+  const showMissionStage = (mission: Mission) => {
+    const launch = () => deps.navigate(gamePage(mission));
+    if (state.stage === 'academy')
+      return talk([...mission.briefing, ...mission.academy], () =>
+        update(finishAcademy(state, mission)),
+      );
+    if (state.stage === 'preparation')
+      return side.replaceChildren(
+        renderPreparation(state.stores, (loadout) => {
+          update(confirmLoadout(state, loadout));
+          launch();
+        }),
+      );
+    if (state.stage === 'debrief') return showDebrief(mission);
+    side.replaceChildren(
+      renderDashboard(state, dayDate(state), mission, {
+        launch,
+        explore: () => deps.navigate(EXPLORE_PAGE),
+        newGame: restart,
+      }),
+    );
+  };
   const render = () => {
     stopDialogue();
-    const mission = currentMission(deps.act, state);
     if (state.stage === 'dayEnd') return deps.navigate(DAY_PAGE);
+    if (state.stage === 'briefing') return openDay();
+    if (state.stage === 'dayClosing') return closeTheDay();
+    const mission = currentMission(deps.act, state);
     if (state.stage === 'actEnd' || !mission)
       return talk(deps.act.ending, () =>
         side.replaceChildren(button('New game', 'pill-button', restart)),
       );
-    const dashboard = (launch: () => void) =>
-      side.replaceChildren(
-        renderDashboard(state, dayDate(state), mission, {
-          launch,
-          explore: () => deps.navigate(EXPLORE_PAGE),
-          newGame: restart,
-        }),
-      );
-    switch (state.stage) {
-      case 'briefing':
-        return talk(mission.briefing, () => update(readBriefing(state)));
-      case 'dashboard':
-        return dashboard(() => update(openAcademy(state)));
-      case 'academy':
-        return talk(mission.academy, () => update(finishAcademy(state, mission)));
-      case 'preparation':
-        return side.replaceChildren(
-          renderPreparation(state.stores, (loadout) => {
-            update(confirmLoadout(state, loadout));
-            deps.navigate(gamePage(mission));
-          }),
-        );
-      case 'ready':
-        return dashboard(() => deps.navigate(gamePage(mission)));
-      case 'debrief':
-        return talk(
-          debriefPages(
-            state.lastResult ?? {
-              missionId: '',
-              verdict: 'unfinished',
-              objectiveShare: 0,
-              used: { air: 0, power: 0, water: 0 },
-              details: {},
-            },
-          ),
-          () => {
-            const row = el('div', 'guide__actions');
-            if (state.lastResult?.verdict !== 'efficient')
-              row.append(
-                button('Retry the mission', 'hud-back', () => update(retryMission(state, mission))),
-              );
-            row.append(
-              button('Continue', 'hud-action', () => update(continueAfterDebrief(state, deps.act))),
-            );
-            side.replaceChildren(row);
-          },
-        );
-    }
+    showMissionStage(mission);
   };
   window.addEventListener('storage', () => {
     state = deps.load() ?? state;

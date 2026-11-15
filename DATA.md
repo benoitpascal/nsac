@@ -21,7 +21,9 @@ This page lets judges trace every number in the game back to its source. Each ro
 - Bag (for missions where the astronaut goes outside): 4 slots (one tool, at least one oxygen bottle, up to 4 bottles and 3 spare robot batteries). A fully used bottle costs 3 air points; each robot charge of 0.03 kWh used costs 4 power points; every 10 kg of regolith delivered brings 1 water point (ice in the regolith).
 - Drums: standard 1 kg/s at 0.9 kW, wide 1.6 kg/s at 1.4 kW.
 - Excavator mission: driven by remote control from inside the base, so no bag and no suit air; goal 50 kg; each robot charge of 0.03 kWh used costs 4 power points; efficient at 3 power points or below.
-- Laser mission: 2 power points plus 0.1 per missing score point; efficient from a score of 70.
+- Printer calibration (laser mirrors mini-game): 2 power points plus 0.1 per missing score point; efficient from a score of 70. The score sets the printer quality: optimal (≥ 70), partial (≥ 40), failed (below), as in the validated scenario.
+- Printing bricks at the end of day one (player's choice): 20 power points; 1 brick per 10 kg of regolith, times 100 % / 60 % / 30 % for an optimal / partial / failed calibration; the rest of the regolith is wasted. Keeping the regolith costs nothing but gives no bricks.
+- Night: 5 points of air, power and water every night.
 - Suit: oxygen drains 0.28 %/s at rest with one bottle (×1.6 walking, ×2.6 running, ×2 busy, +10 % per extra item, divided by the number of bottles); battery 0.12 %/s × effort; both refill 8 %/s inside. Rescue at 9 %, costing 4 hours.
 - Day screens use the base's local-time model (`planet-walk/core/station/local-time.ts`, NASA fact-sheet extremes +120 °C / −170 °C): day one is the date the game started, day N is N − 1 days later.
 

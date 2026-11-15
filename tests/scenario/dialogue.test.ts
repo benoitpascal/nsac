@@ -5,7 +5,7 @@ import {
   nextPage,
   startDialogue,
 } from '@/modules/scenario/core/dialogue';
-import type { DialogueCursor } from '@/modules/scenario/core/dialogue';
+import type { DialogueCursor, DialogueEnd } from '@/modules/scenario/core/dialogue';
 import type { ChoicePage, GuidePage } from '@/modules/scenario/core/scenario-content';
 
 const choice: ChoicePage = {
@@ -20,6 +20,11 @@ const choice: ChoicePage = {
       ],
     },
     { label: 'Skip', reply: [], goto: 'end' },
+    {
+      label: 'Start the robot',
+      reply: [{ kind: 'text', text: 'Go!' }],
+      effect: { kind: 'startMission', missionId: 'excavator' },
+    },
   ],
 };
 const pages: GuidePage[] = [
@@ -29,8 +34,8 @@ const pages: GuidePage[] = [
   { kind: 'text', id: 'end', text: 'Let us work' },
 ];
 
-const textOf = (cursor: DialogueCursor | 'end') =>
-  cursor === 'end' ? 'end' : (currentPage(pages, cursor) as { text: string }).text;
+const textOf = (cursor: DialogueCursor | DialogueEnd) =>
+  'end' in cursor ? 'end' : (currentPage(pages, cursor) as { text: string }).text;
 
 describe('a dialogue with a choice', () => {
   it('reads the reply page by page, then goes on to the next page', () => {
@@ -47,7 +52,17 @@ describe('a dialogue with a choice', () => {
     expect(textOf(chooseOption(pages, atChoice, choice.options[1]))).toBe('Let us work');
   });
 
-  it('ends after the last page', () => {
-    expect(nextPage(pages, { index: 3, replies: [], after: 4 })).toBe('end');
+  it('ends after the last page, with no effect', () => {
+    expect(nextPage(pages, { index: 3, replies: [], after: 4 })).toEqual({ end: true });
+  });
+
+  it('ends with the option effect once its reply is read', () => {
+    const atChoice = nextPage(pages, startDialogue()) as DialogueCursor;
+    const reply = chooseOption(pages, atChoice, choice.options[2]) as DialogueCursor;
+    expect(textOf(reply)).toBe('Go!');
+    expect(nextPage(pages, reply)).toEqual({
+      end: true,
+      effect: { kind: 'startMission', missionId: 'excavator' },
+    });
   });
 });

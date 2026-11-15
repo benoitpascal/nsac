@@ -27,10 +27,10 @@ export const debriefPages = (result: MissionResult): GuidePage[] => {
       kind: 'text',
       text: 'Most of the power went into driving and digging. Fewer moves and fuller loads between the grey and orange zones save the robot battery.',
     });
-  if (result.missionId === 'laser-comms' && result.verdict !== 'efficient')
+  if (result.missionId === 'printer' && result.verdict !== 'efficient')
     pages.push({
       kind: 'text',
-      text: 'Every mirror flip used the laser. Think about the beam path before flipping.',
+      text: 'Every mirror flip used the laser, and a rough tuning means fewer bricks. Think about the beam path before flipping.',
     });
   pages.push({
     kind: 'text',

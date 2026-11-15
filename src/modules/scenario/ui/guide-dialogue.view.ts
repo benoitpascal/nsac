@@ -1,24 +1,24 @@
 import { chooseOption, currentPage, nextPage, startDialogue } from '../core/dialogue';
 import { button, el } from './dom';
-import type { DialogueCursor } from '../core/dialogue';
-import type { GuidePage, QuestionPage } from '../core/scenario-content';
+import type { DialogueCursor, DialogueEnd } from '../core/dialogue';
+import type { DialogueEffect, GuidePage, QuestionPage } from '../core/scenario-content';
 
 const KEYS = ['Digit1', 'Digit2', 'Digit3', 'Digit4'];
 
 /**
  * Plays a dialogue of the mascot inside the bubble: texts with Next and Back, choices and
  * questions as 1 to 4 buttons (also keys 1 to 4). A wrong answer is explained and greyed out.
- * Calls onEnd after the last page. Returns how to stop listening to the keyboard.
+ * Calls onEnd after the last page, with the effect of the last option picked, if any. Returns how to stop listening to the keyboard.
  */
 export const playDialogue = (
   bubble: HTMLElement,
   pages: readonly GuidePage[],
-  onEnd: () => void,
+  onEnd: (effect?: DialogueEffect) => void,
 ) => {
   const trail: DialogueCursor[] = [];
   let keyActions: (() => void)[] = [];
-  const go = (next: DialogueCursor | 'end', from?: DialogueCursor) => {
-    if (next === 'end') return onEnd();
+  const go = (next: DialogueCursor | DialogueEnd, from?: DialogueCursor) => {
+    if ('end' in next) return onEnd(next.effect);
     if (from) trail.push(from);
     render(next);
   };

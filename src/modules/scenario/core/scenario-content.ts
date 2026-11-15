@@ -4,8 +4,22 @@ export type Source = { label: string; url: string };
 /** The mascot says something; Next goes on. */
 export type TextPage = { kind: 'text'; id?: string; text: string; source?: Source };
 
-/** One option of a choice: the mascot's reply, then the page it leads to (the next one by default). */
-export type ChoiceOption = { label: string; reply: TextPage[]; goto?: string };
+/** What picking an option does in the game: start a mission, or decide what to do with the regolith. */
+export type DialogueEffect =
+  | { kind: 'startMission'; missionId: string }
+  | { kind: 'printBricks' }
+  | { kind: 'keepRegolith' };
+
+/**
+ * One option of a choice: the mascot's reply, then the page it leads to (the next one by default),
+ * or, when it has an effect, the end of the dialogue with that effect.
+ */
+export type ChoiceOption = {
+  label: string;
+  reply: TextPage[];
+  goto?: string;
+  effect?: DialogueEffect;
+};
 
 /** The player picks one of 1 to 4 options; none is right or wrong. */
 export type ChoicePage = { kind: 'choice'; id?: string; text: string; options: ChoiceOption[] };
@@ -25,7 +39,7 @@ export type ToolId = 'standardDrums' | 'wideDrums';
 export type GameRef = { kind: 'walk' } | { kind: 'minigame'; id: string };
 
 /** How a mission's result is worked out. */
-export type ScoringId = 'excavator' | 'laser';
+export type ScoringId = 'excavator' | 'printer';
 
 export type Mission = {
   id: string;
@@ -40,9 +54,10 @@ export type Mission = {
   scoring: ScoringId;
 };
 
-/** A card shown under a day's title. */
-export type StatusCard = { value: string; label: string };
-
-export type Day = { title: string; statusCards: StatusCard[]; missions: Mission[] };
+/**
+ * A day: its title, the mascot's opening (which ends by picking the first mission when there are
+ * several), and its missions, played in the order the player picks.
+ */
+export type Day = { title: string; opening: GuidePage[]; missions: Mission[] };
 
 export type Act = { id: string; days: Day[]; ending: GuidePage[] };
