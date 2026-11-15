@@ -59,6 +59,10 @@ This page lets judges trace every number in the game back to its source. Each ro
 | Moon walk: HUD energy and O₂ | Energy ring = suit battery, O₂ bar = suit oxygen (the mock-up's water and food bars are left out: the suit does not model them) | Real suits track oxygen and battery among other consumables | Simplified | Keeps the HUD to the resources the game simulates |
 | _TBD_ | | | | |
 
+## Mascot voice (synthetic)
+
+The mascot's spoken lines are a synthetic voice (ElevenLabs, voice « Liam », model `eleven_multilingual_v2`), recorded once from the same English texts the player reads with `pnpm voices` and shipped as MP3 files in `public/voices/`. It is not a recording of a real person or of NASA staff. Lines that contain the player's own amounts (regolith kg, bricks, power used) are not recorded and stay text only. The player can turn the sound off.
+
 ## Facts shown to players (verified 2026-11-13)
 
 | Fact (as shown, EN) | Source |

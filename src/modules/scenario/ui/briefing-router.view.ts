@@ -21,6 +21,7 @@ import { renderPlanning } from './planning.view';
 import { renderPreparation } from './preparation.view';
 import type { CampaignState } from '../core/campaign';
 import type { Act, DialogueEffect, GuidePage, Mission } from '../core/scenario-content';
+import type { Voice } from '../core/voice';
 
 export type BriefingDeps = {
   act: Act;
@@ -30,6 +31,23 @@ export type BriefingDeps = {
   navigate: (url: string) => void;
   /** Called with the saved game each time the terminal shows a new stage. */
   onState?: (state: CampaignState) => void;
+  /** The mascot's voice; without it the mascot only writes. */
+  voice?: Voice;
+};
+
+/** Puts a sound on / off button over the mascot when it has a voice. */
+const withVoiceToggle = (mascot: HTMLElement, voice: Voice | undefined) => {
+  if (!voice) return mascot;
+  const label = () => (voice.isMuted() ? 'Sound off' : 'Sound on');
+  const toggle = button(label(), 'hud-secondary guide__voice', () => {
+    voice.setMuted(!voice.isMuted());
+    toggle.textContent = label();
+    toggle.setAttribute('aria-pressed', String(!voice.isMuted()));
+  });
+  toggle.setAttribute('aria-pressed', String(!voice.isMuted()));
+  const box = el('div', 'guide__mascot-box');
+  box.append(mascot, toggle);
+  return box;
 };
 
 /**
@@ -43,7 +61,7 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
   const mascot = el('img', 'guide__mascot');
   Object.assign(mascot, { src: '/arcadia/guide.png', alt: '' });
   const side = el('div', 'guide__side');
-  root.replaceChildren(mascot, side);
+  root.replaceChildren(withVoiceToggle(mascot, deps.voice), side);
   const update = (next: CampaignState) => {
     state = next;
     deps.save(state);
@@ -53,7 +71,7 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
     const bubble = el('div', 'hud-panel guide__bubble');
     bubble.setAttribute('aria-live', 'polite');
     side.replaceChildren(bubble);
-    stopDialogue = playDialogue(bubble, pages, onEnd);
+    stopDialogue = playDialogue(bubble, pages, onEnd, deps.voice);
   };
   const restart = () => update(newCampaign(deps.now()));
   const today = () => deps.act.days[state.dayIndex];

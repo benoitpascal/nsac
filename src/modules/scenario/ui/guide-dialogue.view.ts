@@ -2,18 +2,22 @@ import { chooseOption, currentPage, nextPage, startDialogue } from '../core/dial
 import { button, el } from './dom';
 import type { DialogueCursor, DialogueEnd } from '../core/dialogue';
 import type { DialogueEffect, GuidePage, QuestionPage } from '../core/scenario-content';
+import type { Voice } from '../core/voice';
 
 const KEYS = ['Digit1', 'Digit2', 'Digit3', 'Digit4'];
 
 /**
  * Plays a dialogue of the mascot inside the bubble: texts with Next and Back, choices and
  * questions as 1 to 4 buttons (also keys 1 to 4). A wrong answer is explained and greyed out.
- * Calls onEnd after the last page, with the effect of the last option picked, if any. Returns how to stop listening to the keyboard.
+ * The voice, when given, reads each page and each answer's explanation aloud.
+ * Calls onEnd after the last page, with the effect of the last option picked, if any. Returns how
+ * to stop listening to the keyboard and talking.
  */
 export const playDialogue = (
   bubble: HTMLElement,
   pages: readonly GuidePage[],
   onEnd: (effect?: DialogueEffect) => void,
+  voice?: Voice,
 ) => {
   const trail: DialogueCursor[] = [];
   let keyActions: (() => void)[] = [];
@@ -43,6 +47,7 @@ export const playDialogue = (
     const buttons = page.answers.map((answer) =>
       button(answer.label, 'guide__option', () => {
         feedback.textContent = `${answer.correct ? '✓ ' : '✗ '}${answer.explanation}`;
+        voice?.say(answer.explanation);
         feedback.classList.toggle('guide__feedback--right', answer.correct);
         if (!answer.correct)
           return buttons[page.answers.indexOf(answer)].setAttribute('aria-disabled', 'true');
@@ -58,6 +63,7 @@ export const playDialogue = (
     const page = currentPage(pages, cursor);
     keyActions = [];
     bubble.replaceChildren(el('p', 'guide__text', page.text));
+    voice?.say(page.text);
     if (page.kind === 'text') {
       if (page.source) {
         const link = el('a', 'guide__source', `Real data · ${page.source.label}`);
@@ -92,5 +98,8 @@ export const playDialogue = (
   };
   window.addEventListener('keydown', onKey);
   render(startDialogue());
-  return () => window.removeEventListener('keydown', onKey);
+  return () => {
+    window.removeEventListener('keydown', onKey);
+    voice?.stop();
+  };
 };
