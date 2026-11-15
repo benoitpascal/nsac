@@ -4,6 +4,14 @@ const LCROSS = {
   label: 'NASA · LCROSS finds water on the Moon (2009)',
   url: 'https://www.nasa.gov/news-release/lcross-impact-data-indicates-water-on-moon/',
 };
+const ORION_SHELTER = {
+  label: 'NASA · Orion radiation protection plan',
+  url: 'https://www.nasa.gov/missions/artemis/orion/scientists-and-engineers-evaluate-orion-radiation-protection-plan/',
+};
+const RADIATION_SHIELDING = {
+  label: 'NASA · How to protect astronauts from space radiation',
+  url: 'https://www.nasa.gov/science-research/heliophysics/real-martians-how-to-protect-astronauts-from-space-radiation-on-mars/',
+};
 const RASSOR = {
   label: 'NASA · RASSOR digging robot',
   url: 'https://technology.nasa.gov/patent/KSC-TOPS-7',
@@ -210,9 +218,74 @@ export const PRINTER_ACADEMY: GuidePage[] = [
   },
 ];
 
+/** Day two: the morning talk before planning the base's work. */
+export const DAY_TWO_OPENING: GuidePage[] = [
+  {
+    kind: 'text',
+    text: 'Good morning, commander! Day two. Today you decide what the base works on.',
+  },
+  {
+    kind: 'text',
+    text: 'Every job costs bricks, power or water. Some jobs are too expensive for now: you will see them greyed out, with what is missing.',
+  },
+  {
+    kind: 'question',
+    text: 'Mission control advises a shelter. What could the crew need to hide from on the Moon?',
+    answers: [
+      {
+        label: 'Particles thrown out by the Sun',
+        correct: true,
+        explanation:
+          'Yes! The Sun sometimes throws out a storm of fast particles. On the Moon, there is no air to stop them.',
+      },
+      {
+        label: 'Rain',
+        correct: false,
+        explanation:
+          'There is no rain on the Moon: there is no air at all. The danger comes from the Sun.',
+      },
+      {
+        label: 'Moon animals',
+        correct: false,
+        explanation: 'Nothing lives on the Moon. The danger comes from the Sun.',
+      },
+    ],
+  },
+  { kind: 'text', text: 'Now look at the plan, and choose what the base does today.' },
+];
+
+/** Day two, shelter build: what it is about. */
+export const SHELTER_BRIEFING: GuidePage[] = [
+  {
+    kind: 'text',
+    text: "We build the shelter with the bricks the printer made. Thick walls slow down the Sun's particles.",
+  },
+];
+
+/** Day two, shelter build: how a shelter protects, with real facts. */
+export const SHELTER_ACADEMY: GuidePage[] = [
+  {
+    kind: 'text',
+    text: 'Water and materials full of hydrogen block radiation well. That is why space shelters use them.',
+    source: RADIATION_SHIELDING,
+  },
+  {
+    kind: 'text',
+    text: "On NASA's Orion spacecraft, if a solar storm comes, the crew builds a shelter with bags of food and water, and hides inside.",
+    source: ORION_SHELTER,
+  },
+  {
+    kind: 'text',
+    text: 'Our crane lifts the bricks into place. Hang every weight on the crane arm and keep the arm level. Fewer moves, fewer bricks wasted!',
+  },
+];
+
 /** End of the act for now. */
 export const MOON_ENDING: GuidePage[] = [
-  { kind: 'text', text: 'What a first day! The robot dug regolith, and the printer is ready.' },
+  {
+    kind: 'text',
+    text: 'What a start! The base has bricks, and the crew knows how to protect itself.',
+  },
   {
     kind: 'text',
     text: 'New missions are on their way. Until then, you can start a new game and try to use even less air and power!',

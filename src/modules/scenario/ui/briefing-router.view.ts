@@ -9,13 +9,16 @@ import {
   missionsLeft,
   newCampaign,
   retryMission,
+  startPlanning,
 } from '../core/campaign';
+import { chooseAction } from '../core/actions';
 import { dayClosingPages } from '../core/day-closing';
 import { debriefPages } from '../core/debrief-text';
 import { DAY_PAGE, EXPLORE_PAGE, gamePage } from '../core/mission-route';
 import { renderDashboard } from './dashboard.view';
 import { button, el } from './dom';
 import { playDialogue } from './guide-dialogue.view';
+import { renderPlanning } from './planning.view';
 import { renderPreparation } from './preparation.view';
 import type { CampaignState } from '../core/campaign';
 import type { Act, DialogueEffect, GuidePage, Mission } from '../core/scenario-content';
@@ -52,14 +55,16 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
     stopDialogue = playDialogue(bubble, pages, onEnd);
   };
   const restart = () => update(newCampaign(deps.now()));
+  const today = () => deps.act.days[state.dayIndex];
   const openDay = () =>
-    talk(deps.act.days[state.dayIndex]?.opening ?? [], (effect) => {
+    talk(today()?.opening ?? [], (effect) => {
+      if (today()?.planning) return update(startPlanning(state, deps.act));
       const picked =
         effect?.kind === 'startMission' ? effect.missionId : missionsLeft(deps.act, state)[0]?.id;
       if (picked) update(chooseMission(state, deps.act, picked));
     });
   const closeTheDay = () =>
-    talk(dayClosingPages(state), (effect) =>
+    talk(dayClosingPages(state, today() ?? deps.act.days[0]), (effect) =>
       update(closeDay(state, effect?.kind === 'printBricks')),
     );
   const showDebrief = (mission: Mission) => {
@@ -104,6 +109,10 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
     if (state.stage === 'dayEnd') return deps.navigate(DAY_PAGE);
     if (state.stage === 'briefing') return openDay();
     if (state.stage === 'dayClosing') return closeTheDay();
+    if (state.stage === 'planning')
+      return side.replaceChildren(
+        renderPlanning(state, (action) => update(chooseAction(state, deps.act, action))),
+      );
     const mission = currentMission(deps.act, state);
     if (state.stage === 'actEnd' || !mission)
       return talk(deps.act.ending, () =>

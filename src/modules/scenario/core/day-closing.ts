@@ -1,6 +1,6 @@
-import { NIGHT_COST, PRINTER } from './printer';
+import { bricksFrom, NIGHT_COST, PRINTER } from './printer';
 import type { CampaignState } from './campaign';
-import type { GuidePage } from './scenario-content';
+import type { Day, GuidePage } from './scenario-content';
 
 const QUALITY_WORDS = {
   optimal: 'perfectly tuned',
@@ -8,20 +8,15 @@ const QUALITY_WORDS = {
   failed: 'badly tuned',
 };
 
-/** Returns the bricks the printer would make tonight from the regolith in store. */
-export const bricksTonight = (state: CampaignState) =>
-  Math.floor(
-    Math.floor(state.cargo.regolithKg / PRINTER.kgPerBrick) *
-      PRINTER.yield[state.printerQuality ?? 'failed'],
-  );
-
 /**
- * Returns the mascot's end of the day: what the two jobs brought, then the choice to run the
- * printer through the night (bricks for power) or keep the regolith, and what the night costs.
+ * Returns the mascot's end of the day: on a printer day, what the two jobs brought, then the choice
+ * to run the printer through the night (bricks for power) or keep the regolith; on any other day,
+ * just what the night costs.
  */
-export const dayClosingPages = (state: CampaignState): GuidePage[] => {
+export const dayClosingPages = (state: CampaignState, day: Day): GuidePage[] => {
+  const night = `Tonight the crew still breathes, drinks, eats and uses power: ${NIGHT_COST.air} points of air, water, food and power.`;
+  if (day.closing === 'night') return [{ kind: 'text', text: `The day's work is done. ${night}` }];
   const kg = Math.floor(state.cargo.regolithKg);
-  const night = `Tonight the crew still breathes, drinks and uses power: ${NIGHT_COST.air} points of air, water and power.`;
   return [
     {
       kind: 'text',
@@ -29,7 +24,7 @@ export const dayClosingPages = (state: CampaignState): GuidePage[] => {
     },
     {
       kind: 'choice',
-      text: `Should the printer work by itself tonight? It would make ${bricksTonight(state)} bricks, but use ${PRINTER.powerPoints} points of power.`,
+      text: `Should the printer work by itself tonight? It would make ${bricksFrom(state.cargo, state.printerQuality ?? 'failed')} bricks, but use ${PRINTER.powerPoints} points of power.`,
       options: [
         {
           label: 'Print bricks tonight',

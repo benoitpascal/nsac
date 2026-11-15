@@ -36,7 +36,7 @@ export const renderDashboard = (
     el(
       'p',
       'briefing__text',
-      `Regolith ${Math.floor(state.cargo.regolithKg)} kg · Bricks ${state.cargo.bricks}`,
+      `Regolith ${Math.floor(state.cargo.regolithKg)} kg · Bricks ${state.cargo.bricks} · Knowledge ${state.knowledge}`,
     ),
   );
   const panels = el('div', 'briefing__panels');

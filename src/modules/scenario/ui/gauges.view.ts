@@ -5,9 +5,10 @@ const GAUGES = [
   { key: 'air', name: 'Air', icon: 'oxygen' },
   { key: 'power', name: 'Power', icon: 'bolt' },
   { key: 'water', name: 'Water', icon: 'drop' },
+  { key: 'food', name: 'Food', icon: 'food' },
 ] as const;
 
-/** Renders the base's three gauges. */
+/** Renders the base's vital gauges. */
 export const renderGauges = (stores: BaseStores) => {
   const list = el('ul', 'resources');
   for (const gauge of GAUGES) {

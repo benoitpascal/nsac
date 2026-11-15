@@ -1,13 +1,16 @@
 import { spend, START_STORES } from './base-stores';
 import { NIGHT_COST, PRINTER, printBricks } from './printer';
+import { KNOWLEDGE_BY_QUALITY } from './quality';
 import type { BaseStores } from './base-stores';
 import type { Loadout } from './loadout';
-import type { Cargo, PrinterQuality } from './printer';
+import type { Cargo } from './printer';
+import type { Quality } from './quality';
 import type { Act, Mission } from './scenario-content';
 
 /** Where the player stands in the current day. */
 export type Stage =
   | 'briefing'
+  | 'planning'
   | 'academy'
   | 'preparation'
   | 'ready'
@@ -23,16 +26,20 @@ export type MissionResult = {
   missionId: string;
   verdict: Verdict;
   objectiveShare: number;
-  used: BaseStores;
+  used: Partial<BaseStores>;
   details: Record<string, number>;
   /** Regolith the robot brought back (kg). */
   regolithKg?: number;
-  /** How well the printer was calibrated. */
-  printerQuality?: PrinterQuality;
+  /** Bricks gained (positive) or wasted (negative). */
+  bricks?: number;
+  /** Knowledge the mission brought. */
+  knowledge?: number;
+  printerQuality?: Quality;
+  shelterQuality?: Quality;
 };
 
 export type CampaignState = {
-  version: 2;
+  version: 3;
   /** Date of day one (Unix ms): day N happens N − 1 days later. */
   startedAt: number;
   dayIndex: number;
@@ -45,20 +52,25 @@ export type CampaignState = {
   hoursLost: number;
   stores: BaseStores;
   cargo: Cargo;
-  printerQuality: PrinterQuality | null;
+  /** What the crew has learnt so far (points). */
+  knowledge: number;
+  printerQuality: Quality | null;
+  shelterQuality: Quality | null;
   loadout: Loadout | null;
   lastResult: MissionResult | null;
   history: MissionResult[];
 };
 
 const DAY_MS = 86_400_000;
+/** Bricks the base has when the crew lands (validated scenario, see DATA.md). */
+const START_BRICKS = 4;
 
 /** Hours the crew loses bringing an astronaut back inside. */
 export const RESCUE_HOURS = 4;
 
 /** Returns a new game on day one, starting at the given date. */
 export const newCampaign = (startedAt: number): CampaignState => ({
-  version: 2,
+  version: 3,
   startedAt,
   dayIndex: 0,
   missionId: null,
@@ -66,8 +78,10 @@ export const newCampaign = (startedAt: number): CampaignState => ({
   stage: 'briefing',
   hoursLost: 0,
   stores: START_STORES,
-  cargo: { regolithKg: 0, bricks: 0 },
+  cargo: { regolithKg: 0, bricks: START_BRICKS },
+  knowledge: 0,
   printerQuality: null,
+  shelterQuality: null,
   loadout: null,
   lastResult: null,
   history: [],
@@ -102,6 +116,10 @@ export const chooseMission = (state: CampaignState, act: Act, missionId: string)
     ? at(state, 'briefing', { stage: 'academy', missionId })
     : state;
 
+/** The mascot's opening of a planned day is over: the commander plans the base's work. */
+export const startPlanning = (state: CampaignState, act: Act) =>
+  act.days[state.dayIndex]?.planning ? at(state, 'briefing', { stage: 'planning' }) : state;
+
 /** The academy is over: pack the bag if the mission needs one, else get ready. */
 export const finishAcademy = (state: CampaignState, mission: Mission) =>
   at(state, 'academy', { stage: mission.preparation ? 'preparation' : 'ready' });
@@ -115,8 +133,13 @@ export const recordResult = (state: CampaignState, result: MissionResult) =>
   at(state, 'ready', {
     stage: 'debrief',
     stores: spend(state.stores, result.used),
-    cargo: { ...state.cargo, regolithKg: state.cargo.regolithKg + (result.regolithKg ?? 0) },
+    cargo: {
+      regolithKg: state.cargo.regolithKg + (result.regolithKg ?? 0),
+      bricks: Math.max(0, state.cargo.bricks + (result.bricks ?? 0)),
+    },
+    knowledge: state.knowledge + (result.knowledge ?? 0),
     printerQuality: result.printerQuality ?? state.printerQuality,
+    shelterQuality: result.shelterQuality ?? state.shelterQuality,
     lastResult: result,
     history: [...state.history, result],
   });
@@ -143,9 +166,11 @@ export const continueAfterDebrief = (state: CampaignState, act: Act) => {
  */
 export const closeDay = (state: CampaignState, print: boolean) => {
   const printing = print ? PRINTER.powerPoints : 0;
+  const quality = state.printerQuality ?? 'failed';
   return at(state, 'dayClosing', {
     stage: 'dayEnd',
-    cargo: print ? printBricks(state.cargo, state.printerQuality ?? 'failed') : state.cargo,
+    cargo: print ? printBricks(state.cargo, quality) : state.cargo,
+    knowledge: state.knowledge + (print ? KNOWLEDGE_BY_QUALITY[quality] : 0),
     stores: spend(state.stores, { ...NIGHT_COST, power: NIGHT_COST.power + printing }),
   });
 };

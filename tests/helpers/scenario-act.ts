@@ -21,6 +21,15 @@ export const missionWithoutBag: Mission = {
   scoring: 'printer',
 };
 
+/** The shelter, built in a mini-game once the planning picks it. */
+export const shelterMission: Mission = {
+  ...missionWithBag,
+  id: 'shelter',
+  preparation: false,
+  game: { kind: 'minigame', id: 'precision-balance' },
+  scoring: 'shelter',
+};
+
 /** One day of two missions played in the order the player picks, then a second day with none. */
 export const twoMissionAct: Act = {
   id: 'moon',
@@ -28,9 +37,21 @@ export const twoMissionAct: Act = {
     {
       title: 'Day one',
       opening: [],
+      closing: 'printer',
       missions: [missionWithBag, missionWithoutBag],
     },
-    { title: 'Day two', opening: [], missions: [] },
+    { title: 'Day two', opening: [], closing: 'night', missions: [] },
+  ],
+  ending: [],
+};
+
+/** Day one, then day two planned on the terminal, then a third day with nothing to play. */
+export const plannedAct: Act = {
+  id: 'moon',
+  days: [
+    twoMissionAct.days[0],
+    { title: 'Day two', opening: [], closing: 'night', planning: true, missions: [shelterMission] },
+    { title: 'Day three', opening: [], closing: 'night', missions: [] },
   ],
   ending: [],
 };

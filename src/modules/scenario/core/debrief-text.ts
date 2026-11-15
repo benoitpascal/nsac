@@ -9,14 +9,13 @@ const HEADLINES = {
 
 /** Returns the mascot's debrief: the verdict, what was used, the main reason and a real-life link. */
 export const debriefPages = (result: MissionResult): GuidePage[] => {
-  const { air, power, water } = result.used;
-  const pages: GuidePage[] = [
-    { kind: 'text', text: HEADLINES[result.verdict] },
-    {
+  const { power = 0, water = 0 } = result.used;
+  const pages: GuidePage[] = [{ kind: 'text', text: HEADLINES[result.verdict] }];
+  if (power > 0 || water < 0)
+    pages.push({
       kind: 'text',
-      text: `The base used ${air} points of air and ${power} points of power${water < 0 ? `, and gained ${-water} points of water from the ice in the regolith` : ''}.`,
-    },
-  ];
+      text: `The base used ${power} points of power${water < 0 ? `, and gained ${-water} points of water from the ice in the regolith` : ''}.`,
+    });
   if (result.details.rescued)
     pages.push({
       kind: 'text',
@@ -31,6 +30,16 @@ export const debriefPages = (result: MissionResult): GuidePage[] => {
     pages.push({
       kind: 'text',
       text: 'Every mirror flip used the laser, and a rough tuning means fewer bricks. Think about the beam path before flipping.',
+    });
+  if (result.missionId === 'shelter')
+    pages.push({
+      kind: 'text',
+      text:
+        result.shelterQuality === 'optimal'
+          ? 'The shelter is finished, with no brick wasted. The crew has a safe place now.'
+          : result.shelterQuality === 'partial'
+            ? 'The shelter is finished, but 2 bricks were wasted. Fewer moves on the crane save bricks.'
+            : 'The shelter is not finished, and 2 bricks were lost. Without it, the crew has nowhere safe to hide.',
     });
   pages.push({
     kind: 'text',

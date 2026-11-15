@@ -39,7 +39,7 @@ export type ToolId = 'standardDrums' | 'wideDrums';
 export type GameRef = { kind: 'walk' } | { kind: 'minigame'; id: string };
 
 /** How a mission's result is worked out. */
-export type ScoringId = 'excavator' | 'printer';
+export type ScoringId = 'excavator' | 'printer' | 'shelter';
 
 export type Mission = {
   id: string;
@@ -56,8 +56,16 @@ export type Mission = {
 
 /**
  * A day: its title, the mascot's opening (which ends by picking the first mission when there are
- * several), and its missions, played in the order the player picks.
+ * several), its missions, played in the order the player picks, whether the commander plans the
+ * base's work first (the planned action may open a mission), and how the day closes: offering to
+ * run the printer overnight, or with the night alone.
  */
-export type Day = { title: string; opening: GuidePage[]; missions: Mission[] };
+export type Day = {
+  title: string;
+  opening: GuidePage[];
+  missions: Mission[];
+  planning?: boolean;
+  closing: 'printer' | 'night';
+};
 
 export type Act = { id: string; days: Day[]; ending: GuidePage[] };

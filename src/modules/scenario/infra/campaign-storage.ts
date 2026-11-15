@@ -3,6 +3,7 @@ import type { CampaignState, Stage } from '../core/campaign';
 const KEY = 'arcadia.campaign';
 const STAGES: readonly Stage[] = [
   'briefing',
+  'planning',
   'academy',
   'preparation',
   'ready',
@@ -18,13 +19,15 @@ const isCampaign = (value: unknown): value is CampaignState => {
   if (typeof value !== 'object' || value === null) return false;
   const state = value as Partial<CampaignState>;
   return (
-    state.version === 2 &&
+    state.version === 3 &&
     typeof state.startedAt === 'number' &&
     Number.isInteger(state.dayIndex) &&
     (state.missionId === null || typeof state.missionId === 'string') &&
     Array.isArray(state.doneMissionIds) &&
     typeof state.cargo?.regolithKg === 'number' &&
     typeof state.cargo.bricks === 'number' &&
+    typeof state.knowledge === 'number' &&
+    isPercent(state.stores?.food) &&
     STAGES.some((stage) => stage === state.stage) &&
     isPercent(state.stores?.air) &&
     isPercent(state.stores?.power) &&
