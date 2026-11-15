@@ -29,9 +29,9 @@ export const createVoicePlayer = (): Voice => {
   let muted = readMuted();
   let recorded = new Set<string>();
   let wanted: string | undefined;
-  const play = (text: string) => {
+  const play = (text: string, evenMuted = false) => {
     const key = voiceKey(text);
-    if (muted || !recorded.has(key)) return;
+    if ((muted && !evenMuted) || !recorded.has(key)) return;
     audio.src = `/voices/${key}.mp3`;
     audio.play().catch(() => undefined);
   };
@@ -51,6 +51,11 @@ export const createVoicePlayer = (): Voice => {
       stop();
       wanted = text;
       play(text);
+    },
+    repeat: (text) => {
+      stop();
+      wanted = text;
+      play(text, true);
     },
     stop,
     isMuted: () => muted,

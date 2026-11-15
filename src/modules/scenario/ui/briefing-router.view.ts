@@ -35,21 +35,6 @@ export type BriefingDeps = {
   voice?: Voice;
 };
 
-/** Puts a sound on / off button over the mascot when it has a voice. */
-const withVoiceToggle = (mascot: HTMLElement, voice: Voice | undefined) => {
-  if (!voice) return mascot;
-  const label = () => (voice.isMuted() ? 'Sound off' : 'Sound on');
-  const toggle = button(label(), 'hud-secondary guide__voice', () => {
-    voice.setMuted(!voice.isMuted());
-    toggle.textContent = label();
-    toggle.setAttribute('aria-pressed', String(!voice.isMuted()));
-  });
-  toggle.setAttribute('aria-pressed', String(!voice.isMuted()));
-  const box = el('div', 'guide__mascot-box');
-  box.append(mascot, toggle);
-  return box;
-};
-
 /**
  * The base terminal, driven by the saved game: the mascot on the left, and on the right the
  * discussion of the current stage (the day's opening and the pick of a job, academy, bag,
@@ -61,7 +46,7 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
   const mascot = el('img', 'guide__mascot');
   Object.assign(mascot, { src: '/arcadia/guide.png', alt: '' });
   const side = el('div', 'guide__side');
-  root.replaceChildren(withVoiceToggle(mascot, deps.voice), side);
+  root.replaceChildren(mascot, side);
   const update = (next: CampaignState) => {
     state = next;
     deps.save(state);

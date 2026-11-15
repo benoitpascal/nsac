@@ -34,19 +34,69 @@ const row = (command: Command, press: () => void) => {
   return item;
 };
 
+/** How long (ms) the legend stays open before folding into its Help line. */
+const OPEN_FOR_MS = 8000;
+const HELP_KEY = 'KeyH';
+
+/** The folded legend: a single H line that opens it again. */
+const helpRow = (open: () => void) => {
+  const item = document.createElement('button');
+  item.type = 'button';
+  item.className = 'command-legend__item command-legend__item--help';
+  const box = document.createElement('span');
+  box.className = 'command-legend__key';
+  box.setAttribute('aria-hidden', 'true');
+  box.textContent = 'H';
+  const text = document.createElement('span');
+  text.className = 'command-legend__text';
+  const title = document.createElement('span');
+  title.className = 'command-legend__title';
+  title.textContent = 'Help';
+  text.append(title);
+  item.append(box, text);
+  item.addEventListener('click', () => {
+    open();
+    item.blur();
+  });
+  return item;
+};
+
 /**
  * The command legend of the walk (Figma « Legend command »): one line per key that does something
- * right now, redrawn only when the list changes.
+ * right now. It opens when the commands change, folds after a few seconds into a single « H · Help »
+ * line, and H (or a click on that line) opens it again.
  */
 export const createCommandLegend = (element: HTMLElement, press: () => void) => {
   let shown = '';
+  let commands: readonly Command[] = [];
+  let folded = false;
+  let timer: number | undefined;
+  const draw = () => {
+    element.replaceChildren(
+      ...(folded ? [helpRow(open)] : commands.map((command) => row(command, press))),
+    );
+    element.classList.toggle('command-legend--folded', folded);
+    element.hidden = commands.length === 0;
+  };
+  const open = () => {
+    folded = false;
+    draw();
+    window.clearTimeout(timer);
+    timer = window.setTimeout(() => {
+      folded = true;
+      draw();
+    }, OPEN_FOR_MS);
+  };
+  window.addEventListener('keydown', (event) => {
+    if (event.code === HELP_KEY && !event.repeat) open();
+  });
   return {
-    update: (commands: readonly Command[]) => {
-      const key = JSON.stringify(commands);
+    update: (next: readonly Command[]) => {
+      const key = JSON.stringify(next);
       if (key === shown) return;
       shown = key;
-      element.replaceChildren(...commands.map((command) => row(command, press)));
-      element.hidden = commands.length === 0;
+      commands = next;
+      open();
     },
   };
 };

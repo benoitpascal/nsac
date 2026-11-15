@@ -1170,7 +1170,6 @@ button.command-legend__item .command-legend__key {
   display: block;
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 0 10px rgba(29, 181, 255, 0.5));
 }
 
 .walk-topbar__tag,

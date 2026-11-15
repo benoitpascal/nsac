@@ -153,13 +153,29 @@
   }
 }
 
-.guide__mascot-box {
+.guide__bubble {
   position: relative;
-  display: grid;
 }
 
 .guide__voice {
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-bottom: -8px;
+}
+
+.guide__voice-button {
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid var(--arcadia-accent-soft);
+  color: var(--arcadia-ink);
+  background: transparent;
+  font-family: var(--arcadia-font-body);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.guide__voice-button:hover,
+.guide__voice-button:focus-visible {
+  border-color: var(--arcadia-accent);
 }

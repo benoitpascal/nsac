@@ -6,6 +6,21 @@ import type { Voice } from '../core/voice';
 
 const KEYS = ['Digit1', 'Digit2', 'Digit3', 'Digit4'];
 
+/** The voice buttons at the top of the bubble: sound on / off, and hear the last line again. */
+const voiceControls = (voice: Voice, lastLine: () => string) => {
+  const label = () => (voice.isMuted() ? '🔇 Sound off' : '🔊 Sound on');
+  const toggle = button(label(), 'guide__voice-button', () => {
+    voice.setMuted(!voice.isMuted());
+    toggle.textContent = label();
+    toggle.setAttribute('aria-pressed', String(!voice.isMuted()));
+  });
+  toggle.setAttribute('aria-pressed', String(!voice.isMuted()));
+  const repeat = button('↻ Repeat', 'guide__voice-button', () => voice.repeat(lastLine()));
+  const row = el('div', 'guide__voice');
+  row.append(toggle, repeat);
+  return row;
+};
+
 /**
  * Plays a dialogue of the mascot inside the bubble: texts with Next and Back, choices and
  * questions as 1 to 4 buttons (also keys 1 to 4). A wrong answer is explained and greyed out.
@@ -20,6 +35,7 @@ export const playDialogue = (
   voice?: Voice,
 ) => {
   const trail: DialogueCursor[] = [];
+  let spoken = '';
   let keyActions: (() => void)[] = [];
   const go = (next: DialogueCursor | DialogueEnd, from?: DialogueCursor) => {
     if ('end' in next) return onEnd(next.effect);
@@ -47,6 +63,7 @@ export const playDialogue = (
     const buttons = page.answers.map((answer) =>
       button(answer.label, 'guide__option', () => {
         feedback.textContent = `${answer.correct ? '✓ ' : '✗ '}${answer.explanation}`;
+        spoken = answer.explanation;
         voice?.say(answer.explanation);
         feedback.classList.toggle('guide__feedback--right', answer.correct);
         if (!answer.correct)
@@ -63,6 +80,8 @@ export const playDialogue = (
     const page = currentPage(pages, cursor);
     keyActions = [];
     bubble.replaceChildren(el('p', 'guide__text', page.text));
+    if (voice) bubble.prepend(voiceControls(voice, () => spoken));
+    spoken = page.text;
     voice?.say(page.text);
     if (page.kind === 'text') {
       if (page.source) {
