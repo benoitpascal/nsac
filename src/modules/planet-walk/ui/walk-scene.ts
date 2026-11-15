@@ -6,6 +6,7 @@ import { createRocks } from './terrain/rocks.mesh';
 import { createStars, paintSky } from './terrain/sky';
 import { BASE_SITE } from './base/base-layout';
 import { flashBeacons } from './base/beacon';
+import { spinActionMarkers } from './base/habitat/hub/action-marker';
 import { createSpaceBase } from './base/space-base';
 import { createLightRig, FIXED_SUN } from './sky/light-rig';
 import { createLunarSkyDome } from './sky/lunar-sky-dome';
@@ -57,6 +58,7 @@ export const createWalkScene = (renderer: WebGLRenderer, loadStars: () => Promis
     if (lunar) lunarSky.update(dayShare, timestamp);
     if (lunar) lights.follow(lunarSky.toSun, earthFullness(lunation(timestamp)));
     flashBeacons(timestamp);
+    spinActionMarkers(performance.now());
     sunlit = lunar ? daylight(dayShare) : 1;
     followDaylight(sunlit);
     spaceBase.aimSolarPanels(lunar ? lunarSky.toSun : FIXED_SUN);

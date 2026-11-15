@@ -1,7 +1,7 @@
 import type { Activity } from '../station/station-actions';
 
 /** The key drawn in a command's box. */
-export type CommandKey = 'move' | 'space' | 'e' | 'v';
+export type CommandKey = 'move' | 'space' | 'e' | 'v' | 't';
 
 /** One line of the command legend (Figma « Legend command »): the key, what it does, how. */
 export type Command = { key: CommandKey; title: string; detail: string };
@@ -45,5 +45,6 @@ export const commandLegend = ({ activity, action, robot }: LegendInput): Command
     { key: 'space', title: 'Jump', detail: 'Space bar' },
     ...act,
     { key: 'v', title: 'Change view', detail: 'Press V' },
+    { key: 't', title: 'Open the tablet', detail: 'Press T' },
   ];
 };

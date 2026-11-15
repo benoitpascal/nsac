@@ -3,6 +3,9 @@ import type { Activity, StationAction, StationSpots } from '../../core/station/s
 import type { Walker } from '../../core/walker';
 
 const ACTION_KEY = 'KeyE';
+/** Opens the tablet: the station terminal, from anywhere in the base. */
+const TABLET_KEY = 'KeyT';
+const TERMINAL_PAGE = '/briefing.html?menu';
 const PROMPTS = {
   openDashboard: 'Open the station dashboard',
   closeDashboard: 'Close the dashboard',
@@ -14,7 +17,8 @@ const labelOf = (action: StationAction) =>
 
 /**
  * Lets the action key E (or the legend's button) open and close the station dashboard at its
- * terminal, hand the excavator robot back, and go through the closed doors. Tells what the key
+ * terminal, hand the excavator robot back, and go through the closed doors; T opens the tablet
+ * (the same terminal) from anywhere. Tells what the key
  * does right now, when it does something.
  */
 export const createStationActions = (spots: StationSpots) => {
@@ -27,6 +31,7 @@ export const createStationActions = (spots: StationSpots) => {
   };
   window.addEventListener('keydown', (event) => {
     if (event.code === ACTION_KEY && !event.repeat) press();
+    if (event.code === TABLET_KEY && !event.repeat) window.location.assign(TERMINAL_PAGE);
   });
   return {
     activity: () => activity,
@@ -55,7 +60,7 @@ export const createStationActions = (spots: StationSpots) => {
     update: (walker: Walker): Walker => {
       const action = pending;
       pending = undefined;
-      if (action?.kind === 'openDashboard') window.location.assign('/briefing.html?menu');
+      if (action?.kind === 'openDashboard') window.location.assign(TERMINAL_PAGE);
       else if (action) activity = activityAfter(action);
       const moved = action?.kind === 'passDoor' ? passDoor(walker, action.passage) : walker;
       if (action?.kind === 'passDoor' && action.passage.leavesBase) leftBase = true;

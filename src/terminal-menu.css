@@ -25,3 +25,51 @@
 .terminal-menu__controls dd {
   margin: 0;
 }
+
+/* A terminal card: its icon, its title and line, and a chevron telling it opens. */
+.terminal-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 18px;
+  align-items: center;
+  min-height: 112px;
+  padding: 20px 24px;
+}
+
+.terminal-card > .hud-icon {
+  width: 40px;
+  height: 40px;
+  color: var(--arcadia-accent);
+}
+
+.terminal-card > .hud-icon:last-child {
+  width: 22px;
+  height: 22px;
+  opacity: 0.6;
+  transition: transform 0.2s ease;
+}
+
+.terminal-card:not(:disabled):is(:hover, :focus-visible) > .hud-icon:last-child {
+  opacity: 1;
+  transform: translateX(4px);
+}
+
+.terminal-card__words {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.terminal-card .plan-action__title {
+  font-size: 30px;
+}
+
+.terminal-card .plan-action__text {
+  color: var(--arcadia-ink-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .terminal-card > .hud-icon:last-child {
+    transition: none;
+  }
+}

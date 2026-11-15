@@ -5,13 +5,19 @@ const keys = (input: Parameters<typeof commandLegend>[0]) =>
   commandLegend(input).map(({ key, title }) => `${key}:${title}`);
 
 describe('command legend', () => {
-  it('shows walking, jumping and the view, plus the action key only when it does something', () => {
-    expect(keys({ activity: 'walking' })).toEqual(['move:Walk', 'space:Jump', 'v:Change view']);
+  it('shows walking, jumping, the view and the tablet, plus the action key only when it does something', () => {
+    expect(keys({ activity: 'walking' })).toEqual([
+      'move:Walk',
+      'space:Jump',
+      'v:Change view',
+      't:Open the tablet',
+    ]);
     expect(keys({ activity: 'walking', action: 'Open the door' })).toEqual([
       'move:Walk',
       'space:Jump',
       'e:Open the door',
       'v:Change view',
+      't:Open the tablet',
     ]);
   });
 

@@ -1,6 +1,12 @@
 import type { Command, CommandKey } from '../../core/hud/command-legend';
 
-const KEY_LABELS: Record<CommandKey, string> = { move: '', space: 'Space', e: 'E', v: 'V' };
+const KEY_LABELS: Record<CommandKey, string> = {
+  move: '',
+  space: 'Space',
+  e: 'E',
+  v: 'V',
+  t: 'T',
+};
 
 const keyBox = (key: CommandKey) => {
   const box = document.createElement('span');

@@ -43,6 +43,8 @@ export type BriefingDeps = {
   voice?: Voice;
   /** Opens on the terminal's menu (when walking up to it) rather than on the mascot. */
   menuFirst?: boolean;
+  /** The view the 3D base starts in, set in the terminal's settings. */
+  view: { get: () => 'first' | 'third'; set: (view: 'first' | 'third') => void };
 };
 
 /**
@@ -75,6 +77,7 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
       objectives: () => dayObjectives(deps.act, state),
       stores: () => state.stores,
       voice: deps.voice,
+      view: deps.view,
       leave,
       continueMission: () => {
         showGuide();

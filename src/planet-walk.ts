@@ -12,6 +12,7 @@ import { DASHBOARD_PAGE } from '@/modules/scenario/core/mission-route';
 import { EXCAVATOR_GOAL_KG, scoreExcavator } from '@/modules/scenario/core/scoring';
 import { loadCampaign, saveCampaign } from '@/modules/scenario/infra/campaign-storage';
 import { createVoicePlayer } from '@/modules/scenario/infra/voice-player';
+import { readDefaultView } from '@/modules/planet-walk/infra/view-preference';
 import { requireElement } from '@/shared/dom';
 
 const HOUR_MS = 3_600_000;
@@ -94,6 +95,7 @@ mountPlanetWalk(
       markHeard: (day) => writeValue(EARTH_RADIO_KEY, day),
       voice: createVoicePlayer(),
     },
+    startView: readDefaultView(),
     startAt: playing || params.get('at') === 'terminal' ? 'terminal' : 'quarters',
     onRescue: () => {
       clock.skip(4 * HOUR_MS);

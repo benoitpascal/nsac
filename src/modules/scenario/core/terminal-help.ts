@@ -4,7 +4,7 @@ export const GAME_GOAL =
 
 /** The steps of a day at the base, for « How to play ». */
 export const HOW_TO_PLAY = [
-  'Walk to the terminal in the base hall and press E to use it.',
+  'Walk to the terminal in the base hall and press E, or open your tablet with T.',
   'Choose « Continue mission »: the robot assistant tells you what the base needs today.',
   'Pack your bag, then play the mission: drive the robot, print bricks, build the shelter.',
   'Read the debrief: it shows how much air, power and water your choices used.',
@@ -23,5 +23,6 @@ export const CONTROLS: readonly (readonly [keys: string, use: string])[] = [
   ['Space', 'Jump, or dig with the robot'],
   ['E', 'Open a door, use the terminal, leave the robot'],
   ['V', 'Change the view'],
+  ['T', 'Open the tablet, from anywhere'],
   ['H', 'Show or hide the help'],
 ];

@@ -106,10 +106,22 @@
 }
 
 .acts__objective-text {
+  display: grid;
   margin: 0;
   font-family: var(--arcadia-font-body);
   font-size: max(16px, calc(18 * var(--design-px)));
   line-height: 1.5;
+}
+
+/* Every objective sits in the same cell: the hidden ones keep their room, so the block's height
+   never changes. */
+.acts__objective-option {
+  grid-area: 1 / 1;
+}
+
+.acts__objective-option[hidden] {
+  display: block;
+  visibility: hidden;
 }
 
 .acts__choose {

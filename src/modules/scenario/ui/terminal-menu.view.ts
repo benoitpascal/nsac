@@ -16,6 +16,8 @@ export type TerminalMenuDeps = {
   /** Leaves the console, back to the 3D base. */
   leave: () => void;
   voice?: Voice;
+  /** The view the 3D base starts in: through the astronaut's eyes, or from behind them. */
+  view: { get: () => 'first' | 'third'; set: (view: 'first' | 'third') => void };
 };
 
 const icon = (name: string) =>
@@ -101,13 +103,16 @@ export const renderTerminalMenu = (root: HTMLElement, deps: TerminalMenuDeps) =>
     list.append(...cards);
     return list;
   };
-  const card = (title: string, text: string, action: string, onClick: () => void) => {
-    const item = el('li', 'hud-panel plan-action');
-    item.append(
-      el('h3', 'plan-action__title', title),
-      el('p', 'plan-action__text', text),
-      button(action, 'hud-action plan-action__launch', onClick),
-    );
+  /** A card that is a button as a whole, as in the day's plan, with its icon and a chevron. */
+  const card = (iconName: string, title: string, text: string, onClick: () => void) => {
+    const choice = button('', 'hud-panel plan-action plan-action--choice terminal-card', onClick);
+    const words = el('span', 'terminal-card__words');
+    words.append(el('span', 'plan-action__title', title), el('span', 'plan-action__text', text));
+    choice.innerHTML = icon(iconName);
+    choice.append(words);
+    choice.insertAdjacentHTML('beforeend', icon('chevrons'));
+    const item = el('li', '');
+    item.append(choice);
     return item;
   };
   /** The control row: Back to the given screen (greyed out on the menu itself), then Leave. */
@@ -116,15 +121,34 @@ export const renderTerminalMenu = (root: HTMLElement, deps: TerminalMenuDeps) =>
   const settings = () => {
     const muted = deps.voice?.isMuted() ?? false;
     const sound = card(
+      'info',
       'Sound',
-      muted ? 'The voices are off.' : 'The voices are on.',
-      muted ? 'Turn on' : 'Turn off',
+      muted
+        ? 'The voices are off. Click to turn them on.'
+        : 'The voices are on. Click to turn them off.',
       () => {
         deps.voice?.setMuted(!muted);
         settings();
       },
     );
-    show('Settings', 'Turn the voices on or off.', choices(sound), backTo(main));
+    const firstPerson = deps.view.get() === 'first';
+    const view = card(
+      'globe',
+      'Starting view',
+      firstPerson
+        ? "You start seeing through the astronaut's eyes. Click to start behind them."
+        : 'You start seeing the astronaut from behind. Click to see through their eyes.',
+      () => {
+        deps.view.set(firstPerson ? 'third' : 'first');
+        settings();
+      },
+    );
+    show(
+      'Settings',
+      'Sound and view. Press V in the base to switch view.',
+      choices(sound, view),
+      backTo(main),
+    );
   };
   const main = () =>
     show(
@@ -132,22 +156,22 @@ export const renderTerminalMenu = (root: HTMLElement, deps: TerminalMenuDeps) =>
       'What do you want to do?',
       choices(
         card(
+          'flag',
           'Continue mission',
           "Meet the robot assistant and play today's job.",
-          'Continue',
           deps.continueMission,
         ),
-        card('Goal', 'What you must do today, and why.', 'Open', () => {
+        card('target', 'Goal', 'What you must do today, and why.', () => {
           const panels = el('div', 'briefing__panels');
           panels.append(block('target', "Today's goals", objectiveList(deps.objectives())));
           show('Goal', GAME_GOAL, panels, backTo(main));
         }),
-        card('Station resources', 'Air, power, water and food left.', 'Open', () => {
+        card('cube', 'Station resources', 'Air, power, water and food left.', () => {
           const panels = el('div', 'briefing__panels');
           panels.append(block('cube', 'Resources', renderGauges(deps.stores())));
           show('Station resources', 'What the base has left today.', panels, backTo(main));
         }),
-        card('How to play', 'A day at the base, step by step.', 'Open', () =>
+        card('puzzle', 'How to play', 'A day at the base, step by step.', () =>
           show(
             'How to play',
             'A day at the base, step by step.',
@@ -156,10 +180,10 @@ export const renderTerminalMenu = (root: HTMLElement, deps: TerminalMenuDeps) =>
             backTo(main),
           ),
         ),
-        card('Controls', 'The keys to move around the base.', 'Open', () =>
+        card('gamepad', 'Controls', 'The keys to move around the base.', () =>
           show('Controls', 'The keys to move around the base.', controls(), backTo(main)),
         ),
-        card('Settings', 'Turn the voices on or off.', 'Open', settings),
+        card('info', 'Settings', 'Sound, and the view you start in.', settings),
       ),
       backTo(),
     );

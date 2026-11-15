@@ -15,6 +15,7 @@ import { createWalkFrame } from './walk-frame';
 import { createWalkRenderer } from './walk-renderer';
 import { createWalkScene } from './walk-scene';
 import type { EarthRadioOptions } from './radio/earth-radio';
+import type { ViewMode } from './walker-camera';
 import type { Obstacle } from '../core/obstacles';
 import type { SuitKit } from '../core/suit/suit-supply';
 import type { MissionPlan } from './controls/mission-run';
@@ -45,6 +46,8 @@ export type PlanetWalkSources = {
   suitKit: SuitKit;
   /** Called once the crew has brought the astronaut back to the base. */
   onRescue: () => void;
+  /** The view the walk starts in, chosen in the terminal's settings. */
+  startView: ViewMode;
   /** Where the astronaut appears: woken up in the crew quarters, or in front of the terminal. */
   startAt: 'quarters' | 'terminal';
   /** The radio message heard the first time outside the base, and whether it was heard already. */
@@ -108,7 +111,7 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
     keyboard: createKeyboardInput(window),
     mouse: createMouseLook(elements.canvas),
     avatar: createAstronautAvatar(world.scene, renderer),
-    view: createViewToggle(window),
+    view: createViewToggle(window, sources.startView),
     ...station,
     suit,
     mission,

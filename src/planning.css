@@ -51,6 +51,7 @@
 }
 
 .plan-action__title {
+  display: block;
   margin: 0;
   font-family: var(--arcadia-font);
   font-size: 28px;
@@ -74,11 +75,34 @@
   color: var(--arcadia-danger);
 }
 
-.plan-action__launch {
-  align-self: flex-start;
-  margin-top: auto;
+.planning__actions > li {
+  display: flex;
 }
 
-.plan-action__launch:disabled {
+/* The whole card is the button: brighter frame on hover, greyed out when it cannot be picked. */
+.plan-action--choice {
+  width: 100%;
+  color: var(--arcadia-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.plan-action--choice:not(:disabled):is(:hover, :focus-visible) {
+  outline: none;
+  border-color: var(--arcadia-accent);
+  background: rgba(53, 233, 253, 0.16);
+}
+
+.plan-action--choice:disabled {
   cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plan-action--choice {
+    transition: none;
+  }
 }

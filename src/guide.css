@@ -274,14 +274,15 @@
   position: relative;
 }
 
-/* The control row: « Back » first, « Leave » second, then the screen's own buttons on the right. */
-.guide__actions .guide__leave {
+/* The control row: « Back » on the left, then on the right the screen's own buttons and « Leave ». */
+.guide__actions .guide__back {
   margin-right: auto;
 }
 
-/* Leave goes down from the console: its chevrons point down, where Back's point back. */
-.cut-button--text.guide__leave .cut-button__chevrons {
-  transform: rotate(90deg);
+/* Leave shows a cross where the other buttons show chevrons. */
+.cut-button--text .control-row__cross {
+  color: var(--arcadia-accent);
+  transform: none;
 }
 
 .guide__repeat {

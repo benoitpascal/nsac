@@ -29,26 +29,32 @@ const actionCard = (
 ) => {
   const affordable = canAfford(state, action);
   const { cost, gives } = ACTIONS[action];
-  const card = el('li', `hud-panel plan-action plan-action--${affordable ? 'open' : 'locked'}`);
+  const card = button(
+    '',
+    `hud-panel plan-action plan-action--choice plan-action--${affordable ? 'open' : 'locked'}`,
+    () => onLaunch(action),
+  );
+  card.disabled = !affordable;
   if (action === 'shelter')
     card.append(el('span', 'plan-action__badge', 'Mission control advises'));
   card.append(
-    el('h3', 'plan-action__title', ACTION_TEXTS[action].title),
-    el('p', 'plan-action__text', ACTION_TEXTS[action].text),
-    el('p', 'plan-action__cost', `Costs ${amounts(cost)}`),
+    el('span', 'plan-action__title', ACTION_TEXTS[action].title),
+    el('span', 'plan-action__text', ACTION_TEXTS[action].text),
+    el('span', 'plan-action__cost', `Costs ${amounts(cost)}`),
   );
   if (Object.keys(gives).length > 0)
-    card.append(el('p', 'plan-action__gain', `Gives ${amounts(gives)}`));
+    card.append(el('span', 'plan-action__gain', `Gives ${amounts(gives)}`));
   if (!affordable)
     card.append(
-      el('p', 'plan-action__missing', `Not enough: missing ${amounts(missingFor(state, action))}`),
+      el(
+        'span',
+        'plan-action__missing',
+        `Not enough: missing ${amounts(missingFor(state, action))}`,
+      ),
     );
-  const launch = button(affordable ? 'Launch' : 'Locked', 'hud-action plan-action__launch', () =>
-    onLaunch(action),
-  );
-  launch.disabled = !affordable;
-  card.append(launch);
-  return card;
+  const item = el('li', '');
+  item.append(card);
+  return item;
 };
 
 /**

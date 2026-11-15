@@ -1,6 +1,7 @@
 import { MOON_ACT } from '@/modules/scenario/core/act-moon';
 import { loadCampaign, saveCampaign } from '@/modules/scenario/infra/campaign-storage';
 import { createVoicePlayer } from '@/modules/scenario/infra/voice-player';
+import { readDefaultView, writeDefaultView } from '@/modules/planet-walk/infra/view-preference';
 import { mountBriefing } from '@/modules/scenario/ui/briefing-router.view';
 import { createTerminalBand } from '@/modules/scenario/ui/terminal-band.view';
 import { requireElement } from '@/shared/dom';
@@ -26,4 +27,5 @@ mountBriefing(requireElement<HTMLElement>('#guide'), {
   onState: band.update,
   voice: createVoicePlayer(),
   menuFirst: new URLSearchParams(window.location.search).has('menu'),
+  view: { get: readDefaultView, set: writeDefaultView },
 });

@@ -1,5 +1,4 @@
-import { earthRadioLines, earthRadioSpeech } from '../../core/sky/earth-radio-lines';
-import { lunation } from '../../core/sky/lunation';
+import { EARTH_RADIO_LINES, EARTH_RADIO_SPEECH } from '../../core/sky/earth-radio-lines';
 import type { Voice } from '@/modules/scenario/core/voice';
 
 /** How long (ms) the radio message stays on screen. */
@@ -37,8 +36,8 @@ export type EarthRadioOptions = {
 };
 
 /**
- * The first time each game day the astronaut walks out of the base, the radio crackles and the base reminds
- * them that the sky is real: the Earth's phase today, and the Moon's phase people see from home.
+ * The first time each game day the astronaut walks out of the base, the radio crackles and the base
+ * reminds them that the sky is real: the Earth stands high above the base and never moves.
  */
 export const createEarthRadio = (element: HTMLElement, options: EarthRadioOptions) => {
   let wasOut = false;
@@ -50,7 +49,7 @@ export const createEarthRadio = (element: HTMLElement, options: EarthRadioOption
       if (!steppedOut || options.heard(day)) return;
       options.markHeard(day);
       const now = options.now();
-      const lines = earthRadioLines(lunation(now));
+      const lines = EARTH_RADIO_LINES;
       element.replaceChildren(
         Object.assign(document.createElement('p'), {
           className: 'earth-radio__title',
@@ -66,7 +65,7 @@ export const createEarthRadio = (element: HTMLElement, options: EarthRadioOption
       element.hidden = false;
       if (!options.voice.isMuted()) {
         crackle();
-        window.setTimeout(() => options.voice.say(earthRadioSpeech(lunation(now))), 600);
+        window.setTimeout(() => options.voice.say(EARTH_RADIO_SPEECH), 600);
       }
       window.setTimeout(() => (element.hidden = true), SHOWN_FOR_MS);
     },

@@ -1,5 +1,6 @@
 import { BoxGeometry, Group, Mesh, MeshStandardMaterial, PlaneGeometry } from 'three';
 import { blockMesh } from '../habitat-dimensions';
+import { createActionMarker } from './action-marker';
 import { HUB_CONSOLE } from './hub-blocks';
 import { HALL_NAME } from '../zones/wing-signs';
 import { createZoneSign } from '../zones/zone-sign';
@@ -36,7 +37,8 @@ const screenOnSide = (glow: MeshStandardMaterial, casing: MeshStandardMaterial) 
 
 /**
  * Builds the station terminal in the middle of the hall: a desk with a glowing screen facing each
- * doorway, where the station dashboard is read, under the control center's name.
+ * doorway, where the station dashboard is read, under the control center's name and the turning
+ * prism that shows where to go.
  */
 export const createStationTerminal = () => {
   const desk = blockMesh(
@@ -57,7 +59,7 @@ export const createStationTerminal = () => {
   });
   const casing = new MeshStandardMaterial({ color: CASING_COLOR, roughness: 0.5 });
   const terminal = new Group();
-  terminal.add(desk);
+  terminal.add(desk, createActionMarker());
   for (let side = 0; side < 4; side += 1) {
     const holder = new Group();
     holder.rotation.y = side * QUARTER_TURN;

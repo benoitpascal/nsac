@@ -15,17 +15,28 @@ const OBJECTIVES: Record<string, string> = {
 
 /**
  * Wires the act selection: hovering or focusing a card shows its planet in the header and the
- * background, and its act's objective instead of the journey's; locked acts cannot be picked; picking the open act
- * selects it and enables Start mission, and picking it again starts it.
+ * background, and its act's objective instead of the journey's (every text sits in the same
+ * place, so the block keeps the height of the longest one); locked acts cannot be picked; picking
+ * the open act selects it and enables Start mission, and picking it again starts it.
  */
 export const mountActSelect = ({ page, objective, choices, start }: ActSelectElements) => {
   let selected: HTMLButtonElement | undefined;
-  const journey = objective.textContent;
+  const texts = { journey: objective.textContent.trim(), ...OBJECTIVES };
+  const spans = Object.entries(texts).map(([key, text]) => {
+    const span = document.createElement('span');
+    span.className = 'acts__objective-option';
+    span.dataset.objective = key;
+    span.textContent = text;
+    return span;
+  });
+  objective.replaceChildren(...spans);
   const showPlanet = (planet: string | undefined) => {
     const pointed = planet ?? selected?.dataset.planet;
     page.dataset.planet = pointed ?? DEFAULT_PLANET;
-    objective.textContent = (pointed && OBJECTIVES[pointed]) ?? journey;
+    const shown = pointed && pointed in OBJECTIVES ? pointed : 'journey';
+    for (const span of spans) span.hidden = span.dataset.objective !== shown;
   };
+  showPlanet(undefined);
   const select = (choice: HTMLButtonElement) => {
     if (selected === choice) return start.click();
     selected?.setAttribute('aria-pressed', 'false');
