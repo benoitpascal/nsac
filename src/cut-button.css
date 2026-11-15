@@ -1,4 +1,4 @@
-/* Cut-corner buttons of the Figma screens: Back, Start mission, Back to game. */
+/* Cut-corner buttons of the Figma screens: Back, Start mission, Leave the console. */
 .cut-button {
   display: inline-flex;
   gap: 16px;
