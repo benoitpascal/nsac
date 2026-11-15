@@ -6,4 +6,6 @@ export type Voice = {
   stop: () => void;
   isMuted: () => boolean;
   setMuted: (muted: boolean) => void;
+  /** Tells when a line starts and stops playing; returns how to stop listening. */
+  onSpeaking: (listener: (speaking: boolean) => void) => () => void;
 };

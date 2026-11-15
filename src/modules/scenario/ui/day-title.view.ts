@@ -16,7 +16,6 @@ export type DayTitleElements = {
   sun: HTMLElement;
   crew: HTMLElement;
   date: HTMLElement;
-  next: HTMLAnchorElement;
   alert: HTMLElement;
 };
 
@@ -45,17 +44,23 @@ const dateFormat = new Intl.DateTimeFormat('en-GB', {
   year: 'numeric',
 });
 const MOON = WORLD_CONDITIONS.moon;
+const NEXT_PAGE = '/briefing.html';
+/** Time to read the title and the three cards once their entrance (about 2 s) is over. */
+const HOLD_MS = 6500;
 
 /**
  * Shows the title of the day being started (the next one at the end of a day) with the base's
  * conditions on that date: day one is the date the game started, day N is N − 1 days later.
- * Continue starts the next day, then opens the station dashboard.
+ * Like the Figma prototype, the screen has no button: it moves on by itself after a few seconds,
+ * or at once on a click, a tap or a key. Moving on starts the next day, then opens the station
+ * dashboard (or raises the solar alert on the alert day).
  */
 export const showDayTitle = (
   elements: DayTitleElements,
   state: CampaignState,
   act: Act,
   save: (state: CampaignState) => void,
+  navigate: (url: string) => void,
 ) => {
   const ending = state.stage === 'dayEnd';
   const index = ending ? state.dayIndex + 1 : state.dayIndex;
@@ -73,13 +78,21 @@ export const showDayTitle = (
   elements.date.textContent = dateFormat.format(date);
   const next = ending ? startNextDay(state, act) : state;
   // The game starts by waking up in the crew quarters, then walking to the terminal.
-  if (!ending && index === 0 && state.stage === 'briefing') elements.next.href = WAKE_UP_PAGE;
-  elements.next.addEventListener('click', (event) => {
+  const nextPage = !ending && index === 0 && state.stage === 'briefing' ? WAKE_UP_PAGE : NEXT_PAGE;
+  let done = false;
+  const moveOn = () => {
+    if (done) return;
+    done = true;
+    window.clearTimeout(timer);
+    removeEventListener('pointerdown', moveOn);
+    removeEventListener('keydown', moveOn);
     if (ending) save(next);
-    if (!act.days[index]?.alert) return;
-    event.preventDefault();
+    if (!act.days[index]?.alert) return navigate(nextPage);
     soundAlarm();
     elements.alert.dataset.shelter = next.shelterQuality ?? 'none';
     elements.alert.hidden = false;
-  });
+  };
+  const timer = window.setTimeout(moveOn, HOLD_MS);
+  addEventListener('pointerdown', moveOn);
+  addEventListener('keydown', moveOn);
 };

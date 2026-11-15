@@ -14,6 +14,14 @@
   transition: filter 0.2s ease;
 }
 
+button.cut-button {
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  font-family: var(--arcadia-font);
+  cursor: pointer;
+}
+
 .cut-button__chevrons {
   width: 17.7px;
   height: 17.7px;
@@ -25,6 +33,14 @@
 }
 
 .cut-button--back .cut-button__chevrons {
+  transform: rotate(180deg);
+}
+
+.cut-button--text {
+  padding: 0 12px;
+}
+
+.cut-button--text .cut-button__chevrons {
   transform: rotate(180deg);
 }
 
@@ -42,7 +58,8 @@
 .cut-button:not([aria-disabled='true']):is(:hover, :focus-visible),
 .cut-button--start:not([aria-disabled='true']) {
   outline: none;
-  filter: drop-shadow(0 0 13.4px rgba(53, 233, 253, 0.3)) drop-shadow(0 0 20px rgba(182, 247, 254, 0.6));
+  filter: drop-shadow(0 0 13.4px rgba(53, 233, 253, 0.3))
+    drop-shadow(0 0 20px rgba(182, 247, 254, 0.6));
 }
 
 @media (prefers-reduced-motion: reduce) {

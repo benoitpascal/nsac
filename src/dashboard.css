@@ -1,19 +1,43 @@
-/* Station dashboard, after Figma « Ecran - Dashboard - Current objectives »: a framed block with
-   two panels (today's objectives, base resources) and the launch button under it. Sizes come from
-   the 1920 × 1080 mock-up: block 1242 wide, panels 553 wide with a 50 px gap. */
+/* Station dashboard, after Figma « Ecran - Dashboard - Current objectives » (1920 × 1080; the
+   mascot column is in guide.css): framed block at x 583, y 345, 1238 wide, 40 px padding, 50 px
+   between the two panels; two 361 × 66 buttons 72 px under the block, flush right. */
+.guide:has(.station-board) .guide__side {
+  align-self: start;
+  margin-top: calc(109 * var(--design-px));
+}
+
+/* Laptop screens: the panels keep readable text, so they are taller than 1080-scale; drop the
+   empty space above and below them to avoid a scroll. */
+@media (max-height: 900px) {
+  .guide:has(.station-board) .guide__side {
+    margin-top: 0;
+  }
+
+  .guide:has(.station-board) .station-board {
+    gap: 20px;
+  }
+}
+
+@media (max-height: 760px) {
+  .station-board__panel {
+    gap: 12px;
+  }
+}
+
 .station-board {
   display: flex;
   flex-direction: column;
-  gap: max(20px, calc(40 * var(--design-px)));
-  width: min(1242px, 100%);
+  gap: max(20px, calc(72 * var(--design-px)));
+  width: 100%;
 }
 
 .station-board__panels {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: max(20px, calc(50 * var(--design-px)));
-  padding: max(16px, calc(24 * var(--design-px)));
-  border: 2px solid var(--figma-secondary-600);
+  padding: max(16px, calc(40 * var(--design-px)));
+  border: 1px solid;
+  border-image: linear-gradient(#35e9fd, #208b97) 1;
   background: var(--figma-primary-1000-60);
   box-shadow:
     0 0 18px rgba(53, 233, 253, 0.25),
@@ -86,7 +110,7 @@
 .station-board .resources {
   display: flex;
   flex-direction: column;
-  gap: max(12px, calc(26 * var(--design-px)));
+  gap: max(10px, calc(18 * var(--design-px)));
   margin: 0;
   padding: 0;
   list-style: none;
@@ -134,21 +158,9 @@
     #22315a;
 }
 
-.station-board__cargo {
-  margin: 0;
-  color: var(--arcadia-ink-muted);
-  font-family: var(--arcadia-font-body);
-  font-size: 18px;
-}
-
 .station-board__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  align-items: center;
+  gap: 16px max(16px, calc(45 * var(--design-px)));
   justify-content: flex-end;
-}
-
-.station-board__launch {
-  min-width: min(303px, 100%);
 }

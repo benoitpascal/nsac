@@ -1,15 +1,70 @@
+/* Terminal screens, after the Figma « Ecran - Dashboard » frames (1920 × 1080): mascot (« Assistant robot »)
+   at x 125, y 322, 436 wide; the right column starts at x 583 and is 1238 wide. */
 .guide {
   display: grid;
-  grid-template-columns: minmax(200px, 1fr) minmax(0, 3fr);
-  gap: 32px;
-  align-items: end;
+  grid-template-columns: minmax(0, calc(436 * var(--design-px))) minmax(
+      0,
+      calc(1238 * var(--design-px))
+    );
+  column-gap: calc(22 * var(--design-px));
+  align-items: start;
+  padding-left: max(0px, calc(125 * var(--design-px) - clamp(16px, 3vw, 56px)));
+}
+
+.guide__figure {
+  position: relative;
+  width: 100%;
+  margin: calc(86 * var(--design-px)) 0 0;
+}
+
+/* Dialogue card: 1000 × 214 at x 660, y 401, 40 px padding; Back and Next at y 877, 13 px inside
+   its edges. */
+.guide__side:has(> .guide__bubble) {
+  align-self: start;
+  width: min(100%, calc(1077 * var(--design-px)));
+  min-height: calc(542 * var(--design-px));
+  margin-top: calc(165 * var(--design-px));
+  padding-left: calc(77 * var(--design-px));
+}
+
+.guide__side > .guide__bubble {
+  min-height: calc(214 * var(--design-px));
+  padding: max(20px, calc(40 * var(--design-px)));
+}
+
+.guide__side:has(> .guide__bubble) > .guide__actions {
+  margin-top: auto;
+  padding-inline: calc(13 * var(--design-px)) calc(15 * var(--design-px));
+}
+
+@media (max-height: 900px) {
+  .guide__figure,
+  .guide__side:has(> .guide__bubble) {
+    margin-top: 0;
+  }
+
+  .guide__side:has(> .guide__bubble) {
+    min-height: 0;
+  }
 }
 
 .guide__mascot {
+  display: block;
   width: 100%;
-  max-height: 70vh;
-  object-fit: contain;
+  height: auto;
   filter: drop-shadow(0 0 24px var(--arcadia-accent-soft));
+}
+
+/* The comic-strip tail from the mascot's hand to its card (Figma « Vector 19 », placed on the
+   436 × 665 robot picture). */
+.guide__tail {
+  position: absolute;
+  top: calc(182.3 / 665 * 100%);
+  left: calc(329 / 436 * 100%);
+  width: calc(74.5 / 436 * 100%);
+  height: calc(21.2 / 665 * 100%);
+  overflow: visible;
+  color: var(--figma-secondary-600);
 }
 
 .guide__side {
@@ -139,17 +194,23 @@
   color: var(--arcadia-danger);
 }
 
-.preparation__go {
-  align-self: flex-end;
-}
-
 @media (max-width: 900px) {
   .guide {
     grid-template-columns: 1fr;
+    padding-left: 0;
   }
 
-  .guide__mascot {
-    max-height: 28vh;
+  .guide__figure {
+    width: min(100%, calc(28vh * 436 / 665));
+  }
+
+  .guide__side:has(> .guide__bubble) {
+    width: 100%;
+    padding-left: 0;
+  }
+
+  .guide__tail {
+    display: none;
   }
 }
 
@@ -157,27 +218,91 @@
   position: relative;
 }
 
-.guide__voice {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-  margin-bottom: -8px;
+/* Under the card, as in Figma: frameless « Back » on the left, framed « Next » on the right. */
+.guide__actions .cut-button--wide {
+  margin-left: auto;
 }
 
-.guide__voice-button {
-  min-height: 36px;
-  padding: 6px 12px;
-  border: 1px solid var(--arcadia-accent-soft);
-  color: var(--arcadia-ink);
+.guide__actions .guide__back {
+  margin-right: auto;
+}
+
+.guide__repeat {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  align-self: flex-end;
+  margin-top: auto;
+  padding: 4px 6px;
+  border: 0;
+  color: var(--arcadia-white);
   background: transparent;
   font-family: var(--arcadia-font-body);
-  font-size: 15px;
+  font-size: 16px;
   cursor: pointer;
 }
 
-.guide__voice-button:hover,
-.guide__voice-button:focus-visible {
-  border-color: var(--arcadia-accent);
+.guide__repeat svg {
+  width: 18px;
+  height: 18px;
+}
+
+.guide__repeat:hover,
+.guide__repeat:focus-visible {
+  color: var(--figma-secondary-600);
+  outline: none;
+}
+
+/* Sound on/off by the mascot's feet (Figma « Frame 45 », 32 px at x 361, y 577 of the robot). */
+.voice-speaker {
+  position: absolute;
+  top: calc(577 / 665 * 100%);
+  left: calc(361 / 436 * 100%);
+  display: grid;
+  width: max(32px, calc(32 / 436 * 100%));
+  aspect-ratio: 1;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  color: var(--figma-secondary-600);
+  background: transparent;
+  cursor: pointer;
+}
+
+.voice-speaker svg {
+  width: 100%;
+  height: 100%;
+}
+
+.voice-speaker:focus-visible {
+  outline: 2px solid var(--figma-secondary-600);
+}
+
+/* The two sound waves pulse while the mascot talks. */
+.voice-speaker--speaking .voice-speaker__wave {
+  animation: voice-speaker-wave 0.9s ease-in-out infinite;
+}
+
+.voice-speaker--speaking .voice-speaker__wave + .voice-speaker__wave {
+  animation-delay: 0.2s;
+}
+
+@keyframes voice-speaker-wave {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .voice-speaker--speaking .voice-speaker__wave {
+    animation: none;
+  }
+}
+
+/* The terminal screens bring their own way back (Back under a dialogue, Back to game on the board),
+   as in Figma: the page-wide exit would repeat it. */
+.hud:has(.guide__bubble, .station-board) .terminal-exit {
+  display: none;
 }
 
 .terminal-exit {
