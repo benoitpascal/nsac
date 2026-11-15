@@ -6,6 +6,11 @@ export const reflexesGame: MiniGame = {
   id: 'reflexes',
   title: 'Reflexes',
   summary: 'Wait for the light to turn green, then tap as fast as you can!',
+  howTo: [
+    'Wait while the light is red.',
+    'As soon as it turns green, press as fast as you can.',
+    'Pressing too early does not count.',
+  ],
   start: (container, finish) =>
     playReflexes(container, finish, { now: () => performance.now(), random: Math.random }),
 };

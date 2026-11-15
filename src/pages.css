@@ -921,7 +921,6 @@ button.command-legend__item .command-legend__key {
   gap: 1rem;
   align-content: start;
   justify-items: center;
-  min-height: 100vh;
   padding: 4.5rem 1rem 2rem;
 }
 
@@ -981,13 +980,29 @@ button.command-legend__item .command-legend__key {
 .minigames__screen {
   position: relative;
   display: grid;
+  grid-template-areas:
+    'bar bar'
+    'howto board';
   grid-template-rows: auto 1fr;
-  gap: 0.8rem;
-  width: min(56rem, 100%);
-  min-height: calc(100vh - 8rem);
+  grid-template-columns: minmax(13rem, 17rem) minmax(0, 1fr);
+  gap: 0.8rem 1rem;
+  width: min(74rem, 100%);
+}
+
+/* Narrow screens: How to play goes back above the game. */
+@media (max-width: 900px) {
+  .minigames__screen {
+    grid-template-areas:
+      'bar'
+      'howto'
+      'board';
+    grid-template-rows: auto auto 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .minigames__bar {
+  grid-area: bar;
   display: flex;
   gap: 1rem;
   align-items: center;
@@ -1001,7 +1016,36 @@ button.command-legend__item .command-legend__key {
   color: var(--signal-cyan);
 }
 
+/* How to play the game, beside its board. */
+.minigames__howto {
+  grid-area: howto;
+  align-self: start;
+  padding: 0.8rem 1.2rem;
+  border: 1px solid rgba(53, 233, 253, 0.2);
+  border-radius: 1rem;
+  background: rgba(11, 15, 28, 0.5);
+  font-family: var(--font-body);
+}
+
+.minigames__howto-title {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-title);
+  font-size: 1.1rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--signal-cyan);
+}
+
+.minigames__howto-steps {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+  padding-left: 1.4rem;
+  line-height: 1.4;
+}
+
 .minigames__board {
+  grid-area: board;
   display: grid;
   place-items: center;
   min-height: 24rem;

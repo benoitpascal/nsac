@@ -6,5 +6,10 @@ export const hiddenObjectsGame: MiniGame = {
   id: 'hidden-objects',
   title: 'Hidden Objects',
   summary: 'Find the lost tools in the messy station workshop before time runs out.',
+  howTo: [
+    'Find every tool shown in the list, hidden in the messy workshop.',
+    'Tap a tool to collect it.',
+    'Stuck? A hint shows one tool, but it costs time.',
+  ],
   start: (container, finish) => playHiddenObjects(container, finish, Math.random),
 };

@@ -10,6 +10,8 @@ export type MiniGame = {
   title: string;
   /** One short sentence telling the goal, for children. */
   summary: string;
+  /** How to play, in a few short steps for children: the goal and the controls. */
+  howTo: readonly string[];
   /**
    * Starts the game inside the container (which it fills as it likes) and calls finish once
    * when the game ends. Returns how to stop it at any time.

@@ -27,6 +27,7 @@ playMissionGame(
     act: MOON_ACT,
     state,
     games: MINI_GAMES,
+    howTo: requireElement<HTMLElement>('#mission-howto'),
     save: saveCampaign,
     navigate: (url) => window.location.assign(url),
     onWin: () => playEffect('objective'),

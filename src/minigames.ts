@@ -8,6 +8,7 @@ mountMiniGames(
     menu: requireElement<HTMLElement>('#minigames-menu'),
     screen: requireElement<HTMLElement>('#minigames-screen'),
     title: requireElement<HTMLElement>('#minigames-title'),
+    howTo: requireElement<HTMLElement>('#minigames-howto'),
     quit: requireElement<HTMLButtonElement>('#minigames-quit'),
     board: requireElement<HTMLElement>('#minigames-board'),
     result: requireElement<HTMLElement>('#minigames-result'),

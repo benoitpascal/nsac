@@ -6,5 +6,9 @@ export const pipeFlowGame: MiniGame = {
   id: 'pipe-flow',
   title: 'Pipe Flow',
   summary: 'Turn the pipes so that water runs from the ice drill to the greenhouse tank.',
+  howTo: [
+    'Tap a pipe to turn it a quarter turn.',
+    'Connect the pipes so the water flows from the left side to the tank on the right.',
+  ],
   start: (container, finish) => startPipeFlow(container, finish),
 };

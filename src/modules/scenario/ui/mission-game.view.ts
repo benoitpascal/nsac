@@ -4,11 +4,14 @@ import { scorePrinter, scoreShelter } from '../core/scoring';
 import type { CampaignState } from '../core/campaign';
 import type { Act } from '../core/scenario-content';
 import type { MiniGame } from '@/modules/minigames/core/minigame';
+import { showHowTo } from '@/modules/minigames/ui/how-to.view';
 
 export type MissionGameDeps = {
   act: Act;
   state: CampaignState;
   games: readonly MiniGame[];
+  /** The box above the game telling how to play it. */
+  howTo?: HTMLElement;
   save: (state: CampaignState) => void;
   navigate: (url: string) => void;
   /** Plays the chime of a goal reached, when the mini-game is won. */
@@ -33,6 +36,7 @@ export const playMissionGame = (title: HTMLElement, board: HTMLElement, deps: Mi
     return deps.navigate(DASHBOARD_PAGE);
   }
   title.textContent = mission.title;
+  if (deps.howTo) showHowTo(deps.howTo, game);
   game.start(board, ({ won, score }) => {
     const scoreGame = mission.scoring === 'shelter' ? scoreShelter : scorePrinter;
     deps.save(recordResult(deps.state, scoreGame(won, score)));
