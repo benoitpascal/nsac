@@ -1234,20 +1234,11 @@ button.command-legend__item .command-legend__key {
   width: 28px;
   height: 28px;
   margin: 0 4px 0 22px;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle, #ffd84d 0 38%, transparent 40%),
-    repeating-conic-gradient(#ffd84d 0 10deg, transparent 10deg 45deg);
-  mask: radial-gradient(circle, #000 0 72%, transparent 73%);
+  background: url('/arcadia/icon-sun-up.svg') center / contain no-repeat;
 }
 
 .walk-topbar__sun--night {
-  background: radial-gradient(
-    circle at 65% 35%,
-    transparent 0 40%,
-    #dde6fa 41% 60%,
-    transparent 61%
-  );
+  background-image: url('/arcadia/icon-night.svg');
 }
 
 .walk-left {
@@ -1374,6 +1365,7 @@ button.command-legend__item .command-legend__key {
 .walk-vitals__bolt {
   width: 30px;
   height: 30px;
+  color: #35e9fd;
 }
 
 .walk-vitals__ring-label {
@@ -1404,8 +1396,10 @@ button.command-legend__item .command-legend__key {
 }
 
 .walk-vitals__bar-label {
-  font-size: 24px;
-  font-weight: 700;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  color: #35e9fd;
 }
 
 .walk-vitals__track {

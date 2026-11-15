@@ -48,12 +48,12 @@
 
     <div id="suit-hud" class="walk-vitals" aria-label="Your suit">
       <p class="walk-vitals__ring" aria-label="Suit battery">
-        <img class="walk-vitals__bolt" src="/arcadia/icon-bolt.svg" alt="" />
+        <svg class="walk-vitals__bolt" aria-hidden="true"><use href="/arcadia/hud-icons.svg#bolt" /></svg>
         <span class="walk-vitals__ring-label">Energy</span>
         <strong class="walk-vitals__ring-value" data-suit="battery">100%</strong>
       </p>
       <p class="walk-vitals__bar" aria-label="Suit oxygen">
-        <span class="walk-vitals__bar-label">O<sub>2</sub></span>
+        <svg class="walk-vitals__bar-label" aria-hidden="true"><use href="/arcadia/hud-icons.svg#oxygen" /></svg>
         <span class="walk-vitals__track"><span class="walk-vitals__fill" data-suit-fill="oxygen"></span></span>
         <span class="walk-vitals__bar-value" data-suit="oxygen">100%</span>
       </p>
