@@ -152,3 +152,14 @@
     max-height: 28vh;
   }
 }
+
+.guide__mascot-box {
+  position: relative;
+  display: grid;
+}
+
+.guide__voice {
+  position: absolute;
+  top: 0;
+  left: 0;
+}

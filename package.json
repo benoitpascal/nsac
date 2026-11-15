@@ -20,7 +20,8 @@
     "format": "prettier --write src",
     "format:check": "prettier --check src",
     "data:trajectories": "node scripts/fetch-trajectories.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "voices": "node scripts/generate-voices.mjs"
   },
   "devDependencies": {
     "@types/node": "^20.19.43",
