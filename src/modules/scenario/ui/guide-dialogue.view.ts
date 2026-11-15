@@ -1,38 +1,39 @@
 import { chooseOption, currentPage, nextPage, startDialogue } from '../core/dialogue';
-import { button, el } from './dom';
+import { button, cutButton, el } from './dom';
 import type { DialogueCursor, DialogueEnd } from '../core/dialogue';
 import type { DialogueEffect, GuidePage, QuestionPage } from '../core/scenario-content';
 import type { Voice } from '../core/voice';
 
 const KEYS = ['Digit1', 'Digit2', 'Digit3', 'Digit4'];
 
-/** The voice buttons at the top of the bubble: sound on / off, and hear the last line again. */
-const voiceControls = (voice: Voice, lastLine: () => string) => {
-  const label = () => (voice.isMuted() ? '🔇 Sound off' : '🔊 Sound on');
-  const toggle = button(label(), 'guide__voice-button', () => {
-    voice.setMuted(!voice.isMuted());
-    toggle.textContent = label();
-    toggle.setAttribute('aria-pressed', String(!voice.isMuted()));
-  });
-  toggle.setAttribute('aria-pressed', String(!voice.isMuted()));
-  const repeat = button('↻ Repeat', 'guide__voice-button', () => voice.repeat(lastLine()));
-  const row = el('div', 'guide__voice');
-  row.append(toggle, repeat);
-  return row;
+const REPEAT_ICON =
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12a7 7 0 1 1-2.05-4.95" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M19.5 3.5v5h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+/** Figma « Btn repeat »: a small icon and word at the card's bottom right (sound on/off sits by the mascot). */
+const repeatButton = (voice: Voice, lastLine: () => string) => {
+  const repeat = button('', 'guide__repeat', () => voice.repeat(lastLine()));
+  repeat.innerHTML = REPEAT_ICON;
+  repeat.append('Repeat');
+  repeat.title = 'Hear it again';
+  return repeat;
 };
 
 /**
- * Plays a dialogue of the mascot inside the bubble: texts with Next and Back, choices and
+ * Plays a dialogue of the mascot inside the bubble, with Back and Next in the actions row under
+ * it (never inside the card, as in Figma): texts with Next and Back, choices and
  * questions as 1 to 4 buttons (also keys 1 to 4). A wrong answer is explained and greyed out.
  * The voice, when given, reads each page and each answer's explanation aloud.
+ * On the first page, the left button leaves the terminal instead (« Back to game », when given).
  * Calls onEnd after the last page, with the effect of the last option picked, if any. Returns how
  * to stop listening to the keyboard and talking.
  */
 export const playDialogue = (
   bubble: HTMLElement,
+  actions: HTMLElement,
   pages: readonly GuidePage[],
   onEnd: (effect?: DialogueEffect) => void,
   voice?: Voice,
+  leave?: () => void,
 ) => {
   const trail: DialogueCursor[] = [];
   let spoken = '';
@@ -43,19 +44,23 @@ export const playDialogue = (
     render(next);
   };
   const footer = (cursor: DialogueCursor, withNext: boolean) => {
-    const row = el('div', 'guide__actions');
+    const row = actions;
+    row.replaceChildren();
     if (trail.length > 0)
       row.append(
-        button('Back', 'hud-secondary guide__back', () => render(trail.pop() ?? startDialogue())),
+        cutButton('Back', 'text', () => render(trail.pop() ?? startDialogue()), 'guide__back'),
       );
+    else if (leave) row.append(cutButton('Back to game', 'text', leave, 'guide__back'));
     if (withNext) {
-      const next = button('Next', 'hud-action guide__next', () =>
-        go(nextPage(pages, cursor), cursor),
+      const next = cutButton(
+        'Next',
+        'wide',
+        () => go(nextPage(pages, cursor), cursor),
+        'guide__next',
       );
       row.append(next);
       keyActions = [() => next.click()];
     }
-    return row;
   };
   const renderQuestion = (page: QuestionPage, cursor: DialogueCursor, list: HTMLElement) => {
     const feedback = el('p', 'guide__feedback');
@@ -69,7 +74,7 @@ export const playDialogue = (
         if (!answer.correct)
           return buttons[page.answers.indexOf(answer)].setAttribute('aria-disabled', 'true');
         buttons.forEach((option) => (option.disabled = true));
-        bubble.querySelector('.guide__actions')?.replaceWith(footer(cursor, true));
+        footer(cursor, true);
       }),
     );
     list.append(...buttons);
@@ -80,7 +85,6 @@ export const playDialogue = (
     const page = currentPage(pages, cursor);
     keyActions = [];
     bubble.replaceChildren(el('p', 'guide__text', page.text));
-    if (voice) bubble.prepend(voiceControls(voice, () => spoken));
     spoken = page.text;
     voice?.say(page.text);
     if (page.kind === 'text') {
@@ -93,7 +97,7 @@ export const playDialogue = (
         });
         bubble.append(link);
       }
-      bubble.append(footer(cursor, true));
+      footer(cursor, true);
     } else {
       const list = el('div', 'guide__options');
       list.setAttribute('role', 'group');
@@ -107,9 +111,13 @@ export const playDialogue = (
         list.append(...buttons);
         keyActions = buttons.map((option) => () => option.click());
       } else bubble.append(renderQuestion(page, cursor, list));
-      bubble.append(footer(cursor, false));
+      footer(cursor, false);
     }
-    bubble.querySelector<HTMLElement>('button')?.focus();
+    if (voice) bubble.append(repeatButton(voice, () => spoken));
+    (
+      bubble.querySelector<HTMLElement>('.guide__option') ??
+      actions.querySelector<HTMLElement>('.cut-button--wide')
+    )?.focus();
   };
   const onKey = (event: KeyboardEvent) => {
     const index = KEYS.indexOf(event.code);

@@ -15,13 +15,18 @@ import { dayClosingPages } from '../core/day-closing';
 import { debriefPages } from '../core/debrief-text';
 import { DAY_PAGE, EXPLORE_PAGE, gamePage } from '../core/mission-route';
 import { renderDashboard } from './dashboard.view';
-import { button, el } from './dom';
+import { createVoiceSpeaker } from './voice-speaker.view';
+import { button, cutButton, el } from './dom';
 import { playDialogue } from './guide-dialogue.view';
 import { renderPlanning } from './planning.view';
 import { renderPreparation } from './preparation.view';
 import type { CampaignState } from '../core/campaign';
 import type { Act, DialogueEffect, GuidePage, Mission } from '../core/scenario-content';
 import type { Voice } from '../core/voice';
+
+/** The comic-strip tail drawn from the mascot's hand toward its card (Figma « Vector 19 »). */
+const TAIL =
+  '<svg class="guide__tail" viewBox="0 0 74.5 21.2" preserveAspectRatio="none" aria-hidden="true"><polyline points="19.4,0 0,21.2 74.5,4.8" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/></svg>';
 
 export type BriefingDeps = {
   act: Act;
@@ -45,8 +50,12 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
   let stopDialogue: () => void = () => undefined;
   const mascot = el('img', 'guide__mascot');
   Object.assign(mascot, { src: '/arcadia/guide.png', alt: '' });
+  const figure = el('figure', 'guide__figure');
+  figure.innerHTML = TAIL;
+  figure.prepend(mascot);
+  if (deps.voice) figure.append(createVoiceSpeaker(deps.voice).speaker);
   const side = el('div', 'guide__side');
-  root.replaceChildren(mascot, side);
+  root.replaceChildren(figure, side);
   const update = (next: CampaignState) => {
     state = next;
     deps.save(state);
@@ -55,8 +64,11 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
   const talk = (pages: readonly GuidePage[], onEnd: (effect?: DialogueEffect) => void) => {
     const bubble = el('div', 'hud-panel guide__bubble');
     bubble.setAttribute('aria-live', 'polite');
-    side.replaceChildren(bubble);
-    stopDialogue = playDialogue(bubble, pages, onEnd, deps.voice);
+    const actions = el('div', 'guide__actions');
+    side.replaceChildren(bubble, actions);
+    stopDialogue = playDialogue(bubble, actions, pages, onEnd, deps.voice, () =>
+      deps.navigate(EXPLORE_PAGE),
+    );
   };
   const restart = () => update(newCampaign(deps.now()));
   const today = () => deps.act.days[state.dayIndex];
@@ -78,10 +90,10 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
       const row = el('div', 'guide__actions');
       if (result.verdict !== 'efficient')
         row.append(
-          button('Retry the mission', 'hud-secondary', () => update(retryMission(state, mission))),
+          cutButton('Retry the mission', 'text', () => update(retryMission(state, mission))),
         );
       row.append(
-        button('Continue', 'hud-action', () => update(continueAfterDebrief(state, deps.act))),
+        cutButton('Continue', 'wide', () => update(continueAfterDebrief(state, deps.act))),
       );
       side.replaceChildren(row);
     });
@@ -94,7 +106,7 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
       );
     if (state.stage === 'preparation')
       return side.replaceChildren(
-        renderPreparation(state.stores, (loadout) => {
+        ...renderPreparation(state.stores, (loadout) => {
           update(confirmLoadout(state, loadout));
           launch();
         }),
@@ -104,7 +116,6 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
       renderDashboard(state, deps.act, {
         launch,
         explore: () => deps.navigate(EXPLORE_PAGE),
-        newGame: restart,
       }),
     );
   };

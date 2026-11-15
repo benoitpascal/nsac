@@ -7,15 +7,21 @@ import {
   slotsUsed,
   TOOLS,
 } from '../core/loadout';
-import { button, el } from './dom';
+import { button, cutButton, el } from './dom';
 import type { BaseStores } from '../core/base-stores';
 import type { Loadout } from '../core/loadout';
 import type { ToolId } from '../core/scenario-content';
 
-/** Lets the player pack the bag: one tool, oxygen bottles and spare robot batteries, within 4 slots. */
+/**
+ * Lets the player pack the bag: one tool, oxygen bottles and spare robot batteries, within 4 slots.
+ * Returns the card and, under it, the row with the Go! button.
+ */
 export const renderPreparation = (stores: BaseStores, onGo: (loadout: Loadout) => void) => {
   let loadout: Loadout = { ...DEFAULT_LOADOUT };
   const panel = el('section', 'hud-panel preparation');
+  const go = cutButton('Go!', 'wide', () => onGo(loadout), 'preparation__go');
+  const actions = el('div', 'guide__actions');
+  actions.append(go);
   const draw = () => {
     const problem = loadoutProblem(loadout, stores);
     const counter = (label: string, key: 'oxygenBottles' | 'spareBatteries', hint: string) => {
@@ -50,7 +56,6 @@ export const renderPreparation = (stores: BaseStores, onGo: (loadout: Loadout) =
       choice.setAttribute('aria-pressed', String(loadout.tool === id));
       tools.append(choice);
     }
-    const go = button('Go!', 'hud-action preparation__go', () => onGo(loadout));
     go.disabled = problem !== undefined;
     panel.replaceChildren(
       el('h2', 'preparation__title', `Pack your bag · ${slotsUsed(loadout)} / ${BAG.slots} slots`),
@@ -71,9 +76,8 @@ export const renderPreparation = (stores: BaseStores, onGo: (loadout: Loadout) =
         `Suit air for about ${Math.round((secondsOutside(loadout) / 60) * 10) / 10} min of calm work · robot energy ${Math.round(robotEnergyKwh(loadout) * 1000)} Wh · every item you carry makes you breathe a bit faster.`,
       ),
       el('p', 'preparation__problem', problem ?? ''),
-      go,
     );
   };
   draw();
-  return panel;
+  return [panel, actions] as const;
 };

@@ -29,6 +29,11 @@ export const createVoicePlayer = (): Voice => {
   let muted = readMuted();
   let recorded = new Set<string>();
   let wanted: string | undefined;
+  const listeners = new Set<(speaking: boolean) => void>();
+  const tell = (speaking: boolean) => listeners.forEach((listener) => listener(speaking));
+  audio.addEventListener('playing', () => tell(true));
+  audio.addEventListener('pause', () => tell(false));
+  audio.addEventListener('ended', () => tell(false));
   const play = (text: string, evenMuted = false) => {
     const key = voiceKey(text);
     if ((muted && !evenMuted) || !recorded.has(key)) return;
@@ -63,6 +68,10 @@ export const createVoicePlayer = (): Voice => {
       muted = next;
       writeMuted(next);
       if (next) audio.pause();
+    },
+    onSpeaking: (listener) => {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
     },
   };
 };
