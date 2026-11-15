@@ -47,7 +47,7 @@ export const renderDashboard = (state: CampaignState, act: Act, actions: Dashboa
   const row = controlRow({
     back: actions.back,
     leave: actions.leave,
-    actions: [cutButton('Launch mission', 'wide', actions.launch, 'station-board__launch')],
+    primary: cutButton('Launch mission', 'primary', actions.launch, 'station-board__launch'),
   });
   const board = el('div', 'station-board');
   board.append(panels, row);

@@ -24,7 +24,6 @@
 
   --arcadia-white: var(--figma-white);
   --arcadia-navy: var(--figma-primary-1001);
-  --arcadia-button: rgba(0, 43, 118, 0.5);
   --arcadia-glow: rgba(255, 255, 255, 0.25);
   --arcadia-success: var(--figma-success);
   --arcadia-on-success: #232f2a;
@@ -89,71 +88,6 @@ body {
   display: block;
   width: 100%;
   height: 100%;
-}
-
-.pill-button[hidden] {
-  display: none;
-}
-
-.pill-button {
-  --pill-border: 2px;
-
-  display: inline-flex;
-  gap: 16px;
-  align-items: center;
-  justify-content: center;
-  padding: 24px 40px;
-  border: var(--pill-border) solid var(--arcadia-white);
-  border-radius: 45px;
-  color: var(--arcadia-white);
-  background: var(--arcadia-button);
-  box-shadow: 0 0 13.3px 0 var(--arcadia-glow);
-  font: inherit;
-  font-size: 32px;
-  letter-spacing: 0.16em;
-  text-decoration: none;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.pill-button:is(:hover, :focus-visible):not(:disabled) {
-  --pill-border: 4px;
-
-  /* The thicker border eats into the padding, so the button keeps its size and its margins. */
-  padding: 22px 38px;
-  outline: none;
-  box-shadow:
-    0 0 13.1px 0 rgba(255, 255, 255, 0.3),
-    0 0 13.3px 0 var(--arcadia-glow);
-}
-
-.pill-button:disabled {
-  cursor: not-allowed;
-}
-
-.pill-button__label {
-  opacity: 0.6;
-  line-height: 1;
-  white-space: nowrap;
-  text-box: trim-both cap alphabetic;
-}
-
-.pill-button:is(:hover, :focus-visible):not(:disabled) .pill-button__label {
-  opacity: 1;
-}
-
-.pill-button__icon {
-  width: 24px;
-  height: 24px;
-}
-
-.pill-button__icon--active,
-.pill-button:is(:hover, :focus-visible) .pill-button__icon--idle {
-  display: none;
-}
-
-.pill-button:is(:hover, :focus-visible) .pill-button__icon--active {
-  display: block;
 }
 
 /* Hidden on screen, read by screen readers. */

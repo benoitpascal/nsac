@@ -32,7 +32,7 @@
   padding: max(20px, calc(40 * var(--design-px)));
 }
 
-.guide__side:has(> .guide__bubble) > .guide__actions {
+.guide__side:has(> .guide__bubble) > .control-row {
   margin-top: auto;
   padding-inline: calc(13 * var(--design-px)) calc(15 * var(--design-px));
 }
@@ -274,15 +274,32 @@
   position: relative;
 }
 
-/* The control row: « Back » on the left, then on the right the screen's own buttons and « Leave ». */
-.guide__actions .guide__back {
-  margin-right: auto;
+/* Control buttons, after Figma « Ecran - Dashboard »: frameless Back (grey) and Next under the card,
+   framed Exit dashboard below at the bottom right. */
+.control-row {
+  display: flex;
+  flex-direction: column;
+  gap: max(16px, calc(40 * var(--design-px)));
 }
 
-/* Leave shows a cross where the other buttons show chevrons. */
-.cut-button--text .control-row__cross {
-  color: var(--arcadia-accent);
-  transform: none;
+.control-row__main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.control-row__main .guide__back {
+  margin-right: auto;
+  color: var(--arcadia-ink-muted);
+}
+
+.control-row__exit {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px max(16px, calc(43 * var(--design-px)));
+  justify-content: flex-end;
 }
 
 .guide__repeat {

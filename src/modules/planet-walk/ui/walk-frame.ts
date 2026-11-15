@@ -3,6 +3,7 @@ import { placeCamera } from './walker-camera';
 import { ceilingAt, WALKER_BODY } from '../core/obstacles';
 import { commandLegend } from '../core/hud/command-legend';
 import { isFull } from '../core/excavator/excavator-power';
+import type { StartSpot } from '../core/station/station-actions';
 import type { Obstacle } from '../core/obstacles';
 import type { Walker } from '../core/walker';
 import type { createAstronautAvatar } from './astronaut/astronaut-avatar';
@@ -40,7 +41,7 @@ export type FrameParts = {
   map: ReturnType<typeof createWalkMap>;
   gravity: () => number;
   /** Where the astronaut appears: woken up in the crew quarters, or in front of the terminal. */
-  startAt: 'quarters' | 'terminal';
+  startAt: 'quarters' | 'terminal' | StartSpot;
 };
 
 const STAND_STILL = { forward: 0, run: false, turn: 0, jump: false, turnBy: 0 };
@@ -62,7 +63,13 @@ const walkerObstacle = ({ x, z, height }: Walker): Obstacle => ({
 export const createWalkFrame = (parts: FrameParts) => {
   const { world, camera, keyboard, mouse, avatar, view, actions, driving } = parts;
   const spots = world.stationSpots;
-  let walker = startWalker(parts.startAt === 'terminal' ? spots.terminalFront : spots.wakeUp);
+  const startSpot =
+    typeof parts.startAt === 'object'
+      ? parts.startAt
+      : parts.startAt === 'terminal'
+        ? spots.terminalFront
+        : spots.wakeUp;
+  let walker = startWalker(startSpot);
   let cameraDistance = Infinity;
   return (seconds: number) => {
     const moves = { ...keyboard.read(), turnBy: mouse.takeTurn() };

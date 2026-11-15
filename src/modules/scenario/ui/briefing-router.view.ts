@@ -23,6 +23,7 @@ import { button, cutButton, el } from './dom';
 import { playDialogue } from './guide-dialogue.view';
 import { renderPlanning } from './planning.view';
 import { renderPreparation } from './preparation.view';
+import type { TerminalMenuDeps } from './terminal-menu.view';
 import type { CampaignState } from '../core/campaign';
 import type { Act, DialogueEffect, GuidePage, Mission } from '../core/scenario-content';
 import type { Voice } from '../core/voice';
@@ -45,6 +46,8 @@ export type BriefingDeps = {
   menuFirst?: boolean;
   /** The view the 3D base starts in, set in the terminal's settings. */
   view: { get: () => 'first' | 'third'; set: (view: 'first' | 'third') => void };
+  /** Whether the sound effects and the music are off, set in the terminal's settings. */
+  sound: TerminalMenuDeps['sound'];
 };
 
 /**
@@ -78,6 +81,7 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
       stores: () => state.stores,
       voice: deps.voice,
       view: deps.view,
+      sound: deps.sound,
       leave,
       continueMission: () => {
         showGuide();
@@ -94,7 +98,7 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
   const talk = (pages: readonly GuidePage[], onEnd: (effect?: DialogueEffect) => void) => {
     const bubble = el('div', 'hud-panel guide__bubble');
     bubble.setAttribute('aria-live', 'polite');
-    const actions = el('div', 'guide__actions');
+    const actions = el('div', 'control-row');
     side.replaceChildren(bubble, actions);
     stopDialogue = playDialogue(bubble, actions, pages, onEnd, deps.voice, showMenu, leave);
   };
@@ -115,15 +119,15 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
     if (!state.lastResult) return update(continueAfterDebrief(state, deps.act));
     const result = state.lastResult;
     talk(debriefPages(result), () => {
-      const retry = cutButton('Retry the mission', 'wide', () =>
-        update(retryMission(state, mission)),
-      );
-      retry.disabled = result.verdict === 'efficient';
+      // Back plays the mission again, when it can still be done better.
       side.replaceChildren(
         controlRow({
+          back:
+            result.verdict === 'efficient'
+              ? undefined
+              : () => update(retryMission(state, mission)),
           leave,
           actions: [
-            retry,
             cutButton('Continue', 'wide', () => update(continueAfterDebrief(state, deps.act))),
           ],
         }),

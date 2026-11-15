@@ -33,3 +33,22 @@
   height: auto;
   transform: translateX(-50%);
 }
+
+.home__menu[hidden],
+.home__settings[hidden] {
+  display: none;
+}
+
+/* The game's settings, in place of the menu: the terminal's cards in a framed panel. */
+.home__settings {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: min(100%, 900px);
+  margin-top: max(24px, calc(80 * var(--design-px)));
+  padding: 32px;
+}
+
+.home__settings .cut-button--text {
+  align-self: flex-start;
+}

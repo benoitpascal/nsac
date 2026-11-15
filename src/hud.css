@@ -1,7 +1,9 @@
 /* HUD screens use cut corners, after the briefing and information reference images. */
-.arcadia--hud {
+:root {
   --hud-corner: 18px;
+}
 
+.arcadia--hud {
   color: var(--arcadia-ink);
   background:
     radial-gradient(60% 50% at 80% 10%, rgba(89, 115, 205, 0.22), transparent 70%),

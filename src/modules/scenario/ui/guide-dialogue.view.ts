@@ -24,8 +24,8 @@ const repeatButton = (voice: Voice, lastLine: () => string) => {
  * it (never inside the card, as in Figma): texts with Next and Back, choices and
  * questions as 1 to 4 buttons (also keys 1 to 4). A wrong answer is explained and greyed out.
  * The voice, when given, reads each page and each answer's explanation aloud.
- * Under it, the control row: Back (on the first page, back to the terminal menu, when given),
- * Leave (when given) and Next, greyed out until the page's question is answered.
+ * Under it, the control row: Back (on the first page, back to the terminal menu, when given) and
+ * Next, greyed out until the page's question is answered, then Exit dashboard (when given).
  * Calls onEnd after the last page, with the effect of the last option picked, if any. Returns how
  * to stop listening to the keyboard and talking.
  */
@@ -49,9 +49,9 @@ export const playDialogue = (
   const footer = (cursor: DialogueCursor, withNext: boolean) => {
     const next = cutButton(
       'Next',
-      'wide',
+      'text',
       () => go(nextPage(pages, cursor), cursor),
-      'guide__next',
+      'guide__next cut-button--forward',
     );
     next.disabled = !withNext;
     fillControlRow(actions, {

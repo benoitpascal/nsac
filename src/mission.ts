@@ -4,6 +4,7 @@ import { newCampaign } from '@/modules/scenario/core/campaign';
 import { loadCampaign, saveCampaign } from '@/modules/scenario/infra/campaign-storage';
 import { playMissionGame } from '@/modules/scenario/ui/mission-game.view';
 import { createTerminalBand } from '@/modules/scenario/ui/terminal-band.view';
+import { installClickSounds, playEffect, playMusic } from '@/modules/sound/infra/sound-player';
 import { requireElement } from '@/shared/dom';
 
 const state = loadCampaign() ?? newCampaign(Date.now());
@@ -28,5 +29,9 @@ playMissionGame(
     games: MINI_GAMES,
     save: saveCampaign,
     navigate: (url) => window.location.assign(url),
+    onWin: () => playEffect('objective'),
   },
 );
+
+installClickSounds();
+playMusic('minigames');

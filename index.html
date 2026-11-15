@@ -22,8 +22,12 @@
     <meta name="twitter:image" content="__SITE_ORIGIN__/og-image.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;500&display=swap" />
     <link rel="stylesheet" href="/src/styles.css" />
+    <link rel="stylesheet" href="/src/hud.css" />
+    <link rel="stylesheet" href="/src/cut-button.css" />
+    <link rel="stylesheet" href="/src/planning.css" />
+    <link rel="stylesheet" href="/src/terminal-menu.css" />
     <link rel="stylesheet" href="/src/home.css" />
   </head>
   <body class="arcadia arcadia--home">
@@ -35,21 +39,27 @@
         <img src="/arcadia/logotype.svg" alt="Project Arcadia" />
       </h1>
       <nav class="home__menu" aria-label="Main menu">
-        <a id="home-continue" class="pill-button" href="/briefing.html" hidden>
-          <img class="pill-button__icon pill-button__icon--idle" src="/arcadia/icon-play.svg" alt="" />
-          <img class="pill-button__icon pill-button__icon--active" src="/arcadia/icon-play-active.svg" alt="" />
-          <span id="home-continue-label" class="pill-button__label">Continue</span>
+        <a id="home-continue" class="cut-button cut-button--wide cut-button--fit" href="/briefing.html" hidden>
+          <img class="cut-button__chevrons" src="/arcadia/act-select/chevrons-small.svg" alt="" />
+          <span id="home-continue-label">Continue</span>
         </a>
-        <a id="home-start" class="pill-button" href="/missions.html">
-          <img class="pill-button__icon pill-button__icon--idle" src="/arcadia/icon-play.svg" alt="" />
-          <img class="pill-button__icon pill-button__icon--active" src="/arcadia/icon-play-active.svg" alt="" />
-          <span class="pill-button__label">Start playing</span>
+        <a id="home-start" class="cut-button cut-button--primary cut-button--fit" href="/missions.html">
+          <img class="cut-button__chevrons" src="/arcadia/act-select/chevrons-small-dark.svg" alt="" />
+          Start playing
         </a>
-        <button class="pill-button" type="button" disabled>
-          <img class="pill-button__icon" src="/arcadia/icon-gear.svg" alt="" />
-          <span class="pill-button__label">Options</span>
+        <button id="home-options" class="cut-button cut-button--wide cut-button--fit" type="button">
+          <img class="cut-button__chevrons" src="/arcadia/act-select/chevrons-small.svg" alt="" />
+          Options
         </button>
       </nav>
+      <section id="home-settings" class="hud-panel home__settings" aria-labelledby="home-settings-title" hidden>
+        <h2 id="home-settings-title" class="planning__title">Options</h2>
+        <div id="home-settings-cards"></div>
+        <button id="home-settings-back" class="cut-button cut-button--text" type="button">
+          <img class="cut-button__chevrons" src="/arcadia/act-select/chevrons-small.svg" alt="" />
+          Back
+        </button>
+      </section>
       <img class="home__divider" src="/arcadia/divider.svg" alt="" />
     </main>
     <script type="module" src="/src/home.ts"></script>

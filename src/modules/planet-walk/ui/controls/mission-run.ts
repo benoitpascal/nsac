@@ -15,6 +15,8 @@ export type MissionRunReport = {
 export type MissionPlan = {
   goalKg: number;
   onEnd: (report: MissionRunReport) => void;
+  /** Called each time one more of today's goals is ticked. */
+  onGoalDone?: () => void;
 };
 
 /**
@@ -40,6 +42,7 @@ export const createMissionRun = (
   const list = hud.querySelector<HTMLElement>('.walk-goals__list');
   let reachedDigZone = false;
   let shown = '';
+  let doneCount = 0;
   const render = () => {
     const { carriedKg, deliveredKg } = driving.store();
     reachedDigZone ||= insideZone(digZone, driving.vehicle());
@@ -47,6 +50,9 @@ export const createMissionRun = (
     const key = goals.map((goal) => `${goal.done}${goal.label}`).join('|');
     if (!list || key === shown) return;
     shown = key;
+    const done = goals.filter((goal) => goal.done).length;
+    if (done > doneCount) plan.onGoalDone?.();
+    doneCount = done;
     list.replaceChildren(
       ...goals.map((goal) => {
         const item = document.createElement('li');

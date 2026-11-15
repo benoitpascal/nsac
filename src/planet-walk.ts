@@ -9,10 +9,12 @@ import {
   recordResult,
 } from '@/modules/scenario/core/campaign';
 import { DASHBOARD_PAGE } from '@/modules/scenario/core/mission-route';
+import { installClickSounds, playEffect } from '@/modules/sound/infra/sound-player';
 import { EXCAVATOR_GOAL_KG, scoreExcavator } from '@/modules/scenario/core/scoring';
 import { loadCampaign, saveCampaign } from '@/modules/scenario/infra/campaign-storage';
 import { createVoicePlayer } from '@/modules/scenario/infra/voice-player';
 import { readDefaultView } from '@/modules/planet-walk/infra/view-preference';
+import { rememberTabletSpot, takeTabletSpot } from '@/modules/planet-walk/infra/tablet-spot';
 import { requireElement } from '@/shared/dom';
 
 const HOUR_MS = 3_600_000;
@@ -34,6 +36,9 @@ const writeValue = (key: string, value: string) => {
     // The message will simply play again next time.
   }
 };
+const TERMINAL_PAGE = '/briefing.html?menu';
+/** Where the tablet was opened, when the astronaut comes back from it. */
+const tabletSpot = takeTabletSpot();
 const params = new URLSearchParams(window.location.search);
 let campaign: CampaignState | undefined = loadCampaign();
 
@@ -71,6 +76,7 @@ mountPlanetWalk(
     dashboard: requireElement<HTMLElement>('#station-dashboard'),
     touchPad: requireElement<HTMLElement>('#touch-pad'),
     excavatorHud: requireElement<HTMLElement>('#excavator-hud'),
+    tablet: requireElement<HTMLElement>('#walk-tablet'),
     suitHud: requireElement<HTMLElement>('#suit-hud'),
     rescueFade: requireElement<HTMLElement>('#rescue-fade'),
     missionHud: requireElement<HTMLElement>('#mission-hud'),
@@ -96,7 +102,13 @@ mountPlanetWalk(
       voice: createVoicePlayer(),
     },
     startView: readDefaultView(),
-    startAt: playing || params.get('at') === 'terminal' ? 'terminal' : 'quarters',
+    startAt: playing
+      ? 'terminal'
+      : (tabletSpot ?? (params.get('at') === 'terminal' ? 'terminal' : 'quarters')),
+    openTerminal: (from) => {
+      rememberTabletSpot(from);
+      window.location.assign(TERMINAL_PAGE);
+    },
     onRescue: () => {
       clock.skip(4 * HOUR_MS);
       if (campaign) saveCampaign((campaign = loseRescueHours(campaign)));
@@ -105,6 +117,7 @@ mountPlanetWalk(
     mission: playing
       ? {
           goalKg: EXCAVATOR_GOAL_KG,
+          onGoalDone: () => playEffect('objective'),
           onEnd: ({ rescued, ...run }) => {
             if (!campaign) return;
             const result = scoreExcavator(run);
@@ -117,3 +130,5 @@ mountPlanetWalk(
       : undefined,
   },
 );
+
+installClickSounds();

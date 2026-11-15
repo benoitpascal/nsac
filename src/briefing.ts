@@ -2,6 +2,8 @@ import { MOON_ACT } from '@/modules/scenario/core/act-moon';
 import { loadCampaign, saveCampaign } from '@/modules/scenario/infra/campaign-storage';
 import { createVoicePlayer } from '@/modules/scenario/infra/voice-player';
 import { readDefaultView, writeDefaultView } from '@/modules/planet-walk/infra/view-preference';
+import { isSoundMuted, setSoundMuted } from '@/modules/sound/infra/sound-preferences';
+import { installClickSounds } from '@/modules/sound/infra/sound-player';
 import { mountBriefing } from '@/modules/scenario/ui/briefing-router.view';
 import { createTerminalBand } from '@/modules/scenario/ui/terminal-band.view';
 import { requireElement } from '@/shared/dom';
@@ -28,4 +30,7 @@ mountBriefing(requireElement<HTMLElement>('#guide'), {
   voice: createVoicePlayer(),
   menuFirst: new URLSearchParams(window.location.search).has('menu'),
   view: { get: readDefaultView, set: writeDefaultView },
+  sound: { isMuted: isSoundMuted, setMuted: setSoundMuted },
 });
+
+installClickSounds();

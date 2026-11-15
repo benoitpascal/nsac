@@ -3,11 +3,14 @@ import { createCommandLegend } from './command-legend';
 import { createExcavatorDriving } from './excavator-driving';
 import { createExcavatorHud } from './excavator-hud';
 import { createStationActions } from './station-actions';
+import type { StartSpot } from '../../core/station/station-actions';
 import type { WalkWorldId } from '../../core/walk-worlds';
 import type { createWalkScene } from '../walk-scene';
 
 export type StationControlElements = {
   commandLegend: HTMLElement;
+  /** The on-screen button that opens the tablet. */
+  tablet?: HTMLElement;
   dashboard: HTMLElement;
   excavatorHud: HTMLElement;
 };
@@ -21,8 +24,9 @@ export const createStationControls = (
   elements: StationControlElements,
   worldId: () => WalkWorldId,
   now: () => number,
+  openTerminal: (from?: StartSpot) => void,
 ) => {
-  const actions = createStationActions(world.stationSpots);
+  const actions = createStationActions(world.stationSpots, openTerminal, elements.tablet);
   const driving = createExcavatorDriving(world);
   const dashboard = createStationDashboard({
     section: elements.dashboard,

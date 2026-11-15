@@ -1,6 +1,6 @@
 /* Station dashboard, after Figma « Ecran - Dashboard - Current objectives » (1920 × 1080; the
    mascot column is in guide.css): framed block at x 583, y 345, 1238 wide, 40 px padding, 50 px
-   between the two panels; two 361 × 66 buttons 72 px under the block, flush right. */
+   between the two panels; the control buttons 36 px under the block (Figma « Ecran - Dashboard »). */
 .guide:has(.station-board) .guide__side {
   align-self: start;
   margin-top: calc(109 * var(--design-px));
@@ -27,7 +27,7 @@
 .station-board {
   display: flex;
   flex-direction: column;
-  gap: max(20px, calc(72 * var(--design-px)));
+  gap: max(20px, calc(36 * var(--design-px)));
   width: 100%;
 }
 

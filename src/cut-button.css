@@ -15,7 +15,12 @@
   transition: filter 0.2s ease;
 }
 
-button.cut-button {
+.cut-button[hidden] {
+  display: none;
+}
+
+/* Resets the browser's button look, without outweighing the variants below. */
+.cut-button:where(button) {
   padding: 0;
   border: 0;
   background-color: transparent;
@@ -45,10 +50,84 @@ button.cut-button {
   transform: rotate(180deg);
 }
 
+/* A frameless button that goes forward (Next): its chevrons after the text, pointing ahead. */
+.cut-button--forward .cut-button__chevrons {
+  order: 1;
+  transform: none;
+}
+
+/* Figma « BTN » (50:519): corners cut at 45°, 26 px top left and 20 px bottom right whatever the
+   width, a cyan gradient stroke (::before) around a dark fill (::after). The shapes sit on the
+   pseudo-elements so that the hover glow of the button itself is not cut off. */
 .cut-button--start,
-.cut-button--wide {
+.cut-button--wide,
+.cut-button--primary {
+  --cut-start: 26px;
+  --cut-end: 20px;
+  --stroke: 2px;
+  --fill: linear-gradient(var(--figma-primary-1000-60), var(--figma-primary-1000-60)),
+    var(--figma-primary-1001);
+
+  position: relative;
+  isolation: isolate;
   width: 361px;
-  background: url('/arcadia/act-select/start-button.svg') center / 100% 100% no-repeat;
+}
+
+:is(.cut-button--start, .cut-button--wide, .cut-button--primary)::before,
+:is(.cut-button--start, .cut-button--wide, .cut-button--primary)::after {
+  position: absolute;
+  z-index: -1;
+  content: '';
+}
+
+:is(.cut-button--start, .cut-button--wide, .cut-button--primary)::before {
+  inset: 0;
+  background: var(--figma-gradient);
+  clip-path: polygon(
+    0 var(--cut-start),
+    var(--cut-start) 0,
+    100% 0,
+    100% calc(100% - var(--cut-end)),
+    calc(100% - var(--cut-end)) 100%,
+    0 100%
+  );
+}
+
+:is(.cut-button--start, .cut-button--wide, .cut-button--primary)::after {
+  inset: var(--stroke);
+  background: var(--fill);
+  clip-path: polygon(
+    0 calc(var(--cut-start) - var(--stroke) * 0.41),
+    calc(var(--cut-start) - var(--stroke) * 0.41) 0,
+    100% 0,
+    100% calc(100% - var(--cut-end) + var(--stroke) * 0.41),
+    calc(100% - var(--cut-end) + var(--stroke) * 0.41) 100%,
+    0 100%
+  );
+}
+
+/* Width following the text: the same padding on each side as the 361 px Figma button. */
+.cut-button--fit {
+  width: auto;
+  padding-inline: 56px;
+}
+
+/* Figma « BTN » Variante3: the main action, filled in cyan with dark text and chevrons. Start
+   mission takes it once a planet is picked. */
+.cut-button--primary,
+.cut-button--start:not([aria-disabled='true']) {
+  --fill: var(--figma-secondary-600);
+
+  color: var(--figma-primary-1001);
+}
+
+.cut-button__chevrons--dark,
+.cut-button--start:not([aria-disabled='true']) .cut-button__chevrons--light {
+  display: none;
+}
+
+.cut-button--start:not([aria-disabled='true']) .cut-button__chevrons--dark {
+  display: block;
 }
 
 .cut-button--start[aria-disabled='true'] {

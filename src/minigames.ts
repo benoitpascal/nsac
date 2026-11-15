@@ -1,5 +1,6 @@
 import { MINI_GAMES } from '@/modules/minigames/games/registry';
 import { mountMiniGames } from '@/modules/minigames/ui/minigames.view';
+import { installClickSounds, playMusic } from '@/modules/sound/infra/sound-player';
 import { requireElement } from '@/shared/dom';
 
 mountMiniGames(
@@ -13,3 +14,6 @@ mountMiniGames(
   },
   MINI_GAMES,
 );
+
+installClickSounds();
+playMusic('minigames');

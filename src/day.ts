@@ -3,6 +3,7 @@ import { newCampaign } from '@/modules/scenario/core/campaign';
 import { loadCampaign, saveCampaign } from '@/modules/scenario/infra/campaign-storage';
 import { showDayTitle } from '@/modules/scenario/ui/day-title.view';
 import { requireElement } from '@/shared/dom';
+import { installClickSounds } from '@/modules/sound/infra/sound-player';
 
 const state = loadCampaign() ?? newCampaign(Date.now());
 saveCampaign(state);
@@ -20,3 +21,5 @@ showDayTitle(
   saveCampaign,
   (url) => location.assign(url),
 );
+
+installClickSounds();

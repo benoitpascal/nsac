@@ -16,6 +16,7 @@ import { createWalkRenderer } from './walk-renderer';
 import { createWalkScene } from './walk-scene';
 import type { EarthRadioOptions } from './radio/earth-radio';
 import type { ViewMode } from './walker-camera';
+import type { StartSpot } from '../core/station/station-actions';
 import type { Obstacle } from '../core/obstacles';
 import type { SuitKit } from '../core/suit/suit-supply';
 import type { MissionPlan } from './controls/mission-run';
@@ -29,6 +30,8 @@ export type PlanetWalkElements = {
   dashboard: HTMLElement;
   touchPad: HTMLElement;
   excavatorHud: HTMLElement;
+  /** The on-screen button that opens the tablet. */
+  tablet: HTMLElement;
   suitHud: HTMLElement;
   rescueFade: HTMLElement;
   missionHud: HTMLElement;
@@ -48,8 +51,13 @@ export type PlanetWalkSources = {
   onRescue: () => void;
   /** The view the walk starts in, chosen in the terminal's settings. */
   startView: ViewMode;
-  /** Where the astronaut appears: woken up in the crew quarters, or in front of the terminal. */
-  startAt: 'quarters' | 'terminal';
+  /**
+   * Where the astronaut appears: woken up in the crew quarters, in front of the terminal, or where
+   * they opened the tablet.
+   */
+  startAt: 'quarters' | 'terminal' | StartSpot;
+  /** Opens the terminal; given where the astronaut stands when it is opened as the tablet. */
+  openTerminal: (from?: StartSpot) => void;
   /** The radio message heard the first time outside the base, and whether it was heard already. */
   radio: Omit<EarthRadioOptions, 'now'>;
   /** The excavator mission to play, when the page is opened for one. */
@@ -81,7 +89,13 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
     WALK_WORLDS.find((candidate) => candidate.id === FIRST_WORLD_ID) ?? WALK_WORLDS[0];
   world.showWorld(current.id);
   createTouchPad(elements.touchPad, window);
-  const station = createStationControls(world, elements, () => current.id, sources.now);
+  const station = createStationControls(
+    world,
+    elements,
+    () => current.id,
+    sources.now,
+    sources.openTerminal,
+  );
   const suit = createSuitMonitor(
     elements.suitHud,
     elements.rescueFade,

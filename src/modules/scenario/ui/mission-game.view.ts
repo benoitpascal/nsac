@@ -11,7 +11,12 @@ export type MissionGameDeps = {
   games: readonly MiniGame[];
   save: (state: CampaignState) => void;
   navigate: (url: string) => void;
+  /** Plays the chime of a goal reached, when the mini-game is won. */
+  onWin?: () => void;
 };
+
+/** How long the win chime plays before the debrief opens (ms). */
+const WIN_CHIME_MS = 1000;
 
 /**
  * Plays the mini-game of the current mission; at its end, records the result and opens the
@@ -31,6 +36,8 @@ export const playMissionGame = (title: HTMLElement, board: HTMLElement, deps: Mi
   game.start(board, ({ won, score }) => {
     const scoreGame = mission.scoring === 'shelter' ? scoreShelter : scorePrinter;
     deps.save(recordResult(deps.state, scoreGame(won, score)));
-    deps.navigate(DASHBOARD_PAGE);
+    if (!won || !deps.onWin) return deps.navigate(DASHBOARD_PAGE);
+    deps.onWin();
+    window.setTimeout(() => deps.navigate(DASHBOARD_PAGE), WIN_CHIME_MS);
   });
 };
