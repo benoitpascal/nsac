@@ -18,11 +18,11 @@ const tenths = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 1,
 });
 
-/** What to do next, from where the robot is and what it carries. */
+/** Where to go next, from where the robot is and what it carries (the keys are in the legend). */
 const hint = (store: ExcavatorStore, place: RobotPlace) => {
-  if (place === 'drop') return store.carriedKg > 0 ? 'Space to unload' : 'Nothing to unload';
+  if (place === 'drop') return store.carriedKg > 0 ? undefined : 'Nothing to unload';
   if (isFull(store)) return 'Drums full: unload at the drop-off zone';
-  return place === 'dig' ? 'Space to dig' : 'Drive into the grey zone to dig';
+  return place === 'dig' ? undefined : 'Drive into the grey zone to dig';
 };
 
 const readout = (store: ExcavatorStore, place: RobotPlace) =>
@@ -30,7 +30,9 @@ const readout = (store: ExcavatorStore, place: RobotPlace) =>
     `Battery ${tenths.format(batteryShare(store) * PERCENT)} %`,
     `Load ${tenths.format(store.carriedKg)} / ${EXCAVATOR.loadKg} kg`,
     hint(store, place),
-  ].join(' · ');
+  ]
+    .filter(Boolean)
+    .join(' · ');
 
 /**
  * Shows the excavator robot's battery, its load and what to do next while it is driven, a warning

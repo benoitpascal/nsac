@@ -47,7 +47,7 @@ requireElement<HTMLElement>('#walk-day').textContent =
 mountPlanetWalk(
   {
     canvas: requireElement<HTMLCanvasElement>('#planet-walk'),
-    pilotPrompt: requireElement<HTMLButtonElement>('#pilot-prompt'),
+    commandLegend: requireElement<HTMLElement>('#command-legend'),
     dashboard: requireElement<HTMLElement>('#station-dashboard'),
     touchPad: requireElement<HTMLElement>('#touch-pad'),
     excavatorHud: requireElement<HTMLElement>('#excavator-hud'),

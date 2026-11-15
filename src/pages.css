@@ -593,24 +593,145 @@ body {
   pointer-events: none;
 }
 
-.pilot-prompt {
+/* Command legend, after Figma « Legend command » (107:1424, 107:1473): a 400 px panel, one line
+   per key that does something right now (key box, cyan line, Bebas title, Outfit detail, « /// »).
+   It sits on the right, above the map. */
+.command-legend {
   position: fixed;
-  top: 172px;
-  left: 50%;
-  padding: 0.6rem 1.2rem;
-  border: 1px solid var(--signal-cyan);
-  border-radius: 999px;
-  background: rgba(11, 15, 28, 0.8);
-  color: var(--signal-cyan);
+  right: 16px;
+  bottom: 300px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: min(400px, calc(100vw - 32px));
+  padding: 18.75px;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(rgba(20, 28, 51, 0.82), rgba(20, 28, 51, 0.82)) padding-box,
+    linear-gradient(90deg, #35e9fd, #208b97) border-box;
+  backdrop-filter: blur(32px);
+}
+
+.command-legend[hidden] {
+  display: none;
+}
+
+.command-legend__item {
+  display: grid;
+  grid-template-columns: 40px 2px 1fr 30px;
+  gap: 15px;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  color: var(--ink);
+  background: none;
+  font: inherit;
+  text-align: left;
+}
+
+/* The « /// » mark at the end of each line, and the cyan line after the key. */
+.command-legend__item::before {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: stretch;
+  content: '';
+  background: #35e9fd;
+}
+
+.command-legend__item::after {
+  grid-column: 4;
+  grid-row: 1;
+  height: 15px;
+  content: '';
+  background: url('/arcadia/dash.svg') center / contain no-repeat;
+}
+
+.command-legend__key {
+  grid-column: 1;
+  grid-row: 1;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 1.5px solid #35e9fd;
+  color: #35e9fd;
+  background: #141c33;
   font-family: var(--font-title);
-  font-size: 1.17rem;
-  letter-spacing: 0.08em;
-  transform: translateX(-50%);
+  font-size: 22px;
+  line-height: 1;
+}
+
+.command-legend__key--space {
+  font-size: 14px;
+  letter-spacing: 0.06em;
+}
+
+/* Arrow keys: the four-way arrow drawn in cyan. */
+.command-legend__key--move::before {
+  width: 26px;
+  height: 26px;
+  content: '';
+  background: url('/arcadia/icon-move.svg') center / contain no-repeat;
+}
+
+.command-legend__text {
+  grid-column: 3;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.command-legend__title {
+  font-family: var(--font-title);
+  font-size: 22px;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.command-legend__detail {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.2;
+  opacity: 0.85;
+}
+
+/* The action key's line is a button: it glows like the Figma buttons. */
+button.command-legend__item {
   cursor: pointer;
 }
 
-.pilot-prompt[hidden] {
-  display: none;
+button.command-legend__item:is(:hover, :focus-visible) {
+  outline: none;
+  filter: drop-shadow(0 0 8px rgba(53, 233, 253, 0.6));
+}
+
+button.command-legend__item .command-legend__key {
+  color: #0b0f1c;
+  background: #35e9fd;
+}
+
+@media (max-width: 1100px), (pointer: coarse) {
+  .command-legend {
+    top: 104px;
+    bottom: auto;
+    left: 50%;
+    width: auto;
+    transform: translateX(-50%);
+  }
+
+  /* On small screens and touch screens, only the action key's line stays: the others are the
+     on-screen buttons. */
+  .command-legend__item:not(.command-legend__item--e) {
+    display: none;
+  }
+
+  .command-legend:not(:has(.command-legend__item--e)) {
+    display: none;
+  }
 }
 
 .excavator-hud {
