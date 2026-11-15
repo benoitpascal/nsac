@@ -1,0 +1,150 @@
+/* Day mission played in the planet walk: goals panel and end-of-day dialog. */
+
+.speed-picker[hidden] {
+  display: none;
+}
+
+.mission-panel {
+  position: fixed;
+  top: 4rem;
+  right: 1rem;
+  z-index: 2;
+  width: min(22rem, calc(100vw - 2rem));
+  padding: 0.6rem 1rem 0.4rem;
+  border: 1px solid rgba(77, 227, 255, 0.35);
+  border-radius: 1rem;
+  background: rgba(5, 6, 15, 0.8);
+  color: #fff;
+}
+
+.mission-panel[hidden] {
+  display: none;
+}
+
+.mission-panel__title {
+  margin: 0.2rem 0 0.4rem;
+  color: var(--signal-cyan);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.mission-panel__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mission-objective {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  padding: 0.5rem 0;
+  border-top: 1px solid rgba(77, 227, 255, 0.15);
+  font-size: 0.95rem;
+}
+
+.mission-objective__box {
+  display: grid;
+  place-items: center;
+  width: 1.3rem;
+  height: 1.3rem;
+  flex: none;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.mission-objective--done .mission-objective__box {
+  border-color: var(--signal-cyan);
+  color: #05060f;
+  background: var(--signal-cyan);
+}
+
+.mission-objective--done > span:last-child {
+  opacity: 0.7;
+}
+
+.mission-objective__hint {
+  display: block;
+  margin-top: 0.2rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.8rem;
+}
+
+.mission-objective__meter {
+  width: 100%;
+  height: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+.mission-objective__count {
+  display: block;
+  color: var(--signal-cyan);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+}
+
+.mission-end {
+  width: min(32rem, calc(100vw - 2rem));
+  padding: 1.4rem 1.6rem;
+  border: 1px solid var(--signal-cyan);
+  border-radius: 1rem;
+  background: rgba(5, 6, 15, 0.95);
+  color: #fff;
+}
+
+.mission-end[data-outcome='stranded'] {
+  border-color: #ffb36b;
+}
+
+.mission-end::backdrop {
+  background: rgba(5, 6, 15, 0.6);
+}
+
+.mission-end__title {
+  margin: 0 0 0.6rem;
+  color: var(--signal-cyan);
+  font-family: 'Space Mono', monospace;
+  font-size: 1.3rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.mission-end[data-outcome='stranded'] .mission-end__title {
+  color: #ffb36b;
+}
+
+.mission-end__text {
+  margin: 0 0 1.2rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.mission-end__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.mission-end__action {
+  min-height: 44px;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--signal-cyan);
+  border-radius: 999px;
+  background: rgba(77, 227, 255, 0.12);
+  color: var(--signal-cyan);
+  font: inherit;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.mission-end__action:is(:hover, :focus-visible) {
+  background: rgba(77, 227, 255, 0.25);
+  outline: none;
+}

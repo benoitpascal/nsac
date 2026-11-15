@@ -15,6 +15,7 @@
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono&display=swap"
     />
     <link rel="stylesheet" href="/src/pages.css" />
+    <link rel="stylesheet" href="/src/mission.css" />
   </head>
   <body>
     <main class="planet-walk-page" aria-label="Planet walk">
@@ -22,7 +23,16 @@
       <div class="planet-walk__aim" aria-hidden="true"></div>
     </main>
 
-    <a class="page-link" href="/">Back</a>
+    <a id="walk-back" class="page-link" href="/">Back</a>
+    <aside id="mission-panel" class="mission-panel" aria-labelledby="mission-panel-title" aria-live="polite" hidden>
+      <h2 id="mission-panel-title" class="mission-panel__title">Day 01 · Today's goals</h2>
+      <ul class="mission-panel__list"></ul>
+    </aside>
+    <dialog id="mission-end" class="mission-end" aria-labelledby="mission-end-title">
+      <h2 id="mission-end-title" class="mission-end__title"></h2>
+      <p class="mission-end__text"></p>
+      <div class="mission-end__actions"></div>
+    </dialog>
     <aside id="walk-facts" class="walk-facts" aria-label="Gravity" aria-live="polite"></aside>
 
     <button id="pilot-prompt" class="pilot-prompt" type="button" hidden></button>
