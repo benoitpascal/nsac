@@ -119,13 +119,14 @@ Prototype: Choice planet DEMO hover → Hover; Hover click → Variante3 (select
 
 Info HUD [75:652] flex=horizontal gap=10 pad=10/10/10/10 justify=center align=center, no fill
     "JOUR 01" 75:648 — Outfit Medium 18px ls=0% color=#ffffff (instances 75:653 « JOUR 01 », 75:655 « 08:28 AM »)
-Frame 26 [63:1911] mission progress bar (now in Ecran - Dashboard at 306,175, « Main Mission Progress », fill #35e9fd on #212f56), flex=vertical gap=14.6
+Frame 26 [63:1911] mission progress bar (in Ecran - Dashboard at 306,196, 637 wide, « Main Mission Progress », fill #35e9fd on #22315a; children renamed Texte / Level), flex=vertical gap=14.6
   Frame 23 [63:1912] flex=horizontal justify=space-between align=center
     "Avancée de la mission principale" 63:1913 — Bebas Neue Regular 25.6px ls=17% color=#ffffff
     "10%" 63:1914 — Outfit Regular 25.6px ls=7% color=#ffffff
   Frame 24 [63:1915] flex=horizontal gap=0: Rectangle 18 fill=#41acf5 (progress) + Rectangle 19 fill=#0e1934 (track), 20px high
 Frame 25 [63:1910] same bar at 500 wide (10px text, 11px bar)
 Icon-direction [63:1923] arrow fill=#f24822 on Ellipse 5 [63:1920] 260x260 fill=#d9d9d9 (compass draft)
-Ecran - Bandeau [79:707] component 1919x140: Logotype 163x77 at 60,32; Planet MOON 369x141 on the right; Vector 12 bottom line at y=140; Frame 29 [79:744] holds the two Info HUD (JOUR 01, 08:28 AM) at 1589,43
-Ecran - Dashboard [79:700] fill=gradient_linear(#0b0f1c → #141c33); Ellipse 6 glows #5973cd at 13-14% opacity (Frames 27/28, clipped); Robot 1 [79:701] 457x682 at 104,305; header = instance of Ecran - Bandeau
+Ecran - Bandeau [79:707] component 1919x140, prop Titre: Logotype 163x77 at 60,32; Frame 30 [79:852] dash + title at 306,70; Frame 31 [79:871] two Info HUD (JOUR 01, 08:28 AM) at 1321,62; Planet MOON 369x141 on the right; Vector 12 bottom line at y=140
+Ecran - Dashboard [79:700] fill=gradient_linear(#0b0f1c → #141c33); Ellipse 6 glows #45588c at 13-14% opacity (Frames 27/28, clipped); Robot 1 [79:701] 457x682 at 104,305; header = instance of Ecran - Bandeau
 dash [79:755] component 96x48: Rectangle 21-23 slanted #35e9fd stripes; instance 79:756 (57x29) before the « station dashboard » title [79:760], Frame 30 [79:766] at 306,69
+Calque_1 [79:782] icon set 435x263, all vectors fill=#68a8de (thermometer, sunrise, radiation, sun, earth + dish, crater)
