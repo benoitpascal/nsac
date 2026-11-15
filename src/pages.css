@@ -649,27 +649,6 @@ body {
   }
 }
 
-.walk-controls {
-  position: fixed;
-  bottom: 96px;
-  left: 50%;
-  display: grid;
-  gap: 0.6rem;
-  justify-items: center;
-  width: min(36rem, calc(100vw - 2rem));
-  transform: translateX(-50%);
-}
-
-.walk-controls__help {
-  margin: 0;
-  padding: 0.3rem 0.8rem;
-  border-radius: 0.6rem;
-  background: rgba(11, 15, 28, 0.6);
-  font-size: 0.8rem;
-  text-align: center;
-  color: var(--ink-muted);
-}
-
 .station-dashboard {
   position: fixed;
   top: 50%;
@@ -775,15 +754,6 @@ body {
     display: grid;
     grid-template: repeat(3, 3.2rem) / repeat(3, 3.2rem);
     pointer-events: auto;
-  }
-
-  .walk-controls {
-    bottom: auto;
-    top: 6.8rem;
-  }
-
-  .walk-controls__help {
-    display: none;
   }
 }
 

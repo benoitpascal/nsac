@@ -13,7 +13,6 @@ import { createWalkMap } from './controls/walk-map';
 import { createWalkFrame } from './walk-frame';
 import { createWalkRenderer } from './walk-renderer';
 import { createWalkScene } from './walk-scene';
-import { mountWorldPicker } from './world-picker.view';
 import type { Obstacle } from '../core/obstacles';
 import type { SuitKit } from '../core/suit/suit-supply';
 import type { MissionPlan } from './controls/mission-run';
@@ -23,8 +22,6 @@ import type { Star } from '@/modules/solar-system/core/star';
 
 export type PlanetWalkElements = {
   canvas: HTMLCanvasElement;
-  worldPicker: HTMLElement;
-  viewToggle: HTMLButtonElement;
   pilotPrompt: HTMLButtonElement;
   dashboard: HTMLElement;
   touchPad: HTMLElement;
@@ -69,13 +66,10 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
   const renderer = createWalkRenderer(elements.canvas);
   const camera = new PerspectiveCamera(70, 1, 0.05, SKY_REACH_M);
   const world = createWalkScene(renderer, sources.loadStars);
-  let current = WALK_WORLDS.find((candidate) => candidate.id === FIRST_WORLD_ID) ?? WALK_WORLDS[0];
-  const choose = (next: typeof current) => {
-    current = next;
-    world.showWorld(next.id);
-  };
-  mountWorldPicker(elements.worldPicker, current.id, choose);
-  choose(current);
+  // The game is played on the Moon: the other worlds of the walk are no longer offered.
+  const current =
+    WALK_WORLDS.find((candidate) => candidate.id === FIRST_WORLD_ID) ?? WALK_WORLDS[0];
+  world.showWorld(current.id);
   createTouchPad(elements.touchPad, window);
   const station = createStationControls(world, elements, () => current.id, sources.now);
   const suit = createSuitMonitor(
@@ -107,7 +101,7 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
     keyboard: createKeyboardInput(window),
     mouse: createMouseLook(elements.canvas),
     avatar: createAstronautAvatar(world.scene, renderer),
-    view: createViewToggle(elements.viewToggle, window),
+    view: createViewToggle(window),
     ...station,
     suit,
     mission,
