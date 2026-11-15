@@ -42,6 +42,8 @@ Pages (declared in `vite.config.ts` under `build.rolldownOptions.input`):
 
 `src/styles.css` holds the Project Arcadia design tokens and shared components (logotype, pill button) of the pages built from the Figma mock-ups; their images live in `public/arcadia/`. Layout sizes follow the 1920 × 1080 mock-ups through `--design-px`; buttons and cards keep fixed sizes to stay readable and tappable. `briefing.html` and `information.html` have no Figma frame: they follow the reference images « image 10 » and « image 9 », so `src/hud.css` gives them cut-corner panels, and their icons are drawn by hand in the `public/arcadia/hud-icons.svg` sprite (`currentColor`, used through `<svg><use>`). The three last pages share `src/pages.css`.
 
+`docs/figma/` holds a frozen export of the Figma file (screen and component renders, every layer in `layers.txt`, styling in `styles.txt`, variables and styles in `tokens.json`); start from its `README.md` when implementing a mock-up without Figma access.
+
 No page hardcodes the site domain: absolute URLs (share tags of `index.html`) use the `__SITE_ORIGIN__` placeholder, which `nginx/default.conf` replaces with the domain the site is served from. In `pnpm dev` / `pnpm preview` the placeholder stays as is.
 
 ### Layers
