@@ -15,6 +15,7 @@ export default defineConfig({
         planetWalk: fromRoot('./planet-walk.html'),
         minigames: fromRoot('./minigames.html'),
         missions: fromRoot('./missions.html'),
+        moonIntro: fromRoot('./moon-intro.html'),
         dayOne: fromRoot('./day-one.html'),
         briefing: fromRoot('./briefing.html'),
         information: fromRoot('./information.html'),
