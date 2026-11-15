@@ -74,7 +74,7 @@ export const createExcavatorSite = () => {
       if (lift < 1) return;
       // The rear arm is mounted half a turn around, so the same local spin turns its drum the
       // opposite way to the front one, as the real drums do to cancel their digging forces.
-      for (const drum of drums) drum.rotation.z -= DRUM_TURNS_PER_SECOND * Math.PI * 2 * seconds;
+      for (const drum of drums) drum.rotation.z += DRUM_TURNS_PER_SECOND * Math.PI * 2 * seconds;
     },
   };
   return { site, solids: [pile], controls };

@@ -1,4 +1,5 @@
 import { ConeGeometry, CylinderGeometry, Group, Mesh, MeshStandardMaterial } from 'three';
+import { beacon, lightBeam } from './drop-markers';
 import { createZoneSign } from '../habitat/zones/zone-sign';
 import { createZoneGround } from './zone-ground.mesh';
 import type { GroundZone } from '../../../core/excavator/ground-zone';
@@ -10,10 +11,12 @@ const PILE_COLOR = 0x7a746c;
 const PILE = { radius: 1.5, height: 1, fullKg: 3500, maxScale: 1.5 };
 const POST = { radius: 0.05, height: 2.4, color: 0x9aa1ad };
 const SIGN_TEXT = 'Regolith drop-off';
-
+/** The zone stands out from afar: red-tinted ground, wide glowing edges. */
+const LOOK = { areaColor: 0x5a1a26, areaOpacity: 0.55, edgeWidth: 0.4, glow: 0.8 };
 /**
- * Builds the drop-off zone where the robot unloads its regolith: grey ground edged in orange, a
- * signpost readable from both sides at its corner, and a pile growing with the regolith dropped off.
+ * Builds the drop-off zone where the robot unloads its regolith: red-tinted ground with wide glowing
+ * red edges, a red light at each corner and a light beam above it, a signpost readable from both sides at its corner, and a
+ * pile growing with the regolith dropped off.
  */
 export const createDropSite = (zone: GroundZone) => {
   const centerX = (zone.minX + zone.maxX) / 2;
@@ -37,7 +40,13 @@ export const createDropSite = (zone: GroundZone) => {
     return sign;
   });
   const site = new Group();
-  site.add(createZoneGround(zone, EDGE_COLOR), post, ...signs, pile);
+  const corners = [
+    [zone.minX, zone.minZ],
+    [zone.minX, zone.maxZ],
+    [zone.maxX, zone.maxZ],
+  ].flatMap(([x, z]) => beacon(x, z));
+  const beam = lightBeam(centerX, centerZ);
+  site.add(createZoneGround(zone, EDGE_COLOR, LOOK), post, ...signs, ...corners, beam, pile);
   return {
     site,
     /** Grows the pile to hold the regolith dropped off so far (kg). */

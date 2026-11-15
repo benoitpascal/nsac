@@ -7,11 +7,14 @@ export const EXCAVATOR = {
   /** Share of the battery charged at the start. */
   startCharge: 0.3,
   drivingKw: 0.6,
-  /** Power drawn while the drums turn, to dig or to unload. */
-  drumKw: 0.9,
+  /**
+   * Power drawn while the drums turn, to dig or to unload. Digging is sped up 2.5 times for play
+   * (1 kg/s at 0.9 kW before), and the power with it, so each kilogram costs the same energy.
+   */
+  drumKw: 2.25,
   loadKg: 80,
-  digKgPerSecond: 1,
-  unloadKgPerSecond: 4,
+  digKgPerSecond: 2.5,
+  unloadKgPerSecond: 10,
 };
 
 /** What the robot holds: energy left, regolith on board, and regolith dropped off at the base. */

@@ -3,6 +3,7 @@ import { placeCamera } from './walker-camera';
 import { ceilingAt, WALKER_BODY } from '../core/obstacles';
 import { commandLegend } from '../core/hud/command-legend';
 import { isFull } from '../core/excavator/excavator-power';
+import { createSideView } from './side-view';
 import type { StartSpot } from '../core/station/station-actions';
 import type { Obstacle } from '../core/obstacles';
 import type { Walker } from '../core/walker';
@@ -73,6 +74,7 @@ export const createWalkFrame = (parts: FrameParts) => {
         : spots.wakeUp;
   let walker = startWalker(startSpot);
   let cameraDistance = Infinity;
+  const sideView = createSideView();
   return (seconds: number) => {
     const moves = { ...keyboard.read(), turnBy: mouse.takeTurn() };
     const activity = actions.activity();
@@ -122,7 +124,9 @@ export const createWalkFrame = (parts: FrameParts) => {
       ? (['third', world.obstacles] as const)
       : [view.mode(), withRobot];
     const previous = { distance: cameraDistance, seconds };
-    cameraDistance = placeCamera(camera, followed, mouse.pitch(), mode, walls, previous);
+    const working = drivingRobot && (driving.isDigging() || driving.isUnloading());
+    const filmed = { ...followed, heading: followed.heading + sideView(working, seconds) };
+    cameraDistance = placeCamera(camera, filmed, mouse.pitch(), mode, walls, previous);
     world.followEye(camera);
     world.lightAround(followed);
   };
