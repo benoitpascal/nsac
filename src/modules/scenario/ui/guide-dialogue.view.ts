@@ -2,13 +2,25 @@ import { chooseOption, currentPage, nextPage, startDialogue } from '../core/dial
 import { fillControlRow } from './control-row.view';
 import { button, cutButton, el } from './dom';
 import type { DialogueCursor, DialogueEnd } from '../core/dialogue';
-import type { DialogueEffect, GuidePage, QuestionPage } from '../core/scenario-content';
+import type { DialogueEffect, GuidePage, Picture, QuestionPage } from '../core/scenario-content';
 import type { Voice } from '../core/voice';
 
 const KEYS = ['Digit1', 'Digit2', 'Digit3', 'Digit4'];
 
 const REPEAT_ICON =
   '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12a7 7 0 1 1-2.05-4.95" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M19.5 3.5v5h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+/** A photo of what the mascot talks about, with its credit. */
+const pictureOf = (picture: Picture) => {
+  const figure = el('figure', 'guide__picture');
+  const image = Object.assign(document.createElement('img'), {
+    src: picture.src,
+    alt: picture.alt,
+    className: 'guide__picture-image',
+  });
+  figure.append(image, el('figcaption', 'guide__picture-credit', picture.credit));
+  return figure;
+};
 
 /** Figma « Btn repeat »: a small icon and word at the card's bottom right (sound on/off sits by the mascot). */
 const repeatButton = (voice: Voice, lastLine: () => string) => {
@@ -90,6 +102,7 @@ export const playDialogue = (
     spoken = page.text;
     voice?.say(page.text);
     if (page.kind === 'text') {
+      if (page.picture) bubble.append(pictureOf(page.picture));
       if (page.source) {
         const link = el('a', 'guide__source', `Real data · ${page.source.label}`);
         Object.assign(link, {

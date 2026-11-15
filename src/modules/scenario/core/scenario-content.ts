@@ -1,8 +1,17 @@
 /** Where a real fact comes from, shown as a link under the mascot's words. */
 export type Source = { label: string; url: string };
 
-/** The mascot says something; Next goes on. */
-export type TextPage = { kind: 'text'; id?: string; text: string; source?: Source };
+/** A photo shown with the mascot's words, so the player sees what it talks about. */
+export type Picture = { src: string; alt: string; credit: string };
+
+/** The mascot says something, maybe with a photo; Next goes on. */
+export type TextPage = {
+  kind: 'text';
+  id?: string;
+  text: string;
+  source?: Source;
+  picture?: Picture;
+};
 
 /** What picking an option does in the game: start a mission, or decide what to do with the regolith. */
 export type DialogueEffect =

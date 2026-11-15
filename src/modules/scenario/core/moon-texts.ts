@@ -20,6 +20,12 @@ const RASSOR = {
   label: 'NASA · RASSOR digging robot',
   url: 'https://technology.nasa.gov/patent/KSC-TOPS-7',
 };
+/** NASA's RASSOR 2.0 robot digging in a test bin (public domain, NASA image KSC-20160929-PH_DNG01_0001). */
+const RASSOR_PHOTO = {
+  src: '/arcadia/robots/rassor-nasa.webp',
+  alt: "NASA's RASSOR robot: a small body on four wheels, with a big round digging drum at each end",
+  credit: 'Photo: NASA / Dimitri Gerondidakis, RASSOR 2.0 test, 2016',
+};
 
 /** Day one: the welcome to the station, ending with the pick of the first job. */
 export const DAY_ONE_OPENING: GuidePage[] = [
@@ -88,6 +94,7 @@ export const DAY_ONE_OPENING: GuidePage[] = [
   {
     kind: 'text',
     text: 'Today we have two jobs. The robot must dig regolith, the dust and broken rock that covers the Moon. And our 3D printer must be tuned, so it can turn that regolith into bricks!',
+    picture: RASSOR_PHOTO,
   },
   {
     kind: 'choice',
@@ -112,6 +119,7 @@ export const EXCAVATOR_BRIEFING: GuidePage[] = [
   {
     kind: 'text',
     text: 'The robot must bring 50 kg of regolith to the base. Before you drive it, a quick lesson at the academy!',
+    picture: RASSOR_PHOTO,
   },
 ];
 
@@ -121,6 +129,7 @@ export const EXCAVATOR_ACADEMY: GuidePage[] = [
     kind: 'text',
     text: 'Welcome to the academy! Our robot is based on RASSOR, a real NASA digging robot. Its two drums spin in opposite directions.',
     source: RASSOR,
+    picture: RASSOR_PHOTO,
   },
   {
     kind: 'text',

@@ -63,6 +63,14 @@ This page lets judges trace every number in the game back to its source. Each ro
 
 The mascot's spoken lines are a synthetic voice (ElevenLabs, voice « Liam », model `eleven_multilingual_v2`), recorded once from the same English texts the player reads with `pnpm voices` and shipped as MP3 files in `public/voices/`. It is not a recording of a real person or of NASA staff. Lines that contain the player's own amounts (regolith kg, bricks, power used) are not recorded and stay text only. The player can turn the sound off.
 
+## Photos
+
+| Photo | Where | Source |
+|---|---|---|
+| RASSOR 2.0 digging robot in a regolith test bin, Kennedy Space Center, 29 Sep 2016 (NASA / Dimitri Gerondidakis, public domain), resized to `public/arcadia/robots/rassor-nasa.webp` | Mascot pages that introduce the robot, and the robot panel of the outdoor HUD | https://images.nasa.gov/details/KSC-20160929-PH_DNG01_0001 |
+
+The game's robot is a simplified 3D model inspired by RASSOR, not a copy of it.
+
 ## Facts shown to players (verified 2026-11-13)
 
 | Fact (as shown, EN) | Source |
