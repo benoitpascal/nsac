@@ -80,17 +80,18 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  /* Vertical spacing follows the mock-up scale so the page fits the screen height. */
+  gap: max(12px, calc(32 * var(--design-px)));
   max-width: calc(1636px + 32px);
   margin: 0 auto;
-  padding: calc(89 * var(--design-px)) 16px 48px;
+  padding: calc(89 * var(--design-px)) 16px max(16px, calc(48 * var(--design-px)));
   color: var(--acts-ink);
 }
 
 .acts__objective {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: max(10px, calc(24 * var(--design-px)));
   max-width: 823px;
   padding-left: calc(8 * var(--design-px));
 }
@@ -98,7 +99,7 @@
 .acts__objective-title {
   margin: 0;
   color: var(--acts-cyan);
-  font-size: 48px;
+  font-size: max(32px, calc(48 * var(--design-px)));
   font-weight: 400;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -107,14 +108,14 @@
 .acts__objective-text {
   margin: 0;
   font-family: var(--arcadia-font-body);
-  font-size: 18px;
+  font-size: max(16px, calc(18 * var(--design-px)));
   line-height: 1.5;
 }
 
 .acts__choose {
-  margin: 24px 0 0;
+  margin: calc(24 * var(--design-px)) 0 0;
   background: url('/arcadia/act-select/title-lines.svg') center / min(1552px, 100%) 2px no-repeat;
-  font-size: 28px;
+  font-size: max(20px, calc(28 * var(--design-px)));
   font-weight: 400;
   letter-spacing: 0.17em;
   text-align: center;
@@ -124,7 +125,7 @@
 .acts__list {
   display: flex;
   flex-wrap: wrap;
-  gap: 28px;
+  gap: max(12px, calc(28 * var(--design-px)));
   align-items: center;
   justify-content: center;
   margin: 0;
@@ -141,5 +142,5 @@
   flex-wrap: wrap;
   gap: 16px;
   justify-content: space-between;
-  margin-top: 28px;
+  margin-top: calc(28 * var(--design-px) - 12px);
 }
