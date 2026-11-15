@@ -17,16 +17,37 @@
     <link rel="stylesheet" href="/src/styles.css" />
     <link rel="stylesheet" href="/src/hud.css" />
     <link rel="stylesheet" href="/src/briefing.css" />
+    <link rel="stylesheet" href="/src/band.css" />
     <link rel="stylesheet" href="/src/guide.css" />
     <link rel="stylesheet" href="/src/planning.css" />
   </head>
   <body class="arcadia arcadia--hud">
     <div class="hud">
-      <header class="hud__header">
-        <a class="logotype hud__logotype" href="/"><img src="/arcadia/logotype.svg" alt="Project Arcadia, home" /></a>
-        <h1 class="hud__title">Base terminal</h1>
-        <p class="hud__tag">Act II · Moon</p>
+      <header class="band">
+        <a class="band__logotype" href="/"><img src="/arcadia/logotype.svg" alt="Project Arcadia, home" /></a>
+        <h1 class="band__title">Base terminal</h1>
+        <p class="band__info">
+          <span id="band-day">Day 01</span>
+          <time id="band-time"></time>
+        </p>
+        <span class="band__planet" aria-hidden="true"></span>
       </header>
+
+      <div
+        class="mission-progress"
+        id="mission-progress"
+        role="progressbar"
+        aria-labelledby="mission-progress-label"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="0"
+      >
+        <p class="mission-progress__text">
+          <span id="mission-progress-label">Main mission progress</span>
+          <span id="mission-progress-value">0%</span>
+        </p>
+        <span class="mission-progress__track"></span>
+      </div>
 
       <main id="guide" class="guide"></main>
 
