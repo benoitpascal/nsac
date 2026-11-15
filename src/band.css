@@ -34,12 +34,6 @@
   width: max(120px, calc(163 * var(--design-px)));
 }
 
-.band__logotype img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
 /* Title with the « dash » mark (79:755): three slanted cyan stripes, 57 × 29. */
 .band__title {
   position: relative;
