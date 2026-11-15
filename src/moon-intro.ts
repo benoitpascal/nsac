@@ -8,5 +8,5 @@ mountMoonIntro(
     skip: requireElement<HTMLButtonElement>('#moon-intro-skip'),
   },
   MOON_INTRO_SHOTS,
-  '/day-one.html',
+  '/day-one.html?new',
 );

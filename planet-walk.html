@@ -39,12 +39,15 @@
     <p id="excavator-hud" class="excavator-hud" hidden></p>
 
     <section id="station-dashboard" class="station-dashboard" aria-labelledby="station-dashboard-title" aria-live="polite" hidden>
-      <header class="station-dashboard__header">
-        <h2 id="station-dashboard-title" class="station-dashboard__title">Station dashboard</h2>
-        <button class="station-dashboard__close" type="button" aria-label="Close the dashboard">✕</button>
-      </header>
-      <dl class="station-dashboard__readings"></dl>
-      <button class="station-dashboard__drive" type="button">Drive the excavator</button>
+      <div class="station-dashboard__screen">
+        <header class="station-dashboard__header">
+          <h2 id="station-dashboard-title" class="station-dashboard__title">Base terminal</h2>
+          <button class="station-dashboard__close" type="button" aria-label="Close the dashboard">✕</button>
+        </header>
+        <ul class="station-dashboard__resources"></ul>
+        <p class="station-dashboard__outside"></p>
+        <button class="station-dashboard__drive" type="button">Drive the robot</button>
+      </div>
     </section>
 
     <div id="touch-pad" class="touch-pad">
@@ -64,15 +67,13 @@
 
     <div class="walk-controls">
       <div id="world-picker" class="speed-picker" role="group" aria-label="World to walk on"></div>
-      <button id="view-toggle" class="speed-picker__option" type="button" aria-pressed="false">First person</button>
-      <p class="walk-controls__help">
-        Walk with Z and S (hold Shift to run), turn with Q and D (W A S D on a QWERTY keyboard) or the arrows, jump
-        with Space. Drag the view to look around, press V to change the view. Press E at the base's airlock
-        door to go in or out, and at the terminal in the middle of the base to open the station dashboard,
-        where you can take over the excavator robot: Space digs in the grey zone and unloads in the orange
-        drop-off zone by the workshops; driving, digging and unloading drain its battery, and it stops for
-        good when the battery is empty.
-      </p>
+      <ul class="walk-keys" aria-label="Keyboard controls">
+        <li><kbd>Z Q S D</kbd> or <kbd>↑ ← ↓ →</kbd> walk</li>
+        <li><kbd>Shift</kbd> run</li>
+        <li><kbd>Space</kbd> jump</li>
+        <li><kbd>E</kbd> use</li>
+        <li><kbd>V</kbd> change view</li>
+      </ul>
     </div>
 
     <script type="module" src="/src/planet-walk.ts"></script>

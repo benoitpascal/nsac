@@ -11,24 +11,21 @@ import { createWalkFrame } from './walk-frame';
 import { createWalkRenderer } from './walk-renderer';
 import { createWalkScene } from './walk-scene';
 import { mountWorldPicker } from './world-picker.view';
+import type { StationSources } from './controls/station-controls';
 import type { Star } from '@/modules/solar-system/core/star';
 
 export type PlanetWalkElements = {
   canvas: HTMLCanvasElement;
   worldPicker: HTMLElement;
   factsPanel: HTMLElement;
-  viewToggle: HTMLButtonElement;
   pilotPrompt: HTMLButtonElement;
   dashboard: HTMLElement;
   touchPad: HTMLElement;
   excavatorHud: HTMLElement;
 };
 
-/** What the walk needs from outside the page: the star catalog and the time (Unix ms). */
-export type PlanetWalkSources = {
-  loadStars: () => Promise<Star[]>;
-  now: () => number;
-};
+/** What the walk needs from outside the page: the star catalog, the time and the base stocks. */
+export type PlanetWalkSources = StationSources & { loadStars: () => Promise<Star[]> };
 
 const MAX_FRAME_SECONDS = 0.1;
 const MS_PER_SECOND = 1000;
@@ -55,14 +52,14 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
   mountWorldPicker(elements.worldPicker, current.id, choose);
   choose(current);
   createTouchPad(elements.touchPad, window);
-  const station = createStationControls(world, elements, () => current.id, sources.now);
+  const station = createStationControls(world, elements, () => current.id, sources);
   const frame = createWalkFrame({
     world,
     camera,
     keyboard: createKeyboardInput(window),
     mouse: createMouseLook(elements.canvas),
     avatar: createAstronautAvatar(world.scene, renderer),
-    view: createViewToggle(elements.viewToggle, window),
+    view: createViewToggle(window),
     ...station,
     gravity: () => current.gravity,
   });

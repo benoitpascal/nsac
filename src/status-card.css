@@ -18,7 +18,8 @@
 .status-card__icon {
   width: 40px;
   height: 40px;
-  background: var(--arcadia-icon-placeholder);
+  flex: none;
+  color: var(--arcadia-white);
 }
 
 .status-card__value,

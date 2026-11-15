@@ -42,8 +42,8 @@
 
           <h2 id="briefing-title" class="briefing__title">Briefing</h2>
           <p class="briefing__text">
-            Your crew has landed. Finish setting up the base and gather what it needs, so it can keep going on its
-            own.
+            Regolith is the dust and broken rock that covers the Moon. Our 3D printer can turn it into bricks! Today,
+            dig regolith with the robot and tune the printer, in the order you like.
           </p>
 
           <div class="briefing__panels">
@@ -53,23 +53,20 @@
                 Today's goals
               </h3>
               <ul class="objectives">
-                <li class="objective objective--done">
-                  <span class="objective__box">
-                    <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#check" /></svg>
-                  </span>
-                  <span><span class="objective__verb">Send out</span> the digging robot.</span>
-                  <span class="visually-hidden">(done)</span>
-                </li>
                 <li class="objective">
                   <span class="objective__box"></span>
                   <span>
-                    Collect 50 kg of regolith.
-                    <small class="objective__hint">Regolith is the dust and broken rock that covers the Moon.</small>
+                    Collect 5 units of regolith.
+                    <small class="objective__hint">Dig them in the grey zone. One unit is 10 kg.</small>
                   </span>
                 </li>
                 <li class="objective">
                   <span class="objective__box"></span>
-                  <span>Check the oxygen level at the station terminal.</span>
+                  <span>Bring the robot back to the base, in the orange zone.</span>
+                </li>
+                <li class="objective">
+                  <span class="objective__box"></span>
+                  <span>Calibrate the 3D printer.</span>
                 </li>
               </ul>
             </section>
@@ -83,8 +80,8 @@
                 <li class="resource" style="--level: 0%">
                   <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#rock" /></svg>
                   <span class="resource__name">Regolith</span>
-                  <span class="resource__value">0 / 50 kg</span>
-                  <span class="resource__bar" role="meter" aria-label="Regolith" aria-valuenow="0" aria-valuemin="0" aria-valuemax="50"></span>
+                  <span class="resource__value">0 / 5</span>
+                  <span class="resource__bar" role="meter" aria-label="Regolith" aria-valuenow="0" aria-valuemin="0" aria-valuemax="5"></span>
                 </li>
                 <li class="resource" style="--level: 100%">
                   <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#oxygen" /></svg>
@@ -115,9 +112,9 @@
           <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#back" /></svg>
           Back
         </a>
-        <a class="hud-action" href="/planet-walk.html?mission=day-one">
+        <a class="hud-action" href="/terminal.html">
           <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#chevrons" /></svg>
-          Launch mission
+          Go to the terminal
         </a>
       </footer>
     </div>

@@ -25,7 +25,7 @@ const objectiveElement = ({ id, done, progress }: Objective) => {
     meter.setAttribute('aria-hidden', 'true');
     const count = document.createElement('span');
     count.className = 'mission-objective__count';
-    count.textContent = `${Math.floor(progress.value)} / ${progress.target} kg`;
+    count.textContent = `${Math.floor(progress.value)} / ${progress.target} units`;
     body.append(meter, count);
   }
   item.append(box, body);

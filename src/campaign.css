@@ -1,0 +1,201 @@
+/* Moon demo screens between missions: day 2 planning, debriefs and mini-game challenges. */
+
+.plan,
+.debrief {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.plan__stocks,
+.plan__choices,
+.debrief__story,
+.debrief__stocks {
+  padding: 24px;
+}
+
+.plan__stock-list,
+.plan__actions,
+.debrief__notes,
+.debrief__stock-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plan-stock,
+.debrief-stock {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--arcadia-accent-faint);
+  font-size: 19px;
+}
+
+.debrief-stock {
+  grid-template-columns: 1fr 7ch 9ch;
+}
+
+.plan-stock__value,
+.debrief-stock__value {
+  font-weight: 500;
+  text-align: right;
+}
+
+.plan__intro {
+  margin: 12px 0 20px;
+  color: var(--arcadia-ink-muted);
+  font-size: 18px;
+}
+
+.plan__actions {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.plan-action {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  border: 1px solid var(--arcadia-accent-soft);
+  background: var(--arcadia-panel-strong);
+}
+
+.plan-action[data-state='locked'] {
+  opacity: 0.5;
+  filter: grayscale(0.8);
+}
+
+.plan-action__badge {
+  align-self: flex-start;
+  padding: 2px 10px;
+  color: var(--arcadia-deep);
+  background: var(--arcadia-success);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.plan-action__title {
+  margin: 0;
+  font-family: var(--arcadia-font);
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+.plan-action__text,
+.plan-action__cost,
+.plan-action__missing {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+.plan-action__cost {
+  color: var(--arcadia-ink-muted);
+}
+
+.plan-action__missing {
+  color: var(--arcadia-danger);
+}
+
+.plan-action__missing::before {
+  content: '🔒 ';
+}
+
+/* Pushed to the bottom of the card, so every button sits on the same line. */
+.plan-action__launch {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.plan-action__launch:disabled {
+  cursor: not-allowed;
+}
+
+.debrief-note {
+  font-size: 19px;
+  line-height: 1.4;
+}
+
+.debrief__time {
+  margin: 20px 0 0;
+  color: var(--arcadia-accent);
+  font-size: 19px;
+}
+
+.debrief-stock__change {
+  min-width: 6ch;
+  text-align: right;
+}
+
+.debrief-stock[data-trend='up'] .debrief-stock__change {
+  color: var(--arcadia-success);
+}
+
+.debrief-stock[data-trend='down'] .debrief-stock__change {
+  color: var(--arcadia-danger);
+}
+
+.debrief-stock[data-trend='up'] .debrief-stock__change::before {
+  content: '▲ ';
+}
+
+.debrief-stock[data-trend='down'] .debrief-stock__change::before {
+  content: '▼ ';
+}
+
+.challenge {
+  display: grid;
+  gap: 20px;
+  justify-items: center;
+}
+
+.challenge__story {
+  max-width: 48rem;
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.challenge__board {
+  width: min(56rem, 100%);
+}
+
+.challenge__result {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  padding: 24px 32px;
+  text-align: center;
+}
+
+.challenge__result[hidden] {
+  display: none;
+}
+
+.challenge__quality {
+  margin: 0;
+  font-family: var(--arcadia-font);
+  font-size: 40px;
+  font-weight: 400;
+}
+
+.challenge__verdict {
+  margin: 0;
+  font-size: 20px;
+}
+
+@media (max-width: 900px) {
+  .plan,
+  .debrief {
+    grid-template-columns: 1fr;
+  }
+}

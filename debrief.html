@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#121d3b" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;500&display=swap"
+    />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <link rel="stylesheet" href="/src/hud.css" />
+    <link rel="stylesheet" href="/src/campaign.css" />
+    <title>Debrief · Project Arcadia</title>
+    <meta name="description" content="What the day brought to the Moon base, and what it cost." />
+  </head>
+  <body class="arcadia arcadia--hud">
+    <div class="hud">
+      <header class="hud__header">
+        <a class="logotype hud__logotype" href="/"><img src="/arcadia/logotype.svg" alt="Project Arcadia, home" /></a>
+        <h1 class="hud__title">Debrief · Day <span id="debrief-day">01</span></h1>
+        <p class="hud__tag">Act II · Moon</p>
+      </header>
+
+      <main class="debrief">
+        <section class="hud-panel debrief__story" aria-labelledby="debrief-story-title">
+          <h2 id="debrief-story-title" class="hud-panel__heading">What happened</h2>
+          <ul id="debrief-notes" class="debrief__notes"></ul>
+          <p id="debrief-time" class="debrief__time"></p>
+        </section>
+        <section class="hud-panel debrief__stocks" aria-labelledby="debrief-stocks-title">
+          <h2 id="debrief-stocks-title" class="hud-panel__heading">Stocks tonight</h2>
+          <ul id="debrief-stocks" class="debrief__stock-list"></ul>
+        </section>
+      </main>
+
+      <footer class="hud__footer">
+        <span></span>
+        <a id="debrief-next" class="hud-action" href="/day-one.html">Next day</a>
+      </footer>
+    </div>
+    <script type="module" src="/src/debrief.ts"></script>
+  </body>
+</html>

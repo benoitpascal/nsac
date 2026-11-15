@@ -1,30 +1,29 @@
-import { startBase } from '@/modules/moon-base/core/base-state';
-import {
-  clearBase,
-  loadBase,
-  loadRegolith,
-  saveBase,
-} from '@/modules/moon-base/infra/campaign-store';
-import { mountMoonBase } from '@/modules/moon-base/ui/moon-base.view';
+import { launchAction } from '@/modules/moon-base/core/actions';
+import { startCampaign } from '@/modules/moon-base/core/campaign';
+import { calibrationDone, nextDay, robotDone } from '@/modules/moon-base/core/day-steps';
+import { loadCampaign, saveCampaign } from '@/modules/moon-base/infra/campaign-store';
+import { renderPlanning } from '@/modules/moon-base/ui/planning.view';
 import { requireElement } from '@/shared/dom';
 
-mountMoonBase(
+/** The day 2 campaign; opened on its own, the page makes up a well played day 1. */
+const saved = loadCampaign();
+const campaign =
+  saved?.stage === 'planning'
+    ? saved
+    : nextDay(calibrationDone(robotDone(startCampaign(), 50, false), 100), 'planning');
+
+renderPlanning(
   {
-    status: requireElement<HTMLElement>('#base-status'),
-    event: requireElement<HTMLElement>('#base-event'),
-    crew: requireElement<HTMLElement>('#base-crew'),
-    jobsHelp: requireElement<HTMLElement>('#base-jobs-help'),
-    forecast: requireElement<HTMLElement>('#base-forecast'),
-    endButton: requireElement<HTMLButtonElement>('#base-end-day'),
-    report: requireElement<HTMLDialogElement>('#base-report'),
-    actEnd: requireElement<HTMLDialogElement>('#base-act-end'),
+    day: requireElement<HTMLElement>('#plan-day'),
+    stocks: requireElement<HTMLElement>('#plan-stocks'),
+    actions: requireElement<HTMLElement>('#plan-actions'),
   },
-  loadBase() ?? startBase(loadRegolith()),
-  {
-    save: saveBase,
-    restart: () => {
-      clearBase();
-      return startBase(loadRegolith());
-    },
+  campaign.day,
+  campaign.stocks,
+  (action) => {
+    const launched = launchAction(campaign, action);
+    saveCampaign(launched);
+    window.location.href =
+      launched.stage === 'construction' ? '/challenge.html?game=shelter' : '/debrief.html';
   },
 );

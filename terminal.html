@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b0f1c" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;500&display=swap"
+    />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <link rel="stylesheet" href="/src/terminal.css" />
+    <title>Base terminal · Project Arcadia</title>
+    <meta name="description" content="Choose the day's next task from the Moon base terminal." />
+  </head>
+  <body class="arcadia arcadia--terminal">
+    <div class="terminal">
+      <div class="terminal__stage" aria-hidden="true">
+        <div class="terminal__screen"><span></span><span></span><span></span></div>
+      </div>
+
+      <main class="terminal__console" aria-labelledby="terminal-title">
+        <p class="terminal__label">Base terminal · Day <span id="terminal-day">01</span></p>
+        <h1 id="terminal-title" class="terminal__title">What do we do now?</h1>
+        <ul id="terminal-tasks" class="terminal__tasks"></ul>
+        <p id="terminal-status" class="terminal__status" role="status"></p>
+        <a id="terminal-debrief" class="pill-button terminal__debrief" href="/debrief.html" hidden>
+          <span class="pill-button__label">Day debrief</span>
+        </a>
+      </main>
+    </div>
+    <script type="module" src="/src/terminal.ts"></script>
+  </body>
+</html>

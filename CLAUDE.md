@@ -36,9 +36,13 @@ Pages (declared in `vite.config.ts` under `build.rolldownOptions.input`):
 - `day-one.html` (Moon act intro) loads `src/styles.css`, `src/day-one.css` and `src/status-card.css`.
 - `briefing.html` (daily briefing) loads `src/styles.css`, `src/hud.css` and `src/briefing.css`.
 - `information.html` (context, goal, how to play, controls, credits) loads `src/information.ts`, `src/styles.css`, `src/hud.css` and `src/information.css`.
-- `base.html` (Moon base management: 5 demo days, crew jobs, solar storm, end-of-act summary) loads `src/base.ts`, `src/styles.css`, `src/hud.css` and `src/base.css`.
+- `base.html` (day 2 planning: four actions with their cost, unaffordable ones greyed) loads `src/base.ts`, `src/styles.css`, `src/hud.css` and `src/campaign.css`.
+- `terminal.html` (day 1 base terminal, Figma frames 15/16: zoom into the console screen, then the robot mission and the printer calibration, in any order; the debrief once both are done) loads `src/terminal.ts`, `src/styles.css` and `src/terminal.css`.
+- `challenge.html?game=calibration|shelter` (day 1 printer calibration with Laser Mirrors, day 2 shelter build with Precision Balance) loads `src/challenge.ts` and `src/pages.css`.
+- `debrief.html` (end of a day: notes and stock changes) loads `src/debrief.ts`.
+- `day-one.html` is also the morning screen of days 2 and 3 (`src/day-transition.ts`, driven by the campaign in sessionStorage); on day 3 it raises the solar alert and ends the demo. `?new` starts a fresh campaign (the intro video leads there).
 - `solar-system.html` loads `src/solar-system.ts`.
-- `planet-walk.html` loads `src/planet-walk.ts` and `src/mission.css`. With `?mission=day-one` (from the briefing) it plays the day one robot mission, then leads to `base.html`.
+- `planet-walk.html` loads `src/planet-walk.ts` and `src/mission.css`. With `?mission=day-one` (from the briefing) it plays the day one robot mission, then leads back to `terminal.html`.
 - `minigames.html` loads `src/minigames.ts`.
 
 `src/styles.css` holds the Project Arcadia design tokens and shared components (logotype, pill button) of the pages built from the Figma mock-ups; their images live in `public/arcadia/`. Layout sizes follow the 1920 × 1080 mock-ups through `--design-px`; buttons and cards keep fixed sizes to stay readable and tappable. `briefing.html` and `information.html` have no Figma frame: they follow the reference images « image 10 » and « image 9 », so `src/hud.css` gives them cut-corner panels, and their icons are drawn by hand in the `public/arcadia/hud-icons.svg` sprite (`currentColor`, used through `<svg><use>`). The three last pages share `src/pages.css`.
@@ -116,7 +120,7 @@ _URLs à vérifier lors de l'intégration (endpoints exacts, CORS, quotas)._
 - [x] Stack et déploiement : Vite + TypeScript, servi en statique par nginx (Docker), CI/CD GitHub Actions. **Un push sur `main` déploie en prod, sur `dev` en staging** : travailler sur des branches.
 - [ ] Rendu : DOM pour la grille et l'interface ; Three.js en option pour le décor (à trancher)
 - [ ] Intégration des données (live et/ou dataset embarqué)
-- [ ] Prototype jouable : **en cours** sur la branche `scenario`. Parcours de démo de l'acte 2 (cahier global HORIZON §7) : briefing → mission robot du jour 1 (`planet-walk.html?mission=day-one`) → gestion de la base sur 5 jours (`base.html`, moteur déterministe dans `src/modules/moon-base/core/`) → bilan. Valeurs d'équilibrage dans `DATA.md`
+- [ ] Prototype jouable : **en cours** sur la branche `scenario`. Parcours du scénario validé (Projet Artemis, 3 jours) : vidéo → jour 1 (briefing, terminal de la base : mission robot `planet-walk.html?mission=day-one` et calibration de l'imprimante dans l'ordre choisi, débrief) → jour 2 (planification `base.html`, construction de l'abri, débrief) → jour 3 (alerte solaire, fondu au noir, « To be continued… »). Moteur déterministe dans `src/modules/moon-base/core/`. Valeurs d'équilibrage dans `DATA.md`
 - [ ] Page « Sources & science » pour le jury
 - [ ] Démo / pitch
 

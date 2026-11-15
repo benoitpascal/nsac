@@ -640,40 +640,67 @@ body {
   display: grid;
   gap: 0.6rem;
   justify-items: center;
-  width: min(36rem, calc(100vw - 2rem));
+  width: max-content;
+  max-width: calc(100vw - 2rem);
   transform: translateX(-50%);
 }
 
-.walk-controls__help {
+.walk-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  justify-content: center;
   margin: 0;
-  padding: 0.3rem 0.8rem;
+  padding: 0.4rem 0.9rem;
   border-radius: 0.6rem;
   background: rgba(5, 6, 15, 0.6);
-  font-size: 0.8rem;
-  text-align: center;
   color: var(--ink-muted);
+  font-size: 0.8rem;
+  list-style: none;
 }
 
+.walk-keys kbd {
+  padding: 0.05rem 0.4rem;
+  border: 1px solid var(--ink-muted);
+  border-radius: 0.3rem;
+  color: var(--ink);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+}
+
+/* The station dashboard is the base terminal's console (Figma frame 15), its screen showing the
+   resources like the briefing does. */
 .station-dashboard {
   position: fixed;
   top: 50%;
   left: 50%;
   z-index: 3;
-  display: grid;
-  gap: 0.8rem;
-  width: min(36rem, calc(100vw - 2rem));
-  max-height: calc(100vh - 2rem);
-  overflow-y: auto;
-  padding: 1rem 1.2rem;
-  border: 1px solid var(--signal-cyan);
-  border-radius: 1rem;
-  background: rgba(5, 6, 15, 0.92);
-  box-shadow: 0 0 2rem rgba(77, 227, 255, 0.25);
+  width: min(820px, calc(100vw - 2rem), calc((100dvh - 2rem) * 930 / 755));
+  aspect-ratio: 930 / 755;
+  background: url('/arcadia/terminal-console.webp') center / contain no-repeat;
+  filter: drop-shadow(0 0 2rem rgba(0, 0, 0, 0.6));
   transform: translate(-50%, -50%);
 }
 
 .station-dashboard[hidden] {
   display: none;
+}
+
+.station-dashboard__screen {
+  position: absolute;
+  top: 11.5%;
+  left: 12.9%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 74.4%;
+  height: 54%;
+  overflow-y: auto;
+  padding: 0.9rem 1.2rem;
+  border-radius: 6px;
+  background: #0b0f1c;
+  color: var(--ink);
+  font-family: 'Outfit', system-ui, sans-serif;
 }
 
 .station-dashboard__header {
@@ -685,44 +712,69 @@ body {
 .station-dashboard__title {
   margin: 0;
   font-family: 'Space Mono', monospace;
-  font-size: 1rem;
+  font-size: 0.9rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--signal-cyan);
+  color: #35e9fd;
 }
 
 .station-dashboard__close {
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 2rem;
+  height: 2rem;
   border: 1px solid var(--ink-muted);
   border-radius: 50%;
   background: none;
   color: var(--ink);
-  font-size: 1rem;
+  font-size: 0.9rem;
   cursor: pointer;
 }
 
-.station-dashboard__readings {
+.station-dashboard__resources {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.45rem 1rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.3rem 1.4rem;
   margin: 0;
-  font-size: 0.9rem;
+  padding: 0;
+  list-style: none;
 }
 
-.station-dashboard__readings dt {
+.station-resource {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 4px 10px;
+  align-items: center;
+  padding: 4px 0;
+  font-size: 0.95rem;
+}
+
+.station-resource__icon {
+  width: 20px;
+  height: 20px;
+  color: #35e9fd;
+}
+
+.station-resource__value {
+  font-weight: 500;
+}
+
+.station-resource__bar {
+  grid-column: 2 / -1;
+  height: 7px;
+  border-radius: 2px;
+  background:
+    linear-gradient(90deg, #35e9fd var(--level), transparent var(--level)), rgba(53, 233, 253, 0.16);
+}
+
+.station-dashboard__outside {
+  margin: 0;
   color: var(--ink-muted);
-}
-
-.station-dashboard__readings dd {
-  margin: 0;
-  font-family: 'Space Mono', monospace;
-  color: var(--ink);
+  font-size: 0.8rem;
 }
 
 .station-dashboard__drive {
-  justify-self: center;
-  padding: 0.6rem 1.4rem;
+  align-self: center;
+  margin-top: auto;
+  padding: 0.5rem 1.4rem;
   border: 1px solid var(--flare-orange);
   border-radius: 999px;
   background: rgba(255, 107, 61, 0.15);
@@ -766,7 +818,7 @@ body {
     top: 6.8rem;
   }
 
-  .walk-controls__help {
+  .walk-keys {
     display: none;
   }
 }

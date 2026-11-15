@@ -1,79 +1,59 @@
 import { WORLD_CONDITIONS } from '../../core/station/conditions';
+import { startStores } from '../../core/station/resources';
 import { batteryShare } from '../../core/excavator/excavator-power';
+import { DAY_ONE } from '../../core/mission/day-one';
 import type { ExcavatorStore } from '../../core/excavator/excavator-power';
 import type { StationReadings } from '../../core/station/readings';
 
-/** A line of the dashboard: what is measured, and its value as shown. */
-export type DashboardRow = { label: string; value: string };
+/** The base's stocks as shares (%), as the rest of the demo shows them. */
+export type BaseShares = { energy: number; oxygen: number; water: number; food: number };
 
-const HOURS_PER_DAY = 24;
-const MINUTES_PER_HOUR = 60;
+/** A resource line of the dashboard: its icon, name, value as shown, and fill (0–100). */
+export type ResourceRow = { icon: string; name: string; value: string; level: number };
+
 const PERCENT = 100;
 const EARTH_RADIATION = WORLD_CONDITIONS.earth.radiationMicroSvPerHour;
-
-const tenths = new Intl.NumberFormat('en-US', {
-  minimumFractionDigits: 1,
-  maximumFractionDigits: 1,
-});
 const whole = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
-const date = new Intl.DateTimeFormat('en-GB', {
-  timeZone: 'UTC',
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
+const START = startStores();
+
+const share = (value: number, full: number) =>
+  Math.round(Math.min(PERCENT, Math.max(0, (value / full) * PERCENT)));
+
+/** Without a demo campaign (free walk), the station's own stores as shares of their start. */
+export const sharesOf = (readings: StationReadings): BaseShares => ({
+  energy: share(readings.batteryShare, 1),
+  oxygen: share(readings.oxygenKg, START.oxygenKg),
+  water: share(readings.waterLiters, START.waterLiters),
+  food: share(readings.foodKg, START.foodKg),
 });
-const time = new Intl.DateTimeFormat('en-GB', {
-  timeZone: 'UTC',
-  hour: '2-digit',
-  minute: '2-digit',
-  second: '2-digit',
+
+const percentRow = (icon: string, name: string, level: number): ResourceRow => ({
+  icon,
+  name,
+  value: `${level} %`,
+  level,
 });
 
-const twoDigits = (value: number) => String(value).padStart(2, '0');
-
-/** The local day as a 24-hour sun clock: 12:00 when the Sun is highest. */
-const sunClock = (dayShare: number) => {
-  const minutes = Math.floor(dayShare * HOURS_PER_DAY * MINUTES_PER_HOUR);
-  return `${twoDigits(Math.floor(minutes / MINUTES_PER_HOUR))}:${twoDigits(minutes % MINUTES_PER_HOUR)}`;
-};
-
-/** Returns the dashboard lines for the readings, with their units. */
-export const dashboardRows = (readings: StationReadings): DashboardRow[] => {
-  const charging = readings.generationKw >= readings.loadKw;
-  const radiation = readings.radiationMicroSvPerHour;
+/** The base's stocks, then the robot's battery and the regolith it brought back. */
+export const resourceRows = (base: BaseShares, excavator: ExcavatorStore): ResourceRow[] => {
+  const delivered = Math.floor(excavator.deliveredKg / DAY_ONE.kgPerUnit);
   return [
+    percentRow('bolt', 'Power', base.energy),
+    percentRow('oxygen', 'Oxygen', base.oxygen),
+    percentRow('drop', 'Water', base.water),
+    percentRow('food', 'Food', base.food),
+    percentRow('battery', 'Robot battery', Math.round(batteryShare(excavator) * PERCENT)),
     {
-      label: 'Oxygen',
-      value: `${tenths.format(readings.oxygenKg)} kg · ${whole.format(readings.oxygenDays)} days for 4 people`,
+      icon: 'rock',
+      name: 'Regolith at the base',
+      value: `${delivered} / ${DAY_ONE.goalUnits}`,
+      level: share(delivered, DAY_ONE.goalUnits),
     },
-    {
-      label: 'Food',
-      value: `${tenths.format(readings.foodKg)} kg · ${whole.format(readings.foodDays)} days for 4 people`,
-    },
-    { label: 'Solar power', value: `${tenths.format(readings.generationKw)} kW made` },
-    { label: 'Power use', value: `${tenths.format(readings.loadKw)} kW used` },
-    {
-      label: 'Battery',
-      value: `${tenths.format(readings.batteryShare * PERCENT)} % · ${charging ? 'charging' : 'draining'}`,
-    },
-    { label: 'Water', value: `${tenths.format(readings.waterLiters)} L` },
-    {
-      label: 'Radiation outside',
-      value: `${tenths.format(radiation)} µSv/h · ${whole.format(radiation / EARTH_RADIATION)}× Earth`,
-    },
-    { label: 'Date', value: date.format(readings.timestamp) },
-    { label: 'Time (UTC)', value: time.format(readings.timestamp) },
-    {
-      label: 'Sun time here',
-      value: `${sunClock(readings.dayShare)} · ${readings.daytime ? 'day' : 'night'}`,
-    },
-    { label: 'Outside temperature', value: `${whole.format(readings.outsideCelsius)} °C` },
   ];
 };
 
-/** Returns the dashboard lines about the excavator robot: its battery, its load and what it dropped off. */
-export const excavatorRows = (store: ExcavatorStore): DashboardRow[] => [
-  { label: 'Excavator battery', value: `${tenths.format(batteryShare(store) * PERCENT)} %` },
-  { label: 'Regolith on board', value: `${tenths.format(store.carriedKg)} kg` },
-  { label: 'Regolith delivered', value: `${tenths.format(store.deliveredKg)} kg` },
-];
+/** One line about outside: temperature, radiation compared with Earth, day or night. */
+export const outsideLine = (readings: StationReadings) =>
+  `Outside: ${whole.format(readings.outsideCelsius)} °C · radiation ` +
+  `${whole.format(readings.radiationMicroSvPerHour / EARTH_RADIATION)}× Earth · ` +
+  `${readings.daytime ? 'day' : 'night'}`;

@@ -1,4 +1,6 @@
-import { clearBase, saveRegolith } from '@/modules/moon-base/infra/campaign-store';
+import { startCampaign } from '@/modules/moon-base/core/campaign';
+import { robotDone } from '@/modules/moon-base/core/day-steps';
+import { loadCampaign, saveCampaign } from '@/modules/moon-base/infra/campaign-store';
 import { loadStarCatalog } from '@/modules/solar-system/infra/star-catalog';
 import { startDayOneMission } from '@/modules/planet-walk/ui/mission/day-one-mission.view';
 import { mountPlanetWalk } from '@/modules/planet-walk/ui/planet-walk.view';
@@ -15,6 +17,7 @@ const startClock = () => {
   return () => Date.now() + shift;
 };
 
+const onMission = new URLSearchParams(window.location.search).get('mission') === 'day-one';
 const worldPicker = requireElement<HTMLElement>('#world-picker');
 
 const walk = mountPlanetWalk(
@@ -22,19 +25,26 @@ const walk = mountPlanetWalk(
     canvas: requireElement<HTMLCanvasElement>('#planet-walk'),
     worldPicker,
     factsPanel: requireElement<HTMLElement>('#walk-facts'),
-    viewToggle: requireElement<HTMLButtonElement>('#view-toggle'),
     pilotPrompt: requireElement<HTMLButtonElement>('#pilot-prompt'),
     dashboard: requireElement<HTMLElement>('#station-dashboard'),
     touchPad: requireElement<HTMLElement>('#touch-pad'),
     excavatorHud: requireElement<HTMLElement>('#excavator-hud'),
   },
-  { loadStars: loadStarCatalog, now: startClock() },
+  {
+    loadStars: loadStarCatalog,
+    now: startClock(),
+    // On the demo's mission, the dashboard shows the same base stocks as the briefing and debriefs.
+    baseShares: () => (onMission ? loadCampaign()?.stocks : undefined),
+  },
 );
 
 // Reached from the daily briefing, the walk plays that day's mission instead of free roaming.
-// A new day one starts a new act, so the base saved from an earlier act is forgotten.
-if (new URLSearchParams(window.location.search).get('mission') === 'day-one') {
-  clearBase();
+// The mission is one of day 1's two tasks: it joins the day's campaign (or starts one when the page
+// is opened on its own), and its end is kept for the terminal. A retry replays from the same start.
+if (onMission) {
+  const saved = loadCampaign();
+  const campaign = saved?.stage === 'dayOne' ? saved : startCampaign();
+  saveCampaign(campaign);
   startDayOneMission(
     walk,
     {
@@ -43,6 +53,6 @@ if (new URLSearchParams(window.location.search).get('mission') === 'day-one') {
       worldPicker,
       backLink: requireElement<HTMLAnchorElement>('#walk-back'),
     },
-    saveRegolith,
+    (deliveredKg, stranded) => saveCampaign(robotDone(campaign, deliveredKg, stranded)),
   );
 }

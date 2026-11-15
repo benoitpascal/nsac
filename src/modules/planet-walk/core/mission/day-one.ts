@@ -1,45 +1,51 @@
-/** What the walk reports to the day's mission: the robot's work, and whether the oxygen was checked. */
+/** What the walk reports to the day's mission: regolith in the robot's drums and back at the base. */
 export type MissionInputs = {
+  carriedKg: number;
   deliveredKg: number;
   robotCharged: boolean;
-  checkedOxygen: boolean;
 };
 
-/** The day's goals, in the order the briefing gives them. */
-export type ObjectiveId = 'regolith' | 'oxygen';
+/** The day's goals, in the order the briefing gives them: collect, then bring back. */
+export type ObjectiveId = 'collect' | 'return';
 
-/** A goal of the day, done or not, with how far along it is when it counts something. */
+/** A goal of the day, done or not, with how far along it is (units of regolith). */
 export type Objective = {
   id: ObjectiveId;
   done: boolean;
-  progress?: { value: number; target: number };
+  progress: { value: number; target: number };
 };
 
-/** Where the day stands: still going, every goal met, or the robot out of power before the target. */
+/** Where the day stands: still going, regolith brought home, or the robot stuck without power. */
 export type MissionOutcome = 'playing' | 'won' | 'stranded';
 
-/** Regolith the base needs on day one (kg): a gameplay target, see DATA.md. */
-export const DAY_ONE = { regolithTargetKg: 50 };
+/** One unit of regolith (kg), and the units the base needs on day one (gameplay, see DATA.md). */
+export const DAY_ONE = { kgPerUnit: 10, goalUnits: 5 };
 
-/** Returns the day's goals and how far each has come. */
-export const dayOneObjectives = (inputs: MissionInputs): Objective[] => [
-  {
-    id: 'regolith',
-    done: inputs.deliveredKg >= DAY_ONE.regolithTargetKg,
-    progress: {
-      value: Math.min(inputs.deliveredKg, DAY_ONE.regolithTargetKg),
-      target: DAY_ONE.regolithTargetKg,
+const units = (kg: number) => Math.min(Math.floor(kg / DAY_ONE.kgPerUnit), DAY_ONE.goalUnits);
+
+/** Returns the day's goals: regolith dug so far, and regolith brought back to the base. */
+export const dayOneObjectives = (inputs: MissionInputs): Objective[] => {
+  const collected = units(inputs.carriedKg + inputs.deliveredKg);
+  const returned = units(inputs.deliveredKg);
+  return [
+    {
+      id: 'collect',
+      done: collected >= DAY_ONE.goalUnits,
+      progress: { value: collected, target: DAY_ONE.goalUnits },
     },
-  },
-  { id: 'oxygen', done: inputs.checkedOxygen },
-];
+    {
+      id: 'return',
+      done: returned >= DAY_ONE.goalUnits,
+      progress: { value: returned, target: DAY_ONE.goalUnits },
+    },
+  ];
+};
 
 /**
- * Returns where the day stands: won once every goal is met; stranded when the robot's battery is
- * empty before enough regolith reached the base, since nothing can recharge it today.
+ * Returns where the day stands: won once enough regolith is back at the base; stranded when the
+ * robot's battery is empty before that, since nothing can recharge it out there.
  */
 export const dayOneOutcome = (inputs: MissionInputs): MissionOutcome => {
-  if (dayOneObjectives(inputs).every((objective) => objective.done)) return 'won';
-  const short = inputs.deliveredKg < DAY_ONE.regolithTargetKg;
-  return short && !inputs.robotCharged ? 'stranded' : 'playing';
+  if (units(inputs.deliveredKg) >= DAY_ONE.goalUnits) return 'won';
+  return inputs.robotCharged ? 'playing' : 'stranded';
 };

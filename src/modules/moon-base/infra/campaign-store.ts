@@ -1,6 +1,6 @@
-import type { BaseState } from '../core/base-state';
+import type { Campaign } from '../core/campaign';
 
-const KEYS = { regolith: 'horizon.dayOneRegolithKg', base: 'horizon.moonBase' };
+const KEY = 'horizon.campaign';
 
 /** The tab's session storage, or nothing when the browser blocks it. */
 const storage = (): Storage | undefined => {
@@ -11,39 +11,22 @@ const storage = (): Storage | undefined => {
   }
 };
 
-const write = (key: string, value: string) => {
+/** Keeps the demo between pages; when storage is blocked the demo still plays, page by page. */
+export const saveCampaign = (campaign: Campaign) => {
   try {
-    storage()?.setItem(key, value);
+    storage()?.setItem(KEY, JSON.stringify(campaign));
   } catch {
-    // Storage full or blocked: the demo still plays, it just forgets on reload.
+    // Storage full or blocked: nothing to keep.
   }
 };
 
-/** Keeps the regolith the robot brought on day one (kg), for the base to use. */
-export const saveRegolith = (kg: number) => write(KEYS.regolith, String(kg));
-
-/** Returns the regolith brought on day one (kg), 0 when the robot mission was not played. */
-export const loadRegolith = (): number => Number(storage()?.getItem(KEYS.regolith)) || 0;
-
-/** Keeps the base between page loads, so that a reload does not lose the days played. */
-export const saveBase = (state: BaseState) => write(KEYS.base, JSON.stringify(state));
-
-/** Returns the base saved in this tab, if any. */
-export const loadBase = (): BaseState | undefined => {
-  const saved = storage()?.getItem(KEYS.base);
+/** Returns the demo saved in this tab, if any. */
+export const loadCampaign = (): Campaign | undefined => {
+  const saved = storage()?.getItem(KEY);
   if (!saved) return undefined;
   try {
-    return JSON.parse(saved) as BaseState;
+    return JSON.parse(saved) as Campaign;
   } catch {
     return undefined;
-  }
-};
-
-/** Forgets the saved base, to play the act again from day 1. */
-export const clearBase = () => {
-  try {
-    storage()?.removeItem(KEYS.base);
-  } catch {
-    // Nothing saved, or storage blocked: nothing to forget.
   }
 };

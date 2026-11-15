@@ -1,0 +1,188 @@
+/*
+ * Base terminal of day 1 (Figma frames 15 and 16): the console in the lunar module, then a zoom
+ * into its screen, where the player picks the next task.
+ */
+
+.arcadia--terminal {
+  background: #0b0f1c;
+}
+
+.terminal {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+.terminal__stage {
+  position: relative;
+  width: min(100vw, calc(100dvh * 1720 / 960));
+  aspect-ratio: 1720 / 960;
+  background: url('/arcadia/terminal.webp') center / cover no-repeat;
+  transform-origin: 50.9% 39.2%;
+  transition:
+    transform 1.1s cubic-bezier(0.6, 0, 0.3, 1),
+    opacity 0.4s ease 0.9s;
+}
+
+/* Covers the picture shown on the screen in the mock-up with the terminal's own loading dots. */
+.terminal__screen {
+  position: absolute;
+  top: 17.9%;
+  left: 30.8%;
+  display: flex;
+  gap: 4%;
+  align-items: center;
+  justify-content: center;
+  width: 40.2%;
+  height: 42.5%;
+  border-radius: 1.2% / 2%;
+  background: #0b0f1c;
+}
+
+.terminal__screen span {
+  width: 9%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #35e9fd;
+  animation: terminal-dot 1s ease-in-out infinite alternate;
+}
+
+.terminal__screen span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.terminal__screen span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes terminal-dot {
+  to {
+    opacity: 0.3;
+  }
+}
+
+.terminal--zoomed .terminal__stage {
+  opacity: 0;
+  transform: scale(2.6);
+}
+
+.terminal__console {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 32px 16px;
+  color: var(--arcadia-ink);
+  font-family: var(--arcadia-font-body);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease 1s;
+}
+
+.terminal--zoomed .terminal__console {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.terminal__label {
+  margin: 0;
+  color: #35e9fd;
+  font-size: 18px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.terminal__title {
+  margin: 0;
+  font-family: var(--arcadia-font);
+  font-size: clamp(40px, 5vw, 72px);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+.terminal__tasks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 380px));
+  gap: 24px;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.terminal-task {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  padding: 24px;
+  border: 2px solid rgba(53, 233, 253, 0.6);
+  border-radius: 16px;
+  color: inherit;
+  background: rgba(53, 233, 253, 0.06);
+  text-decoration: none;
+}
+
+a.terminal-task:is(:hover, :focus-visible) {
+  outline: none;
+  border-color: #35e9fd;
+  background: rgba(53, 233, 253, 0.14);
+  box-shadow: 0 0 18px rgba(53, 233, 253, 0.35);
+}
+
+.terminal-task[data-done] {
+  border-color: rgba(125, 232, 185, 0.6);
+  background: rgba(125, 232, 185, 0.06);
+}
+
+.terminal-task__title {
+  margin: 0;
+  font-family: var(--arcadia-font);
+  font-size: 34px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+.terminal-task__text {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.terminal-task__state {
+  margin: auto 0 0;
+  padding-top: 8px;
+  color: #35e9fd;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.terminal-task[data-done] .terminal-task__state {
+  color: var(--arcadia-success);
+}
+
+.terminal-task[data-done] .terminal-task__state::before {
+  content: '✓ ';
+}
+
+.terminal__status {
+  margin: 0;
+  font-size: 19px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .terminal__stage,
+  .terminal__console {
+    transition: none;
+  }
+}
+
+.terminal__debrief[hidden] {
+  display: none;
+}
