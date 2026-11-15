@@ -1,0 +1,152 @@
+/* Figma « Ecran - Bandeau » (79:707): the in-game header, 1919 × 140 on the mock-up. It spans the
+   whole width, so it cancels the padding of the .hud page around it (same gutter as .hud). */
+.hud {
+  --band-gutter: clamp(16px, 3vw, 56px);
+}
+
+.band {
+  position: relative;
+  display: flex;
+  gap: 16px 32px;
+  align-items: center;
+  min-height: max(96px, calc(140 * var(--design-px)));
+  margin: -24px calc(-1 * var(--band-gutter)) 0;
+  padding: 0 calc(369 * var(--design-px)) 0 max(16px, calc(60 * var(--design-px)));
+  background: url('/arcadia/act-select/header-line.svg') right bottom /
+    calc(1776.49 * var(--design-px)) 2px no-repeat;
+}
+
+/* Dotted motifs of the mock-up, as on the act selection header. */
+.band::before {
+  position: absolute;
+  inset: 0;
+  content: '';
+  background: radial-gradient(circle, rgba(53, 233, 253, 0.35) 1.2px, transparent 1.6px) 0 0 / 14px
+    14px;
+  mask-image: url('/arcadia/act-select/header-motifs.svg');
+  mask-size: 100% 100%;
+  pointer-events: none;
+}
+
+.band__logotype {
+  position: relative;
+  flex: none;
+  width: max(120px, calc(163 * var(--design-px)));
+}
+
+.band__logotype img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Title with the « dash » mark (79:755): three slanted cyan stripes, 57 × 29. */
+.band__title {
+  position: relative;
+  display: flex;
+  flex: 1;
+  gap: 16px;
+  align-items: center;
+  align-self: flex-end;
+  margin: 0 0 max(12px, calc(30 * var(--design-px))) max(0px, calc(83 * var(--design-px) - 32px));
+  font-family: var(--arcadia-font);
+  font-size: max(30px, calc(48 * var(--design-px)));
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.band__title::before {
+  width: 57px;
+  height: 29px;
+  flex: none;
+  content: '';
+  background: url('/arcadia/dash.svg') center / contain no-repeat;
+}
+
+/* « Info HUD » labels (75:652): Outfit Medium, no background (18 px on the component, drawn
+   bigger on the dashboard mock-up). */
+.band__info {
+  position: relative;
+  display: flex;
+  gap: 37px;
+  align-self: flex-end;
+  margin: 0 calc(-12 * var(--design-px)) max(8px, calc(28 * var(--design-px))) 0;
+  font-family: var(--arcadia-font-body);
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.band__info > * {
+  padding: 10px;
+}
+
+/* Planet MOON (63:1833), 369 × 141 on the right edge. */
+.band__planet {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 2px;
+  width: calc(369 * var(--design-px));
+  overflow: hidden;
+  background: url('/arcadia/act-select/moon.webp') calc(-48 * var(--design-px))
+    calc(-152 * var(--design-px)) / calc(620 * var(--design-px)) calc(896 * var(--design-px))
+    no-repeat;
+  pointer-events: none;
+}
+
+/* « Main Mission Progress » (63:1911): 637 wide under the title, cyan level on #22315a. */
+.mission-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: min(637px, 100%);
+  margin-top: calc(16 * var(--design-px));
+  margin-left: max(0px, calc(306 * var(--design-px) - var(--band-gutter)));
+}
+
+.mission-progress__text {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  font-family: var(--arcadia-font);
+  font-size: 25.6px;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.mission-progress__text > :last-child {
+  font-family: var(--arcadia-font-body);
+  letter-spacing: 0.07em;
+}
+
+.mission-progress__track {
+  height: 20px;
+  background: linear-gradient(var(--figma-secondary-600), var(--figma-secondary-600)) 0 0 /
+    var(--progress, 0%) 100% no-repeat #22315a;
+  transition: background-size 0.6s ease;
+}
+
+@media (max-width: 760px) {
+  .band {
+    flex-wrap: wrap;
+    padding-block: 12px;
+  }
+
+  .band__planet {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mission-progress__track {
+    transition: none;
+  }
+}
+
+/* The terminal page stacks the header, the progress bar and the discussion. */
+.hud:has(> .mission-progress) {
+  grid-template-rows: auto auto 1fr;
+}
