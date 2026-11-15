@@ -63,6 +63,7 @@ export const saveCampaign = (state: CampaignState) => {
 export const clearCampaign = () => {
   try {
     localStorage.removeItem(KEY);
+    localStorage.removeItem('arcadia.earthRadio');
   } catch {
     console.warn('[scenario] storage unavailable');
   }

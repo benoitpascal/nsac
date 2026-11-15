@@ -34,6 +34,8 @@ export type FrameParts = {
   hud: ReturnType<typeof createExcavatorHud>;
   legend: ReturnType<typeof createCommandLegend>;
   suit: ReturnType<typeof createSuitMonitor>;
+  /** Told each frame whether the astronaut stands outside the base on foot. */
+  radio?: { update: (outside: boolean) => void };
   mission?: ReturnType<typeof createMissionRun>;
   map: ReturnType<typeof createWalkMap>;
   gravity: () => number;
@@ -95,6 +97,7 @@ export const createWalkFrame = (parts: FrameParts) => {
     // Driving the robot happens by remote control from inside the base: the suit is not used.
     const outside = !underRoof && !drivingRobot;
     const rescued = parts.suit.update(seconds, effort, outside);
+    parts.radio?.update(outside);
     parts.mission?.update(rescued);
     if (rescued) {
       actions.stopDriving();

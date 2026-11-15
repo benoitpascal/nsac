@@ -1574,3 +1574,37 @@ button.command-legend__item .command-legend__key {
     width: 200px;
   }
 }
+
+/* The base's radio message, heard the first time outside. */
+.earth-radio {
+  position: fixed;
+  top: 110px;
+  left: 50%;
+  z-index: 4;
+  width: min(560px, calc(100vw - 32px));
+  padding: 16px 20px;
+  border: 1px solid #35e9fd;
+  color: #eaf1ff;
+  background: rgba(11, 15, 28, 0.88);
+  box-shadow: 0 0 20px rgba(53, 233, 253, 0.3);
+  font-family: 'Outfit', system-ui, sans-serif;
+  transform: translateX(-50%);
+}
+
+.earth-radio[hidden] {
+  display: none;
+}
+
+.earth-radio__title {
+  margin: 0 0 8px;
+  color: #35e9fd;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.earth-radio__line {
+  margin: 0 0 4px;
+  font-size: 18px;
+  line-height: 1.4;
+}

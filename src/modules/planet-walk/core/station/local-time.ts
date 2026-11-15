@@ -6,10 +6,10 @@ const SUNRISE_SHARE = 0.25;
 
 /**
  * Returns how far the base is into its local day (0 at midnight, 0.5 at noon) at the given time
- * (Unix ms): days are counted from 1 January 2000, the base's first midnight.
+ * (Unix ms): days are counted from the world's reference midnight (1 January 2000 by default).
  */
 export const localDayShare = (conditions: WorldConditions, timestamp: number): number => {
-  const hours = (timestamp - Date.UTC(2000, 0, 1)) / MS_PER_HOUR;
+  const hours = (timestamp - (conditions.midnightMs ?? Date.UTC(2000, 0, 1))) / MS_PER_HOUR;
   const days = hours / conditions.solarDayHours;
   return days - Math.floor(days);
 };

@@ -6,6 +6,8 @@ import { createMissionRun } from './controls/mission-run';
 import { createMouseLook } from './controls/mouse-look';
 import { createStationControls } from './controls/station-controls';
 import { createSuitMonitor } from './controls/suit-monitor';
+import { createEarthRadio } from './radio/earth-radio';
+import type { EarthRadioOptions } from './radio/earth-radio';
 import { createTouchPad } from './controls/touch-pad';
 import { createViewToggle } from './controls/view-toggle';
 import { createWalkClock } from './controls/walk-clock';
@@ -32,6 +34,7 @@ export type PlanetWalkElements = {
   missionFinish: HTMLButtonElement;
   map: WalkMapElements;
   clock: WalkClockElements;
+  earthRadio: HTMLElement;
 };
 
 /** What the walk needs from outside the page: the star catalog and the time (Unix ms). */
@@ -44,6 +47,8 @@ export type PlanetWalkSources = {
   onRescue: () => void;
   /** Where the astronaut appears: woken up in the crew quarters, or in front of the terminal. */
   startAt: 'quarters' | 'terminal';
+  /** The radio message heard the first time outside the base, and whether it was heard already. */
+  radio: Omit<EarthRadioOptions, 'now'>;
   /** The excavator mission to play, when the page is opened for one. */
   mission?: MissionPlan;
 };
@@ -110,6 +115,7 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
     map,
     gravity: () => current.gravity,
     startAt: sources.startAt,
+    radio: createEarthRadio(elements.earthRadio, { ...sources.radio, now: sources.now }),
   });
   new ResizeObserver(() => {
     const { clientWidth, clientHeight } = elements.canvas;
