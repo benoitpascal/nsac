@@ -98,6 +98,30 @@
   text-transform: uppercase;
 }
 
+/* Act 1 is already behind the player: a green band says so, always visible, instead of a lock. */
+.act-choice__done {
+  position: absolute;
+  top: 14%;
+  right: 0;
+  left: 0;
+  padding: 3.33cqi 0;
+  color: var(--arcadia-on-success);
+  background: var(--arcadia-success);
+  font-size: 7.54cqi;
+  letter-spacing: 0.07em;
+  line-height: 0.75;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.act-choice--done {
+  cursor: default;
+}
+
+.act-choice--done:focus-visible {
+  outline: none;
+}
+
 .act-choice--locked {
   cursor: not-allowed;
 }
