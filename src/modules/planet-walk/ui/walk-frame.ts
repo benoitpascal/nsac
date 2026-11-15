@@ -53,7 +53,7 @@ const walkerObstacle = ({ x, z, height }: Walker): Obstacle => ({
  */
 export const createWalkFrame = (parts: FrameParts) => {
   const { world, camera, keyboard, mouse, avatar, view, actions, driving } = parts;
-  let walker = startWalker();
+  let walker = startWalker(world.stationSpots.wakeUp);
   let cameraDistance = Infinity;
   return (seconds: number) => {
     const moves = { ...keyboard.read(), turnBy: mouse.takeTurn() };
@@ -83,7 +83,7 @@ export const createWalkFrame = (parts: FrameParts) => {
     parts.mission?.update(rescued);
     if (rescued) {
       actions.stopDriving();
-      walker = startWalker();
+      walker = startWalker(world.stationSpots.wakeUp);
     }
     const lamp = underRoof ? 0 : (1 - world.daylight()) ** 2;
     avatar.follow(walker, drivingRobot || view.mode() === 'third', lamp, seconds, parts.gravity());

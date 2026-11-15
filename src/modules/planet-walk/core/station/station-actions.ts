@@ -10,8 +10,15 @@ export type Activity = 'walking' | 'dashboard' | 'driving';
  */
 export type DoorPassage = { from: Spot; to: Spot; label: string };
 
-/** Where the station's controls are used: at its terminal, and in front of each side of its doors. */
-export type StationSpots = { console: Spot; passages: readonly DoorPassage[] };
+/**
+ * Where the station's controls are used: at its terminal, and in front of each side of its doors;
+ * and where the astronaut wakes up, in the crew quarters, facing the given heading.
+ */
+export type StationSpots = {
+  console: Spot;
+  passages: readonly DoorPassage[];
+  wakeUp: Spot & { heading: number };
+};
 
 /** What the action key does at a given moment. */
 export type StationAction =

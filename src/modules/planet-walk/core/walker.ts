@@ -41,8 +41,14 @@ export const TURN_SPEED = 2;
 /** The walker stays within this distance (m) of the starting point. */
 const AREA_RADIUS = 500;
 
-/** Starts standing at the center of the area. */
-export const startWalker = (): Walker => ({ x: 0, z: 0, height: 0, verticalSpeed: 0, heading: 0 });
+/** Starts standing still at the given spot (the center of the area by default), facing its heading. */
+export const startWalker = (at = { x: 0, z: 0, heading: 0 }): Walker => ({
+  x: at.x,
+  z: at.z,
+  height: 0,
+  verticalSpeed: 0,
+  heading: at.heading,
+});
 
 const moveFlat = (walker: Walker, input: WalkerInput, heading: number, seconds: number) => {
   const step = (input.run ? RUN_SPEED : WALK_SPEED) * seconds * input.forward;

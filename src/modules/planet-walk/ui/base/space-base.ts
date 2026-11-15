@@ -59,7 +59,7 @@ export const createSpaceBase = (renderer: WebGLRenderer) => {
   const pad = createLandingPad();
   pad.position.x = 16;
   pad.position.z = 14;
-  const { habitat, solids, passages } = createCrossHabitat();
+  const { habitat, solids, passages, wakeUp } = createCrossHabitat();
   habitat.position.set(HABITAT_SPOT.x, 0, HABITAT_SPOT.z);
   const { sites, solids: siteSolids, ...regolith } = createRegolithSites();
   const solar = createSolarField(materials);
@@ -69,6 +69,7 @@ export const createSpaceBase = (renderer: WebGLRenderer) => {
   const obstacles = [...buildings, ...solids, ...siteSolids, ...solar.solids].map(obstacleOf);
   const stationSpots: StationSpots = {
     console: fromHall({ x: 0, z: 0 }),
+    wakeUp: { ...fromHall(wakeUp), heading: wakeUp.heading },
     passages: passages.map(({ from, to, label }) => ({
       from: fromHall(from),
       to: fromHall(to),

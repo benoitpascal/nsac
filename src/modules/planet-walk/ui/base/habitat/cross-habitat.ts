@@ -45,6 +45,20 @@ const passagesThrough = (turn: number, door: WingDoor): DoorPassage[] => {
   ];
 };
 
+/** The crew quarters: the last room of the living wing, where the astronaut wakes up. */
+const QUARTERS_ROOM = RESIDENTIAL_WING.zones.length - 1;
+/** Facing back towards the hall: the living wing lies towards -z, and a heading of 0 looks along -z. */
+const TOWARDS_HALL = Math.PI;
+
+/** Returns the middle of the crew quarters' corridor (m, from the hall's center). */
+const crewQuarters = () => {
+  const before = RESIDENTIAL_WING.zones
+    .slice(0, QUARTERS_ROOM)
+    .reduce((sum, zone) => sum + zone.length, 0);
+  const middle = before + RESIDENTIAL_WING.zones[QUARTERS_ROOM].length / 2;
+  return { ...alongArm(2 * QUARTER_TURN, WING_START + middle), heading: TOWARDS_HALL };
+};
+
 const hallSign = (text: string) => {
   const sign = createZoneSign(text);
   sign.position.set(0, HALL_SIGN.height, HALL_SIGN.radius);
@@ -76,5 +90,5 @@ export const createCrossHabitat = () => {
     solids.push(...connectorSolids, ...wingSolids);
     passages.push(...doors.flatMap((door) => passagesThrough(turn, door)));
   }
-  return { habitat, solids, passages };
+  return { habitat, solids, passages, wakeUp: crewQuarters() };
 };
