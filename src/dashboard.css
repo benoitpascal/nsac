@@ -157,10 +157,3 @@
       no-repeat,
     #22315a;
 }
-
-.station-board__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px max(16px, calc(45 * var(--design-px)));
-  justify-content: flex-end;
-}

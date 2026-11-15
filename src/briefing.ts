@@ -25,4 +25,5 @@ mountBriefing(requireElement<HTMLElement>('#guide'), {
   navigate: (url) => window.location.assign(url),
   onState: band.update,
   voice: createVoicePlayer(),
+  menuFirst: new URLSearchParams(window.location.search).has('menu'),
 });

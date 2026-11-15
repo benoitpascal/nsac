@@ -24,7 +24,7 @@ export const dayClosingPages = (state: CampaignState, day: Day): GuidePage[] => 
     },
     {
       kind: 'choice',
-      text: `Should the printer work by itself tonight? It would make ${bricksFrom(state.cargo, state.printerQuality ?? 'failed')} bricks, but use ${PRINTER.powerPoints} points of power.`,
+      text: `Do you want the printer to work by itself tonight? It would make ${bricksFrom(state.cargo, state.printerQuality ?? 'failed')} bricks, but use ${PRINTER.powerPoints} points of power.`,
       options: [
         {
           label: 'Print bricks tonight',

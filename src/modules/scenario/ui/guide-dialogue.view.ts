@@ -1,4 +1,5 @@
 import { chooseOption, currentPage, nextPage, startDialogue } from '../core/dialogue';
+import { fillControlRow } from './control-row.view';
 import { button, cutButton, el } from './dom';
 import type { DialogueCursor, DialogueEnd } from '../core/dialogue';
 import type { DialogueEffect, GuidePage, QuestionPage } from '../core/scenario-content';
@@ -23,7 +24,8 @@ const repeatButton = (voice: Voice, lastLine: () => string) => {
  * it (never inside the card, as in Figma): texts with Next and Back, choices and
  * questions as 1 to 4 buttons (also keys 1 to 4). A wrong answer is explained and greyed out.
  * The voice, when given, reads each page and each answer's explanation aloud.
- * On the first page, the left button leaves the terminal instead (« Back to game », when given).
+ * Under it, the control row: Back (on the first page, back to the terminal menu, when given),
+ * Leave (when given) and Next, greyed out until the page's question is answered.
  * Calls onEnd after the last page, with the effect of the last option picked, if any. Returns how
  * to stop listening to the keyboard and talking.
  */
@@ -33,6 +35,7 @@ export const playDialogue = (
   pages: readonly GuidePage[],
   onEnd: (effect?: DialogueEffect) => void,
   voice?: Voice,
+  back?: () => void,
   leave?: () => void,
 ) => {
   const trail: DialogueCursor[] = [];
@@ -44,23 +47,19 @@ export const playDialogue = (
     render(next);
   };
   const footer = (cursor: DialogueCursor, withNext: boolean) => {
-    const row = actions;
-    row.replaceChildren();
-    if (trail.length > 0)
-      row.append(
-        cutButton('Back', 'text', () => render(trail.pop() ?? startDialogue()), 'guide__back'),
-      );
-    else if (leave) row.append(cutButton('Back to game', 'text', leave, 'guide__back'));
-    if (withNext) {
-      const next = cutButton(
-        'Next',
-        'wide',
-        () => go(nextPage(pages, cursor), cursor),
-        'guide__next',
-      );
-      row.append(next);
-      keyActions = [() => next.click()];
-    }
+    const next = cutButton(
+      'Next',
+      'wide',
+      () => go(nextPage(pages, cursor), cursor),
+      'guide__next',
+    );
+    next.disabled = !withNext;
+    fillControlRow(actions, {
+      back: trail.length > 0 ? () => render(trail.pop() ?? startDialogue()) : back,
+      leave,
+      actions: [next],
+    });
+    if (withNext) keyActions = [() => next.click()];
   };
   const renderQuestion = (page: QuestionPage, cursor: DialogueCursor, list: HTMLElement) => {
     const feedback = el('p', 'guide__feedback');

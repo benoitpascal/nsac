@@ -74,10 +74,10 @@ export const createSpaceBase = (renderer: WebGLRenderer) => {
     console: fromHall({ x: 0, z: 0 }),
     wakeUp: { ...fromHall(wakeUp), heading: wakeUp.heading },
     terminalFront: { ...fromHall(TERMINAL_FRONT), heading: TERMINAL_FRONT.heading },
-    passages: passages.map(({ from, to, label }) => ({
+    passages: passages.map(({ from, to, ...door }) => ({
+      ...door,
       from: fromHall(from),
       to: fromHall(to),
-      label,
     })),
   };
   return { base, obstacles, stationSpots, aimSolarPanels: solar.aim, ...regolith };

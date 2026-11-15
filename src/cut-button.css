@@ -1,4 +1,4 @@
-/* Cut-corner buttons of the Figma screens: Back, Start mission, Leave the console. */
+/* Cut-corner buttons of the Figma screens: Back, Start mission, Leave. */
 .cut-button {
   display: inline-flex;
   gap: 16px;
@@ -11,6 +11,7 @@
   letter-spacing: 0.16em;
   text-decoration: none;
   text-transform: uppercase;
+  white-space: nowrap;
   transition: filter 0.2s ease;
 }
 
@@ -55,7 +56,12 @@ button.cut-button {
   cursor: not-allowed;
 }
 
-.cut-button:not([aria-disabled='true']):is(:hover, :focus-visible),
+.cut-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.cut-button:not([aria-disabled='true'], :disabled):is(:hover, :focus-visible),
 .cut-button--start:not([aria-disabled='true']) {
   outline: none;
   filter: drop-shadow(0 0 13.4px rgba(53, 233, 253, 0.3))

@@ -3,14 +3,13 @@ import type { IntroShot } from '../core/intro-shots';
 
 export type MoonIntroElements = {
   stage: HTMLElement;
-  skip: HTMLButtonElement;
 };
 
 const ACTIVE_CLASS = 'is-active';
 
 /**
  * Plays the shots one after another in the stage, fading from one to the next, then opens
- * `nextPage`. The skip button and the Escape key open it straight away.
+ * `nextPage`. A click anywhere or the Escape key opens it straight away.
  */
 export const mountMoonIntro = (
   elements: MoonIntroElements,
@@ -41,7 +40,7 @@ export const mountMoonIntro = (
     layer.play(playNext);
   };
 
-  elements.skip.addEventListener('click', leave);
+  window.addEventListener('click', leave);
   window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') leave();
   });

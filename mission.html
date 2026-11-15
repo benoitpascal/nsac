@@ -14,10 +14,41 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;700&display=swap"
     />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <link rel="stylesheet" href="/src/hud.css" />
+    <link rel="stylesheet" href="/src/band.css" />
     <link rel="stylesheet" href="/src/pages.css" />
   </head>
-  <body>
-    <a class="page-link" href="/planet-walk.html">Back to the base</a>
+  <body class="arcadia arcadia--hud">
+    <div class="hud">
+      <header class="band">
+        <a class="band__logotype" href="/"><img src="/arcadia/logotype-white.svg" alt="Project Arcadia, home" /></a>
+        <h1 class="band__title">Mission</h1>
+        <p class="band__info">
+          <span id="band-day">Day 01</span>
+          <span id="band-sun" class="band__sun" role="img" aria-label="Daytime"></span>
+          <time id="band-time"></time>
+        </p>
+        <span class="band__planet" aria-hidden="true"></span>
+        <p class="band__act">Act II</p>
+      </header>
+
+      <div
+        class="mission-progress"
+        id="mission-progress"
+        role="progressbar"
+        aria-labelledby="mission-progress-label"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="0"
+      >
+        <p class="mission-progress__text">
+          <span id="mission-progress-label">Main mission progress</span>
+          <span id="mission-progress-value">0%</span>
+        </p>
+        <span class="mission-progress__track"></span>
+      </div>
+
     <main class="minigames">
       <section class="minigames__screen" aria-labelledby="mission-title">
         <header class="minigames__bar">
@@ -26,6 +57,7 @@
         <div id="mission-board" class="minigames__board"></div>
       </section>
     </main>
+    </div>
     <script type="module" src="/src/mission.ts"></script>
   </body>
 </html>

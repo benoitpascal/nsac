@@ -1,5 +1,6 @@
-import { moonAndEarthPhases } from '../../core/sky/phases';
+import { earthRadioLines, earthRadioSpeech } from '../../core/sky/earth-radio-lines';
 import { lunation } from '../../core/sky/lunation';
+import type { Voice } from '@/modules/scenario/core/voice';
 
 /** How long (ms) the radio message stays on screen. */
 const SHOWN_FOR_MS = 16000;
@@ -9,17 +10,6 @@ const dateFormat = new Intl.DateTimeFormat('en-GB', {
   month: 'long',
   year: 'numeric',
 });
-
-/** Returns the radio message for that date: the Earth's real phase, and the Moon's seen from home. */
-export const earthRadioMessage = (timestamp: number) => {
-  const { earth, moon } = moonAndEarthPhases(lunation(timestamp));
-  return [
-    'Base to commander, do you copy?',
-    "I know it might feel like a game. But it's not completely one.",
-    `Look up at the Earth: today it is a ${earth} Earth.`,
-    `Back home, people see a ${moon} Moon. Same sky, same day: ${dateFormat.format(timestamp)}.`,
-  ];
-};
 
 /** A short burst of radio static. */
 const crackle = () => {
@@ -37,42 +27,34 @@ const crackle = () => {
   }
 };
 
-const speak = (lines: readonly string[]) => {
-  try {
-    const voice = new SpeechSynthesisUtterance(lines.join(' '));
-    voice.lang = 'en-US';
-    voice.rate = 0.95;
-    window.speechSynthesis.speak(voice);
-  } catch {
-    // No speech available: the message still shows.
-  }
-};
-
 export type EarthRadioOptions = {
   now: () => number;
-  /** Whether the message was already heard in this game. */
-  heard: () => boolean;
-  markHeard: () => void;
-  /** Whether the player turned the voices off. */
-  muted: () => boolean;
+  /** Whether the message was already heard on that game day (YYYY-MM-DD). */
+  heard: (day: string) => boolean;
+  markHeard: (day: string) => void;
+  /** The mascot's voice, which reads the message unless the player turned the voices off. */
+  voice: Voice;
 };
 
 /**
- * The first time the astronaut walks out of the base, the radio crackles and the base reminds
+ * The first time each game day the astronaut walks out of the base, the radio crackles and the base reminds
  * them that the sky is real: the Earth's phase today, and the Moon's phase people see from home.
  */
 export const createEarthRadio = (element: HTMLElement, options: EarthRadioOptions) => {
-  let done = options.heard();
+  let wasOut = false;
   return {
-    update: (outside: boolean) => {
-      if (done || !outside) return;
-      done = true;
-      options.markHeard();
-      const lines = earthRadioMessage(options.now());
+    update: (wentOut: boolean) => {
+      const steppedOut = wentOut && !wasOut;
+      wasOut = wentOut;
+      const day = new Date(options.now()).toISOString().slice(0, 10);
+      if (!steppedOut || options.heard(day)) return;
+      options.markHeard(day);
+      const now = options.now();
+      const lines = earthRadioLines(lunation(now));
       element.replaceChildren(
         Object.assign(document.createElement('p'), {
           className: 'earth-radio__title',
-          textContent: '📻 Radio · Base',
+          textContent: `📻 Radio · Base · ${dateFormat.format(now)}`,
         }),
         ...lines.map((line) =>
           Object.assign(document.createElement('p'), {
@@ -82,9 +64,9 @@ export const createEarthRadio = (element: HTMLElement, options: EarthRadioOption
         ),
       );
       element.hidden = false;
-      if (!options.muted()) {
+      if (!options.voice.isMuted()) {
         crackle();
-        window.setTimeout(() => speak(lines), 600);
+        window.setTimeout(() => options.voice.say(earthRadioSpeech(lunation(now))), 600);
       }
       window.setTimeout(() => (element.hidden = true), SHOWN_FOR_MS);
     },

@@ -11,25 +11,24 @@ import {
 import { DASHBOARD_PAGE } from '@/modules/scenario/core/mission-route';
 import { EXCAVATOR_GOAL_KG, scoreExcavator } from '@/modules/scenario/core/scoring';
 import { loadCampaign, saveCampaign } from '@/modules/scenario/infra/campaign-storage';
+import { createVoicePlayer } from '@/modules/scenario/infra/voice-player';
 import { requireElement } from '@/shared/dom';
 
 const HOUR_MS = 3_600_000;
-/** Set once the Earth radio message was heard in this game; Start playing clears it. */
+/** The game day (YYYY-MM-DD) the Earth radio message was last heard; Start playing clears it. */
 const EARTH_RADIO_KEY = 'arcadia.earthRadio';
-/** The mascot's sound on / off choice, shared by every voice of the game. */
-const VOICE_MUTED_KEY = 'arcadia.voiceMuted';
 
-const readFlag = (key: string) => {
+const readValue = (key: string) => {
   try {
-    return localStorage.getItem(key) === '1';
+    return localStorage.getItem(key);
   } catch {
-    return false;
+    return null;
   }
 };
 
-const writeFlag = (key: string) => {
+const writeValue = (key: string, value: string) => {
   try {
-    localStorage.setItem(key, '1');
+    localStorage.setItem(key, value);
   } catch {
     // The message will simply play again next time.
   }
@@ -91,9 +90,9 @@ mountPlanetWalk(
     now: clock.now,
     suitKit: { oxygenBottles: 1, extraItems: 0 },
     radio: {
-      heard: () => readFlag(EARTH_RADIO_KEY),
-      markHeard: () => writeFlag(EARTH_RADIO_KEY),
-      muted: () => readFlag(VOICE_MUTED_KEY),
+      heard: (day) => readValue(EARTH_RADIO_KEY) === day,
+      markHeard: (day) => writeValue(EARTH_RADIO_KEY, day),
+      voice: createVoicePlayer(),
     },
     startAt: playing || params.get('at') === 'terminal' ? 'terminal' : 'quarters',
     onRescue: () => {

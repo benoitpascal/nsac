@@ -14,7 +14,7 @@ export const debriefPages = (result: MissionResult): GuidePage[] => {
   if (power > 0 || water < 0)
     pages.push({
       kind: 'text',
-      text: `The base used ${power} points of power${water < 0 ? `, and gained ${-water} points of water from the ice in the regolith` : ''}.`,
+      text: `Your mission used ${power} points of the base's power${water < 0 ? `, and gained ${-water} points of water from the ice in the regolith` : ''}.`,
     });
   if (result.details.rescued)
     pages.push({

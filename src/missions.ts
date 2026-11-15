@@ -3,6 +3,7 @@ import { requireElement } from '@/shared/dom';
 
 mountActSelect({
   page: document.body,
+  objective: requireElement<HTMLElement>('.acts__objective-text'),
   choices: [...document.querySelectorAll<HTMLButtonElement>('.act-choice')],
   start: requireElement<HTMLAnchorElement>('.cut-button--start'),
 });

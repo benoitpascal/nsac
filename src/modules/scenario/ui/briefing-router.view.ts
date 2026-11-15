@@ -14,7 +14,10 @@ import { chooseAction } from '../core/actions';
 import { dayClosingPages } from '../core/day-closing';
 import { debriefPages } from '../core/debrief-text';
 import { DAY_PAGE, EXPLORE_PAGE, gamePage } from '../core/mission-route';
+import { dayObjectives } from '../core/progress';
+import { controlRow } from './control-row.view';
 import { renderDashboard } from './dashboard.view';
+import { renderTerminalMenu } from './terminal-menu.view';
 import { createVoiceSpeaker } from './voice-speaker.view';
 import { button, cutButton, el } from './dom';
 import { playDialogue } from './guide-dialogue.view';
@@ -38,6 +41,8 @@ export type BriefingDeps = {
   onState?: (state: CampaignState) => void;
   /** The mascot's voice; without it the mascot only writes. */
   voice?: Voice;
+  /** Opens on the terminal's menu (when walking up to it) rather than on the mascot. */
+  menuFirst?: boolean;
 };
 
 /**
@@ -55,7 +60,29 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
   figure.prepend(mascot);
   if (deps.voice) figure.append(createVoiceSpeaker(deps.voice).speaker);
   const side = el('div', 'guide__side');
-  root.replaceChildren(figure, side);
+  const leave = () => deps.navigate(EXPLORE_PAGE);
+  /** The control row under a screen without its own: Back to the terminal menu, then Leave. */
+  const controls = () => controlRow({ back: () => showMenu(), leave });
+  const showGuide = () => {
+    root.className = 'guide';
+    root.replaceChildren(figure, side);
+  };
+  const showMenu = () => {
+    stopDialogue();
+    root.className = 'briefing';
+    renderTerminalMenu(root, {
+      day: () => state.dayIndex + 1,
+      objectives: () => dayObjectives(deps.act, state),
+      stores: () => state.stores,
+      voice: deps.voice,
+      leave,
+      continueMission: () => {
+        showGuide();
+        render();
+      },
+    });
+  };
+  showGuide();
   const update = (next: CampaignState) => {
     state = next;
     deps.save(state);
@@ -66,9 +93,7 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
     bubble.setAttribute('aria-live', 'polite');
     const actions = el('div', 'guide__actions');
     side.replaceChildren(bubble, actions);
-    stopDialogue = playDialogue(bubble, actions, pages, onEnd, deps.voice, () =>
-      deps.navigate(EXPLORE_PAGE),
-    );
+    stopDialogue = playDialogue(bubble, actions, pages, onEnd, deps.voice, showMenu, leave);
   };
   const restart = () => update(newCampaign(deps.now()));
   const today = () => deps.act.days[state.dayIndex];
@@ -87,15 +112,19 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
     if (!state.lastResult) return update(continueAfterDebrief(state, deps.act));
     const result = state.lastResult;
     talk(debriefPages(result), () => {
-      const row = el('div', 'guide__actions');
-      if (result.verdict !== 'efficient')
-        row.append(
-          cutButton('Retry the mission', 'text', () => update(retryMission(state, mission))),
-        );
-      row.append(
-        cutButton('Continue', 'wide', () => update(continueAfterDebrief(state, deps.act))),
+      const retry = cutButton('Retry the mission', 'wide', () =>
+        update(retryMission(state, mission)),
       );
-      side.replaceChildren(row);
+      retry.disabled = result.verdict === 'efficient';
+      side.replaceChildren(
+        controlRow({
+          leave,
+          actions: [
+            retry,
+            cutButton('Continue', 'wide', () => update(continueAfterDebrief(state, deps.act))),
+          ],
+        }),
+      );
     });
   };
   const showMissionStage = (mission: Mission) => {
@@ -110,12 +139,14 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
           update(confirmLoadout(state, loadout));
           launch();
         }),
+        controls(),
       );
     if (state.stage === 'debrief') return showDebrief(mission);
     side.replaceChildren(
       renderDashboard(state, deps.act, {
         launch,
-        explore: () => deps.navigate(EXPLORE_PAGE),
+        back: showMenu,
+        leave,
       }),
     );
   };
@@ -128,18 +159,21 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
     if (state.stage === 'planning')
       return side.replaceChildren(
         renderPlanning(state, (action) => update(chooseAction(state, deps.act, action))),
+        controls(),
       );
     const mission = currentMission(deps.act, state);
     if (state.stage === 'actEnd' || !mission)
       return talk(deps.act.ending, () =>
-        side.replaceChildren(button('New game', 'hud-action', restart)),
+        side.replaceChildren(button('New game', 'hud-action', restart), controls()),
       );
     showMissionStage(mission);
   };
   window.addEventListener('storage', () => {
     state = deps.load() ?? state;
-    render();
+    if (!root.querySelector('.terminal-menu')) render();
   });
   deps.save(state);
-  render();
+  if (!deps.menuFirst) return render();
+  deps.onState?.(state);
+  showMenu();
 };

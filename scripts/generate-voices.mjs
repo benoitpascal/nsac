@@ -23,14 +23,18 @@ if (!apiKey && !dryRun) {
 
 const server = await createServer({ root, server: { middlewareMode: true }, logLevel: 'error' });
 const load = (path) => server.ssrLoadModule(path);
-const [{ MOON_ACT }, { actVoiceLines }, { voiceKey }] = await Promise.all([
-  load('/src/modules/scenario/core/act-moon.ts'),
-  load('/src/modules/scenario/core/voice-lines.ts'),
-  load('/src/shared/voice-key.ts'),
-]);
+const [{ MOON_ACT }, { actVoiceLines }, { earthRadioVoiceLines }, { voiceKey }] =
+  await Promise.all([
+    load('/src/modules/scenario/core/act-moon.ts'),
+    load('/src/modules/scenario/core/voice-lines.ts'),
+    load('/src/modules/planet-walk/core/sky/earth-radio-lines.ts'),
+    load('/src/shared/voice-key.ts'),
+  ]);
 await server.close();
 
-const lines = Object.fromEntries(actVoiceLines(MOON_ACT).map((text) => [voiceKey(text), text]));
+const lines = Object.fromEntries(
+  [...actVoiceLines(MOON_ACT), ...earthRadioVoiceLines()].map((text) => [voiceKey(text), text]),
+);
 const previous = existsSync(manifestPath) ? JSON.parse(readFileSync(manifestPath, 'utf8')) : {};
 const sameVoice = previous.voice?.id === VOICE.id && previous.voice?.model === VOICE.model;
 const todo = Object.keys(lines).filter(

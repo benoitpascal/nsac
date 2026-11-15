@@ -40,7 +40,7 @@ const passagesThrough = (turn: number, door: WingDoor): DoorPassage[] => {
   const hallSide = alongArm(turn, at - DOOR_STEP.inside);
   const farSide = alongArm(turn, at + (door.outer ? DOOR_STEP.outer : DOOR_STEP.outside));
   return [
-    { from: hallSide, to: farSide, label: door.labels.outward },
+    { from: hallSide, to: farSide, label: door.labels.outward, leavesBase: door.outer },
     { from: farSide, to: hallSide, label: door.labels.inward },
   ];
 };

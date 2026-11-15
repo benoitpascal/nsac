@@ -5,7 +5,6 @@ import { requireElement } from '@/shared/dom';
 mountMoonIntro(
   {
     stage: requireElement<HTMLElement>('#moon-intro-stage'),
-    skip: requireElement<HTMLButtonElement>('#moon-intro-skip'),
   },
   MOON_INTRO_SHOTS,
   '/day.html',

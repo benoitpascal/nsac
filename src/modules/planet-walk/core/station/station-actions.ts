@@ -8,7 +8,8 @@ export type Activity = 'walking' | 'dashboard' | 'driving';
  * A way through a closed door, one direction of it: where the astronaut stands to open it, where
  * they come out on the other side, and what the action key says.
  */
-export type DoorPassage = { from: Spot; to: Spot; label: string };
+/** A way through a door; `leavesBase` when it steps out of the base onto the Moon. */
+export type DoorPassage = { from: Spot; to: Spot; label: string; leavesBase?: boolean };
 
 /** A spot where the astronaut appears, facing the given heading. */
 export type StartSpot = Spot & { heading: number };

@@ -1,7 +1,9 @@
 import type { IntroShot } from '../core/intro-shots';
 
-/** Longest a video may hold the screen, in case it never reports its end. */
-const VIDEO_SAFETY_MS = 8000;
+/** How long past its own length a video may hold the screen, in case it never reports its end. */
+const VIDEO_SAFETY_MARGIN_MS = 3000;
+/** Used while the video's length is not known yet. */
+const UNKNOWN_LENGTH_MS = 15000;
 
 /** A shot drawn on screen: `play` shows it and calls `onDone` once, when it is over. */
 export type ShotLayer = {
@@ -12,7 +14,7 @@ export type ShotLayer = {
 
 const createVideoLayer = (shot: IntroShot): ShotLayer => {
   const video = document.createElement('video');
-  Object.assign(video, { src: shot.src, muted: true, playsInline: true, preload: 'auto' });
+  Object.assign(video, { src: shot.src, playsInline: true, preload: 'auto' });
   video.className = 'moon-intro__shot';
   video.setAttribute('aria-label', shot.label);
   let timer = 0;
@@ -23,9 +25,14 @@ const createVideoLayer = (shot: IntroShot): ShotLayer => {
         window.clearTimeout(timer);
         onDone();
       };
-      timer = window.setTimeout(finish, VIDEO_SAFETY_MS);
+      const length = Number.isFinite(video.duration) ? video.duration * 1000 : UNKNOWN_LENGTH_MS;
+      timer = window.setTimeout(finish, length + VIDEO_SAFETY_MARGIN_MS);
       video.addEventListener('ended', finish, { once: true });
-      video.play().catch(finish);
+      // With its sound when the browser allows it, muted otherwise.
+      video.play().catch(() => {
+        video.muted = true;
+        video.play().catch(finish);
+      });
     },
     stop: () => {
       window.clearTimeout(timer);

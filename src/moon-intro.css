@@ -26,13 +26,6 @@
   animation: moon-intro-drift var(--still-duration, 4s) linear both;
 }
 
-.moon-intro__skip {
-  position: fixed;
-  right: 32px;
-  bottom: 32px;
-  font-size: 24px;
-}
-
 @keyframes moon-intro-drift {
   from {
     transform: scale(1);

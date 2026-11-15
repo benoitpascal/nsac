@@ -91,7 +91,7 @@ export const DAY_ONE_OPENING: GuidePage[] = [
   },
   {
     kind: 'choice',
-    text: 'You are the commander. What do we start with?',
+    text: 'You are the commander. What do you want to start with?',
     options: [
       {
         label: 'Dig regolith with the robot',
@@ -227,7 +227,7 @@ export const PRINTER_ACADEMY: GuidePage[] = [
 export const DAY_TWO_OPENING: GuidePage[] = [
   {
     kind: 'text',
-    text: 'Good morning, commander! Day two. Today you decide what the base works on.',
+    text: 'Good morning, commander! Day two. Today, you decide what the crew works on.',
   },
   {
     kind: 'text',
@@ -256,7 +256,7 @@ export const DAY_TWO_OPENING: GuidePage[] = [
       },
     ],
   },
-  { kind: 'text', text: 'Now look at the plan, and choose what the base does today.' },
+  { kind: 'text', text: 'Now look at the plan, and choose what you want to do today.' },
 ];
 
 /** Day two, shelter build: what it is about. */

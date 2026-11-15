@@ -1,0 +1,27 @@
+/* Terminal menu: the daily briefing's layout (briefing.css), its choices as the day plan's cards
+   (planning.css), three per row. */
+.terminal-menu .planning__actions {
+  grid-template-columns: repeat(auto-fit, minmax(max(220px, calc((100% - 32px) / 3)), 1fr));
+}
+
+.terminal-menu__list,
+.terminal-menu__controls {
+  display: grid;
+  gap: 8px 24px;
+}
+
+.terminal-menu__list {
+  padding-left: 1.4em;
+}
+
+.terminal-menu__controls {
+  grid-template-columns: max-content 1fr;
+}
+
+.terminal-menu__controls dt {
+  color: var(--arcadia-accent);
+}
+
+.terminal-menu__controls dd {
+  margin: 0;
+}

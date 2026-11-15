@@ -1,16 +1,18 @@
 import { dayObjectives } from '../core/progress';
+import { controlRow } from './control-row.view';
 import { renderGauges } from './gauges.view';
 import { cutButton, el } from './dom';
 import type { CampaignState } from '../core/campaign';
 import type { Objective } from '../core/progress';
 import type { Act } from '../core/scenario-content';
 
-export type DashboardActions = { launch: () => void; explore: () => void };
+export type DashboardActions = { launch: () => void; back: () => void; leave: () => void };
 
 const CHECK =
   '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-const renderObjectives = (objectives: readonly Objective[]) => {
+/** Renders the day's objectives as a checklist. */
+export const renderObjectives = (objectives: readonly Objective[]) => {
   const list = el('ul', 'board-objectives');
   for (const objective of objectives) {
     const item = el('li', 'board-objective');
@@ -42,12 +44,11 @@ export const renderDashboard = (state: CampaignState, act: Act, actions: Dashboa
   stores.append(el('h2', 'station-board__title', 'Base resources'), renderGauges(state.stores));
   const panels = el('div', 'station-board__panels');
   panels.append(objectives, stores);
-  // As in Figma: two framed buttons flush right under the block. Starting over is on the home page.
-  const row = el('div', 'station-board__actions');
-  row.append(
-    cutButton('Back to game', 'wide', actions.explore),
-    cutButton('Launch mission', 'wide', actions.launch, 'station-board__launch'),
-  );
+  const row = controlRow({
+    back: actions.back,
+    leave: actions.leave,
+    actions: [cutButton('Launch mission', 'wide', actions.launch, 'station-board__launch')],
+  });
   const board = el('div', 'station-board');
   board.append(panels, row);
   return board;

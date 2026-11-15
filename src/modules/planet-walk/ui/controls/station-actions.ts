@@ -21,6 +21,7 @@ export const createStationActions = (spots: StationSpots) => {
   let activity: Activity = 'walking';
   let available: StationAction | undefined;
   let pending: StationAction | undefined;
+  let leftBase = false;
   const press = () => {
     pending = available;
   };
@@ -33,6 +34,8 @@ export const createStationActions = (spots: StationSpots) => {
     press,
     /** What the action key does right now, if anything. */
     label: () => (available ? labelOf(available) : undefined),
+    /** Whether the astronaut went out through the airlock's outer door. */
+    leftBase: () => leftBase,
     closeDashboard: () => {
       if (activity === 'dashboard') activity = 'walking';
     },
@@ -52,9 +55,10 @@ export const createStationActions = (spots: StationSpots) => {
     update: (walker: Walker): Walker => {
       const action = pending;
       pending = undefined;
-      if (action?.kind === 'openDashboard') window.location.assign('/briefing.html');
+      if (action?.kind === 'openDashboard') window.location.assign('/briefing.html?menu');
       else if (action) activity = activityAfter(action);
       const moved = action?.kind === 'passDoor' ? passDoor(walker, action.passage) : walker;
+      if (action?.kind === 'passDoor' && action.passage.leavesBase) leftBase = true;
       available = availableAction(activity, moved, spots);
       return moved;
     },

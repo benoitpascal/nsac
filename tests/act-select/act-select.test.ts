@@ -29,7 +29,12 @@ describe('choosing an act', () => {
     start.setAttribute('aria-disabled', 'true');
     opened = 0;
     document.body.replaceChildren(start);
-    mountActSelect({ page: document.body, choices: [earth, moon], start });
+    mountActSelect({
+      page: document.body,
+      objective: document.createElement('p'),
+      choices: [earth, moon],
+      start,
+    });
   });
 
   it('shows the hovered planet, then comes back to the default one', () => {
