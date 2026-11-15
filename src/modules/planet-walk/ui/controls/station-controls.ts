@@ -19,6 +19,7 @@ export const createStationControls = (
   world: ReturnType<typeof createWalkScene>,
   elements: StationControlElements,
   worldId: () => WalkWorldId,
+  now: () => number,
 ) => {
   const actions = createStationActions(world.stationSpots, elements.pilotPrompt);
   const driving = createExcavatorDriving(world);
@@ -26,6 +27,7 @@ export const createStationControls = (
     section: elements.dashboard,
     actions,
     worldId,
+    now,
     excavator: driving.store,
   });
   return { actions, driving, dashboard, hud: createExcavatorHud(elements.excavatorHud, driving) };

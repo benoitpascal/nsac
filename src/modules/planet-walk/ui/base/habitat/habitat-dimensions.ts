@@ -16,6 +16,11 @@ export type HabitatBlock = {
  * inside floor is the ground (m); each module has its own length.
  */
 export const MODULE = { radius: 2.4, axisHeight: 1.9 };
+/**
+ * The modules' cross-section is an octagon around that circle, flat at the floor, the roof and the
+ * sides: its corners stand this far (m) from the axis.
+ */
+export const MODULE_CORNER = MODULE.radius / Math.cos(Math.PI / 8);
 /** Which ends of a module (along +z and -z) have a hatch; the others are closed. */
 export type ModuleEnds = { front: boolean; back: boolean };
 
