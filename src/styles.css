@@ -188,3 +188,12 @@ body {
     display: none;
   }
 }
+
+/* The White logotype (no glow) of the in-game screens: a plain image filling its box. */
+.band__logotype img,
+.acts-header__logotype img,
+.hud__logotype img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
