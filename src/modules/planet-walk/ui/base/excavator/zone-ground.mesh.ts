@@ -55,5 +55,6 @@ export const createZoneGround = (zone: GroundZone, edgeColor: number, look: Zone
   });
   const ground = new Group();
   ground.add(area, ...edges);
-  return ground;
+  /** The edge lines' material, to make them glow or not later. */
+  return Object.assign(ground, { edge: line });
 };

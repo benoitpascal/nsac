@@ -21,5 +21,6 @@ export const createRegolithSites = () => {
     digZone: zoneAround(DIG_ZONE, digSpot),
     dropZone: zoneAround(DROP_ZONE, BASE_SITE),
     fillDropSite: dropSite.fill,
+    lightDropSite: dropSite.light,
   };
 };

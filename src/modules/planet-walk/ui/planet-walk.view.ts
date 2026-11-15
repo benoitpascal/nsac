@@ -114,6 +114,8 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
     sources.onRescue,
   );
   const radio = createRadioMessage(elements.earthRadio, sources.voice);
+  // The drop-off zone is lit up only while the robot mission is played, to lead the robot there.
+  world.lightDropSite(sources.mission !== undefined);
   const mission =
     sources.mission &&
     createMissionRun(

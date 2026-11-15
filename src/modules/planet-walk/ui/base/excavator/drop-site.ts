@@ -11,11 +11,13 @@ const PILE_COLOR = 0x7a746c;
 const PILE = { radius: 1.5, height: 1, fullKg: 3500, maxScale: 1.5 };
 const POST = { radius: 0.05, height: 2.4, color: 0x9aa1ad };
 const SIGN_TEXT = 'Regolith drop-off';
-/** The zone stands out from afar: red-tinted ground, wide glowing edges. */
-const LOOK = { areaColor: 0x5a1a26, areaOpacity: 0.55, edgeWidth: 0.4, glow: 0.8 };
+/** The zone stands out: red-tinted ground and wide edges, which glow while it is lit. */
+const LOOK = { areaColor: 0x5a1a26, areaOpacity: 0.55, edgeWidth: 0.4 };
+const EDGE_GLOW = 0.8;
 /**
- * Builds the drop-off zone where the robot unloads its regolith: red-tinted ground with wide glowing
- * red edges, a red light at each corner and a light beam above it, a signpost readable from both sides at its corner, and a
+ * Builds the drop-off zone where the robot unloads its regolith: red-tinted ground with wide red
+ * edges, which glow with a red light at each corner and a light beam above it only while it is lit
+ * (during the robot mission), a signpost readable from both sides at its corner, and a
  * pile growing with the regolith dropped off.
  */
 export const createDropSite = (zone: GroundZone) => {
@@ -45,10 +47,19 @@ export const createDropSite = (zone: GroundZone) => {
     [zone.minX, zone.maxZ],
     [zone.maxX, zone.maxZ],
   ].flatMap(([x, z]) => beacon(x, z));
-  const beam = lightBeam(centerX, centerZ);
-  site.add(createZoneGround(zone, EDGE_COLOR, LOOK), post, ...signs, ...corners, beam, pile);
+  const lights = new Group();
+  lights.add(...corners, lightBeam(centerX, centerZ));
+  const ground = createZoneGround(zone, EDGE_COLOR, LOOK);
+  const light = (on: boolean) => {
+    lights.visible = on;
+    ground.edge.emissiveIntensity = on ? EDGE_GLOW : 0;
+  };
+  light(false);
+  site.add(ground, post, ...signs, lights, pile);
   return {
     site,
+    /** Lights the zone up (glowing edges, corner lights, light beam) or turns it off. */
+    light,
     /** Grows the pile to hold the regolith dropped off so far (kg). */
     fill: (deliveredKg: number) => {
       pile.visible = deliveredKg > 0;
