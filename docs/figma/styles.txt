@@ -70,12 +70,13 @@ Slide 16:9 - 4 (act selection) [13:547] clip
   image 1 [13:548] layer_blur(134.7)
   Filtre [13:640] gradient_radial(#ffffff → #141c33) opacity 60% blend=multiply
 Day One 3 [13:378] Vector 1 [13:380] white line stroke 10px; Frame 1 [13:383] flex=horizontal gap=48 align=center
-Ecran - selection acte [48:330] background #0b0f1c (variable "Primary color 1001")
+Ecran - selection acte [63:1075] background #0b0f1c (variable "Primary color 1000")
+  Planet BG [63:1419] hovered or selected planet (Earth / Moon component) 2500x3615 at 20% opacity, layer_blur(20)
   Frame 20 [50:446] flex=horizontal gap=28 align=center (3 Choice planet cards separated by chevrons)
   Vector 12 [50:413] header line stroke=gradient_linear(#35e9fd → #141c33) 2px
   Rectangle 8 [43:274] "START MISSION" cut-corner button, fill=#141c33/60%, stroke=gradient_linear(#35e9fd → #208b97) 1px inside
   Frame 21 [50:487] flex=horizontal gap=16 align=center
-Frame 15 [48:289] terminal screen: Rectangle 9 radius=14 fill=#0b0f1c; image 14 radius=42; Frame 14 flex=horizontal gap=15 (3 cyan dots #35e9fd)
+Ecran ordi [48:289] terminal picture only (no overlay left)
 
 ## Prototype interactions
 
@@ -86,9 +87,8 @@ Slide 16:9 - 5 — after timeout → Day One 1 (fade to #0a0e1a)
 Day One 1 — after timeout → Day One 2 (smart animate 500 ms)
 Day One 2 — after timeout → Day One 3 (smart animate 1200 ms; DAY ONE rises, line draws, cards fade in)
 Ecran - selection acte — chevrons: click → scroll to the MOON card; Choice planet: hover → Hover variant
-Frame 15 — click → Frame 16 (zoom into the terminal screen)
 
-## New act selection (Ecran - selection acte `48:330`, copy `63:804`) and its components
+## Act selection (component set Ecran - selection acte `63:1074`: Earth hovered `63:1075`, Moon selected `63:1463`) and its components
 
 Typography
     "Objectif" — Bebas Neue Book 48px ls=12% color=#35e9fd
@@ -114,3 +114,15 @@ Choice planet lock [50:376]
 Lock [63:613]: cyan #35e9fd padlocks; Variante3 = body (Subtract) + shackle Rectangle 17 stroke #35e9fd 4.8px
 
 Prototype: Choice planet DEMO hover → Hover; Hover click → Variante3 (selected); Choice planet lock hover → Hover.
+
+## HUD drafts
+
+Info HUD [75:652] flex=horizontal gap=10 pad=10/10/10/10 justify=center align=center, no fill
+    "JOUR 01" 75:648 — Outfit Medium 18px ls=0% color=#ffffff (instances 75:653 « JOUR 01 », 75:655 « 08:28 AM »)
+Frame 26 [63:1911] mission progress bar, flex=vertical gap=14.6
+  Frame 23 [63:1912] flex=horizontal justify=space-between align=center
+    "Avancée de la mission principale" 63:1913 — Bebas Neue Regular 25.6px ls=17% color=#ffffff
+    "10%" 63:1914 — Outfit Regular 25.6px ls=7% color=#ffffff
+  Frame 24 [63:1915] flex=horizontal gap=0: Rectangle 18 fill=#41acf5 (progress) + Rectangle 19 fill=#0e1934 (track), 20px high
+Frame 25 [63:1910] same bar at 500 wide (10px text, 11px bar)
+Icon-direction [63:1923] arrow fill=#f24822 on Ellipse 5 [63:1920] 260x260 fill=#d9d9d9 (compass draft)
