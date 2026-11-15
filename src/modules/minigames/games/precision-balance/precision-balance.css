@@ -176,6 +176,13 @@
   cursor: grabbing;
 }
 
+.mg-precision-balance-hint {
+  margin: 0 0 0.75rem;
+  min-height: 1.5em;
+  text-align: center;
+  font-size: 1.05rem;
+}
+
 .mg-precision-balance-tray {
   display: flex;
   flex-wrap: wrap;
