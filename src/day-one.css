@@ -9,9 +9,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: 100dvh;
-  padding: calc(110 * var(--design-px)) 16px 48px;
+  /* Figma Day One 3 (13:378): the title mask starts at y = 284, the cards at y = 712. On short
+     screens the top shrinks so the date and Continue stay visible (the cards keep their size). */
+  padding: max(
+      16px,
+      min(calc(284 * var(--design-px)), calc(100dvh - 421.7 * var(--design-px) - 365px))
+    )
+    16px 32px;
 }
 
 /* The title rises from behind the line, so it is clipped at the line. */
@@ -71,7 +77,7 @@
 }
 
 .day-one__next {
-  margin-top: 40px;
+  margin-top: 20px;
   animation: day-one-fade-in 0.6s ease-out calc(var(--day-one-line-in) + 1.4s) both;
 }
 
@@ -103,10 +109,11 @@
 }
 
 .day-one__date {
-  margin: 0;
+  margin: 16px 0 0;
   color: var(--arcadia-ink-muted);
   font-family: var(--arcadia-font-body);
   font-size: 22px;
   letter-spacing: 0.08em;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
   text-align: center;
 }
