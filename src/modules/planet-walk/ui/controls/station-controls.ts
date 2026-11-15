@@ -4,6 +4,7 @@ import { createExcavatorDriving } from './excavator-driving';
 import { createExcavatorHud } from './excavator-hud';
 import { createStationActions } from './station-actions';
 import type { StartSpot } from '../../core/station/station-actions';
+import type { Spot } from '../../core/obstacles';
 import type { WalkWorldId } from '../../core/walk-worlds';
 import type { createWalkScene } from '../walk-scene';
 
@@ -25,8 +26,11 @@ export const createStationControls = (
   worldId: () => WalkWorldId,
   now: () => number,
   openTerminal: (from?: StartSpot) => void,
+  /** Where today's mission sends the astronaut, and what the action key starts there. */
+  errand?: { place: Spot; start: () => void },
 ) => {
-  const actions = createStationActions(world.stationSpots, openTerminal, elements.tablet);
+  const spots = errand ? { ...world.stationSpots, errand: errand.place } : world.stationSpots;
+  const actions = createStationActions(spots, openTerminal, elements.tablet, errand?.start);
   const driving = createExcavatorDriving(world);
   const dashboard = createStationDashboard({
     section: elements.dashboard,

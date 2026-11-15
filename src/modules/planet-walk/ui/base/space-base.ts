@@ -1,5 +1,6 @@
 import { Box3, Group, Vector3 } from 'three';
-import { BASE_SITE, HABITAT_SPOT, LAYOUT } from './base-layout';
+import { BASE_SITE, GREENHOUSE_SPOT, HABITAT_SPOT, LAYOUT } from './base-layout';
+import { lightBeam } from './excavator/drop-markers';
 import { createRegolithSites } from './excavator/regolith-sites';
 import { createSolarField } from './solar-field';
 import { createCrossHabitat } from './habitat/cross-habitat';
@@ -15,6 +16,9 @@ import { createSatelliteMaterials } from '@/modules/globe/ui/bodies/satellite/sa
 /** Returns where a spot given from the habitat's hall stands in the world. */
 /** Where the astronaut stands after leaving the terminal: in front of its desk, facing it (m, from the hall's center). */
 const TERMINAL_FRONT = { x: 0, z: -1.6, heading: Math.PI };
+
+/** Green, the color of the plants. */
+const GREENHOUSE_LIGHT = 0x7de8b9;
 
 const fromHall = (spot: Spot): Spot => ({
   x: BASE_SITE.x + HABITAT_SPOT.x + spot.x,
@@ -66,7 +70,10 @@ export const createSpaceBase = (renderer: WebGLRenderer) => {
   habitat.position.set(HABITAT_SPOT.x, 0, HABITAT_SPOT.z);
   const { sites, solids: siteSolids, ...regolith } = createRegolithSites();
   const solar = createSolarField(materials);
-  base.add(pad, habitat, solar.field, ...sites);
+  // A green light beam over the greenhouse dome, lit only for the greenhouse mission.
+  const greenhouseBeam = lightBeam(GREENHOUSE_SPOT.x, GREENHOUSE_SPOT.z, GREENHOUSE_LIGHT);
+  greenhouseBeam.visible = false;
+  base.add(pad, habitat, solar.field, greenhouseBeam, ...sites);
   base.position.set(BASE_SITE.x, 0, BASE_SITE.z);
   base.updateMatrixWorld(true);
   const obstacles = [...buildings, ...solids, ...siteSolids, ...solar.solids].map(obstacleOf);
@@ -80,5 +87,15 @@ export const createSpaceBase = (renderer: WebGLRenderer) => {
       to: fromHall(to),
     })),
   };
-  return { base, obstacles, stationSpots, aimSolarPanels: solar.aim, ...regolith };
+  return {
+    base,
+    obstacles,
+    stationSpots,
+    aimSolarPanels: solar.aim,
+    /** Where the greenhouse dome's center stands in the world. */
+    greenhouseSpot: { x: BASE_SITE.x + GREENHOUSE_SPOT.x, z: BASE_SITE.z + GREENHOUSE_SPOT.z },
+    /** Lights the green beam over the greenhouse dome, or turns it off. */
+    lightGreenhouse: (on: boolean) => (greenhouseBeam.visible = on),
+    ...regolith,
+  };
 };

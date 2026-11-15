@@ -148,10 +148,14 @@ export const recordResult = (state: CampaignState, result: MissionResult) =>
 export const retryMission = (state: CampaignState, mission: Mission) =>
   at(state, 'debrief', { stage: mission.preparation ? 'preparation' : 'ready' });
 
-/** Go on to the mission left today, without asking again, or to the end of the day. */
+/**
+ * Go on to the mission left today, without asking again, or to the end of the day. On a planned
+ * day the commander's single action picked the mission, so the day ends after it.
+ */
 export const continueAfterDebrief = (state: CampaignState, act: Act) => {
   const done = [...state.doneMissionIds, ...(state.missionId ? [state.missionId] : [])];
-  const next = missionsLeft(act, { ...state, doneMissionIds: done })[0];
+  const planned = act.days[state.dayIndex]?.planning === true;
+  const next = planned ? undefined : missionsLeft(act, { ...state, doneMissionIds: done })[0];
   return at(state, 'debrief', {
     stage: next ? 'academy' : 'dayClosing',
     missionId: next?.id ?? null,

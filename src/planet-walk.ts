@@ -8,7 +8,7 @@ import {
   loseRescueHours,
   recordResult,
 } from '@/modules/scenario/core/campaign';
-import { DASHBOARD_PAGE } from '@/modules/scenario/core/mission-route';
+import { DASHBOARD_PAGE, MINIGAME_PAGE } from '@/modules/scenario/core/mission-route';
 import { installClickSounds, playEffect, playMusic } from '@/modules/sound/infra/sound-player';
 import { EXCAVATOR_GOAL_KG, scoreExcavator } from '@/modules/scenario/core/scoring';
 import { loadCampaign, saveCampaign } from '@/modules/scenario/infra/campaign-storage';
@@ -69,9 +69,16 @@ const clock = startClock();
 const mission = campaign && currentMission(MOON_ACT, campaign);
 const playing =
   params.has('mission') && campaign?.stage === 'ready' && mission?.game.kind === 'walk';
-const startAt = playing
-  ? 'terminal'
-  : (tabletSpot ?? (params.get('at') === 'terminal' ? 'terminal' : 'quarters'));
+/** The greenhouse mission: walk out to the dome, where the mini-game starts. */
+const errand =
+  params.has('mission') &&
+  campaign?.stage === 'ready' &&
+  mission?.game.kind === 'minigame' &&
+  mission.game.at === 'greenhouse';
+const startAt =
+  playing || errand
+    ? 'terminal'
+    : (tabletSpot ?? (params.get('at') === 'terminal' ? 'terminal' : 'quarters'));
 const gameDay = `${campaign?.startedAt ?? 0}-${campaign?.dayIndex ?? 0}`;
 const greet = startAt === 'quarters' && readValue(GREETING_KEY) !== gameDay;
 if (greet) writeValue(GREETING_KEY, gameDay);
@@ -124,6 +131,12 @@ mountPlanetWalk(
       if (campaign) saveCampaign((campaign = loseRescueHours(campaign)));
       requireElement<HTMLElement>('#rescue-notice').hidden = false;
     },
+    errand: errand
+      ? {
+          arrive: () => window.location.assign(MINIGAME_PAGE),
+          onGoalDone: () => playEffect('objective'),
+        }
+      : undefined,
     mission: playing
       ? {
           goalKg: EXCAVATOR_GOAL_KG,

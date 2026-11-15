@@ -10,9 +10,12 @@ describe('main mission progress', () => {
     expect(actProgress(MOON_ACT, start)).toBe(0);
   });
 
-  it('counts the missions played today and on the days before', () => {
+  it('counts the missions played today and on the days before, one per planned day', () => {
     expect(actProgress(MOON_ACT, { ...start, doneMissionIds: ['excavator'] })).toBeCloseTo(1 / 3);
     expect(actProgress(MOON_ACT, { ...start, dayIndex: 1, doneMissionIds: [] })).toBeCloseTo(2 / 3);
+    expect(actProgress(MOON_ACT, { ...start, dayIndex: 1, doneMissionIds: ['greenhouse'] })).toBe(
+      1,
+    );
     expect(actProgress(MOON_ACT, { ...start, dayIndex: 2, doneMissionIds: [] })).toBe(1);
   });
 
@@ -36,6 +39,14 @@ describe('day objectives', () => {
       ['excavator', true, false],
       ['printer', false, true],
     ]);
+  });
+
+  it('shows only the mission the commander picked on a planned day', () => {
+    const planned = { ...start, dayIndex: 1 };
+    expect(dayObjectives(MOON_ACT, planned).map(({ id }) => id)).toEqual(['shelter', 'greenhouse']);
+    expect(
+      dayObjectives(MOON_ACT, { ...planned, missionId: 'greenhouse' }).map(({ id }) => id),
+    ).toEqual(['greenhouse']);
   });
 
   it('is empty on a day without missions', () => {

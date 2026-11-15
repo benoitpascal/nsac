@@ -9,6 +9,7 @@ export const pipeFlowGame: MiniGame = {
   howTo: [
     'Tap a pipe to turn it a quarter turn.',
     'Connect the pipes so the water flows from the left side to the tank on the right.',
+    'Every extra turn lets a little water leak: think about the path before you turn.',
   ],
   start: (container, finish) => startPipeFlow(container, finish),
 };

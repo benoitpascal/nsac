@@ -30,6 +30,15 @@ export const shelterMission: Mission = {
   scoring: 'shelter',
 };
 
+/** The greenhouse, watered in a mini-game at the dome once the planning picks it. */
+export const greenhouseMission: Mission = {
+  ...missionWithBag,
+  id: 'greenhouse',
+  preparation: false,
+  game: { kind: 'minigame', id: 'pipe-flow', at: 'greenhouse' },
+  scoring: 'greenhouse',
+};
+
 /** One day of two missions played in the order the player picks, then a second day with none. */
 export const twoMissionAct: Act = {
   id: 'moon',
@@ -50,7 +59,13 @@ export const plannedAct: Act = {
   id: 'moon',
   days: [
     twoMissionAct.days[0],
-    { title: 'Day two', opening: [], closing: 'night', planning: true, missions: [shelterMission] },
+    {
+      title: 'Day two',
+      opening: [],
+      closing: 'night',
+      planning: true,
+      missions: [shelterMission, greenhouseMission],
+    },
     { title: 'Day three', opening: [], closing: 'night', missions: [] },
   ],
   ending: [],

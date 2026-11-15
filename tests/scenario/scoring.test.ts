@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { scoreGreenhouse } from '@/modules/scenario/core/greenhouse-scoring';
 import { scoreExcavator, scorePrinter, scoreShelter } from '@/modules/scenario/core/scoring';
 
 describe('excavator mission, driven from inside the base', () => {
@@ -60,5 +61,30 @@ describe('shelter build (precision balance)', () => {
       'failed',
       -2,
     ]);
+  });
+});
+
+describe('greenhouse irrigation (pipe flow)', () => {
+  it('grows 20 points of food with no leak when the pipes are laid well', () => {
+    const result = scoreGreenhouse(true, 90);
+    expect([result.verdict, result.used, result.knowledge]).toEqual([
+      'efficient',
+      { water: 0, food: -20 },
+      10,
+    ]);
+  });
+
+  it('leaks water when the pipes are turned too often', () => {
+    expect(scoreGreenhouse(true, 50).used).toEqual({ water: 8, food: -20 });
+  });
+
+  it('leaks more and waters only half the seeds when very rough', () => {
+    const result = scoreGreenhouse(true, 10);
+    expect([result.verdict, result.used]).toEqual(['wasteful', { water: 15, food: -10 }]);
+  });
+
+  it('grows nothing when given up', () => {
+    const result = scoreGreenhouse(false, 0);
+    expect([result.verdict, result.objectiveShare, result.used.food]).toEqual(['unfinished', 0, 0]);
   });
 });

@@ -24,6 +24,9 @@ export const DIG_ZONE: GroundZone = { minX: -6, maxX: 10, minZ: -5, maxZ: 5 };
 /** Where the robot drops off its regolith, from the base center (m): outside, along the workshops' wing. */
 export const DROP_ZONE: GroundZone = { minX: -22, maxX: -16, minZ: 32, maxZ: 38 };
 
+/** Where the glass greenhouse dome stands (m, from the base center). */
+export const GREENHOUSE_SPOT = { x: -13, z: -6 };
+
 const HALF_TURN = Math.PI;
 const QUARTER_TURN = Math.PI / 2;
 
@@ -52,7 +55,7 @@ export const LAYOUT: Placement[] = [
     z: -9,
     turn: QUARTER_TURN,
   },
-  { assemble: createGeodesicDome, scale: 1, x: -13, z: -6 },
+  { assemble: createGeodesicDome, scale: 1, ...GREENHOUSE_SPOT },
   { assemble: createCrateStack, scale: 1, x: -12, z: 6, turn: HALF_TURN / 8 },
   {
     assemble: () => createTankSkid({ count: 1, radius: 1, length: 3, upright: false }),

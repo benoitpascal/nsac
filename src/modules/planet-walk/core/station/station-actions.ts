@@ -23,6 +23,8 @@ export type StationSpots = {
   passages: readonly DoorPassage[];
   wakeUp: StartSpot;
   terminalFront: StartSpot;
+  /** Where today's mission sends the astronaut (the greenhouse dome's center), if anywhere. */
+  errand?: Spot;
 };
 
 /** What the action key does at a given moment. */
@@ -30,11 +32,14 @@ export type StationAction =
   | { kind: 'openDashboard' }
   | { kind: 'closeDashboard' }
   | { kind: 'leaveExcavator' }
+  | { kind: 'doErrand' }
   | { kind: 'passDoor'; passage: DoorPassage };
 
 /** How close (m) the astronaut must stand to the terminal, or in front of a door, to use it. */
 const CONSOLE_REACH_M = 2.2;
 const DOOR_REACH_M = 1.5;
+/** How close (m) to the errand's spot the job can start: around the greenhouse dome (4.5 m). */
+export const ERRAND_REACH_M = 7;
 
 const distance = (a: Spot, b: Spot) => Math.hypot(a.x - b.x, a.z - b.z);
 
@@ -46,7 +51,8 @@ const nearestPassage = (walker: Spot, passages: readonly DoorPassage[]) =>
 
 /**
  * Returns what the action key does now, if anything: it closes the dashboard or hands the robot
- * back at any time, opens the dashboard at the terminal, and goes through the nearest door.
+ * back at any time, starts the mission's job at its place, opens the dashboard at the terminal,
+ * and goes through the nearest door.
  */
 export const availableAction = (
   activity: Activity,
@@ -55,6 +61,7 @@ export const availableAction = (
 ): StationAction | undefined => {
   if (activity === 'dashboard') return { kind: 'closeDashboard' };
   if (activity === 'driving') return { kind: 'leaveExcavator' };
+  if (spots.errand && distance(walker, spots.errand) <= ERRAND_REACH_M) return { kind: 'doErrand' };
   if (distance(walker, spots.console) <= CONSOLE_REACH_M) return { kind: 'openDashboard' };
   const passage = nearestPassage(walker, spots.passages);
   return passage && { kind: 'passDoor', passage };

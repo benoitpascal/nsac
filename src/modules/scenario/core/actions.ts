@@ -16,8 +16,8 @@ export type ActionGain = Partial<BaseStores> & { knowledge?: number };
 export const ACTION_ORDER: readonly ActionId[] = ['shelter', 'workshop', 'greenhouse', 'research'];
 
 /**
- * What each action costs and gives, from the validated scenario (see DATA.md). The shelter is then
- * built in a mission; the others are done at once.
+ * What each action costs and gives, from the validated scenario (see DATA.md). The shelter and the
+ * greenhouse are then done in a mission (its result gives the food); the others are done at once.
  */
 export const ACTIONS: Record<
   ActionId,
@@ -25,7 +25,7 @@ export const ACTIONS: Record<
 > = {
   shelter: { cost: { bricks: 4, power: 10 }, gives: {}, missionId: 'shelter' },
   workshop: { cost: { bricks: 12, power: 10 }, gives: { knowledge: 10 } },
-  greenhouse: { cost: { water: 60, power: 10 }, gives: { food: 20 } },
+  greenhouse: { cost: { water: 60, power: 10 }, gives: {}, missionId: 'greenhouse' },
   research: { cost: { power: 70 }, gives: { knowledge: 25 } },
 };
 
@@ -45,8 +45,8 @@ export const canAfford = (state: CampaignState, action: ActionId): boolean =>
   Object.keys(missingFor(state, action)).length === 0;
 
 /**
- * Launches an action from the planning: pays its cost; the shelter then opens its mission's
- * academy, any other action gives its gain at once and ends the day. Unaffordable actions, or a
+ * Launches an action from the planning: pays its cost; the shelter and the greenhouse then
+ * open their mission's academy, any other action gives its gain at once and ends the day. Unaffordable actions, or a
  * call outside the planning, leave the game unchanged.
  */
 export const chooseAction = (state: CampaignState, act: Act, action: ActionId): CampaignState => {

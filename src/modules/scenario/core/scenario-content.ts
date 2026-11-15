@@ -44,11 +44,17 @@ export type GuidePage = TextPage | ChoicePage | QuestionPage;
 /** What the player takes outside: one tool, oxygen bottles and spare robot batteries. */
 export type ToolId = 'standardDrums' | 'wideDrums';
 
-/** How a mission is played: driving the robot in the 3D base, or a mini-game by its id. */
-export type GameRef = { kind: 'walk' } | { kind: 'minigame'; id: string };
+/** A place of the base the astronaut walks to before a mini-game starts there. */
+export type ErrandPlace = 'greenhouse';
+
+/**
+ * How a mission is played: driving the robot in the 3D base, or a mini-game by its id, played at
+ * the terminal or, with `at`, once the astronaut has walked to that place of the base.
+ */
+export type GameRef = { kind: 'walk' } | { kind: 'minigame'; id: string; at?: ErrandPlace };
 
 /** How a mission's result is worked out. */
-export type ScoringId = 'excavator' | 'printer' | 'shelter';
+export type ScoringId = 'excavator' | 'printer' | 'shelter' | 'greenhouse';
 
 export type Mission = {
   id: string;

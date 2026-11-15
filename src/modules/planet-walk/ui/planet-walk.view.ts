@@ -3,6 +3,7 @@ import { FIRST_WORLD_ID, WALK_WORLDS } from '../core/walk-worlds';
 import { createAstronautAvatar } from './astronaut/astronaut-avatar';
 import { createKeyboardInput } from './controls/keyboard-input';
 import { createMissionRun } from './controls/mission-run';
+import { createErrandRun } from './controls/errand-run';
 import { createMouseLook } from './controls/mouse-look';
 import { createStationControls } from './controls/station-controls';
 import { createSuitMonitor } from './controls/suit-monitor';
@@ -71,6 +72,11 @@ export type PlanetWalkSources = {
   greet?: boolean;
   /** The excavator mission to play, when the page is opened for one. */
   mission?: MissionPlan;
+  /**
+   * The greenhouse mission, when the page is opened for it: walk out to the dome, where the action
+   * key calls `arrive` (which opens the mini-game).
+   */
+  errand?: { arrive: () => void; onGoalDone?: () => void };
 };
 
 const MAX_FRAME_SECONDS = 0.1;
@@ -106,6 +112,7 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
     () => current.id,
     sources.now,
     sources.openTerminal,
+    sources.errand && { place: world.greenhouseSpot, start: sources.errand.arrive },
   );
   const suit = createSuitMonitor(
     elements.suitHud,
@@ -116,6 +123,16 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
   const radio = createRadioMessage(elements.earthRadio, sources.voice);
   // The drop-off zone is lit up only while the robot mission is played, to lead the robot there.
   world.lightDropSite(sources.mission !== undefined);
+  world.lightGreenhouse(sources.errand !== undefined);
+  const errand =
+    sources.errand &&
+    createErrandRun(
+      radio,
+      elements.missionHud,
+      station.actions,
+      world.greenhouseSpot,
+      sources.errand.onGoalDone,
+    );
   const mission =
     sources.mission &&
     createMissionRun(
@@ -144,6 +161,7 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
     ...station,
     suit,
     mission,
+    errand,
     map,
     gravity: () => current.gravity,
     startAt: sources.startAt,

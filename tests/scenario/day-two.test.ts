@@ -9,8 +9,9 @@ import {
   startNextDay,
   startPlanning,
 } from '@/modules/scenario/core/campaign';
+import { scoreGreenhouse } from '@/modules/scenario/core/greenhouse-scoring';
 import { scoreShelter } from '@/modules/scenario/core/scoring';
-import { plannedAct, shelterMission } from '../helpers/scenario-act';
+import { greenhouseMission, plannedAct, shelterMission } from '../helpers/scenario-act';
 import type { CampaignState } from '@/modules/scenario/core/campaign';
 
 const act = plannedAct;
@@ -65,14 +66,23 @@ describe('day two, planned on the terminal', () => {
 });
 
 describe('another plan for day two', () => {
-  it('grows the greenhouse at once: water and power spent, food gained, no mission', () => {
-    const state = chooseAction(startPlanning(dayTwoMorning(), act), act, 'greenhouse');
-    expect([state.stage, state.missionId, state.shelterQuality]).toEqual([
+  it('opens the greenhouse mission: water and power paid, food only once the seeds are watered', () => {
+    let state = chooseAction(startPlanning(dayTwoMorning(), act), act, 'greenhouse');
+    expect([state.stage, state.missionId]).toEqual(['academy', 'greenhouse']);
+    expect(state.stores).toEqual({ air: 95, power: 44, water: 0, food: 65 });
+    state = recordResult(finishAcademy(state, greenhouseMission), scoreGreenhouse(true, 90));
+    expect([state.stores.food, state.lastResult?.verdict]).toEqual([85, 'efficient']);
+  });
+
+  it('ends a planned day after its single mission, without starting the other one', () => {
+    let state = chooseAction(startPlanning(dayTwoMorning(), act), act, 'greenhouse');
+    state = recordResult(finishAcademy(state, greenhouseMission), scoreGreenhouse(true, 90));
+    state = continueAfterDebrief(state, act);
+    expect([state.stage, state.missionId, state.doneMissionIds]).toEqual([
       'dayClosing',
       null,
-      null,
+      ['greenhouse'],
     ]);
-    expect(state.stores).toEqual({ air: 95, power: 44, water: 0, food: 85 });
   });
 
   it('refuses an action the base cannot pay', () => {

@@ -16,11 +16,11 @@ const BEACON = { height: 2.5, radius: 0.05, light: 0.3 };
 /** A faint red light beam rising over the zone, to find it from the dig site (m). */
 const BEAM = { radius: 0.8, height: 14, opacity: 0.35 };
 
-export const lightBeam = (x: number, z: number) => {
+export const lightBeam = (x: number, z: number, color: number = RED) => {
   const beam = new Mesh(
     new CylinderGeometry(BEAM.radius * 0.6, BEAM.radius, BEAM.height, 24, 1, true),
     new MeshBasicMaterial({
-      color: RED,
+      color,
       transparent: true,
       opacity: BEAM.opacity,
       blending: AdditiveBlending,

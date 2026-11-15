@@ -14,6 +14,7 @@ const PROMPTS = {
   openDashboard: 'Open the station dashboard',
   closeDashboard: 'Close the dashboard',
   leaveExcavator: 'Leave the excavator',
+  doErrand: 'Set up the watering',
 };
 
 const labelOf = (action: StationAction) =>
@@ -21,7 +22,7 @@ const labelOf = (action: StationAction) =>
 
 /**
  * Lets the action key E (or the legend's button) open and close the station dashboard at its
- * terminal, hand the excavator robot back, and go through the closed doors; T (or the tablet
+ * terminal, hand the excavator robot back, start the mission's job at its place, and go through the closed doors; T (or the tablet
  * button) opens the tablet, the same terminal, from anywhere. `openTerminal` gets where the
  * astronaut stands when the tablet is used, to bring them back there. Tells what the key does
  * right now, when it does something.
@@ -30,6 +31,8 @@ export const createStationActions = (
   spots: StationSpots,
   openTerminal: (from?: StartSpot) => void,
   tabletButton?: HTMLElement,
+  /** Starts the mission's job once the astronaut reached its place (spots.errand). */
+  onErrand?: () => void,
 ) => {
   let activity: Activity = 'walking';
   let standing: StartSpot | undefined;
@@ -73,6 +76,7 @@ export const createStationActions = (
       const action = pending;
       pending = undefined;
       if (action?.kind === 'openDashboard') openTerminal();
+      else if (action?.kind === 'doErrand') onErrand?.();
       else if (action) activity = activityAfter(action);
       const moved = action?.kind === 'passDoor' ? passDoor(walker, action.passage) : walker;
       if (action?.kind === 'passDoor' && action.passage.leavesBase) leftBase = true;

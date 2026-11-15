@@ -1,6 +1,7 @@
 import { insideZone } from '../../core/excavator/ground-zone';
 import { excavatorGoals } from '../../core/hud/excavator-goals';
 import { createMissionRadio } from '../radio/mission-radio';
+import { createGoalList } from './goal-list';
 import type { RadioMessage } from '../radio/radio-message';
 import type { GroundZone } from '../../core/excavator/ground-zone';
 import type { createExcavatorDriving } from './excavator-driving';
@@ -43,29 +44,18 @@ export const createMissionRun = (
   finish.hidden = false;
   finish.addEventListener('click', () => (finished = true));
   hud.hidden = false;
-  const list = hud.querySelector<HTMLElement>('.walk-goals__list');
+  const show = createGoalList(hud);
   let reachedDigZone = false;
-  let shown = '';
   let doneCount = 0;
   const speakUp = createMissionRadio(radio, driving, plan.goalKg);
   const render = () => {
     const { carriedKg, deliveredKg } = driving.store();
     reachedDigZone ||= insideZone(digZone, driving.vehicle());
     const goals = excavatorGoals({ reachedDigZone, carriedKg, deliveredKg, goalKg: plan.goalKg });
-    const key = goals.map((goal) => `${goal.done}${goal.label}`).join('|');
-    if (!list || key === shown) return;
-    shown = key;
     const done = goals.filter((goal) => goal.done).length;
     if (done > doneCount) plan.onGoalDone?.();
     doneCount = done;
-    list.replaceChildren(
-      ...goals.map((goal) => {
-        const item = document.createElement('li');
-        item.className = goal.done ? 'walk-goals__item walk-goals__item--done' : 'walk-goals__item';
-        item.textContent = goal.label;
-        return item;
-      }),
-    );
+    show(goals);
   };
   return {
     update: (rescued: boolean) => {

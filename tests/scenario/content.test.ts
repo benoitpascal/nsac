@@ -32,7 +32,9 @@ describe('the Moon act content', () => {
   });
 
   it('lets the opening of each day start only missions of that day, and each of them', () => {
-    for (const day of MOON_ACT.days.filter((candidate) => candidate.missions.length > 1)) {
+    for (const day of MOON_ACT.days.filter(
+      (candidate) => candidate.missions.length > 1 && !candidate.planning,
+    )) {
       const started = day.opening.flatMap((page) =>
         page.kind === 'choice'
           ? page.options.flatMap((option) =>

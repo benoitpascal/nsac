@@ -1,8 +1,9 @@
 import { currentMission, recordResult } from '../core/campaign';
 import { DASHBOARD_PAGE } from '../core/mission-route';
+import { scoreGreenhouse } from '../core/greenhouse-scoring';
 import { scorePrinter, scoreShelter } from '../core/scoring';
 import type { CampaignState } from '../core/campaign';
-import type { Act } from '../core/scenario-content';
+import type { Act, ScoringId } from '../core/scenario-content';
 import type { MiniGame } from '@/modules/minigames/core/minigame';
 import { showHowTo } from '@/modules/minigames/ui/how-to.view';
 
@@ -16,6 +17,13 @@ export type MissionGameDeps = {
   navigate: (url: string) => void;
   /** Plays the chime of a goal reached, when the mini-game is won. */
   onWin?: () => void;
+};
+
+/** How each mini-game mission turns the game's result into the mission's result. */
+const SCORING: Partial<Record<ScoringId, typeof scorePrinter>> = {
+  printer: scorePrinter,
+  shelter: scoreShelter,
+  greenhouse: scoreGreenhouse,
 };
 
 /** How long the win chime plays before the debrief opens (ms). */
@@ -38,7 +46,7 @@ export const playMissionGame = (title: HTMLElement, board: HTMLElement, deps: Mi
   title.textContent = mission.title;
   if (deps.howTo) showHowTo(deps.howTo, game);
   game.start(board, ({ won, score }) => {
-    const scoreGame = mission.scoring === 'shelter' ? scoreShelter : scorePrinter;
+    const scoreGame = SCORING[mission.scoring] ?? scorePrinter;
     deps.save(recordResult(deps.state, scoreGame(won, score)));
     if (!won || !deps.onWin) return deps.navigate(DASHBOARD_PAGE);
     deps.onWin();

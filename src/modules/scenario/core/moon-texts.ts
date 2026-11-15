@@ -20,6 +20,14 @@ const RASSOR = {
   label: 'NASA · RASSOR digging robot',
   url: 'https://technology.nasa.gov/patent/KSC-TOPS-7',
 };
+const VEGGIE = {
+  label: 'NASA · Veggie: astronauts eat lettuce grown in space (2015)',
+  url: 'https://blogs.nasa.gov/kennedy/2015/08/11/veggie-success-benefits-journey-to-mars-and-eaters-on-earth/',
+};
+const PLANTS_FOR_AIR = {
+  label: 'R. Wheeler (NASA) · When can plants help make a crew’s air?',
+  url: 'https://simoc.space/wp-content/uploads/2018/09/When-Can-Plants-Begin-to-Contribute-to-Atmospheric-Management-WHEELER.pdf',
+};
 /** NASA's RASSOR 2.0 robot digging in a test bin (public domain, NASA image KSC-20160929-PH_DNG01_0001). */
 const RASSOR_PHOTO = {
   src: '/arcadia/robots/rassor-nasa.webp',
@@ -291,6 +299,58 @@ export const SHELTER_ACADEMY: GuidePage[] = [
   {
     kind: 'text',
     text: 'Our crane lifts the bricks into place. Hang every weight on the crane arm and keep the arm level. Fewer moves, fewer bricks wasted!',
+  },
+];
+
+/** Day two, greenhouse: what it is about. */
+export const GREENHOUSE_BRIEFING: GuidePage[] = [
+  {
+    kind: 'text',
+    text: 'Today we plant seeds in the glass dome, our greenhouse outside the base. Plants give us food, and even a little oxygen!',
+  },
+  {
+    kind: 'text',
+    text: 'Seeds need water to grow. Ours comes from the ice the robot dug out of the regolith.',
+  },
+];
+
+/** Day two, greenhouse: growing plants in space, with real facts, and how the mission goes. */
+export const GREENHOUSE_ACADEMY: GuidePage[] = [
+  {
+    kind: 'text',
+    text: 'In 2015, NASA astronauts ate lettuce they grew in space. It grew in a small plant box on the space station.',
+    source: VEGGIE,
+  },
+  {
+    kind: 'text',
+    text: 'Plants cannot do everything yet. To make the oxygen of just one astronaut, you would need a garden as big as a classroom!',
+    source: PLANTS_FOR_AIR,
+  },
+  {
+    kind: 'question',
+    text: 'What do our seeds need to grow on the Moon?',
+    answers: [
+      {
+        label: 'Water, light and warmth',
+        correct: true,
+        explanation:
+          'Yes! The dome lets the sunlight in and keeps the plants warm. We bring the water.',
+      },
+      {
+        label: 'Only Moon dust',
+        correct: false,
+        explanation:
+          'Moon dust alone is not enough. Like on Earth, plants need water, light and warmth.',
+      },
+    ],
+  },
+  {
+    kind: 'text',
+    text: 'Put on your suit, go out through the airlock and walk to the glass dome. Outside, your suit uses oxygen, so do not wander too long!',
+  },
+  {
+    kind: 'text',
+    text: 'At the dome, turn the pipes so the water flows to the seeds. Every extra turn lets a little water leak: think before you turn!',
   },
 ];
 

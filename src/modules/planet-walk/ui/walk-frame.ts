@@ -13,6 +13,7 @@ import type { createExcavatorDriving } from './controls/excavator-driving';
 import type { createExcavatorHud } from './controls/excavator-hud';
 import type { createKeyboardInput } from './controls/keyboard-input';
 import type { createMissionRun } from './controls/mission-run';
+import type { createErrandRun } from './controls/errand-run';
 import type { createMouseLook } from './controls/mouse-look';
 import type { createStationActions } from './controls/station-actions';
 import type { createSuitMonitor } from './controls/suit-monitor';
@@ -41,6 +42,7 @@ export type FrameParts = {
   /** Told each frame whether the astronaut is inside the station, under its roof. */
   insideStation?: (inside: boolean) => void;
   mission?: ReturnType<typeof createMissionRun>;
+  errand?: ReturnType<typeof createErrandRun>;
   map: ReturnType<typeof createWalkMap>;
   gravity: () => number;
   /** Where the astronaut appears: woken up in the crew quarters, or in front of the terminal. */
@@ -111,6 +113,7 @@ export const createWalkFrame = (parts: FrameParts) => {
     parts.radio?.update(actions.leftBase());
     parts.insideStation?.(underRoof);
     parts.mission?.update(rescued);
+    parts.errand?.update(walker);
     if (rescued) {
       actions.stopDriving();
       walker = startWalker(world.stationSpots.wakeUp);

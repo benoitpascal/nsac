@@ -20,9 +20,15 @@ export const EXCAVATOR_CUE_LINES: Record<ExcavatorCue, readonly string[]> = {
   ],
 };
 
+/** What the base says as the astronaut sets off to water the greenhouse. */
+export const ERRAND_LINES = [
+  'Suit on, commander!',
+  'Go out through the airlock and walk to the glass dome. Follow the green light!',
+] as const;
+
 /** A message as it is read aloud. */
 export const spoken = (lines: readonly string[]) => lines.join(' ');
 
 /** Returns every message the base reads aloud, for the voice generation script. */
 export const baseRadioVoiceLines = () =>
-  [WAKE_UP_LINES, ...Object.values(EXCAVATOR_CUE_LINES)].map(spoken);
+  [WAKE_UP_LINES, ERRAND_LINES, ...Object.values(EXCAVATOR_CUE_LINES)].map(spoken);
