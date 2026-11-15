@@ -87,3 +87,30 @@ Day One 1 — after timeout → Day One 2 (smart animate 500 ms)
 Day One 2 — after timeout → Day One 3 (smart animate 1200 ms; DAY ONE rises, line draws, cards fade in)
 Ecran - selection acte — chevrons: click → scroll to the MOON card; Choice planet: hover → Hover variant
 Frame 15 — click → Frame 16 (zoom into the terminal screen)
+
+## New act selection (Ecran - selection acte `48:330`, copy `63:804`) and its components
+
+Typography
+    "Objectif" — Bebas Neue Book 48px ls=12% color=#35e9fd
+    "Choose the act you want to play" — Bebas Neue Book 28px ls=17% color=#f7f5f5 (between two #35e9fd 2px lines, Vector 13/14 `63:801`/`63:802`)
+    Objective text — Outfit Regular 18px ls=0% color=#f7f5f5 (placeholder lorem ipsum)
+    "BACK", "START MISSION" — Bebas Neue Bold 32px ls=16% color=#f7f5f5 / #ffffff
+    Card texts — "ACT 1" Bebas Neue Book 32.1px ls=4%; "EARTH" Bebas Neue Bold 42.8px ls=16%; "Moon Mission Preparation" Outfit Light 24.1px; all #f7f5f5
+
+Layout
+    Frame 22 [63:783] objective block: flex=vertical gap=42, at 150,268, 823 wide
+    Frame 20 [50:446] cards row: flex=horizontal gap=28, at 155,525 (480x335 cards with 28x28 cyan chevrons between)
+    Vector 12 [50:413] header line: stroke=gradient_linear(#35e9fd → #141c33) 2px
+    BACK button (Group 7 `50:497`, 198x66 at 142,920) and START MISSION (BTN `50:529`, 361x66 at 1415,920): cut-corner shape fill=#141c33/60%, stroke=gradient_linear(#35e9fd → #208b97) 1px inside, Frame 21 flex=horizontal gap=16 (chevron 18x18 + label)
+
+BTN START MISSION [50:519]: hover = stroke 2px + effect style « Hover BTN » (drop_shadow(13.4 #35e9fd@30%) + drop_shadow(20 #b6f7fe@60%))
+Choice planet DEMO [63:587]
+  default: Stroke gradient_linear(#35e9fd → #208b97) 2px inside; Lock and « DEMO » status hidden (opacity 0)
+  hover [63:598]: stroke 4px; IMG glow drop_shadow(13.4 #35e9fd@30%) + drop_shadow(20 #b6f7fe@60%); cyan « DEMO » Status Act shown (127x57, fill #35e9fd); click → Variante3
+  Variante3 (selected) [63:745]: Filtre gradient_linear(#35e9fd → #314682), texts at 40 % opacity, stroke 4px, glow, « DEMO » shown
+Choice planet lock [50:376]
+  default: stroke 2px, Lock (Variante3) hidden
+  hover [50:377]: second dark filter, texts at 40 % opacity, stroke 4px, glow, Lock shown (57x71)
+Lock [63:613]: cyan #35e9fd padlocks; Variante3 = body (Subtract) + shackle Rectangle 17 stroke #35e9fd 4.8px
+
+Prototype: Choice planet DEMO hover → Hover; Hover click → Variante3 (selected); Choice planet lock hover → Hover.
