@@ -3,8 +3,13 @@ export type IntroShot =
   | { kind: 'video'; src: string; label: string }
   | { kind: 'still'; src: string; label: string; durationMs: number };
 
-/** Landing on the Moon: first step, a look at the Earth, the Earth, then a turn towards the base. */
+/** Landing on the Moon: touchdown, first step, a look at the Earth, the Earth, then the base. */
 export const MOON_INTRO_SHOTS: readonly IntroShot[] = [
+  {
+    kind: 'video',
+    src: '/game-design/alunissage.mp4',
+    label: 'The lander touches down on the Moon',
+  },
   { kind: 'video', src: '/game-design/walk-on-moon.mp4', label: 'A boot steps onto the Moon' },
   {
     kind: 'video',
