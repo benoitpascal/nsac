@@ -39,7 +39,7 @@ Pages (declared in `vite.config.ts` under `build.rolldownOptions.input`):
 - `briefing.html` (base terminal, the scenario's router: the mascot's discussion — day opening and pick of a job, academy, bag, debrief, end of the day — and the dashboard when a mission is ready) loads `src/briefing.ts`, `src/styles.css`, `src/hud.css`, `src/briefing.css` and `src/guide.css`.
 - `information.html` (context, goal, how to play, controls, credits) loads `src/information.ts`, `src/styles.css`, `src/hud.css` and `src/information.css`.
 - `solar-system.html` loads `src/solar-system.ts`.
-- `planet-walk.html` loads `src/planet-walk.ts`.
+- `planet-walk.html` loads `src/planet-walk.ts`. With `?mission=1` and a robot mission ready in the saved game, it starts at the excavator's controls.
 - `minigames.html` loads `src/minigames.ts`.
 
 `src/styles.css` holds the Project Arcadia design tokens and shared components (logotype, pill button) of the pages built from the Figma mock-ups; their images live in `public/arcadia/`. Layout sizes follow the 1920 × 1080 mock-ups through `--design-px`; buttons and cards keep fixed sizes to stay readable and tappable. `briefing.html` and `information.html` have no Figma frame: they follow the reference images « image 10 » and « image 9 », so `src/hud.css` gives them cut-corner panels, and their icons are drawn by hand in the `public/arcadia/hud-icons.svg` sprite (`currentColor`, used through `<svg><use>`). The three last pages share `src/pages.css`.
@@ -121,7 +121,7 @@ _URLs à vérifier lors de l'intégration (endpoints exacts, CORS, quotas)._
 - [x] Stack et déploiement : Vite + TypeScript, servi en statique par nginx (Docker), CI/CD GitHub Actions. **Un push sur `main` déploie en prod, sur `dev` en staging** : travailler sur des branches.
 - [ ] Rendu : DOM pour la grille et l'interface ; Three.js en option pour le décor (à trancher)
 - [ ] Intégration des données (live et/ou dataset embarqué)
-- [ ] Prototype jouable
+- [ ] Prototype jouable : **en cours**. Parcours de démo de l'acte 2 : sélection d'acte → cinématique → jour 1 (terminal de la base avec la mascotte, robot et imprimante 3D dans l'ordre choisi, impression des briques la nuit) → jour 2 (planification, construction de l'abri) → jour 3 (alerte solaire DONKI). Moteur dans `src/modules/scenario/`, valeurs dans `DATA.md`
 - [ ] Page « Sources & science » pour le jury
 - [ ] Démo / pitch
 

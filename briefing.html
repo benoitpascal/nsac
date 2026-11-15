@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Base terminal · Project Arcadia</title>
+    <title>Station dashboard · Project Arcadia</title>
     <meta name="description" content="Your orders for the day at the Moon base." />
     <meta name="theme-color" content="#121d3b" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/src/hud.css" />
     <link rel="stylesheet" href="/src/briefing.css" />
     <link rel="stylesheet" href="/src/band.css" />
+    <link rel="stylesheet" href="/src/dashboard.css" />
     <link rel="stylesheet" href="/src/guide.css" />
     <link rel="stylesheet" href="/src/planning.css" />
   </head>
@@ -25,12 +26,14 @@
     <div class="hud">
       <header class="band">
         <a class="band__logotype" href="/"><img src="/arcadia/logotype.svg" alt="Project Arcadia, home" /></a>
-        <h1 class="band__title">Base terminal</h1>
+        <h1 class="band__title">Station dashboard</h1>
         <p class="band__info">
           <span id="band-day">Day 01</span>
+          <span id="band-sun" class="band__sun" role="img" aria-label="Daytime"></span>
           <time id="band-time"></time>
         </p>
         <span class="band__planet" aria-hidden="true"></span>
+        <p class="band__act">Act II</p>
       </header>
 
       <div

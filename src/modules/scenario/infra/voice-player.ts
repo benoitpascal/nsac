@@ -1,0 +1,63 @@
+import type { Voice } from '../core/voice';
+import { voiceKey } from '@/shared/voice-key';
+
+const MUTE_KEY = 'arcadia.voiceMuted';
+
+const readMuted = () => {
+  try {
+    return localStorage.getItem(MUTE_KEY) === '1';
+  } catch {
+    return false;
+  }
+};
+
+const writeMuted = (muted: boolean) => {
+  try {
+    localStorage.setItem(MUTE_KEY, muted ? '1' : '0');
+  } catch {
+    // The choice then only lasts for this page.
+  }
+};
+
+/**
+ * Plays the mascot's recorded lines from public/voices/, made beforehand by
+ * scripts/generate-voices.mjs. A line without a recording, or a browser that refuses to play,
+ * stays silent: the text is always on screen.
+ */
+export const createVoicePlayer = (): Voice => {
+  const audio = new Audio();
+  let muted = readMuted();
+  let recorded = new Set<string>();
+  let wanted: string | undefined;
+  const play = (text: string) => {
+    const key = voiceKey(text);
+    if (muted || !recorded.has(key)) return;
+    audio.src = `/voices/${key}.mp3`;
+    audio.play().catch(() => undefined);
+  };
+  fetch('/voices/manifest.json')
+    .then((response) => response.json() as Promise<{ lines: Record<string, string> }>)
+    .then((manifest) => {
+      recorded = new Set(Object.keys(manifest.lines));
+      if (wanted) play(wanted);
+    })
+    .catch(() => undefined);
+  const stop = () => {
+    wanted = undefined;
+    audio.pause();
+  };
+  return {
+    say: (text) => {
+      stop();
+      wanted = text;
+      play(text);
+    },
+    stop,
+    isMuted: () => muted,
+    setMuted: (next) => {
+      muted = next;
+      writeMuted(next);
+      if (next) audio.pause();
+    },
+  };
+};

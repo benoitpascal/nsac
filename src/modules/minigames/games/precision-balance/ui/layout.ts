@@ -8,6 +8,8 @@ export type BalanceElements = {
   beam: HTMLElement;
   hooks: readonly { hook: Hook; element: HTMLElement }[];
   tray: HTMLElement;
+  /** One line telling the player what to do next. */
+  hint: HTMLElement;
   levels: readonly HTMLElement[];
   reset: HTMLButtonElement;
 };
@@ -51,7 +53,9 @@ export const buildLayout = (container: HTMLElement, levelCount: number): Balance
   stage.append(beam, create('div', 'pivot'));
   const tray = create('div', 'tray');
   tray.dataset.tray = 'true';
-  root.append(bar, stage, tray);
+  const hint = create('p', 'hint');
+  hint.setAttribute('role', 'status');
+  root.append(bar, stage, hint, tray);
   container.replaceChildren(root);
-  return { root, stage, beam, hooks, tray, levels, reset };
+  return { root, stage, beam, hooks, tray, hint, levels, reset };
 };

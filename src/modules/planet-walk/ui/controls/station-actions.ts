@@ -9,15 +9,15 @@ const PROMPTS = {
   leaveExcavator: 'Leave the excavator',
 };
 
-const promptOf = (action: StationAction) =>
-  `E · ${action.kind === 'passDoor' ? action.passage.label : PROMPTS[action.kind]}`;
+const labelOf = (action: StationAction) =>
+  action.kind === 'passDoor' ? action.passage.label : PROMPTS[action.kind];
 
 /**
- * Lets the action key E (or the prompt button) open and close the station dashboard at its
- * terminal, hand the excavator robot back, and go through the closed doors. Shows the prompt only
- * when the key does something.
+ * Lets the action key E (or the legend's button) open and close the station dashboard at its
+ * terminal, hand the excavator robot back, and go through the closed doors. Tells what the key
+ * does right now, when it does something.
  */
-export const createStationActions = (spots: StationSpots, prompt: HTMLButtonElement) => {
+export const createStationActions = (spots: StationSpots) => {
   let activity: Activity = 'walking';
   let available: StationAction | undefined;
   let pending: StationAction | undefined;
@@ -27,12 +27,12 @@ export const createStationActions = (spots: StationSpots, prompt: HTMLButtonElem
   window.addEventListener('keydown', (event) => {
     if (event.code === ACTION_KEY && !event.repeat) press();
   });
-  prompt.addEventListener('click', () => {
-    press();
-    prompt.blur();
-  });
   return {
     activity: () => activity,
+    /** Presses the action key, from an on-screen button. */
+    press,
+    /** What the action key does right now, if anything. */
+    label: () => (available ? labelOf(available) : undefined),
     closeDashboard: () => {
       if (activity === 'dashboard') activity = 'walking';
     },
@@ -56,8 +56,6 @@ export const createStationActions = (spots: StationSpots, prompt: HTMLButtonElem
       else if (action) activity = activityAfter(action);
       const moved = action?.kind === 'passDoor' ? passDoor(walker, action.passage) : walker;
       available = availableAction(activity, moved, spots);
-      prompt.hidden = !available;
-      prompt.textContent = available ? promptOf(available) : '';
       return moved;
     },
   };

@@ -33,6 +33,14 @@ This page lets judges trace every number in the game back to its source. Each ro
 | Mission time scale | _TBD_ | Real events span days to months | Simplified | Real DONKI dates are compressed into a few minutes of play |
 | Regolith printer power and build time | _TBD_ | No NASA figure published (MMPACT) | Invented | Balancing only |
 | Dosimeter auto-shelter | Crew shelters as soon as dose rate rises | NASA gives no warning lead time | Simplified | Models SRAG advice as an instant reaction |
+| Day 1 regolith target | 50 kg delivered by the excavator robot, one battery charge (30 % of 0.1 kWh), no recharge during the day | No NASA mission sets a daily target; the robot's figures are rounded from RASSOR (`excavator-power.ts`) | Invented | Gives day one a clear goal; the battery leaves room for one 50 kg trip plus some mistakes, not for wandering |
+| Moon act length | 5 demo days out of a 30-day campaign | No crewed Moon stay has lasted more than about 75 h (Apollo 17); 30 days is a scenario hypothesis from the HORIZON design book | Invented | The design book asks for 5–7 representative days in the demo |
+| Base crew needs per day | 6 people: 5 kg oxygen, 11 kg food | 0.84 kg O₂ and 1.8 kg food per person per day (same NASA life-support figures as the planet-walk station), × 6, rounded | Simplified | Rounded so children can add them up |
+| Base power | Battery 200 kWh, base uses 150 kWh/day, panels make 220 kWh/day (50 kWh on the day 2 shadow) | No real base; south-pole lighting depends on relief, as the design book notes | Invented | Balancing: power is the main limit on how many astronauts can work |
+| Knowledge needed for Mars | 100 points, checked when the ship leaves after day 5 | No real equivalent | Invented | A steady balanced plan wins (112), a too careful one just misses (96) |
+| Fatigue | +1 per working day, −2 per rest day, exhausted at 4; no rest in the cramped storm shelter | No NASA scale | Invented | Forces rest days and rotation, and keeps the storm from being a free rest day |
+| Day 4 solar storm | Based on DONKI episode EP-2017-09-10 (SEP seen by GOES and SOHO, 10 Sep 2017) | Real archived event observed near Earth; told in game as "imagined here reaching your base" | Real archived, effect simplified | Sheltering stops all work except a regolith-shielded lab; staying out sends the whole crew to rest the next day (radiation dose). No dose is computed |
+| Regolith shield on the lab | ≥ 50 kg of regolith from the day one robot mission lets the lab work during the storm | Regolith shielding is a common habitat idea (NASA source still to add); no figure ties 50 kg to a safe lab | Invented | Links the robot mission to the base management |
 | Moon walk: base site and day length | Sky of the Moon's south pole (Sun and Earth low on the horizon), with a 14-day day and 14-day night | Near the south pole, light depends on the relief: some rims get light almost all the time (https://science.nasa.gov/resource/shackleton-craters-illuminated-rim-shadowed-interior/) | Simplified | Keeps the station dashboard's simple day/night cycle (`core/station/local-time.ts`) under the Artemis site's sky |
 | Moon walk: Sun's height at noon | 10° above the horizon | About 1.5° at most at the south pole, since the Moon's axis is tilted 1.5° from the ecliptic (source link to verify) | Simplified | At 1.5° the flat ground would look almost black; 10° keeps it readable while shadows stay very long |
 | Moon walk: Earth's size in the sky | 3.8° wide | About 1.9° (Earth 12,756 km wide, 384,400 km away: https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html) | Simplified | Drawn twice as wide, like a zoom lens, so that its phase and city lights are visible on screen |
@@ -50,6 +58,10 @@ This page lets judges trace every number in the game back to its source. Each ro
 | Base terminal: main mission progress | Share of the act's missions already played (each mission counts the same: 0 %, 33 %, 67 %, 100 %) | Not a real measure | Invented | Shows the kids how far they are in the act; the mock-up's 10 % was a placeholder |
 | Moon walk: HUD energy and O₂ | Energy ring = suit battery, O₂ bar = suit oxygen (the mock-up's water and food bars are left out: the suit does not model them) | Real suits track oxygen and battery among other consumables | Simplified | Keeps the HUD to the resources the game simulates |
 | _TBD_ | | | | |
+
+## Mascot voice (synthetic)
+
+The mascot's spoken lines are a synthetic voice (ElevenLabs, voice « Liam », model `eleven_multilingual_v2`), recorded once from the same English texts the player reads with `pnpm voices` and shipped as MP3 files in `public/voices/`. It is not a recording of a real person or of NASA staff. Lines that contain the player's own amounts (regolith kg, bricks, power used) are not recorded and stay text only. The player can turn the sound off.
 
 ## Facts shown to players (verified 2026-11-13)
 

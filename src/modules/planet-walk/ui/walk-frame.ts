@@ -1,9 +1,12 @@
 import { startWalker, stepWalker } from '../core/walker';
 import { placeCamera } from './walker-camera';
 import { ceilingAt, WALKER_BODY } from '../core/obstacles';
+import { commandLegend } from '../core/hud/command-legend';
+import { isFull } from '../core/excavator/excavator-power';
 import type { Obstacle } from '../core/obstacles';
 import type { Walker } from '../core/walker';
 import type { createAstronautAvatar } from './astronaut/astronaut-avatar';
+import type { createCommandLegend } from './controls/command-legend';
 import type { createExcavatorDriving } from './controls/excavator-driving';
 import type { createExcavatorHud } from './controls/excavator-hud';
 import type { createKeyboardInput } from './controls/keyboard-input';
@@ -29,6 +32,7 @@ export type FrameParts = {
   driving: ReturnType<typeof createExcavatorDriving>;
   dashboard: ReturnType<typeof createStationDashboard>;
   hud: ReturnType<typeof createExcavatorHud>;
+  legend: ReturnType<typeof createCommandLegend>;
   suit: ReturnType<typeof createSuitMonitor>;
   mission?: ReturnType<typeof createMissionRun>;
   map: ReturnType<typeof createWalkMap>;
@@ -71,6 +75,14 @@ export const createWalkFrame = (parts: FrameParts) => {
     ]);
     if (drivingRobot && !driving.hasCharge()) actions.stopDriving();
     parts.hud.update(seconds, drivingRobot);
+    const store = driving.store();
+    parts.legend.update(
+      commandLegend({
+        activity: actions.activity(),
+        action: actions.label(),
+        robot: { place: driving.place(), carriedKg: store.carriedKg, full: isFull(store) },
+      }),
+    );
     parts.dashboard.update(seconds, driving.isDigging());
     const underRoof = ceilingAt(world.obstacles, walker, walker.height) < Infinity;
     const effort = drivingRobot

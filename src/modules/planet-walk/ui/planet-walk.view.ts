@@ -22,7 +22,7 @@ import type { Star } from '@/modules/solar-system/core/star';
 
 export type PlanetWalkElements = {
   canvas: HTMLCanvasElement;
-  pilotPrompt: HTMLButtonElement;
+  commandLegend: HTMLElement;
   dashboard: HTMLElement;
   touchPad: HTMLElement;
   excavatorHud: HTMLElement;
