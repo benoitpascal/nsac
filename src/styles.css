@@ -91,7 +91,8 @@ body {
 .pill-button:is(:hover, :focus-visible):not(:disabled) {
   --pill-border: 4px;
 
-  margin: -2px;
+  /* The thicker border eats into the padding, so the button keeps its size and its margins. */
+  padding: 22px 38px;
   outline: none;
   box-shadow:
     0 0 13.1px 0 rgba(255, 255, 255, 0.3),
