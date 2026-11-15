@@ -21,6 +21,10 @@
   background: var(--arcadia-icon-placeholder);
 }
 
+img.status-card__icon {
+  background: none;
+}
+
 .status-card__value,
 .status-card__label {
   width: 100%;

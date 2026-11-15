@@ -29,6 +29,8 @@ export type BriefingDeps = {
   save: (state: CampaignState) => void;
   now: () => number;
   navigate: (url: string) => void;
+  /** Called with the saved game each time the terminal shows a new stage. */
+  onState?: (state: CampaignState) => void;
 };
 
 /**
@@ -106,6 +108,7 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
   };
   const render = () => {
     stopDialogue();
+    deps.onState?.(state);
     if (state.stage === 'dayEnd') return deps.navigate(DAY_PAGE);
     if (state.stage === 'briefing') return openDay();
     if (state.stage === 'dayClosing') return closeTheDay();

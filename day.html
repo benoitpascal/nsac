@@ -15,6 +15,7 @@
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400&display=swap"
     />
     <link rel="stylesheet" href="/src/styles.css" />
+    <link rel="stylesheet" href="/src/hud.css" />
     <link rel="stylesheet" href="/src/day-one.css" />
     <link rel="stylesheet" href="/src/solar-alert.css" />
     <link rel="stylesheet" href="/src/status-card.css" />
@@ -27,27 +28,23 @@
       <img class="day-one__line" src="/arcadia/day-one-line.svg" alt="" />
       <ul class="day-one__status" aria-label="Base status">
         <li class="status-card">
-          <span class="status-card__icon" aria-hidden="true"></span>
+          <img class="status-card__icon" src="/arcadia/icon-temperature.svg" alt="" />
           <span class="status-card__value" id="day-temperature">…</span>
-          <span class="status-card__label">Outside temperature</span>
+          <span class="status-card__label">Temperature</span>
         </li>
         <li class="status-card">
-          <span class="status-card__icon" aria-hidden="true"></span>
+          <img class="status-card__icon" src="/arcadia/icon-sunrise.svg" alt="" />
           <span class="status-card__value" id="day-sun">…</span>
           <span class="status-card__label">solar status</span>
         </li>
         <li class="status-card">
-          <span class="status-card__icon" aria-hidden="true"></span>
+          <img class="status-card__icon" src="/arcadia/icon-crew.svg" alt="" />
           <span class="status-card__value" id="day-crew">…</span>
           <span class="status-card__label">Crew status</span>
         </li>
       </ul>
       <p class="day-one__date" id="day-date"></p>
-      <a class="pill-button day-one__next" id="day-next" href="/briefing.html">
-        <img class="pill-button__icon pill-button__icon--idle" src="/arcadia/icon-play.svg" alt="" />
-        <img class="pill-button__icon pill-button__icon--active" src="/arcadia/icon-play-active.svg" alt="" />
-        <span class="pill-button__label">Continue</span>
-      </a>
+      <a class="hud-action day-one__next" id="day-next" href="/briefing.html">Continue</a>
     </main>
 
     <div id="solar-alert" class="solar-alert" role="alertdialog" aria-labelledby="solar-alert-title" hidden>
@@ -70,7 +67,7 @@
       <section class="solar-alert__end">
         <p class="solar-alert__soon">To be continued…</p>
         <p class="solar-alert__teaser">Continue your mission in the full version of the game.</p>
-        <a class="pill-button" href="/"><span class="pill-button__label">Back to home</span></a>
+        <a class="hud-action hud-action--back" href="/">Back to home</a>
       </section>
     </div>
     <script type="module" src="/src/day.ts"></script>

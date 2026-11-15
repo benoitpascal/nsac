@@ -1,0 +1,28 @@
+import { describe, expect, it } from 'vitest';
+import { MOON_ACT } from '@/modules/scenario/core/act-moon';
+import { newCampaign } from '@/modules/scenario/core/campaign';
+import { actProgress, dayLabel } from '@/modules/scenario/core/progress';
+
+const start = newCampaign(0);
+
+describe('main mission progress', () => {
+  it('starts at zero', () => {
+    expect(actProgress(MOON_ACT, start)).toBe(0);
+  });
+
+  it('counts the missions played today and on the days before', () => {
+    expect(actProgress(MOON_ACT, { ...start, doneMissionIds: ['excavator'] })).toBeCloseTo(1 / 3);
+    expect(actProgress(MOON_ACT, { ...start, dayIndex: 1, doneMissionIds: [] })).toBeCloseTo(2 / 3);
+    expect(actProgress(MOON_ACT, { ...start, dayIndex: 2, doneMissionIds: [] })).toBe(1);
+  });
+
+  it('is complete once the act has ended', () => {
+    expect(actProgress(MOON_ACT, { ...start, stage: 'actEnd' })).toBe(1);
+  });
+});
+
+describe('day label', () => {
+  it('pads the day number like the mock-up', () => {
+    expect([dayLabel(0), dayLabel(11)]).toEqual(['Day 01', 'Day 12']);
+  });
+});

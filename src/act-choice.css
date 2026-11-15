@@ -1,9 +1,12 @@
 .act-choice {
   position: relative;
   display: block;
-  width: 480px;
+  /* Follows the 1920 × 1080 mock-up scale, so the three cards stay on one row; the texts inside
+     scale with the card (cqi = 1 % of the card width, Figma card = 480 px). */
+  width: clamp(260px, calc(480 * var(--design-px)), 480px);
   max-width: calc(100vw - 32px);
   aspect-ratio: 480 / 334.653;
+  container-type: inline-size;
   padding: 0;
   border: 0;
   color: var(--arcadia-white);
@@ -46,27 +49,27 @@
   left: 9.2%;
   display: flex;
   flex-direction: column;
-  gap: 13.4px;
+  gap: 2.79cqi;
   transition: opacity 0.2s ease;
 }
 
 .act-choice__act {
-  font-size: 32.1px;
+  font-size: 6.69cqi;
   letter-spacing: 0.04em;
   line-height: 0.8;
 }
 
 .act-choice__planet {
-  font-size: 42.8px;
+  font-size: 8.92cqi;
   font-weight: 700;
   letter-spacing: 0.16em;
   line-height: 0.8;
 }
 
 .act-choice__summary {
-  margin-top: 5px;
+  margin-top: 1.04cqi;
   font-family: var(--arcadia-font-body);
-  font-size: 24.1px;
+  font-size: max(15px, 5.02cqi);
   font-weight: 300;
 }
 
@@ -81,15 +84,15 @@
 }
 
 .act-choice__lock {
-  width: 57px;
-  height: 71px;
+  width: 11.9cqi;
+  height: 14.8cqi;
 }
 
 .act-choice__badge {
-  padding: 16px 30px;
+  padding: 3.33cqi 6.25cqi;
   color: #232f2a;
   background: #35e9fd;
-  font-size: 36.2px;
+  font-size: 7.54cqi;
   letter-spacing: 0.07em;
   line-height: 0.75;
   text-transform: uppercase;
