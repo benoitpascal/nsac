@@ -2,7 +2,6 @@ import { steerWith } from '../../core/excavator/control-scramble';
 import { insideZone } from '../../core/excavator/ground-zone';
 import { startStorm, stepStorm } from '../../core/excavator/magnetic-storm';
 import {
-  EXCAVATOR,
   hasCharge,
   isFull,
   startExcavatorStore,
@@ -10,7 +9,7 @@ import {
 } from '../../core/excavator/excavator-power';
 import { stepVehicle, vehicleObstacle } from '../../core/excavator/vehicle';
 import type { GroundZone } from '../../core/excavator/ground-zone';
-import type { DrumRates, ExcavatorStore } from '../../core/excavator/excavator-power';
+import type { ExcavatorStore } from '../../core/excavator/excavator-power';
 import type { DriveInput, Vehicle } from '../../core/excavator/vehicle';
 import type { Obstacle, Spot } from '../../core/obstacles';
 import type { ExcavatorControls } from '../base/excavator/excavator-site';
@@ -41,7 +40,6 @@ const START_HEADING = -Math.PI / 2;
 export const createExcavatorDriving = (setup: ExcavatorDrivingSetup) => {
   let vehicle: Vehicle = { ...setup.digSite, heading: START_HEADING };
   let store: ExcavatorStore = startExcavatorStore();
-  let drums: DrumRates = EXCAVATOR;
   let digging = false;
   let storm = startStorm();
   const place = (): RobotPlace => {
@@ -55,11 +53,6 @@ export const createExcavatorDriving = (setup: ExcavatorDrivingSetup) => {
     store: () => store,
     storm: () => storm,
     isDigging: () => digging,
-    /** Fits the drums and adds spare batteries (kWh) for a mission. */
-    equip: (fitted: DrumRates, extraKwh: number) => {
-      drums = fitted;
-      store = { ...store, batteryKwh: store.batteryKwh + extraKwh };
-    },
     hasCharge: () => hasCharge(store),
     place,
     /** Moves the robot when driven and powered, drains its battery, and animates its wheels and drums. */
@@ -79,7 +72,7 @@ export const createExcavatorDriving = (setup: ExcavatorDrivingSetup) => {
         vehicle = stepVehicle(vehicle, { ...input, ...steering, dig: working }, seconds, obstacles);
       const moved = Math.hypot(vehicle.x - before.x, vehicle.z - before.z);
       const moving = moved > 0 || vehicle.heading !== before.heading;
-      store = stepExcavatorStore(store, { moving, digging, unloading }, seconds, drums);
+      store = stepExcavatorStore(store, { moving, digging, unloading }, seconds);
       storm = stepStorm(storm, store.carriedKg, seconds, Math.random);
       if (unloading) setup.fillDropSite(store.deliveredKg);
       const rolled = steering.forward < 0 ? -moved : moved;

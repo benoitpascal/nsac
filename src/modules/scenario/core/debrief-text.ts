@@ -25,10 +25,7 @@ export const debriefPages = (result: MissionResult): GuidePage[] => {
   if (result.missionId === 'excavator' && result.verdict !== 'efficient')
     pages.push({
       kind: 'text',
-      text:
-        air > power
-          ? 'Most of the cost was air: you stayed outside a long time. Plan the shortest path between the grey and orange zones.'
-          : 'Most of the cost was power: the robot drove and dug a lot. Fewer moves and fuller loads save its battery.',
+      text: 'Most of the power went into driving and digging. Fewer moves and fuller loads between the grey and orange zones save the robot battery.',
     });
   if (result.missionId === 'laser-comms' && result.verdict !== 'efficient')
     pages.push({

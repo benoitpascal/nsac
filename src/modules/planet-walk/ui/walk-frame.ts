@@ -75,8 +75,10 @@ export const createWalkFrame = (parts: FrameParts) => {
         : moves.run
           ? 'run'
           : 'walk';
-    const rescued = parts.suit.update(seconds, effort, !underRoof);
-    parts.mission?.update(seconds, !underRoof, rescued);
+    // Driving the robot happens by remote control from inside the base: the suit is not used.
+    const outside = !underRoof && !drivingRobot;
+    const rescued = parts.suit.update(seconds, effort, outside);
+    parts.mission?.update(rescued);
     if (rescued) {
       actions.stopDriving();
       walker = startWalker();

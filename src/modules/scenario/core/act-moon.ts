@@ -21,7 +21,7 @@ export const MOON_ACT: Act = {
           goal: 'Bring back 50 kg of regolith with the digging robot.',
           briefing: EXCAVATOR_BRIEFING,
           academy: EXCAVATOR_ACADEMY,
-          preparation: true,
+          preparation: false,
           game: { kind: 'walk' },
           scoring: 'excavator',
         },

@@ -122,7 +122,7 @@ export const EXCAVATOR_ACADEMY: GuidePage[] = [
   },
   {
     kind: 'text',
-    text: "Careful: rolling and spinning the drums drain the robot's battery, and every second outside uses your oxygen. Plan your moves!",
+    text: 'You drive the robot from inside the base, by remote control. Careful: rolling and spinning the drums drain its battery, and it cannot recharge today. Plan your moves!',
   },
 ];
 

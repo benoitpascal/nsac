@@ -8,7 +8,6 @@ import {
   loseRescueHours,
   recordResult,
 } from '@/modules/scenario/core/campaign';
-import { BAG, TOOLS } from '@/modules/scenario/core/loadout';
 import { DASHBOARD_PAGE } from '@/modules/scenario/core/mission-route';
 import { EXCAVATOR_GOAL_KG, scoreExcavator } from '@/modules/scenario/core/scoring';
 import { loadCampaign, saveCampaign } from '@/modules/scenario/infra/campaign-storage';
@@ -41,7 +40,6 @@ const clock = startClock();
 const mission = campaign && currentMission(MOON_ACT, campaign);
 const playing =
   params.has('mission') && campaign?.stage === 'ready' && mission?.game.kind === 'walk';
-const loadout = playing ? (campaign?.loadout ?? undefined) : undefined;
 
 mountPlanetWalk(
   {
@@ -61,26 +59,24 @@ mountPlanetWalk(
   {
     loadStars: loadStarCatalog,
     now: clock.now,
-    suitKit: loadout
-      ? { oxygenBottles: loadout.oxygenBottles, extraItems: 1 + loadout.spareBatteries }
-      : { oxygenBottles: 1, extraItems: 0 },
+    suitKit: { oxygenBottles: 1, extraItems: 0 },
     onRescue: () => {
       clock.skip(4 * HOUR_MS);
       if (campaign) saveCampaign((campaign = loseRescueHours(campaign)));
       requireElement<HTMLElement>('#rescue-notice').hidden = false;
     },
-    mission: loadout && {
-      drums: TOOLS[loadout.tool],
-      extraKwh: loadout.spareBatteries * BAG.chargeKwh,
-      goalKg: EXCAVATOR_GOAL_KG,
-      onEnd: ({ rescued, ...run }) => {
-        if (!campaign) return;
-        const result = scoreExcavator(run);
-        saveCampaign(
-          recordResult(campaign, { ...result, details: { ...result.details, rescued } }),
-        );
-        window.location.assign(DASHBOARD_PAGE);
-      },
-    },
+    mission: playing
+      ? {
+          goalKg: EXCAVATOR_GOAL_KG,
+          onEnd: ({ rescued, ...run }) => {
+            if (!campaign) return;
+            const result = scoreExcavator(run);
+            saveCampaign(
+              recordResult(campaign, { ...result, details: { ...result.details, rescued } }),
+            );
+            window.location.assign(DASHBOARD_PAGE);
+          },
+        }
+      : undefined,
   },
 );

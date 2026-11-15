@@ -39,12 +39,9 @@ describe('a day of the Moon act', () => {
   });
 
   it('takes the mission cost from the base and debriefs it', () => {
-    state = recordResult(
-      state,
-      scoreExcavator({ deliveredKg: 50, secondsOutside: 90, robotKwhUsed: 0.03 }),
-    );
+    state = recordResult(state, scoreExcavator({ deliveredKg: 50, robotKwhUsed: 0.03 }));
     expect(state.stage).toBe('debrief');
-    expect(state.stores).toEqual({ air: 97, power: 81, water: 65 });
+    expect(state.stores).toEqual({ air: 100, power: 81, water: 65 });
   });
 
   it('keeps what was used when the mission is tried again', () => {
