@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Choose your mission · Project Arcadia</title>
+    <meta name="description" content="Pick the act you want to play: Earth, the Moon or Mars." />
+    <meta name="theme-color" content="#0f3465" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <link rel="stylesheet" href="/src/missions.css" />
+    <link rel="stylesheet" href="/src/act-card.css" />
+  </head>
+  <body class="arcadia arcadia--missions">
+    <main class="missions">
+      <h1 class="logotype missions__logotype">
+        <a href="/"><img src="/arcadia/logotype.svg" alt="Project Arcadia, back to the home page" /></a>
+      </h1>
+      <ul class="missions__acts" aria-label="Acts">
+        <li>
+          <div class="act-card act-card--locked" aria-disabled="true">
+            <span class="act-card__frame"><img class="act-card__picture" src="/arcadia/act-earth.png" alt="" /></span>
+            <span class="act-card__label">
+              <span class="act-card__title">
+                <span class="act-card__act">Act 1</span>
+                <span class="act-card__destination">Earth</span>
+              </span>
+              <span class="act-status act-status--locked">Locked</span>
+            </span>
+          </div>
+        </li>
+        <li>
+          <a class="act-card act-card--open" href="/planet-walk.html">
+            <span class="act-card__frame"><img class="act-card__picture" src="/arcadia/act-moon.png" alt="" /></span>
+            <span class="act-card__label">
+              <span class="act-card__title">
+                <span class="act-card__act">Act 2</span>
+                <span class="act-card__destination">Moon</span>
+              </span>
+              <span class="act-status act-status--demo">Demo</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <div class="act-card act-card--locked" aria-disabled="true">
+            <span class="act-card__frame"><img class="act-card__picture" src="/arcadia/act-mars.png" alt="" /></span>
+            <span class="act-card__label">
+              <span class="act-card__title">
+                <span class="act-card__act">Act 3</span>
+                <span class="act-card__destination">Mars</span>
+              </span>
+              <span class="act-status act-status--locked">Locked</span>
+            </span>
+          </div>
+        </li>
+      </ul>
+    </main>
+  </body>
+</html>

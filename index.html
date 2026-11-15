@@ -1,13 +1,36 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Game</title>
+    <title>Project Arcadia</title>
+    <meta name="description" content="Run a base on the Moon and learn the real trade-offs of space engineering." />
+    <meta name="theme-color" content="#0f3465" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" />
     <link rel="stylesheet" href="/src/styles.css" />
+    <link rel="stylesheet" href="/src/home.css" />
   </head>
-  <body>
-    <main id="app"></main>
-    <script type="module" src="/src/main.ts"></script>
+  <body class="arcadia arcadia--home">
+    <main class="home">
+      <h1 class="logotype home__logotype">
+        <img src="/arcadia/logotype.svg" alt="Project Arcadia" />
+      </h1>
+      <nav class="home__menu" aria-label="Main menu">
+        <a class="pill-button" href="/missions.html">
+          <img class="pill-button__icon pill-button__icon--idle" src="/arcadia/icon-play.svg" alt="" />
+          <img class="pill-button__icon pill-button__icon--active" src="/arcadia/icon-play-active.svg" alt="" />
+          <span class="pill-button__label">Start playing</span>
+        </a>
+        <button class="pill-button" type="button" disabled>
+          <img class="pill-button__icon" src="/arcadia/icon-gear.svg" alt="" />
+          <span class="pill-button__label">Options</span>
+        </button>
+      </nav>
+      <img class="home__divider" src="/arcadia/divider.svg" alt="" />
+    </main>
   </body>
 </html>

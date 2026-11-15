@@ -30,12 +30,13 @@ pnpm format       # Run Prettier on src/
 
 Pages (declared in `vite.config.ts` under `build.rolldownOptions.input`):
 
-- `index.html` loads `src/main.ts` and `src/styles.css`.
+- `index.html` (home) loads `src/styles.css` and `src/home.css`.
+- `missions.html` (act selection) loads `src/styles.css`, `src/missions.css` and `src/act-card.css`.
 - `solar-system.html` loads `src/solar-system.ts`.
 - `planet-walk.html` loads `src/planet-walk.ts`.
 - `minigames.html` loads `src/minigames.ts`.
 
-The three last pages share `src/pages.css`.
+`src/styles.css` holds the Project Arcadia design tokens and shared components (logotype, pill button) of the pages built from the Figma mock-ups; their images live in `public/arcadia/`. Layout sizes follow the 1920 × 1080 mock-ups through `--design-px`; buttons and cards keep fixed sizes to stay readable and tappable. The three last pages share `src/pages.css`.
 
 ### Layers
 

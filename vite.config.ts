@@ -14,6 +14,7 @@ export default defineConfig({
         solarSystem: fromRoot('./solar-system.html'),
         planetWalk: fromRoot('./planet-walk.html'),
         minigames: fromRoot('./minigames.html'),
+        missions: fromRoot('./missions.html'),
       },
     },
   },
