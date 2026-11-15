@@ -1,4 +1,5 @@
 import { createAstronaut } from './astronaut.mesh';
+import { createHeadlamp } from './headlamp';
 import type { Walker } from '../../core/walker';
 import type { Scene, WebGLRenderer } from 'three';
 
@@ -15,11 +16,13 @@ const AIR = { hip: 0.45, knee: 0.9, spread: 0.55, elbow: 0.6 };
 export const createAstronautAvatar = (scene: Scene, renderer: WebGLRenderer) => {
   const { astronaut, body, arms, legs } = createAstronaut(renderer);
   scene.add(astronaut);
+  const headlamp = createHeadlamp(scene);
   let phase = 0;
   let last = { x: 0, z: 0 };
   return {
-    follow: (walker: Walker, visible: boolean) => {
+    follow: (walker: Walker, visible: boolean, lamp: number) => {
       astronaut.visible = visible;
+      headlamp.follow(walker, lamp);
       astronaut.position.set(walker.x, walker.height, walker.z);
       astronaut.rotation.y = walker.heading;
       const airborne = walker.verticalSpeed !== 0;

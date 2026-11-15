@@ -1,81 +1,79 @@
-import { AmbientLight, DirectionalLight, HemisphereLight, Scene } from 'three';
+import { Scene } from 'three';
+import { disposeObject } from './dispose-object';
 import { createGround } from './terrain/ground.mesh';
 import { layOutRocks, rockObstacles } from './terrain/rock-layout';
 import { createRocks } from './terrain/rocks.mesh';
 import { createStars, paintSky } from './terrain/sky';
 import { BASE_SITE } from './base/base-layout';
 import { createSpaceBase } from './base/space-base';
+import { createLightRig, FIXED_SUN } from './sky/light-rig';
+import { createLunarSkyDome } from './sky/lunar-sky-dome';
+import { createDaylightDimmer } from './sky/daylight-dimmer';
 import { WORLD_APPEARANCES } from './world-appearance';
+import { WORLD_CONDITIONS } from '../core/station/conditions';
+import { localDayShare } from '../core/station/local-time';
+import { daylight, earthFullness } from '../core/sky/lunar-sky';
 import type { WalkWorldId } from '../core/walk-worlds';
-import type { Mesh, Object3D, WebGLRenderer } from 'three';
-
-const SKY_GLOW = 0.6;
-/** Where the sunlight comes from, relative to the walker (m). */
-const SUN_OFFSET = { x: -40, y: 60, z: 20 };
-/** Shadows are drawn only near the walker, sharp enough for the astronaut. */
-const SHADOW = {
-  mapSize: 2048,
-  bounds: { left: -15, right: 15, top: 15, bottom: -15, near: 1, far: 200 },
-};
-/** Soft light so that sides in the shade stay readable, even without air to scatter sunlight. */
-const SHADE_LIGHT = 0.5;
-
-const disposeMesh = (mesh: Mesh) => {
-  mesh.geometry.dispose();
-  const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-  for (const material of materials) material.dispose();
-};
+import type { Star } from '@/modules/solar-system/core/star';
+import type { Object3D, WebGLRenderer } from 'three';
 
 /**
  * The ground, rocks, sky and sunlight around the walker, switched from one world to another,
- * with a space base standing ahead of the start.
+ * with a space base standing ahead of the start. On the Moon, the Sun, the stars and the
+ * earthshine follow the base's local time.
  */
-export const createWalkScene = (renderer: WebGLRenderer) => {
+export const createWalkScene = (renderer: WebGLRenderer, loadStars: () => Promise<Star[]>) => {
   const scene = new Scene();
-  const sun = new DirectionalLight(0xffffff, 1);
-  sun.castShadow = true;
-  sun.shadow.mapSize.set(SHADOW.mapSize, SHADOW.mapSize);
-  Object.assign(sun.shadow.camera, SHADOW.bounds);
-  scene.add(sun.target);
-  const skyLight = new HemisphereLight(0xffffff, 0x222222, SKY_GLOW);
+  const lights = createLightRig(scene);
+  const followDaylight = createDaylightDimmer(scene);
   const stars = createStars();
+  const lunarSky = createLunarSkyDome(renderer, loadStars);
   const spaceBase = createSpaceBase(renderer);
   const rocks = layOutRocks(BASE_SITE);
-  scene.add(sun, skyLight, new AmbientLight(0xffffff, SHADE_LIGHT), stars, spaceBase.base);
-  let surface: Mesh[] = [];
+  const ground = createGround();
+  scene.add(stars, lunarSky.dome, spaceBase.base, ground.ground);
+  let surface: Object3D[] = [];
+  let worldId: WalkWorldId = 'moon';
   const showWorld = (id: WalkWorldId) => {
+    worldId = id;
     const appearance = WORLD_APPEARANCES[id];
-    for (const mesh of surface) {
-      scene.remove(mesh);
-      disposeMesh(mesh);
+    for (const part of surface) {
+      scene.remove(part);
+      disposeObject(part);
     }
-    surface = [createGround(appearance), createRocks(appearance.rock, rocks)];
+    ground.paint(appearance);
+    surface = [createRocks(appearance.rock, rocks)];
     scene.add(...surface);
     paintSky(scene, appearance);
-    sun.intensity = appearance.sunlight;
-    skyLight.color.set(appearance.sky);
-    stars.visible = appearance.stars;
+    lights.paint(appearance);
+    stars.visible = appearance.stars && !appearance.lunarSky;
+    lunarSky.dome.visible = appearance.lunarSky === true;
   };
-  /** Keeps the stars around the eye, so that they look infinitely far. */
-  const followEye = (eye: Object3D) => stars.position.copy(eye.position);
-  /** Keeps the sunlight and its shadows centered on the walker. */
-  const lightAround = (spot: { x: number; z: number }) => {
-    sun.position.set(spot.x + SUN_OFFSET.x, SUN_OFFSET.y, spot.z + SUN_OFFSET.z);
-    sun.target.position.set(spot.x, 0, spot.z);
+  /** Moves the Sun, the stars and the earthshine to the base's local time (Unix ms). */
+  let sunlit = 1;
+  const setTime = (timestamp: number) => {
+    const lunar = WORLD_APPEARANCES[worldId].lunarSky === true;
+    const dayShare = localDayShare(WORLD_CONDITIONS[worldId], timestamp);
+    if (lunar) lunarSky.update(dayShare, timestamp);
+    if (lunar) lights.follow(lunarSky.toSun, earthFullness(dayShare));
+    sunlit = lunar ? daylight(dayShare) : 1;
+    followDaylight(sunlit);
+    spaceBase.aimSolarPanels(lunar ? lunarSky.toSun : FIXED_SUN);
   };
-  /** Everything the walker bumps into or climbs on. */
-  const obstacles = [...spaceBase.obstacles, ...rockObstacles(rocks)];
+  /** Keeps the sky around the eye, so that it looks infinitely far. */
+  const followEye = (eye: Object3D) => {
+    stars.position.copy(eye.position);
+    lunarSky.followEye(eye);
+  };
   return {
+    ...spaceBase,
     scene,
     showWorld,
+    setTime,
+    /** How much daylight there is now, from 0 (night) to 1 (noon). */
+    daylight: () => sunlit,
     followEye,
-    lightAround,
-    obstacles,
-    excavator: spaceBase.excavator,
-    digSite: spaceBase.digSite,
-    digZone: spaceBase.digZone,
-    dropZone: spaceBase.dropZone,
-    fillDropSite: spaceBase.fillDropSite,
-    stationSpots: spaceBase.stationSpots,
+    lightAround: lights.around,
+    obstacles: [...spaceBase.obstacles, ...rockObstacles(rocks)],
   };
 };

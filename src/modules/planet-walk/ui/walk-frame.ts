@@ -1,6 +1,6 @@
 import { startWalker, stepWalker } from '../core/walker';
 import { placeCamera } from './walker-camera';
-import { WALKER_BODY } from '../core/obstacles';
+import { ceilingAt, WALKER_BODY } from '../core/obstacles';
 import type { Obstacle } from '../core/obstacles';
 import type { Walker } from '../core/walker';
 import type { createAstronautAvatar } from './astronaut/astronaut-avatar';
@@ -48,6 +48,7 @@ const walkerObstacle = ({ x, z, height }: Walker): Obstacle => ({
 export const createWalkFrame = (parts: FrameParts) => {
   const { world, camera, keyboard, mouse, avatar, view, actions, driving } = parts;
   let walker = startWalker();
+  let cameraDistance = Infinity;
   return (seconds: number) => {
     const moves = { ...keyboard.read(), turnBy: mouse.takeTurn() };
     const activity = actions.activity();
@@ -62,10 +63,15 @@ export const createWalkFrame = (parts: FrameParts) => {
     if (drivingRobot && !driving.hasCharge()) actions.stopDriving();
     parts.hud.update(seconds, drivingRobot);
     parts.dashboard.update(seconds, driving.isDigging());
-    avatar.follow(walker, drivingRobot || view.mode() === 'third');
+    const underRoof = ceilingAt(world.obstacles, walker, walker.height) < Infinity;
+    const lamp = underRoof ? 0 : (1 - world.daylight()) ** 2;
+    avatar.follow(walker, drivingRobot || view.mode() === 'third', lamp);
     const followed = drivingRobot ? { ...driving.vehicle(), height: 0, verticalSpeed: 0 } : walker;
-    const mode = drivingRobot ? 'third' : view.mode();
-    placeCamera(camera, followed, mouse.pitch(), mode, drivingRobot ? world.obstacles : withRobot);
+    const [mode, walls] = drivingRobot
+      ? (['third', world.obstacles] as const)
+      : [view.mode(), withRobot];
+    const previous = { distance: cameraDistance, seconds };
+    cameraDistance = placeCamera(camera, followed, mouse.pitch(), mode, walls, previous);
     world.followEye(camera);
     world.lightAround(followed);
   };

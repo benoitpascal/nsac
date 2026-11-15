@@ -10,7 +10,7 @@ import {
   TorusGeometry,
 } from 'three';
 import { HATCH, MODULE } from './habitat-dimensions';
-import { hatchFrame, windows } from './habitat-hull-details';
+import { hatchFrame, lightStrips, windows } from './habitat-hull-details';
 import type { ModuleEnds } from './habitat-dimensions';
 
 const SEGMENTS = 48;
@@ -63,7 +63,7 @@ export const createHabitatHull = (ends: ModuleEnds, length: number) => {
   const frontEnd = bulkhead(hullMaterial, ends.front);
   frontEnd.position.z = front;
   const module = new Group();
-  module.add(hull, back, frontEnd, windows(length));
+  module.add(hull, back, frontEnd, windows(length), lightStrips(length));
   if (ends.front) module.add(hatchFrame(front + FRAME_OFFSET));
   if (ends.back) module.add(hatchFrame(-front - FRAME_OFFSET));
   for (let z = -front; z <= front; z += RIB_SPACING_M) {

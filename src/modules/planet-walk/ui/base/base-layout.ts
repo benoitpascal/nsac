@@ -7,7 +7,6 @@ import { assembleHabitatModule } from '@/modules/globe/ui/bodies/equipment/parts
 import { assembleLab } from '@/modules/globe/ui/bodies/equipment/parts/lab.parts';
 import { assembleOxygenTanks } from '@/modules/globe/ui/bodies/equipment/parts/oxygen-tanks.parts';
 import { assembleRelayAntenna } from '@/modules/globe/ui/bodies/equipment/parts/relay-antenna.parts';
-import { assembleSolarPanel } from '@/modules/globe/ui/bodies/equipment/parts/solar-panel.parts';
 import { assembleWaterTank } from '@/modules/globe/ui/bodies/equipment/parts/water-tank.parts';
 
 /** One piece of equipment: its model, size factor, place (m, from the base center) and turn. */
@@ -28,16 +27,6 @@ export const DIG_ZONE: GroundZone = { minX: -6, maxX: 10, minZ: -5, maxZ: 5 };
 /** Where the robot drops off its regolith, from the base center (m): outside, along the workshops' wing. */
 export const DROP_ZONE: GroundZone = { minX: -22, maxX: -16, minZ: 32, maxZ: 38 };
 
-const SOLAR_ROW = Array.from(
-  { length: 7 },
-  (_, index): Placement => ({
-    assemble: assembleSolarPanel,
-    scale: 3,
-    x: (index - 3) * 4,
-    z: -16,
-  }),
-);
-
 export const LAYOUT: Placement[] = [
   { assemble: assembleHabitatModule, scale: 4, x: -5, z: 0 },
   { assemble: assembleHabitatModule, scale: 4, x: 5, z: 0, turn: Math.PI },
@@ -48,5 +37,4 @@ export const LAYOUT: Placement[] = [
   { assemble: assembleOxygenTanks, scale: 2.5, x: 13, z: 0 },
   { assemble: assembleElectrolyzer, scale: 2.5, x: 12, z: 6 },
   { assemble: assembleRelayAntenna, scale: 3, x: -18, z: 2 },
-  ...SOLAR_ROW,
 ];

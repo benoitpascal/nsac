@@ -7,8 +7,12 @@ import { createZoneSign } from '../zones/zone-sign';
 const DESK_COLOR = 0x8a9099;
 const CASING_COLOR = 0x2a2f38;
 const SCREEN_GLOW = 0x4de3ff;
-/** A screen on each side of the desk (m): its size, how far back it leans, and its lift above the desk. */
-const SCREEN = { width: 1.1, height: 0.6, tilt: 0.35, lift: 0.4, inset: 0.25 };
+/**
+ * A screen on each side of the desk (m): its size, how far back it leans, its lift above the desk
+ * and how far in from the desk's edge it stands; narrow enough for the four screens and their
+ * casings to clear each other at the corners even once leaning back.
+ */
+const SCREEN = { width: 0.8, height: 0.5, tilt: 0.35, lift: 0.35, inset: 0.12 };
 const CASING_DEPTH = 0.06;
 const QUARTER_TURN = Math.PI / 2;
 /** The control center's name, shown on each side of a sign hanging above the screens (m). */
