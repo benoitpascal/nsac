@@ -5,7 +5,7 @@ const sound = (file: string) => encodeURI(`/audio/OST-Bruitages/${file}`);
 
 const EFFECTS = {
   click: sound('click button digital sci fi.wav'),
-  back: sound('Soft-beep.mp3'),
+  back: sound('Beep-short.wav'),
   exit: sound('Hard-beep.wav'),
   launch: sound('Sci FI Button.wav'),
   objective: sound('check-objectif.mp3'),
@@ -24,18 +24,29 @@ const MUSIC = {
   dashboard: { src: sound('Lunar Dashboard.m4a'), volume: 0.15 },
 };
 const EFFECT_VOLUME = 0.5;
-/** Effects played softer than the others. */
-const SOFTER: Partial<Record<keyof typeof EFFECTS, number>> = { back: 0.2 };
 /** How fast a music fades in or out (volume per second). */
 const FADE_PER_SECOND = 0.5;
 /** What counts as a button for the click sound. */
 const CLICKABLE = 'button, a[href], [role="switch"]';
 
-/** Plays a short sound effect, unless the player turned the sound effects off. */
+/** How far a repeated effect may be sped up or slowed down, which shifts its pitch. */
+const REPEAT_RATE_SPREAD = 0.12;
+/** The last effect played, to vary it when it comes again right after. */
+let lastEffect: keyof typeof EFFECTS | undefined;
+
+/**
+ * Plays a short sound effect, unless the player turned the sound effects off. The same effect
+ * played again right after is slightly faster or slower, so that its pitch changes.
+ */
 export const playEffect = (name: keyof typeof EFFECTS) => {
   if (isSoundMuted('effects')) return;
   const effect = new Audio(EFFECTS[name]);
-  effect.volume = SOFTER[name] ?? EFFECT_VOLUME;
+  effect.volume = EFFECT_VOLUME;
+  if (name === lastEffect) {
+    effect.preservesPitch = false;
+    effect.playbackRate = 1 + (Math.random() * 2 - 1) * REPEAT_RATE_SPREAD;
+  }
+  lastEffect = name;
   effect.play().catch(() => undefined);
 };
 
