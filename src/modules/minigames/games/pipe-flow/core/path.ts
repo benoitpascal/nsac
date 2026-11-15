@@ -1,25 +1,20 @@
-import { ALL_SIDES, indexOf, neighbourOf, shuffled } from './grid';
+import { randomIndex } from './grid';
 import type { Cell, Random } from './grid';
 
 /**
- * Returns a random winding path of neighbouring cells, each visited once, from `start` to `end`
- * (a depth-first walk that tries the directions in random order).
+ * Returns a gentle random path of neighbouring cells from `start` (left edge) to `end` (right
+ * edge): it never goes back left, and only climbs or drops towards the tank's row, so a young
+ * player can follow it with a finger. It still bends at random column breaks.
  */
 export const randomPath = (start: Cell, end: Cell, size: number, random: Random): Cell[] => {
-  const visited = new Set([indexOf(start, size)]);
   const path = [start];
-  while (path.length > 0) {
-    const current = path[path.length - 1];
-    if (current.row === end.row && current.column === end.column) return path;
-    const next = shuffled(ALL_SIDES, random)
-      .map((side) => neighbourOf(current, side, size))
-      .find((cell) => cell !== undefined && !visited.has(indexOf(cell, size)));
-    if (next) {
-      visited.add(indexOf(next, size));
-      path.push(next);
-    } else {
-      path.pop();
-    }
+  let { row, column } = start;
+  // Column where the path turns towards the tank's row; the rest of the way stays straight.
+  const bendAt = randomIndex(random, size);
+  while (column < end.column || row !== end.row) {
+    if (column >= bendAt && row !== end.row) row += Math.sign(end.row - row);
+    else column += 1;
+    path.push({ row, column });
   }
-  return [start];
+  return path;
 };

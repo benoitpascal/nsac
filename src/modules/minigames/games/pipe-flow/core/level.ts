@@ -11,8 +11,11 @@ export type Level = Board & { par: number };
 
 type RouteStep = { index: number; sides: Side[] };
 
-/** Shapes laid on cells off the route; corners are twice as likely, some cells stay empty. */
-const FILLER_KINDS: readonly TileKind[] = ['straight', 'corner', 'corner', 'tee', 'cross', 'empty'];
+/**
+ * Shapes laid on cells off the route: half stay empty and none branch (no tee, no cross), so the
+ * route to find stands out.
+ */
+const FILLER_KINDS: readonly TileKind[] = ['empty', 'empty', 'straight', 'corner'];
 
 const routeSteps = (path: readonly Cell[], size: number): RouteStep[] =>
   path.map((cell, step) => {
@@ -28,7 +31,7 @@ const scramble = (tiles: readonly Tile[], random: Random): Tile[] =>
   tiles.map((tile) => ({ ...tile, turns: randomIndex(random, SIDES) }));
 
 /**
- * Builds a random level: a winding pipe route from the ice drill on the left edge to the tank on
+ * Builds a random level: a gentle pipe route from the ice drill on the left edge to the tank on
  * the right edge, random pipes everywhere else, then every tile turned at random so that the
  * water does not reach the tank yet.
  */

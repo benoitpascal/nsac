@@ -5,8 +5,8 @@ import { rotateTile } from './tiles';
 import type { Random } from './grid';
 import type { Level } from './level';
 
-/** Grid size of each level, in order: 5×5, then 6×6, then 7×7. */
-export const LEVEL_SIZES: readonly number[] = [5, 6, 7];
+/** Grid size of each level, in order: 3×3, then 4×4 twice (small enough for 7-year-olds). */
+export const LEVEL_SIZES: readonly number[] = [3, 4, 4];
 
 /**
  * Where the player is: which level (from 0), its board, the turns made on it, whether the water
