@@ -29,7 +29,7 @@ Snapshot of the Figma file **PROJECT-ARCADIA**, taken on 2026-11-15, so that the
 | `06-act-select-outro.png` | Slide 16:9 - 5 `13:882` | Fade to black after choosing the Moon. |
 | `07-day-one-1.webp` → `09-day-one-3.webp` | Day One 1 / 2 / 3 `13:386` `13:394` `13:378` | « DAY ONE » title animation, then three status cards (temperature, solar status, crew). Implemented in `day-one.html`. |
 | `10-day-one-draft.webp` | Slide 16:9 - 1 `1:2` | Older Day One draft. |
-| `11-act-select-v2.webp` | Ecran - selection acte `48:330` | **New** act selection: « Objectif » block (placeholder text), « Choose the act you want to play », three wide planet cards linked by chevrons (Earth and Mars locked, Moon playable), BACK and START MISSION buttons, planet picture in the header. Not implemented yet. |
+| `11-act-select-v2.webp` | Ecran - selection acte `48:330` | **New** act selection: « Objectif » block (placeholder text), « Choose the act you want to play », three wide planet cards linked by chevrons (Earth and Mars locked, Moon playable), BACK and START MISSION buttons, planet picture in the header. Now a component set `63:1074` (Earth hovered / Moon selected). Implemented in `missions.html`. |
 | `15-act-select-v3.webp` | Ecran - selection acte `63:804` | Copy of the screen above, same layers. |
 | `12-frame-12-wip.png` | Frame 12 `21:1074` | Screen started from the « Information » reference (small logotype, grey placeholder panel). |
 | `13-terminal-a.webp`, `14-terminal-b.webp` | Frame 15 `48:289`, Frame 16 `48:297` | **New** base terminal: a screen in the lunar module showing a rover picture and three cyan dots; click zooms into the screen. Not implemented yet. |

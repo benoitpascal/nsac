@@ -3,6 +3,8 @@
 ## [Unreleased]
 
 ### What's new
+The act selection screen has a new look: big planet cards, a short objective, and the planet you point at shows up at the top of the screen. Pick the Moon, then press Start mission.
+
 A friendly robot mascot now guides you through each day on the Moon. It welcomes you, asks you questions, teaches you how real NASA machines work, helps you pack your bag, then tells you how much air, power and water your mission cost.
 
 Each day starts with its own title card showing the real conditions at the base on that date. Day one is the day you start playing.

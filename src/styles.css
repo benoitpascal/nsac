@@ -39,7 +39,7 @@ body {
   min-height: 100dvh;
   overflow-x: hidden;
   color: var(--arcadia-white);
-  background-color: var(--arcadia-navy);
+  background-color: var(--page-background, var(--arcadia-navy));
   font-family: var(--arcadia-font);
 }
 
@@ -125,4 +125,14 @@ body {
 
 .pill-button:is(:hover, :focus-visible) .pill-button__icon--active {
   display: block;
+}
+
+/* Hidden on screen, read by screen readers. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }

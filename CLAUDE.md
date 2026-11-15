@@ -32,7 +32,7 @@ pnpm test         # Run the Vitest tests in tests/
 Pages (declared in `vite.config.ts` under `build.rolldownOptions.input`):
 
 - `index.html` (home) loads `src/styles.css` and `src/home.css`.
-- `missions.html` (act selection) loads `src/styles.css`, `src/missions.css` and `src/act-card.css`.
+- `missions.html` (act selection: objective, three planet cards, Back / Start mission; the header and background show the hovered or picked planet) loads `src/missions.ts`, `src/styles.css`, `src/missions.css` and `src/act-choice.css`; its images live in `public/arcadia/act-select/`.
 - `moon-intro.html` (Moon landing cutscene) loads `src/moon-intro.ts`, `src/styles.css` and `src/moon-intro.css`; it plays the clips of `public/game-design/` listed in `modules/moon-intro/core/intro-shots.ts`, then opens Day One.
 - `day.html` (title of the day starting, with the base conditions on the game date) loads `src/day.ts`, `src/styles.css`, `src/day-one.css` and `src/status-card.css`.
 - `mission.html` (mini-game of the current mission) loads `src/mission.ts` and `src/pages.css`.
