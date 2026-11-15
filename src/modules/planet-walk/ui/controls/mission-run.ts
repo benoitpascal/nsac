@@ -1,4 +1,6 @@
-import { progressPercent } from '../../core/map/minimap';
+import { insideZone } from '../../core/excavator/ground-zone';
+import { excavatorGoals } from '../../core/hud/excavator-goals';
+import type { GroundZone } from '../../core/excavator/ground-zone';
 import type { createExcavatorDriving } from './excavator-driving';
 import type { createStationActions } from './station-actions';
 
@@ -17,7 +19,7 @@ export type MissionPlan = {
 
 /**
  * Runs the excavator mission, driven by remote control from inside the base: starts at the robot's
- * controls, shows the regolith delivered, and ends once, when the player finishes, leaves the robot, the
+ * controls, ticks the HUD's « today's goal » checklist, and ends once, when the player finishes, leaves the robot, the
  * battery runs out, or the crew has to bring the astronaut back.
  */
 export const createMissionRun = (
@@ -26,6 +28,7 @@ export const createMissionRun = (
   finish: HTMLButtonElement,
   driving: ReturnType<typeof createExcavatorDriving>,
   actions: ReturnType<typeof createStationActions>,
+  digZone: GroundZone,
 ) => {
   actions.takeExcavator();
   const startKwh = driving.store().batteryKwh;
@@ -34,21 +37,30 @@ export const createMissionRun = (
   finish.hidden = false;
   finish.addEventListener('click', () => (finished = true));
   hud.hidden = false;
-  // The Figma « Avancée de la mission principale » bar: a label, the share done and the bar.
-  hud.innerHTML =
-    '<span class="mission-hud__label">Main mission progress</span>' +
-    '<span class="mission-hud__value"></span>' +
-    '<span class="mission-hud__bar" aria-hidden="true"><span class="mission-hud__fill"></span></span>';
-  const value = hud.querySelector<HTMLElement>('.mission-hud__value');
-  const fill = hud.querySelector<HTMLElement>('.mission-hud__fill');
+  const list = hud.querySelector<HTMLElement>('.walk-goals__list');
+  let reachedDigZone = false;
+  let shown = '';
+  const render = () => {
+    const { carriedKg, deliveredKg } = driving.store();
+    reachedDigZone ||= insideZone(digZone, driving.vehicle());
+    const goals = excavatorGoals({ reachedDigZone, carriedKg, deliveredKg, goalKg: plan.goalKg });
+    const key = goals.map((goal) => `${goal.done}${goal.label}`).join('|');
+    if (!list || key === shown) return;
+    shown = key;
+    list.replaceChildren(
+      ...goals.map((goal) => {
+        const item = document.createElement('li');
+        item.className = goal.done ? 'walk-goals__item walk-goals__item--done' : 'walk-goals__item';
+        item.textContent = goal.label;
+        return item;
+      }),
+    );
+  };
   return {
     update: (rescued: boolean) => {
       if (ended) return;
+      render();
       const { deliveredKg, batteryKwh } = driving.store();
-      const percent = progressPercent(deliveredKg, plan.goalKg);
-      const text = `${Math.floor(deliveredKg)} / ${plan.goalKg} kg of regolith · ${percent} %`;
-      if (value && value.textContent !== text) value.textContent = text;
-      if (fill) fill.style.width = `${percent}%`;
       if (!finished && !rescued && actions.activity() === 'driving') return;
       ended = true;
       plan.onEnd({

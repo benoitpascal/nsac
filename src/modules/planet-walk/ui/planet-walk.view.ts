@@ -8,8 +8,8 @@ import { createStationControls } from './controls/station-controls';
 import { createSuitMonitor } from './controls/suit-monitor';
 import { createTouchPad } from './controls/touch-pad';
 import { createViewToggle } from './controls/view-toggle';
+import { createWalkClock } from './controls/walk-clock';
 import { createWalkMap } from './controls/walk-map';
-import { showJumpFacts } from './jump-facts.view';
 import { createWalkFrame } from './walk-frame';
 import { createWalkRenderer } from './walk-renderer';
 import { createWalkScene } from './walk-scene';
@@ -17,13 +17,13 @@ import { mountWorldPicker } from './world-picker.view';
 import type { Obstacle } from '../core/obstacles';
 import type { SuitKit } from '../core/suit/suit-supply';
 import type { MissionPlan } from './controls/mission-run';
+import type { WalkClockElements } from './controls/walk-clock';
 import type { WalkMapElements } from './controls/walk-map';
 import type { Star } from '@/modules/solar-system/core/star';
 
 export type PlanetWalkElements = {
   canvas: HTMLCanvasElement;
   worldPicker: HTMLElement;
-  factsPanel: HTMLElement;
   viewToggle: HTMLButtonElement;
   pilotPrompt: HTMLButtonElement;
   dashboard: HTMLElement;
@@ -34,6 +34,7 @@ export type PlanetWalkElements = {
   missionHud: HTMLElement;
   missionFinish: HTMLButtonElement;
   map: WalkMapElements;
+  clock: WalkClockElements;
 };
 
 /** What the walk needs from outside the page: the star catalog and the time (Unix ms). */
@@ -62,7 +63,7 @@ const SKY_REACH_M = 6000;
  * Lets the user walk an astronaut on a chosen world, seen from behind or through its eyes, go in
  * and out of the base through its airlock door, read the station dashboard at its terminal and
  * drive the excavator robot from there: keys or on-screen buttons to walk, turn, jump and act (E),
- * dragging to turn and look up or down, and a panel telling how the world's gravity changes a jump.
+ * dragging to turn and look up or down.
  */
 export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWalkSources) => {
   const renderer = createWalkRenderer(elements.canvas);
@@ -72,7 +73,6 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
   const choose = (next: typeof current) => {
     current = next;
     world.showWorld(next.id);
-    showJumpFacts(elements.factsPanel, next);
   };
   mountWorldPicker(elements.worldPicker, current.id, choose);
   choose(current);
@@ -92,13 +92,15 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
       elements.missionFinish,
       station.driving,
       station.actions,
+      world.digZone,
     );
-  const map = createWalkMap(
-    elements.map,
-    world.obstacles.filter(isBuilding),
-    { digZone: world.digZone, dropZone: world.dropZone, robot: station.driving.vehicle },
-    sources.now,
-  );
+  const map = createWalkMap(elements.map, world.obstacles.filter(isBuilding), {
+    digZone: world.digZone,
+    dropZone: world.dropZone,
+    hall: world.stationSpots.console,
+    robot: station.driving.vehicle,
+  });
+  const clock = createWalkClock(elements.clock, sources.now);
   const frame = createWalkFrame({
     world,
     camera,
@@ -123,6 +125,7 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
     frame(Math.min((time - previous) / MS_PER_SECOND, MAX_FRAME_SECONDS));
     previous = time;
     world.setTime(sources.now());
+    clock.update(world.daylight() > 0);
     renderer.render(world.scene, camera);
   });
 };

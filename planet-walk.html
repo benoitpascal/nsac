@@ -22,25 +22,60 @@
       <div class="planet-walk__aim" aria-hidden="true"></div>
     </main>
 
-    <a class="page-link" href="/briefing.html">Station dashboard</a>
-    <aside id="walk-facts" class="walk-facts" aria-label="Gravity" aria-live="polite"></aside>
+    <a class="page-link walk-link" href="/briefing.html">Station dashboard</a>
+    <!-- Outdoor HUD, after the Figma reference « image 18 » (docs/figma/references/image-16.webp). -->
+    <header class="walk-topbar">
+      <a class="walk-topbar__logo" href="/"><img src="/arcadia/logotype.svg" alt="Project Arcadia, home" /></a>
+      <p class="walk-topbar__tag">Moon base</p>
+      <p class="walk-topbar__clock">
+        <span id="walk-day" class="walk-topbar__day"></span>
+        <span id="walk-sun" class="walk-topbar__sun" role="img" aria-label="Daytime"></span>
+        <span id="walk-time" class="walk-topbar__time"></span>
+      </p>
+    </header>
+
+    <div class="walk-left">
+      <section id="mission-hud" class="walk-goals" aria-labelledby="walk-goals-title" hidden>
+        <h2 id="walk-goals-title" class="walk-goals__title">
+          <img class="walk-goals__icon" src="/arcadia/icon-target.svg" alt="" />Today's goal
+        </h2>
+        <ul class="walk-goals__list"></ul>
+      </section>
+    </div>
 
     <button id="pilot-prompt" class="pilot-prompt" type="button" hidden></button>
     <p id="excavator-hud" class="excavator-hud" hidden></p>
-    <p id="suit-hud" class="suit-hud" aria-live="off"></p>
-    <p id="mission-hud" class="mission-hud" hidden></p>
-    <aside id="walk-hud" class="walk-hud" aria-label="Base clock and map" hidden>
-      <p class="walk-hud__labels">
-        <span id="walk-day" class="info-hud"></span>
-        <span id="walk-time" class="info-hud"></span>
+
+    <div id="suit-hud" class="walk-vitals" aria-label="Your suit">
+      <p class="walk-vitals__ring" aria-label="Suit battery">
+        <img class="walk-vitals__bolt" src="/arcadia/icon-bolt.svg" alt="" />
+        <span class="walk-vitals__ring-label">Energy</span>
+        <strong class="walk-vitals__ring-value" data-suit="battery">100%</strong>
       </p>
+      <p class="walk-vitals__bar" aria-label="Suit oxygen">
+        <span class="walk-vitals__bar-label">O<sub>2</sub></span>
+        <span class="walk-vitals__track"><span class="walk-vitals__fill" data-suit-fill="oxygen"></span></span>
+        <span class="walk-vitals__bar-value" data-suit="oxygen">100%</span>
+      </p>
+    </div>
+
+    <div id="walk-hud" class="walk-hud" hidden>
+      <div class="walk-compass" aria-hidden="true">
+        <div id="walk-compass" class="walk-compass__tape"></div>
+      </div>
       <div class="walk-map">
-        <canvas id="walk-map" class="walk-map__canvas" width="260" height="260" role="img"
-          aria-label="Map of the base around you: buildings in white, dig zone in yellow, drop-off zone in red, robot in cyan"></canvas>
+        <canvas
+          id="walk-map"
+          class="walk-map__canvas"
+          width="260"
+          height="260"
+          role="img"
+          aria-label="Map around you: the yellow diamond is the dig zone, the red square the drop-off zone, the cyan dot the robot, the house the base hall"
+        ></canvas>
         <img id="walk-map-arrow" class="walk-map__arrow" src="/arcadia/icon-direction.svg" alt="" />
       </div>
-    </aside>
-    <button id="mission-finish" class="page-link page-link--second mission-finish" type="button" hidden>Finish mission</button>
+    </div>
+    <button id="mission-finish" class="page-link walk-link walk-link--second mission-finish" type="button" hidden>Finish mission</button>
     <div id="rescue-fade" class="rescue-fade" aria-hidden="true"></div>
     <p id="rescue-notice" class="rescue-notice" role="status" hidden>Your suit ran low: the crew brought you back to the base. 4 hours have passed.</p>
 

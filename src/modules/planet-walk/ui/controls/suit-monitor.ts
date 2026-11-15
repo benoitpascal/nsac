@@ -6,7 +6,7 @@ const FADE_SECONDS = 1.6;
 const LOW_LEVEL = 25;
 
 /**
- * Shows the suit's oxygen and battery, which drain outside and refill inside the base. When one
+ * Shows the suit's battery (the HUD's energy ring) and oxygen (its O₂ bar), which drain outside and refill inside the base. When one
  * reaches the rescue level, the screen fades to black and onRescue runs once it is dark.
  */
 export const createSuitMonitor = (
@@ -17,9 +17,16 @@ export const createSuitMonitor = (
 ) => {
   let supply: SuitSupply = FULL_SUIT;
   let darkIn = 0;
+  const show = (level: 'oxygen' | 'battery', value: number) => {
+    const text = `${Math.round(value)}%`;
+    const label = hud.querySelector<HTMLElement>(`[data-suit="${level}"]`);
+    if (label && label.textContent !== text) label.textContent = text;
+    hud.querySelector<HTMLElement>(`[data-suit-fill="${level}"]`)?.style.setProperty('width', text);
+  };
   const render = () => {
-    const text = `Suit · O₂ ${Math.round(supply.oxygen)} % · Battery ${Math.round(supply.battery)} %`;
-    if (hud.textContent !== text) hud.textContent = text;
+    show('oxygen', supply.oxygen);
+    show('battery', supply.battery);
+    hud.style.setProperty('--energy', String(supply.battery));
     hud.classList.toggle('suit-hud--low', Math.min(supply.oxygen, supply.battery) < LOW_LEVEL);
   };
   return {

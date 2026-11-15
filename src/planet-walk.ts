@@ -48,7 +48,6 @@ mountPlanetWalk(
   {
     canvas: requireElement<HTMLCanvasElement>('#planet-walk'),
     worldPicker: requireElement<HTMLElement>('#world-picker'),
-    factsPanel: requireElement<HTMLElement>('#walk-facts'),
     viewToggle: requireElement<HTMLButtonElement>('#view-toggle'),
     pilotPrompt: requireElement<HTMLButtonElement>('#pilot-prompt'),
     dashboard: requireElement<HTMLElement>('#station-dashboard'),
@@ -61,8 +60,11 @@ mountPlanetWalk(
     map: {
       hud: requireElement<HTMLElement>('#walk-hud'),
       canvas: requireElement<HTMLCanvasElement>('#walk-map'),
-      arrow: requireElement<HTMLElement>('#walk-map-arrow'),
+      compass: requireElement<HTMLElement>('#walk-compass'),
+    },
+    clock: {
       time: requireElement<HTMLElement>('#walk-time'),
+      sun: requireElement<HTMLElement>('#walk-sun'),
     },
   },
   {

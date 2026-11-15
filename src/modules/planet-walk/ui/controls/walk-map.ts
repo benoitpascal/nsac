@@ -1,70 +1,93 @@
-import { arrowTurn, footprintOnMap, toMap } from '../../core/map/minimap';
-import type { Footprint, MapFrame } from '../../core/map/minimap';
+import { bearingDegrees, COMPASS_POINTS } from '../../core/hud/compass';
+import { footprintOnMap, middleOf, toMap } from '../../core/hud/minimap';
+import { diamond, house, MAP_COLORS, trace } from './walk-map-pictos';
+import type { Footprint, MapCenter, MapFrame } from '../../core/hud/minimap';
 import type { Spot } from '../../core/obstacles';
 
-/** What the map shows besides the buildings: the regolith zones and the excavator robot. */
-export type MapSites = { digZone: Footprint; dropZone: Footprint; robot: () => Spot };
+/** What the map marks besides the buildings: the regolith zones, the robot and the base hall. */
+export type MapSites = {
+  digZone: Footprint;
+  dropZone: Footprint;
+  hall: Spot;
+  robot: () => Spot;
+};
 
 export type WalkMapElements = {
   hud: HTMLElement;
   canvas: HTMLCanvasElement;
-  arrow: HTMLElement;
-  time: HTMLElement;
+  compass: HTMLElement;
 };
 
-/** The map shows 65 m around the walker: the whole base when standing in its middle. */
-const FRAME: MapFrame = { sizePx: 260, rangeM: 65 };
-const COLORS = {
-  ground: 'rgba(20, 28, 51, 0.6)',
-  building: 'rgba(247, 245, 245, 0.45)',
-  dig: 'rgba(249, 205, 95, 0.55)',
-  drop: 'rgba(237, 95, 121, 0.55)',
-  robot: '#35e9fd',
+/** The map shows 45 m around the walker, as close as the mock-up's map. */
+const FRAME: MapFrame = { sizePx: 260, rangeM: 45 };
+const COLORS = MAP_COLORS;
+/** Pixels of the compass tape per degree turned. */
+const TAPE_PX_PER_DEGREE = 2.4;
+
+/** Builds the tape of the compass: the eight points, twice round so it can slide either way. */
+const fillTape = (tape: HTMLElement) => {
+  const marks = [...COMPASS_POINTS, ...COMPASS_POINTS, ...COMPASS_POINTS].map((label, index) => {
+    const mark = document.createElement('span');
+    mark.className = 'walk-compass__mark';
+    mark.textContent = label;
+    mark.style.left = `${index * 45 * TAPE_PX_PER_DEGREE}px`;
+    return mark;
+  });
+  tape.replaceChildren(...marks);
 };
-const ROBOT_RADIUS_PX = 5;
-const TIME = new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit' });
 
 /**
- * The outdoor HUD of the Figma file: a round map centred on the astronaut, buildings in white,
- * the dig zone in yellow, the drop-off zone in red, the robot in cyan and an arrow for where the
- * astronaut faces, with the base clock above it. Shown only while the view is outside.
+ * The outdoor part of the Figma HUD: a heading tape at the bottom and a round map turning with the
+ * astronaut, who always faces its top. Buildings are cyan blocks, the dig zone has a yellow
+ * diamond, the drop-off zone is red, the robot a cyan dot and the base hall a house. Shown only
+ * while the view is outside.
  */
 export const createWalkMap = (
   elements: WalkMapElements,
   footprints: readonly Footprint[],
   sites: MapSites,
-  now: () => number,
 ) => {
   const context = elements.canvas.getContext('2d');
-  const fill = (center: Spot, footprint: Footprint, color: string) => {
-    const rect = context && footprintOnMap(FRAME, center, footprint);
-    if (!context || !rect) return;
-    context.fillStyle = color;
-    context.fillRect(rect.x, rect.y, rect.width, rect.height);
+  fillTape(elements.compass);
+  const area = (center: MapCenter, footprint: Footprint, fill: string, edge?: string) => {
+    const corners = context && footprintOnMap(FRAME, center, footprint);
+    if (!context || !corners) return;
+    trace(context, corners);
+    context.fillStyle = fill;
+    context.fill();
+    if (!edge) return;
+    context.strokeStyle = edge;
+    context.lineWidth = 1;
+    context.stroke();
   };
-  const draw = (center: Spot) => {
+  const draw = (center: MapCenter) => {
     if (!context) return;
     context.clearRect(0, 0, FRAME.sizePx, FRAME.sizePx);
     context.fillStyle = COLORS.ground;
     context.fillRect(0, 0, FRAME.sizePx, FRAME.sizePx);
-    fill(center, sites.digZone, COLORS.dig);
-    fill(center, sites.dropZone, COLORS.drop);
-    footprints.forEach((footprint) => fill(center, footprint, COLORS.building));
+    area(center, sites.digZone, COLORS.dig, COLORS.diamond);
+    area(center, sites.dropZone, COLORS.drop, COLORS.pink);
+    footprints.forEach((footprint) => area(center, footprint, COLORS.building, COLORS.edge));
+    house(context, toMap(FRAME, center, sites.hall));
+    diamond(context, toMap(FRAME, center, middleOf(sites.digZone)));
     const robot = toMap(FRAME, center, sites.robot());
-    context.fillStyle = COLORS.robot;
     context.beginPath();
-    context.arc(robot.x, robot.z, ROBOT_RADIUS_PX, 0, 2 * Math.PI);
+    context.arc(robot.x, robot.y, 6, 0, 2 * Math.PI);
+    context.fillStyle = COLORS.cyan;
     context.fill();
+    context.strokeStyle = COLORS.ink;
+    context.lineWidth = 2;
+    context.stroke();
   };
   return {
-    /** Redraws the map around who the camera follows, or hides it while the view is indoors. */
-    update: (followed: Spot & { heading: number }, outside: boolean) => {
+    /** Redraws the map and the compass around who the camera follows, or hides them indoors. */
+    update: (followed: MapCenter, outside: boolean) => {
       elements.hud.hidden = !outside;
       if (!outside) return;
       draw(followed);
-      elements.arrow.style.transform = `rotate(${arrowTurn(followed.heading)}rad)`;
-      const time = TIME.format(now());
-      if (elements.time.textContent !== time) elements.time.textContent = time;
+      // The tape starts one full turn in, so it can slide left or right without running out.
+      const offset = (360 + bearingDegrees(followed.heading)) * TAPE_PX_PER_DEGREE;
+      elements.compass.style.transform = `translateX(${-offset}px)`;
     },
   };
 };
