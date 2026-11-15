@@ -24,7 +24,7 @@ export const debriefPages = (result: MissionResult): GuidePage[] => {
   if (result.missionId === 'excavator' && result.verdict !== 'efficient')
     pages.push({
       kind: 'text',
-      text: 'Most of the power went into driving and digging. Fewer moves and fuller loads between the grey and orange zones save the robot battery.',
+      text: 'Most of the power went into driving and digging. Fewer moves and fuller loads between the yellow and red zones save the robot battery.',
     });
   if (result.missionId === 'printer' && result.verdict !== 'efficient')
     pages.push({

@@ -40,10 +40,27 @@
         </h2>
         <ul class="walk-goals__list"></ul>
       </section>
+      <section id="excavator-hud" class="walk-robot" aria-labelledby="walk-robot-title" hidden>
+        <h2 id="walk-robot-title" class="walk-robot__title">
+          <img class="walk-robot__photo" src="/arcadia/robots/rassor-nasa.webp" alt="" />Digging robot
+        </h2>
+        <p class="walk-robot__gauge">
+          <svg class="walk-robot__icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#bolt" /></svg>
+          <span class="walk-robot__label">Battery</span>
+          <span class="walk-robot__track"><span class="walk-robot__fill" data-robot-fill="battery"></span></span>
+          <strong class="walk-robot__value" data-robot="battery"></strong>
+        </p>
+        <p class="walk-robot__gauge">
+          <svg class="walk-robot__icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#rock" /></svg>
+          <span class="walk-robot__label">Drums</span>
+          <span class="walk-robot__track"><span class="walk-robot__fill" data-robot-fill="load"></span></span>
+          <strong class="walk-robot__value" data-robot="load"></strong>
+        </p>
+        <p class="walk-robot__hint" data-robot="hint" role="status" aria-live="polite"></p>
+      </section>
     </div>
 
     <section id="command-legend" class="command-legend" aria-label="Controls" hidden></section>
-    <p id="excavator-hud" class="excavator-hud" hidden></p>
 
     <div id="suit-hud" class="walk-vitals" aria-label="Your suit">
       <p class="walk-vitals__ring" aria-label="Suit battery">

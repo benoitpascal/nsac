@@ -151,7 +151,7 @@ export const EXCAVATOR_ACADEMY: GuidePage[] = [
   },
   {
     kind: 'text',
-    text: 'To drive: Z Q S D or the arrows. In the grey zone, hold Space to dig. In the orange zone, hold Space to unload.',
+    text: 'To drive: the arrow keys, or W A S D (Z Q S D on a French keyboard). In the yellow zone, hold Space to dig. In the red zone, hold Space to unload.',
   },
   {
     kind: 'text',

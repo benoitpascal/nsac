@@ -3,7 +3,8 @@ import { createZoneSign } from '../habitat/zones/zone-sign';
 import { createZoneGround } from './zone-ground.mesh';
 import type { GroundZone } from '../../../core/excavator/ground-zone';
 
-const EDGE_COLOR = 0xff6b3d;
+/** Red, like the drop-off zone on the map and in the goals. */
+const EDGE_COLOR = 0xed5f79;
 const PILE_COLOR = 0x7a746c;
 /** The full pile (m) and how much regolith (kg) it holds, at about 1.5 t per cubic meter. */
 const PILE = { radius: 1.5, height: 1, fullKg: 3500, maxScale: 1.5 };

@@ -17,7 +17,8 @@ const LIFT = { height: 0.3, rate: 2.5 };
 const WHEEL_RADIUS = 0.28;
 const TRACK = { color: 0x1f1f1f, opacity: 0.35 };
 const PILE_COLOR = 0x7a746c;
-const DIG_EDGE_COLOR = 0xd8d8d8;
+/** Yellow, like the dig zone on the map and in the goals. */
+const DIG_EDGE_COLOR = 0xf9cd5f;
 
 /** What the robot is doing this frame: digging or not, and how far it rolled forward (m). */
 export type ExcavatorActivity = { digging: boolean; rolled: number };
@@ -30,7 +31,7 @@ export type ExcavatorControls = {
 };
 
 /**
- * Builds the regolith dig site: a grey zone where digging is allowed, a dark dug patch, a pile of
+ * Builds the regolith dig site: a zone edged in yellow where digging is allowed, a dark dug patch, a pile of
  * dug regolith and an excavator robot.
  * To dig, the robot pushes its drums into the ground until its wheels leave it, then turns them
  * in opposite ways; to drive, it sets its wheels down and raises its drums. Returns it with its solid pile and the robot's controls.

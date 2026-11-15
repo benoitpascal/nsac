@@ -734,42 +734,6 @@ button.command-legend__item .command-legend__key {
   }
 }
 
-.excavator-hud {
-  position: fixed;
-  top: 104px;
-  left: 50%;
-  max-width: calc(100vw - 2rem);
-  margin: 0;
-  padding: 0.4rem 1rem;
-  border-radius: 999px;
-  background: rgba(11, 15, 28, 0.75);
-  color: var(--ink);
-  font-family: var(--font-title);
-  font-size: 1.1rem;
-  text-align: center;
-  transform: translateX(-50%);
-}
-
-.excavator-hud[hidden] {
-  display: none;
-}
-
-.excavator-hud--low {
-  color: var(--flare-orange);
-}
-
-.excavator-hud--storm {
-  border: 1px solid var(--history-violet);
-  color: var(--history-violet);
-  animation: storm-flicker 0.8s steps(2) infinite;
-}
-
-@keyframes storm-flicker {
-  50% {
-    border-color: transparent;
-  }
-}
-
 .station-dashboard {
   position: fixed;
   top: 50%;
@@ -1124,10 +1088,6 @@ button.command-legend__item .command-legend__key {
   .globe {
     transition: none;
   }
-
-  .excavator-hud--storm {
-    animation: none;
-  }
 }
 
 .mission-finish {
@@ -1293,7 +1253,8 @@ button.command-legend__item .command-legend__key {
   width: min(400px, calc(100vw - 2rem));
 }
 
-.walk-goals {
+.walk-goals,
+.walk-robot {
   padding: 14px 18px 16px;
   border: 2px solid var(--hud-cyan);
   background: var(--hud-panel);
@@ -1311,8 +1272,99 @@ button.command-legend__item .command-legend__key {
   font-family: var(--font-body);
 }
 
-.walk-goals[hidden] {
+.walk-goals[hidden],
+.walk-robot[hidden] {
   display: none;
+}
+
+/* The robot driven from the base: its battery, what its drums carry, and what to do next. */
+.walk-robot__title {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 0 0 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(53, 233, 253, 0.4);
+  font-size: 22px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.walk-robot__photo {
+  width: 64px;
+  height: 42px;
+  border: 1px solid var(--hud-cyan);
+  object-fit: cover;
+}
+
+.walk-robot__gauge {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.walk-robot__icon {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  color: var(--hud-cyan);
+}
+
+.walk-robot__label {
+  flex: none;
+  width: 64px;
+}
+
+.walk-robot__track {
+  flex: 1;
+  height: 12px;
+  background: rgba(53, 233, 253, 0.18);
+}
+
+.walk-robot__fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--hud-cyan);
+  box-shadow: var(--hud-glow);
+  transition: width 0.2s linear;
+}
+
+.walk-robot__value {
+  flex: none;
+  min-width: 88px;
+  font-weight: 700;
+  text-align: right;
+}
+
+.walk-robot__hint {
+  margin: 4px 0 0;
+  color: var(--hud-cyan);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.walk-robot__hint:empty {
+  display: none;
+}
+
+/* Not only a color: a low battery also says so in the hint. */
+.walk-robot--low [data-robot-fill='battery'] {
+  background: #ed5f79;
+  box-shadow: 0 0 10px rgba(237, 95, 121, 0.55);
+}
+
+.walk-robot--low [data-robot='battery'],
+.walk-robot--empty .walk-robot__hint {
+  color: #ed5f79;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .walk-robot__fill {
+    transition: none;
+  }
 }
 
 .walk-goals__title {
