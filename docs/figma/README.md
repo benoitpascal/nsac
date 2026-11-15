@@ -2,7 +2,7 @@
 
 Snapshot of the Figma file **PROJECT-ARCADIA**, taken on 2026-11-15, so that the team can read the mock-ups without Figma access.
 
-- Source: https://www.figma.com/design/73mhzljKb1i3CP1xLLsnA9/PROJECT-ARCADIA (« Page 1 », 983 layers, exported here; a second page « Component » holds the planet pictures and Icon-direction).
+- Source: https://www.figma.com/design/73mhzljKb1i3CP1xLLsnA9/PROJECT-ARCADIA (« Page 1 », 990 layers, exported here; a second page « Component » holds the planet pictures and Icon-direction).
 - The Figma file stays the source of truth: the `chore/figma-sync` branch refreshes this folder from it.
 - Node ids (`13:547`…) are Figma ids: append `?node-id=13-547` to the file URL to open a layer.
 
@@ -33,7 +33,7 @@ Snapshot of the Figma file **PROJECT-ARCADIA**, taken on 2026-11-15, so that the
 | `15-act-select-v3.webp` | Ecran - selection acte `63:1463` | Same screen with the Moon card selected (cyan filter), the Moon in the header and background, START MISSION in its hover state. |
 | `12-frame-12-wip.png` | Frame 12 `21:1074` | Screen started from the « Information » reference (small logotype, grey placeholder panel). |
 | `13-terminal-a.webp` | Ecran ordi `48:289` | Lunar module control terminal picture, alone (the rover picture, cyan dots and zoomed frame were removed). Not implemented yet. |
-| `16-dashboard.webp` | Ecran - Dashboard `79:700` | **New** station dashboard draft: dark blue gradient, two soft violet glows, the mascot robot on the left, the « Ecran - Bandeau » header on top. Content panels not drawn yet. |
+| `16-dashboard.webp` | Ecran - Dashboard `79:700` | **New** station dashboard draft: dark blue gradient, two soft violet glows, the mascot robot on the left, the « Ecran - Bandeau » header on top, « /// STATION DASHBOARD » title, « JOUR 01 » / « 08:28 AM » labels and the « Main Mission Progress » bar. Content panels not drawn yet. |
 
 ## Components
 
@@ -55,7 +55,8 @@ Snapshot of the Figma file **PROJECT-ARCADIA**, taken on 2026-11-15, so that the
 | `header-band.webp` | Ecran - Bandeau `79:707` | **New** header component (1919 × 140): logotype, cyan stripes, dotted band, « JOUR 01 » and « 08:28 AM » Info HUD labels, Moon picture on the right, bottom line. Used by the dashboard. |
 | `info-hud.png` | Info HUD `75:652` | HUD label (112 × 50): white Outfit Medium text, no background, 10 px padding. Prop: Texte (« JOUR 01 », « 08:28 AM » on the instances `75:653`, `75:655`). |
 | `icon-direction.png` | Icon-direction `63:1923` | Small red-orange arrow (`#f24822`), placed on a grey circle `63:1920` (compass draft). Also on the « Component » page `63:1931`. |
-| `progress-bar.png` | Frame 26 `63:1911` (frame, not a component) | « Avancée de la mission principale » progress bar: label and « 10% », fill `#41acf5` on track `#0e1934`. Smaller copy Frame 25 `63:1910`. |
+| `progress-bar.png` | Frame 26 `63:1911` (frame inside the dashboard, not a component) | « Main Mission Progress » bar: label and « 10% », fill `#35e9fd` on track `#212f56`. Smaller French copy Frame 25 `63:1910` (« Avancée de la mission principale », `#41acf5` on `#0e1934`). |
+| `dash.png` | dash `79:755` | Three slanted cyan stripes (`#35e9fd`), the « /// » mark before screen titles. |
 
 ## Design tokens (Figma variables)
 

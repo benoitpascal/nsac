@@ -1,5 +1,5 @@
 # Project Arcadia — every layer of the Figma file "PROJECT-ARCADIA", page "Page 1".
-# Export of 2026-11-15 (synced from the Figma file, 983 layers). One line per layer, children indented by two spaces.
+# Export of 2026-11-15 (synced from the Figma file, 990 layers). One line per layer, children indented by two spaces.
 # Format: <layer name> [<type> <node id>] <x>,<y> <width>x<height> [HIDDEN] [op=<opacity>] [fill=…] [text="…"] [props={…}] [→ prototype interactions]
 # - Top-level positions are canvas coordinates; child positions are relative to their parent frame.
 # - fill: #hex/alpha, img:<first 8 chars of the Figma image hash>, video, gradient_*(stops).
@@ -348,13 +348,6 @@ Ecran - Bandeau [component 79:707] -7889,6093 1919x140
   Frame 29 [frame 79:744] 1589,43 272x50
     Info HUD [instance 79:736] 0,0 112x50 props={"Texte":"JOUR 01"}
     Info HUD [instance 79:740] 149,0 123x50 props={"Texte":"08:28 AM"}
-Frame 26 [frame 63:1911] -7536,4272 915x53
-  Frame 23 [frame 63:1912] 0,0 915x18
-    Avancée de la mission principale [text 63:1913] 0,0 411x18 fill=#ffffff text="Avancée de la mission principale"
-    10% [text 63:1914] 868,0 47x18 fill=#ffffff text="10%"
-  Frame 24 [frame 63:1915] 0,33 915x20
-    Rectangle 18 [rectangle 63:1916] 0,0 65x20 fill=#41acf5
-    Rectangle 19 [rectangle 63:1917] 65,0 851x20 fill=#0e1934
 image 22 [rectangle 66:626] 14650,-8111 1920x1080 fill=img:c635409e
 image 23 [vector 66:1017] -5864,4781 1435x807 fill=img:9277194c
 Frame 25 [frame 63:1910] -2990,5217 500x29
@@ -382,6 +375,20 @@ Ecran - Dashboard [frame 79:700] -8091,4422 1920x1080 fill=gradient_linear(#0b0f
   Frame 27 [frame 79:704] 1230,0 690x472
     Ellipse 6 [ellipse 79:703] 227,-757 1102x1102 op=14% fill=#5973cd
   Ecran - Bandeau [instance 79:708] 0,0 1919x140 props={}
-Rectangle 21 [vector 79:751] -5635,4111 48x48 fill=#35e9fd
-Rectangle 22 [vector 79:753] -5609,4111 48x48 fill=#35e9fd
-Rectangle 23 [vector 79:754] -5583,4111 48x48 fill=#35e9fd
+  Frame 29 [frame 79:776] 1321,55 272x50
+    Info HUD [instance 79:777] 0,0 112x50 props={"Texte":"JOUR 01"}
+    Info HUD [instance 79:778] 149,0 123x50 props={"Texte":"08:28 AM"}
+  Frame 30 [frame 79:766] 306,69 437x29
+    dash [instance 79:756] 0,0 57x29 props={}
+    station dashboard [text 79:760] 73,1 364x28 fill=#ffffff text="station dashboard"
+  Frame 26 [frame 63:1911] 306,175 915x53
+    Frame 23 [frame 63:1912] 0,0 915x18
+      Main Mission Progress [text 63:1913] 0,0 279x18 fill=#ffffff text="Main Mission Progress"
+      10% [text 63:1914] 868,0 47x18 fill=#ffffff text="10%"
+    Frame 24 [frame 63:1915] 0,33 915x20
+      Rectangle 18 [rectangle 63:1916] 0,0 65x20 fill=#35e9fd
+      Rectangle 19 [rectangle 63:1917] 65,0 851x20 fill=#212f56
+dash [component 79:755] -5635,4111 96x48
+  Rectangle 21 [vector 79:751] 0,0 48x48 fill=#35e9fd
+  Rectangle 22 [vector 79:753] 24,0 48x48 fill=#35e9fd
+  Rectangle 23 [vector 79:754] 48,0 48x48 fill=#35e9fd
