@@ -3,7 +3,9 @@
 ## [Unreleased]
 
 ### What's new
-Welcome to Project Arcadia! The game now opens on a brand-new home screen: an astronaut gazes at the Earth, the Moon and Mars. Press « Start playing » to choose your act. The Moon is open as a demo, while Earth and Mars are still locked for now.
+Welcome to Project Arcadia! The game now opens on a brand-new home screen: an astronaut gazes at the Earth, the Moon and Mars. Press « Start playing » to choose your act. The Moon is open as a demo, while Earth and Mars are still locked for now. Pick the Moon to land on your base for Day One: the title rises over the base and its first readings appear, the temperature outside, the sunlight and how your crew is doing. Then read your daily briefing: today's goals, your oxygen, power, water and regolith (the dust and broken rock that covers the Moon), and launch the mission when you are ready.
+
+New on the home screen: an « Information » button tells you the story of the mission, what you have to do, how to play, which keys to use and who made the game.
 
 A new "Mission training" page, reachable from the home page, offers 16 mini-games to train like an astronaut: crack the airlock code, test your reflexes, find your way through the station, sort fuel samples, cool down the reactor, repeat the signal lights, restore power, dock the shuttle, follow the co-pilot's directions, switch off the lights, bring water to the greenhouse, find lost tools, remember what you saw through the porthole, balance the cargo arm, aim the laser, and answer a space quiz. Each game ends with a score out of 100.
 

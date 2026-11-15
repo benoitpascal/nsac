@@ -32,11 +32,14 @@ Pages (declared in `vite.config.ts` under `build.rolldownOptions.input`):
 
 - `index.html` (home) loads `src/styles.css` and `src/home.css`.
 - `missions.html` (act selection) loads `src/styles.css`, `src/missions.css` and `src/act-card.css`.
+- `day-one.html` (Moon act intro) loads `src/styles.css`, `src/day-one.css` and `src/status-card.css`.
+- `briefing.html` (daily briefing) loads `src/styles.css`, `src/hud.css` and `src/briefing.css`.
+- `information.html` (context, goal, how to play, controls, credits) loads `src/information.ts`, `src/styles.css`, `src/hud.css` and `src/information.css`.
 - `solar-system.html` loads `src/solar-system.ts`.
 - `planet-walk.html` loads `src/planet-walk.ts`.
 - `minigames.html` loads `src/minigames.ts`.
 
-`src/styles.css` holds the Project Arcadia design tokens and shared components (logotype, pill button) of the pages built from the Figma mock-ups; their images live in `public/arcadia/`. Layout sizes follow the 1920 × 1080 mock-ups through `--design-px`; buttons and cards keep fixed sizes to stay readable and tappable. The three last pages share `src/pages.css`.
+`src/styles.css` holds the Project Arcadia design tokens and shared components (logotype, pill button) of the pages built from the Figma mock-ups; their images live in `public/arcadia/`. Layout sizes follow the 1920 × 1080 mock-ups through `--design-px`; buttons and cards keep fixed sizes to stay readable and tappable. `briefing.html` and `information.html` have no Figma frame: they follow the reference images « image 10 » and « image 9 », so `src/hud.css` gives them cut-corner panels, and their icons are drawn by hand in the `public/arcadia/hud-icons.svg` sprite (`currentColor`, used through `<svg><use>`). The three last pages share `src/pages.css`.
 
 ### Layers
 

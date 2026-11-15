@@ -3,7 +3,9 @@
 ## [Unreleased]
 
 ### Nouveautés
-Bienvenue dans Project Arcadia ! Le jeu s'ouvre désormais sur un tout nouvel écran d'accueil : un astronaute contemple la Terre, la Lune et Mars. Appuie sur « Start playing » pour choisir ton acte. La Lune est ouverte en démo, la Terre et Mars restent verrouillées pour l'instant.
+Bienvenue dans Project Arcadia ! Le jeu s'ouvre désormais sur un tout nouvel écran d'accueil : un astronaute contemple la Terre, la Lune et Mars. Appuie sur « Start playing » pour choisir ton acte. La Lune est ouverte en démo, la Terre et Mars restent verrouillées pour l'instant. Choisis la Lune pour arriver sur ta base au premier jour : le titre se lève au-dessus de la base et ses premiers relevés apparaissent, la température dehors, le soleil et l'état de ton équipage. Lis ensuite ton briefing du jour : les objectifs, ton oxygène, ton énergie, ton eau et ton régolithe (la poussière et les cailloux qui recouvrent la Lune), puis lance la mission quand tu es prêt.
+
+Nouveau sur l'écran d'accueil : un bouton « Information » raconte l'histoire de la mission, ce que tu dois faire, comment jouer, quelles touches utiliser et qui a créé le jeu.
 
 Une nouvelle page « Mission training », accessible depuis la page d'accueil, propose 16 mini-jeux pour s'entraîner comme un astronaute : trouver le code du sas, tester ses réflexes, traverser le labyrinthe de la station, trier les échantillons de carburant, refroidir le réacteur, répéter les signaux lumineux, rétablir le courant, amarrer la navette, suivre les directions du copilote, éteindre les lumières, amener l'eau jusqu'à la serre, retrouver les outils perdus, se souvenir de ce qu'on a vu par le hublot, équilibrer le bras de chargement, viser avec le laser et répondre à un quiz sur l'espace. Chaque jeu se termine par un score sur 100.
 

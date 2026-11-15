@@ -8,6 +8,18 @@
   --arcadia-danger: #ed5f79;
   --arcadia-on-danger: #2c0f14;
   --arcadia-font: 'Bebas Neue', system-ui, sans-serif;
+  --arcadia-font-body: 'Outfit', system-ui, sans-serif;
+  --arcadia-text: #fff;
+  --arcadia-card: rgba(20, 28, 51, 0.6);
+  --arcadia-icon-placeholder: #d9d9d9;
+  --arcadia-deep: #121d3b;
+  --arcadia-panel: rgba(11, 22, 46, 0.78);
+  --arcadia-panel-strong: rgba(18, 29, 59, 0.92);
+  --arcadia-accent: #41acf5;
+  --arcadia-accent-soft: rgba(65, 172, 245, 0.45);
+  --arcadia-accent-faint: rgba(65, 172, 245, 0.16);
+  --arcadia-ink: #eaf1ff;
+  --arcadia-ink-muted: #dde6fa;
 
   /* One design pixel of the 1920 × 1080 mock-ups, scaled to the viewport. */
   --design-px: min(calc(100vw / 1920), calc(100dvh / 1080));
@@ -33,6 +45,7 @@ body {
 
 .logotype {
   position: relative;
+  display: block;
   margin: 0;
   aspect-ratio: 817.566 / 387.239;
 }
@@ -41,7 +54,11 @@ body {
 .logotype > img,
 .logotype > a {
   position: absolute;
-  inset: -3.34% -5.99% -11.62% -3.3%;
+  top: -3.34%;
+  left: -3.3%;
+  display: block;
+  width: 109.29%;
+  height: 114.96%;
 }
 
 .logotype > a > img {

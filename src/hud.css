@@ -1,0 +1,162 @@
+/* HUD screens use cut corners, after the briefing and information reference images. */
+.arcadia--hud {
+  --hud-corner: 18px;
+
+  color: var(--arcadia-ink);
+  background:
+    radial-gradient(60% 50% at 80% 10%, rgba(97, 124, 215, 0.25), transparent 70%),
+    radial-gradient(50% 50% at 10% 90%, rgba(65, 172, 245, 0.12), transparent 70%),
+    var(--arcadia-deep);
+  font-family: var(--arcadia-font-body);
+}
+
+.hud-icon {
+  width: 24px;
+  height: 24px;
+  flex: none;
+}
+
+.hud {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 24px;
+  min-height: 100dvh;
+  padding: 24px clamp(16px, 3vw, 56px);
+}
+
+.hud__header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 32px;
+  align-items: center;
+}
+
+.hud__logotype {
+  flex: none;
+  width: 150px;
+}
+
+.hud__title {
+  display: flex;
+  flex: 1;
+  gap: 16px;
+  align-items: center;
+  margin: 0;
+  padding: 10px 24px;
+  border-bottom: 1px solid var(--arcadia-accent-soft);
+  font-family: var(--arcadia-font);
+  font-size: clamp(32px, 3vw, 52px);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hud__title::before {
+  width: 56px;
+  height: 18px;
+  content: '';
+  background: repeating-linear-gradient(-60deg, var(--arcadia-accent) 0 6px, transparent 6px 14px);
+}
+
+.hud__tag {
+  padding: 10px 24px;
+  border: 1px solid var(--arcadia-accent-soft);
+  clip-path: polygon(var(--hud-corner) 0, 100% 0, 100% 100%, 0 100%, 0 var(--hud-corner));
+  font-size: 18px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hud-panel {
+  position: relative;
+  padding: 24px;
+  border: 1px solid var(--arcadia-accent-soft);
+  background: var(--arcadia-panel);
+  box-shadow:
+    inset 0 0 24px var(--arcadia-accent-faint),
+    0 0 18px rgba(65, 172, 245, 0.12);
+  clip-path: polygon(
+    var(--hud-corner) 0,
+    100% 0,
+    100% calc(100% - var(--hud-corner)),
+    calc(100% - var(--hud-corner)) 100%,
+    0 100%,
+    0 var(--hud-corner)
+  );
+  backdrop-filter: blur(6px);
+}
+
+.hud-panel__heading {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 0 0 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--arcadia-accent-faint);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hud-panel__heading .hud-icon {
+  color: var(--arcadia-accent);
+}
+
+.hud__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hud-back {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 4px;
+  color: var(--arcadia-ink);
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.hud-back:is(:hover, :focus-visible) {
+  color: var(--arcadia-accent);
+  outline: none;
+}
+
+.hud-action {
+  display: inline-flex;
+  gap: 16px;
+  align-items: center;
+  padding: 20px 40px;
+  border: 2px solid var(--arcadia-accent);
+  color: var(--arcadia-ink);
+  background: var(--arcadia-panel-strong);
+  box-shadow:
+    0 0 18px var(--arcadia-accent-soft),
+    inset 0 0 16px var(--arcadia-accent-faint);
+  clip-path: polygon(
+    var(--hud-corner) 0,
+    100% 0,
+    100% calc(100% - var(--hud-corner)),
+    calc(100% - var(--hud-corner)) 100%,
+    0 100%,
+    0 var(--hud-corner)
+  );
+  font-family: var(--arcadia-font);
+  font-size: 32px;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.hud-action .hud-icon {
+  color: var(--arcadia-accent);
+}
+
+.hud-action:is(:hover, :focus-visible) {
+  outline: none;
+  background: rgba(65, 172, 245, 0.2);
+}

@@ -1,0 +1,54 @@
+.status-card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  width: 260px;
+  padding: 40px;
+  border-radius: 24px;
+  color: var(--arcadia-text);
+  background: var(--arcadia-card);
+  box-shadow: 0 0 13.3px 0 var(--arcadia-glow);
+  backdrop-filter: blur(13px);
+  font-family: var(--arcadia-font-body);
+  text-align: center;
+  animation: status-card-rise 0.6s ease-out var(--status-card-delay, 0s) both;
+}
+
+.status-card__icon {
+  width: 40px;
+  height: 40px;
+  background: var(--arcadia-icon-placeholder);
+}
+
+.status-card__value,
+.status-card__label {
+  width: 100%;
+  line-height: normal;
+  text-box: trim-both cap alphabetic;
+}
+
+.status-card__value {
+  font-size: 32px;
+  letter-spacing: 0.16em;
+}
+
+.status-card__label {
+  margin-top: -8px;
+  opacity: 0.6;
+  font-size: 18px;
+  letter-spacing: 0.2em;
+}
+
+@keyframes status-card-rise {
+  from {
+    opacity: 0;
+    transform: translateY(var(--status-card-from, 0));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-card {
+    animation: none;
+  }
+}

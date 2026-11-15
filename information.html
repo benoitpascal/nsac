@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Information · Project Arcadia</title>
+    <meta name="description" content="The story, the goal, how to play, the controls and the credits of Project Arcadia." />
+    <meta name="theme-color" content="#121d3b" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;500&display=swap"
+    />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <link rel="stylesheet" href="/src/hud.css" />
+    <link rel="stylesheet" href="/src/information.css" />
+  </head>
+  <body class="arcadia arcadia--hud">
+    <div class="hud">
+      <header class="hud__header">
+        <a class="logotype hud__logotype" href="/"><img src="/arcadia/logotype.svg" alt="Project Arcadia, home" /></a>
+        <h1 class="hud__title">Information</h1>
+      </header>
+
+      <main class="information">
+        <nav class="information__menu" role="tablist" aria-label="Topics" aria-orientation="vertical">
+          <button id="tab-context" class="information__tab" type="button" role="tab" aria-controls="topic-context" aria-selected="true">
+            <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#globe" /></svg>
+            Context
+          </button>
+          <button id="tab-goal" class="information__tab" type="button" role="tab" aria-controls="topic-goal" aria-selected="false" tabindex="-1">
+            <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#flag" /></svg>
+            Goal
+          </button>
+          <button id="tab-gameplay" class="information__tab" type="button" role="tab" aria-controls="topic-gameplay" aria-selected="false" tabindex="-1">
+            <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#puzzle" /></svg>
+            How to play
+          </button>
+          <button id="tab-controls" class="information__tab" type="button" role="tab" aria-controls="topic-controls" aria-selected="false" tabindex="-1">
+            <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#gamepad" /></svg>
+            Controls
+          </button>
+          <button id="tab-credits" class="information__tab" type="button" role="tab" aria-controls="topic-credits" aria-selected="false" tabindex="-1">
+            <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#people" /></svg>
+            Credits
+          </button>
+        </nav>
+
+        <div class="hud-panel information__content">
+          <section id="topic-context" class="topic topic--context" role="tabpanel" aria-labelledby="tab-context">
+            <h2 class="topic__title">Context</h2>
+            <p class="topic__text">
+              Astronauts are getting ready to go back to the Moon with NASA's
+              <a href="https://www.nasa.gov/humans-in-space/artemis/">Artemis program</a>, and one day to travel to
+              Mars. In <strong>Project Arcadia</strong>, you run a small base far from Earth and learn the real choices
+              engineers have to make.
+            </p>
+            <ol class="acts">
+              <li class="act">
+                <img src="/arcadia/act-earth.png" alt="" />
+                <span class="act__number">Act I</span>
+                <span class="act__name">Earth</span>
+                <span class="act__summary">Getting ready for the mission</span>
+              </li>
+              <li class="act act--current">
+                <img src="/arcadia/act-moon.png" alt="" />
+                <span class="act__number">Act II</span>
+                <span class="act__name">Moon</span>
+                <span class="act__summary">Building the base and finding resources</span>
+              </li>
+              <li class="act">
+                <img src="/arcadia/act-mars.png" alt="" />
+                <span class="act__number">Act III</span>
+                <span class="act__name">Mars</span>
+                <span class="act__summary">Living very far from Earth</span>
+              </li>
+            </ol>
+          </section>
+
+          <section id="topic-goal" class="topic" role="tabpanel" aria-labelledby="tab-goal" hidden>
+            <h2 class="topic__title">Goal</h2>
+            <p class="topic__text">
+              Keep your crew safe and your base running. Nothing is free in space: saving power today can leave you
+              short of oxygen tomorrow. Think ahead, and if something goes wrong, find out why and try again.
+            </p>
+          </section>
+
+          <section id="topic-gameplay" class="topic" role="tabpanel" aria-labelledby="tab-gameplay" hidden>
+            <h2 class="topic__title">How to play</h2>
+            <ol class="topic__steps">
+              <li>Pick an act. The Moon is open as a demo.</li>
+              <li>Read the daily briefing: it gives you the day's goals and how much of each resource you have.</li>
+              <li>Launch the mission and walk around the base to reach your goals.</li>
+              <li>Watch your resources: oxygen to breathe, power from the Sun, and water.</li>
+            </ol>
+          </section>
+
+          <section id="topic-controls" class="topic" role="tabpanel" aria-labelledby="tab-controls" hidden>
+            <h2 class="topic__title">Controls</h2>
+            <dl class="controls">
+              <dt><kbd>Z</kbd> <kbd>S</kbd> or <kbd>W</kbd> <kbd>S</kbd></dt>
+              <dd>Walk forward and back</dd>
+              <dt><kbd>Q</kbd> <kbd>D</kbd> or <kbd>A</kbd> <kbd>D</kbd>, arrows</dt>
+              <dd>Turn</dd>
+              <dt><kbd>Shift</kbd></dt>
+              <dd>Run</dd>
+              <dt><kbd>Space</kbd></dt>
+              <dd>Jump, or dig with the robot</dd>
+              <dt><kbd>E</kbd></dt>
+              <dd>Open a door, use the terminal, leave the robot</dd>
+              <dt><kbd>V</kbd></dt>
+              <dd>Change the view</dd>
+            </dl>
+            <p class="topic__note">On a phone or a tablet, buttons appear on the screen.</p>
+          </section>
+
+          <section id="topic-credits" class="topic" role="tabpanel" aria-labelledby="tab-credits" hidden>
+            <h2 class="topic__title">Credits</h2>
+            <p class="topic__text">
+              Made by the Project Arcadia team for the
+              <a href="https://www.spaceappschallenge.org/">NASA Space Apps Challenge 2026</a>, challenge « Build a
+              Junior Astronaut Mission Trainer ».
+            </p>
+            <p class="topic__text">
+              Data and references: <a href="https://api.nasa.gov/">NASA Open APIs</a>,
+              <a href="https://ssd.jpl.nasa.gov/horizons/">NASA/JPL Horizons</a>,
+              <a href="https://celestrak.org/">CelesTrak</a>.
+            </p>
+          </section>
+        </div>
+      </main>
+
+      <footer class="hud__footer">
+        <a class="hud-back" href="/">
+          <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#back" /></svg>
+          Back
+        </a>
+      </footer>
+    </div>
+    <script type="module" src="/src/information.ts"></script>
+  </body>
+</html>

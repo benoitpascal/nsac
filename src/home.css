@@ -19,7 +19,7 @@
 .home__menu {
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 32px;
   align-items: center;
   margin-top: max(48px, calc(196 * var(--design-px)));
 }
