@@ -1,5 +1,5 @@
 # Project Arcadia — every layer of the Figma file "PROJECT-ARCADIA", page "Page 1".
-# Export of 2026-11-15 (synced from the Figma file, 990 layers). One line per layer, children indented by two spaces.
+# Export of 2026-11-15 (synced from the Figma file, 1066 layers). One line per layer, children indented by two spaces.
 # Format: <layer name> [<type> <node id>] <x>,<y> <width>x<height> [HIDDEN] [op=<opacity>] [fill=…] [text="…"] [props={…}] [→ prototype interactions]
 # - Top-level positions are canvas coordinates; child positions are relative to their parent frame.
 # - fill: #hex/alpha, img:<first 8 chars of the Figma image hash>, video, gradient_*(stops).
@@ -340,14 +340,17 @@ Ecran - selection acte [component_set 63:1074] -10761,4471 1959x2489
     Planet [instance 63:1490] 1550,0 369x179 props={"Propriété 1":"MOON"}
     Vector 12 [vector 63:1491] 142,179 1776x0
 Ecran - selection acte [instance 63:1316] -6583,2447 1919x1080 fill=#0b0f1c props={}
-Ecran - Bandeau [component 79:707] -7889,6093 1919x140
+Ecran - Bandeau [component 79:707] -8090,5715 1919x140
   Mask group [group 63:1809] 0,0 1919x140
   Logotype [instance 63:1832] 60,32 163x77 props={"Propriété 1":"Light"}
   Planet [instance 63:1833] 1550,0 369x141 props={"Propriété 1":"MOON"}
   Vector 12 [vector 63:1834] 142,140 1776x0
-  Frame 29 [frame 79:744] 1589,43 272x50
-    Info HUD [instance 79:736] 0,0 112x50 props={"Texte":"JOUR 01"}
-    Info HUD [instance 79:740] 149,0 123x50 props={"Texte":"08:28 AM"}
+  Frame 30 [frame 79:852] 306,70 437x29
+    dash [instance 79:853] 0,0 57x29 props={}
+    station dashboard [text 79:854] 73,1 364x28 fill=#ffffff text="station dashboard"
+  Frame 31 [frame 79:871] 1321,62 272x50
+    Info HUD [instance 79:872] 0,0 112x50 props={"Texte":"JOUR 01"}
+    Info HUD [instance 79:873] 149,0 123x50 props={"Texte":"08:28 AM"}
 image 22 [rectangle 66:626] 14650,-8111 1920x1080 fill=img:c635409e
 image 23 [vector 66:1017] -5864,4781 1435x807 fill=img:9277194c
 Frame 25 [frame 63:1910] -2990,5217 500x29
@@ -370,25 +373,33 @@ Info HUD [instance 75:655] -5147,4540 123x50 props={"Texte":"08:28 AM"}
 08:28 AM [text 75:650] -4947,4528 77x23 fill=#ffffff text="08:28 AM"
 Ecran - Dashboard [frame 79:700] -8091,4422 1920x1080 fill=gradient_linear(#0b0f1c>#141c33)
   Frame 28 [frame 79:705] 854,1080 854x904
-    Ellipse 6 [ellipse 79:706] 267,-650 1352x1352 op=13% fill=#5973cd
+    Ellipse 6 [ellipse 79:706] 267,-650 1352x1352 op=13% fill=#45588c
   Robot 1 [rectangle 79:701] 104,305 457x682 fill=img:52b6db2c
   Frame 27 [frame 79:704] 1230,0 690x472
-    Ellipse 6 [ellipse 79:703] 227,-757 1102x1102 op=14% fill=#5973cd
-  Ecran - Bandeau [instance 79:708] 0,0 1919x140 props={}
-  Frame 29 [frame 79:776] 1321,55 272x50
-    Info HUD [instance 79:777] 0,0 112x50 props={"Texte":"JOUR 01"}
-    Info HUD [instance 79:778] 149,0 123x50 props={"Texte":"08:28 AM"}
-  Frame 30 [frame 79:766] 306,69 437x29
-    dash [instance 79:756] 0,0 57x29 props={}
-    station dashboard [text 79:760] 73,1 364x28 fill=#ffffff text="station dashboard"
-  Frame 26 [frame 63:1911] 306,175 915x53
-    Frame 23 [frame 63:1912] 0,0 915x18
+    Ellipse 6 [ellipse 79:703] 227,-757 1102x1102 op=14% fill=#45588c
+  Ecran - Bandeau [instance 79:708] 0,0 1919x140 props={"Titre":"station dashboard"}
+  Frame 26 [frame 63:1911] 306,196 637x62
+    Texte [frame 63:1912] 0,0 637x18
       Main Mission Progress [text 63:1913] 0,0 279x18 fill=#ffffff text="Main Mission Progress"
-      10% [text 63:1914] 868,0 47x18 fill=#ffffff text="10%"
-    Frame 24 [frame 63:1915] 0,33 915x20
-      Rectangle 18 [rectangle 63:1916] 0,0 65x20 fill=#35e9fd
-      Rectangle 19 [rectangle 63:1917] 65,0 851x20 fill=#212f56
+      10% [text 63:1914] 590,0 47x18 fill=#ffffff text="10%"
+    Level [frame 63:1915] 0,42 637x20
+      Rectangle 18 [rectangle 63:1916] 0,0 100x20 fill=#35e9fd
+      Rectangle 19 [rectangle 63:1917] 100,0 537x20 fill=#22315a
 dash [component 79:755] -5635,4111 96x48
   Rectangle 21 [vector 79:751] 0,0 48x48 fill=#35e9fd
   Rectangle 22 [vector 79:753] 24,0 48x48 fill=#35e9fd
   Rectangle 23 [vector 79:754] 48,0 48x48 fill=#35e9fd
+Calque_1 [frame 79:782] -8065,6387 435x263
+  Vector [vector 79:783] 252,188 28x24 fill=#68a8de
+  Vector [vector 79:784] 255,197 17x15 fill=#68a8de
+  Group [group 79:785] 208,202 65x58
+  Vector [vector 79:788] 185,166 56x50 fill=#68a8de
+  Vector [vector 79:789] 162,159 86x86 fill=#68a8de
+  Vector [vector 79:790] 169,190 31x48 fill=#68a8de
+  Vector [vector 79:791] 203,220 19x19 fill=#68a8de
+  Group [group 79:792] 315,191 120x73
+  Group [group 79:804] 316,5 111x112
+  Group [group 79:815] 160,27 122x86
+  Group [group 79:823] 0,0 122x120
+  Group [group 79:838] 8,146 111x115
+Rectangle 24 [rectangle 79:891] -7455,6285 90x90 fill=#d9d9d9
