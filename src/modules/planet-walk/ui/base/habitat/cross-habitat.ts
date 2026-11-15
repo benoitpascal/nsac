@@ -8,6 +8,7 @@ import { OPERATIONS_WING } from './zones/operations-wing';
 import { RESIDENTIAL_WING } from './zones/residential-wing';
 import { SCIENCE_WING } from './zones/science-wing';
 import { createZoneSign } from './zones/zone-sign';
+import { arrowsAlong, arrowsAround, createExitSign } from './exit-guidance';
 import type { DoorPassage } from '../../../core/station/station-actions';
 import type { WingDoor } from './wing';
 import type { Object3D } from 'three';
@@ -19,6 +20,9 @@ const WING_START = HUB.radius + CONNECTOR.length;
 const DOOR_STEP = { inside: 0.9, outside: 0.9, outer: 1.3 };
 /** The sign above each doorway of the hall (m): in front of the corridor that starts in the wall. */
 const HALL_SIGN = { height: 2.8, radius: HUB.radius - HUB.wall - 0.12 };
+
+/** The way out (m): the EXIT signs' heights, and the ring of arrows around the terminal. */
+const EXIT = { hallSignHeight: 3.4, doorSignHeight: 2.6, doorSignInset: 0.3, ringRadius: 2.6 };
 
 /** The four wings around the hall and their turn; the one towards +x holds the airlock. */
 const ARMS = [
@@ -59,6 +63,27 @@ const crewQuarters = () => {
   return { ...alongArm(2 * QUARTER_TURN, WING_START + middle), heading: TOWARDS_HALL };
 };
 
+/**
+ * The way out of a wing: in the airlock wing, an EXIT sign above its doorway in the hall and one
+ * above the outer door, with floor arrows from the hall to the outer door; in the other wings,
+ * floor arrows back to the hall.
+ */
+const exitGuidance = (holdsAirlock: boolean, wingEnd: number) => {
+  const guidance = new Group();
+  if (!holdsAirlock) {
+    guidance.add(arrowsAlong(wingEnd - 1, HUB.radius - 0.6));
+    return guidance;
+  }
+  const hallExit = createExitSign();
+  hallExit.position.set(0, EXIT.hallSignHeight, HALL_SIGN.radius);
+  hallExit.rotation.y = Math.PI;
+  const doorExit = createExitSign();
+  doorExit.position.set(0, EXIT.doorSignHeight, wingEnd - EXIT.doorSignInset);
+  doorExit.rotation.y = Math.PI;
+  guidance.add(hallExit, doorExit, arrowsAlong(EXIT.ringRadius, wingEnd - 1));
+  return guidance;
+};
+
 const hallSign = (text: string) => {
   const sign = createZoneSign(text);
   sign.position.set(0, HALL_SIGN.height, HALL_SIGN.radius);
@@ -76,7 +101,8 @@ const hallSign = (text: string) => {
 export const createCrossHabitat = () => {
   const { hub, solids: hubSolids } = createHub();
   const habitat = new Group();
-  habitat.add(hub);
+  const airlockTurn = ARMS.find(({ plan }) => plan.outerDoor)?.turn ?? QUARTER_TURN;
+  habitat.add(hub, arrowsAround(EXIT.ringRadius, airlockTurn));
   const solids: Object3D[] = [...hubSolids];
   const passages: DoorPassage[] = [];
   for (const { turn, plan } of ARMS) {
@@ -85,7 +111,12 @@ export const createCrossHabitat = () => {
     const { connector, solids: connectorSolids } = createConnector();
     const holder = new Group();
     holder.rotation.y = turn;
-    holder.add(connector, wing, hallSign(plan.name));
+    holder.add(
+      connector,
+      wing,
+      hallSign(plan.name),
+      exitGuidance(plan.outerDoor !== undefined, WING_START + length),
+    );
     habitat.add(holder);
     solids.push(...connectorSolids, ...wingSolids);
     passages.push(...doors.flatMap((door) => passagesThrough(turn, door)));
