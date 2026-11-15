@@ -69,9 +69,12 @@ describe('another plan for day two', () => {
   it('opens the greenhouse mission: water and power paid, food only once the seeds are watered', () => {
     let state = chooseAction(startPlanning(dayTwoMorning(), act), act, 'greenhouse');
     expect([state.stage, state.missionId]).toEqual(['academy', 'greenhouse']);
-    expect(state.stores).toEqual({ air: 95, power: 44, water: 0, food: 65 });
-    state = recordResult(finishAcademy(state, greenhouseMission), scoreGreenhouse(true, 90));
+    expect(state.stores).toEqual({ air: 95, power: 44, water: 20, food: 65 });
+    const ready = finishAcademy(state, greenhouseMission);
+    state = recordResult(ready, scoreGreenhouse(true, 90));
     expect([state.stores.food, state.lastResult?.verdict]).toEqual([85, 'efficient']);
+    // Even a very rough job leaves some water in the tanks: the leak shows on the gauge.
+    expect(recordResult(ready, scoreGreenhouse(true, 10)).stores.water).toBe(5);
   });
 
   it('ends a planned day after its single mission, without starting the other one', () => {

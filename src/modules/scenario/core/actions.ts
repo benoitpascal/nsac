@@ -25,7 +25,7 @@ export const ACTIONS: Record<
 > = {
   shelter: { cost: { bricks: 4, power: 10 }, gives: {}, missionId: 'shelter' },
   workshop: { cost: { bricks: 12, power: 10 }, gives: { knowledge: 10 } },
-  greenhouse: { cost: { water: 60, power: 10 }, gives: {}, missionId: 'greenhouse' },
+  greenhouse: { cost: { water: 40, power: 10 }, gives: {}, missionId: 'greenhouse' },
   research: { cost: { power: 70 }, gives: { knowledge: 25 } },
 };
 
