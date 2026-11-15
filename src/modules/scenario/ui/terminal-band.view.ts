@@ -2,9 +2,12 @@ import { dayDate } from '../core/campaign';
 import { actProgress, dayLabel } from '../core/progress';
 import type { CampaignState } from '../core/campaign';
 import type { Act } from '../core/scenario-content';
+import { WORLD_CONDITIONS } from '@/modules/planet-walk/core/station/conditions';
+import { isDaytime, localDayShare } from '@/modules/planet-walk/core/station/local-time';
 
 export type TerminalBandElements = {
   day: HTMLElement;
+  sun: HTMLElement;
   time: HTMLTimeElement;
   progress: HTMLElement;
   progressValue: HTMLElement;
@@ -15,8 +18,9 @@ const TIME = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digi
 
 /**
  * The header of the base terminal (Figma « Ecran - Bandeau » and « Main Mission Progress »): the
- * game day, the base clock (same rule as the Moon walk: the day's date, plus the hours lost in
- * rescues, plus the time spent on the page) and the share of the act's missions already played.
+ * game day, the Sun at the base, the base clock (same rule as the Moon walk: the day's date, plus
+ * the hours lost in rescues, plus the time spent on the page) and the share of the act's missions
+ * already played.
  */
 export const createTerminalBand = (elements: TerminalBandElements, act: Act, now: () => number) => {
   const openedAt = now();
@@ -25,6 +29,9 @@ export const createTerminalBand = (elements: TerminalBandElements, act: Act, now
     const at = base + now() - openedAt;
     elements.time.textContent = TIME.format(at);
     elements.time.dateTime = new Date(at).toISOString();
+    const daytime = isDaytime(localDayShare(WORLD_CONDITIONS.moon, at));
+    elements.sun.classList.toggle('band__sun--night', !daytime);
+    elements.sun.setAttribute('aria-label', daytime ? 'Daytime' : 'Night');
   };
   window.setInterval(tick, 10_000);
   return {
