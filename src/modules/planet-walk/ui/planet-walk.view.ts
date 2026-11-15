@@ -8,13 +8,16 @@ import { createStationControls } from './controls/station-controls';
 import { createSuitMonitor } from './controls/suit-monitor';
 import { createTouchPad } from './controls/touch-pad';
 import { createViewToggle } from './controls/view-toggle';
+import { createWalkMap } from './controls/walk-map';
 import { showJumpFacts } from './jump-facts.view';
 import { createWalkFrame } from './walk-frame';
 import { createWalkRenderer } from './walk-renderer';
 import { createWalkScene } from './walk-scene';
 import { mountWorldPicker } from './world-picker.view';
+import type { Obstacle } from '../core/obstacles';
 import type { SuitKit } from '../core/suit/suit-supply';
 import type { MissionPlan } from './controls/mission-run';
+import type { WalkMapElements } from './controls/walk-map';
 import type { Star } from '@/modules/solar-system/core/star';
 
 export type PlanetWalkElements = {
@@ -30,6 +33,7 @@ export type PlanetWalkElements = {
   rescueFade: HTMLElement;
   missionHud: HTMLElement;
   missionFinish: HTMLButtonElement;
+  map: WalkMapElements;
 };
 
 /** What the walk needs from outside the page: the star catalog and the time (Unix ms). */
@@ -45,6 +49,11 @@ export type PlanetWalkSources = {
 };
 
 const MAX_FRAME_SECONDS = 0.1;
+/** Ground covered by a building rather than a rock (m²), to keep the map readable. */
+const BUILDING_MIN_AREA_M2 = 1.5;
+
+const isBuilding = ({ minX, maxX, minZ, maxZ }: Obstacle) =>
+  (maxX - minX) * (maxZ - minZ) >= BUILDING_MIN_AREA_M2;
 const MS_PER_SECOND = 1000;
 /** Far enough to see the stars, the Sun and the Earth beyond the hills (m). */
 const SKY_REACH_M = 6000;
@@ -84,6 +93,12 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
       station.driving,
       station.actions,
     );
+  const map = createWalkMap(
+    elements.map,
+    world.obstacles.filter(isBuilding),
+    { digZone: world.digZone, dropZone: world.dropZone, robot: station.driving.vehicle },
+    sources.now,
+  );
   const frame = createWalkFrame({
     world,
     camera,
@@ -94,6 +109,7 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
     ...station,
     suit,
     mission,
+    map,
     gravity: () => current.gravity,
   });
   new ResizeObserver(() => {

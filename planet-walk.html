@@ -29,7 +29,18 @@
     <p id="excavator-hud" class="excavator-hud" hidden></p>
     <p id="suit-hud" class="suit-hud" aria-live="off"></p>
     <p id="mission-hud" class="mission-hud" hidden></p>
-    <button id="mission-finish" class="mission-finish" type="button" hidden>Finish mission</button>
+    <aside id="walk-hud" class="walk-hud" aria-label="Base clock and map" hidden>
+      <p class="walk-hud__labels">
+        <span id="walk-day" class="info-hud"></span>
+        <span id="walk-time" class="info-hud"></span>
+      </p>
+      <div class="walk-map">
+        <canvas id="walk-map" class="walk-map__canvas" width="260" height="260" role="img"
+          aria-label="Map of the base around you: buildings in white, dig zone in yellow, drop-off zone in red, robot in cyan"></canvas>
+        <img id="walk-map-arrow" class="walk-map__arrow" src="/arcadia/icon-direction.svg" alt="" />
+      </div>
+    </aside>
+    <button id="mission-finish" class="page-link page-link--second mission-finish" type="button" hidden>Finish mission</button>
     <div id="rescue-fade" class="rescue-fade" aria-hidden="true"></div>
     <p id="rescue-notice" class="rescue-notice" role="status" hidden>Your suit ran low: the crew brought you back to the base. 4 hours have passed.</p>
 

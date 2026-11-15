@@ -1,3 +1,4 @@
+import { progressPercent } from '../../core/map/minimap';
 import type { createExcavatorDriving } from './excavator-driving';
 import type { createStationActions } from './station-actions';
 
@@ -33,11 +34,21 @@ export const createMissionRun = (
   finish.hidden = false;
   finish.addEventListener('click', () => (finished = true));
   hud.hidden = false;
+  // The Figma « Avancée de la mission principale » bar: a label, the share done and the bar.
+  hud.innerHTML =
+    '<span class="mission-hud__label">Main mission progress</span>' +
+    '<span class="mission-hud__value"></span>' +
+    '<span class="mission-hud__bar" aria-hidden="true"><span class="mission-hud__fill"></span></span>';
+  const value = hud.querySelector<HTMLElement>('.mission-hud__value');
+  const fill = hud.querySelector<HTMLElement>('.mission-hud__fill');
   return {
     update: (rescued: boolean) => {
       if (ended) return;
       const { deliveredKg, batteryKwh } = driving.store();
-      hud.textContent = `Mission · regolith delivered ${Math.floor(deliveredKg)} / ${plan.goalKg} kg`;
+      const percent = progressPercent(deliveredKg, plan.goalKg);
+      const text = `${Math.floor(deliveredKg)} / ${plan.goalKg} kg of regolith · ${percent} %`;
+      if (value && value.textContent !== text) value.textContent = text;
+      if (fill) fill.style.width = `${percent}%`;
       if (!finished && !rescued && actions.activity() === 'driving') return;
       ended = true;
       plan.onEnd({
