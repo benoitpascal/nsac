@@ -1,0 +1,144 @@
+.mg-stop-in-time-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  gap: 1.5rem;
+  width: 100%;
+  min-height: 24rem;
+  padding: 1rem;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.mg-stop-in-time-hud {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 1.6rem;
+}
+
+.mg-stop-in-time-lives-item {
+  color: var(--flare-orange);
+  transition: opacity 0.3s;
+}
+
+.mg-stop-in-time-lives-item.is-lost {
+  opacity: 0.2;
+}
+
+.mg-stop-in-time-dots {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.mg-stop-in-time-dots-item {
+  color: var(--ink-muted);
+  opacity: 0.4;
+}
+
+.mg-stop-in-time-dots-item.is-done {
+  color: #3ddc84;
+  opacity: 1;
+}
+
+.mg-stop-in-time-track {
+  position: relative;
+  width: 100%;
+  height: 4.5rem;
+  border: 2px solid var(--ink-muted);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.06);
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.mg-stop-in-time-track.is-hit {
+  border-color: #3ddc84;
+  box-shadow: 0 0 1.5rem rgba(61, 220, 132, 0.6);
+}
+
+.mg-stop-in-time-track.is-miss {
+  border-color: var(--flare-orange);
+  box-shadow: 0 0 1.5rem rgba(255, 107, 61, 0.7);
+  animation: mg-stop-in-time-shake 0.3s;
+}
+
+.mg-stop-in-time-zone {
+  position: absolute;
+  inset-block: 0;
+  border-radius: 0.6rem;
+  background: rgba(61, 220, 132, 0.35);
+  box-shadow: inset 0 0 0 2px #3ddc84;
+  transition:
+    left 0.3s,
+    width 0.3s;
+}
+
+.mg-stop-in-time-cursor,
+.mg-stop-in-time-shot {
+  position: absolute;
+  top: 50%;
+  translate: -50% -50%;
+  font-size: 2.2rem;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.mg-stop-in-time-cursor {
+  rotate: 45deg;
+}
+
+.mg-stop-in-time-shot {
+  top: -1.2rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.mg-stop-in-time-shot[hidden] {
+  display: none;
+}
+
+.is-hit .mg-stop-in-time-shot {
+  color: #3ddc84;
+}
+
+.is-miss .mg-stop-in-time-shot {
+  color: var(--flare-orange);
+}
+
+.mg-stop-in-time-stop {
+  min-width: 10rem;
+  min-height: 5rem;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 999px;
+  color: var(--space-deep);
+  background: var(--flare-orange);
+  font: inherit;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.mg-stop-in-time-stop:active {
+  transform: scale(0.95);
+}
+
+.mg-stop-in-time-stop:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+@keyframes mg-stop-in-time-shake {
+  25% {
+    transform: translateX(-0.4rem);
+  }
+
+  75% {
+    transform: translateX(0.4rem);
+  }
+}

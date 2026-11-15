@@ -1,0 +1,160 @@
+.mg-liquid-sort-game {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  min-height: 24rem;
+  padding: 1rem 0.5rem;
+  color: var(--ink);
+}
+
+.mg-liquid-sort-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 32rem;
+  font-size: 1.25rem;
+}
+
+.mg-liquid-sort-levels {
+  color: var(--signal-cyan);
+  letter-spacing: 0.15em;
+}
+
+.mg-liquid-sort-moves {
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.mg-liquid-sort-shelf {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0.6rem 0.4rem;
+  width: 100%;
+}
+
+.mg-liquid-sort-tube {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.6rem 0.2rem 0.3rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: transparent;
+  color: var(--ink-muted);
+  font: inherit;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  touch-action: manipulation;
+}
+
+.mg-liquid-sort-tube:focus-visible {
+  outline: 2px solid var(--signal-cyan);
+  outline-offset: 2px;
+}
+
+.mg-liquid-sort-tube--selected {
+  transform: translateY(-0.75rem);
+  color: var(--signal-cyan);
+}
+
+.mg-liquid-sort-glass {
+  display: flex;
+  flex-direction: column-reverse;
+  width: 2.75rem;
+  height: calc(var(--mg-liquid-sort-capacity) * 2.25rem + 0.5rem);
+  padding: 0.25rem 0.25rem 0.3rem;
+  overflow: hidden;
+  border: 2px solid rgba(232, 238, 255, 0.55);
+  border-top-color: transparent;
+  border-radius: 0 0 1.4rem 1.4rem;
+  background: rgba(232, 238, 255, 0.06);
+}
+
+.mg-liquid-sort-tube--selected .mg-liquid-sort-glass {
+  border-color: var(--signal-cyan);
+  border-top-color: transparent;
+  box-shadow: 0 0 0.8rem rgba(77, 227, 255, 0.5);
+}
+
+.mg-liquid-sort-layer {
+  display: grid;
+  place-items: center;
+  flex: 0 0 2.25rem;
+  color: rgba(5, 6, 15, 0.75);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.mg-liquid-sort-layer:first-child {
+  border-radius: 0 0 1.1rem 1.1rem;
+}
+
+.mg-liquid-sort-key {
+  font-size: 0.9rem;
+}
+
+.mg-liquid-sort-controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.mg-liquid-sort-control {
+  min-width: 3.5rem;
+  min-height: 3.5rem;
+  border: 2px solid var(--signal-cyan);
+  border-radius: 999px;
+  background: rgba(77, 227, 255, 0.12);
+  color: var(--ink);
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+.mg-liquid-sort-control:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.mg-liquid-sort-control:not(:disabled):hover,
+.mg-liquid-sort-control:focus-visible {
+  background: rgba(77, 227, 255, 0.3);
+}
+
+.mg-liquid-sort-cheer {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--flare-orange);
+  font-size: 6rem;
+  pointer-events: none;
+  text-shadow: 0 0 1.5rem rgba(255, 107, 61, 0.7);
+  animation: mg-liquid-sort-pop 0.6s ease-out;
+}
+
+.mg-liquid-sort-cheer[hidden] {
+  display: none;
+}
+
+@keyframes mg-liquid-sort-pop {
+  from {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 400px) {
+  .mg-liquid-sort-glass {
+    width: 2.4rem;
+  }
+
+  .mg-liquid-sort-shelf {
+    gap: 0.5rem 0.2rem;
+  }
+}

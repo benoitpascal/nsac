@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solar system</title>
+    <meta name="description" content="Watch the planets orbit the Sun and see where they are today." />
+    <meta name="theme-color" content="#05060f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono&display=swap"
+    />
+    <link rel="stylesheet" href="/src/pages.css" />
+  </head>
+  <body>
+    <main class="solar-system-page" aria-label="Solar system">
+      <canvas id="solar-system" class="solar-system" aria-hidden="true"></canvas>
+      <div id="solar-system-labels" class="solar-system__labels" aria-hidden="true"></div>
+    </main>
+
+    <a class="page-link" href="/">Back</a>
+    <aside id="info-panel" class="info" aria-label="Facts" hidden>
+      <button class="info__close" type="button" aria-label="Close facts" data-info-close>×</button>
+      <div aria-live="polite" data-info-content></div>
+    </aside>
+    <button id="overview" class="page-link page-link--start" type="button">Overview</button>
+    <button
+      id="events-toggle"
+      class="page-link page-link--start page-link--second"
+      type="button"
+      aria-controls="events-panel"
+      aria-expanded="false"
+    >
+      Events
+    </button>
+    <nav id="events-panel" class="events" aria-label="Events" hidden></nav>
+    <button
+      id="scale-toggle"
+      class="page-link page-link--start page-link--third"
+      type="button"
+      aria-pressed="false"
+    >
+      Real scale
+    </button>
+
+    <div id="time-controls" class="time-controls">
+      <button class="time-controls__rewind" type="button" data-time-rewind aria-pressed="false">Rewind</button>
+      <input
+        class="time-controls__date"
+        type="datetime-local"
+        aria-label="Simulated date and time"
+        data-simulated-date
+      />
+      <button class="time-controls__toggle" type="button" data-time-pause>Pause</button>
+      <button class="time-controls__toggle" type="button" data-time-now>Now</button>
+      <div id="speed-picker" class="speed-picker" role="group" aria-label="Simulation speed"></div>
+    </div>
+
+    <p class="credits">
+      Planet textures by
+      <a href="https://www.solarsystemscope.com/textures/" target="_blank" rel="noopener">Solar System Scope</a>,
+      <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>;
+      star data from the
+      <a href="https://github.com/astronexus/HYG-Database" target="_blank" rel="noopener">HYG Database</a>,
+      <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>;
+      spacecraft paths from
+      <a href="https://ssd.jpl.nasa.gov/horizons/" target="_blank" rel="noopener">NASA/JPL Horizons</a>
+      and <a href="https://celestrak.org/" target="_blank" rel="noopener">CelesTrak</a>
+    </p>
+
+    <script type="module" src="/src/solar-system.ts"></script>
+  </body>
+</html>

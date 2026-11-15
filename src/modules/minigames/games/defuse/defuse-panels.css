@@ -1,0 +1,120 @@
+.mg-defuse-rule-picture {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.mg-defuse-swatch,
+.mg-defuse-light {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 0.5rem;
+  color: #111;
+  font-size: 1.4rem;
+}
+
+.mg-defuse-light {
+  border-radius: 50%;
+  box-shadow: 0 0 1rem currentColor;
+}
+
+.mg-defuse-same {
+  opacity: 0.5;
+}
+
+.mg-defuse-odd {
+  color: var(--signal-cyan);
+}
+
+.mg-defuse-colour-red {
+  background: var(--mg-defuse-red);
+}
+
+.mg-defuse-colour-blue {
+  background: var(--mg-defuse-blue);
+}
+
+.mg-defuse-colour-yellow {
+  background: var(--mg-defuse-yellow);
+}
+
+.mg-defuse-colour-green {
+  background: var(--mg-defuse-green);
+}
+
+.mg-defuse-colour-white {
+  background: var(--mg-defuse-white);
+}
+
+.mg-defuse-wire-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.mg-defuse-wire {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 2.8rem;
+  padding: 0 0.8rem;
+  border: 0;
+  border-radius: 999px;
+  color: #111;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.mg-defuse-wire-cut {
+  background-image: linear-gradient(
+    90deg,
+    transparent 46%,
+    var(--mg-defuse-metal) 46% 54%,
+    transparent 54%
+  );
+  opacity: 0.5;
+}
+
+.mg-defuse-keys,
+.mg-defuse-choices {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.mg-defuse-key,
+.mg-defuse-choice {
+  min-height: 4rem;
+  border: 2px solid var(--mg-defuse-edge);
+  border-radius: 0.8rem;
+  background: var(--space-navy);
+  color: var(--ink);
+  font-size: 1.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.mg-defuse-key-done {
+  border-color: var(--mg-defuse-green);
+  background: rgba(61, 220, 132, 0.25);
+}
+
+.mg-defuse-choice:disabled {
+  opacity: 0.35;
+}
+
+.mg-defuse-wire:focus-visible,
+.mg-defuse-key:focus-visible,
+.mg-defuse-choice:focus-visible {
+  outline: 3px solid var(--signal-cyan);
+  outline-offset: 2px;
+}
+
+.mg-defuse-glyph {
+  display: inline-block;
+  font-size: 2.2rem;
+}

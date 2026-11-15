@@ -1,0 +1,34 @@
+.arcadia--home {
+  background: var(--arcadia-navy) url('/arcadia/home-background.png') center / cover no-repeat;
+}
+
+.home {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100dvh;
+  padding: calc(140 * var(--design-px)) 16px calc(120 * var(--design-px));
+}
+
+.home__logotype {
+  width: max(280px, calc(817.566 * var(--design-px)));
+  max-width: 100%;
+}
+
+.home__menu {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
+  margin-top: max(48px, calc(196 * var(--design-px)));
+}
+
+.home__divider {
+  position: absolute;
+  bottom: calc(44 * var(--design-px));
+  left: 50%;
+  width: calc(1309.43 * var(--design-px));
+  height: auto;
+  transform: translateX(-50%);
+}

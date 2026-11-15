@@ -1,0 +1,102 @@
+.mg-reflexes {
+  --mg-reflexes-red: #ff3b4e;
+  --mg-reflexes-green: #3dff8a;
+  --mg-reflexes-off: #2a3355;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  min-height: 24rem;
+  height: 100%;
+  padding: 1.5rem 1rem;
+  border-radius: 1rem;
+  color: var(--ink);
+  background: radial-gradient(circle at 50% 35%, var(--space-navy), var(--space-deep) 75%);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.mg-reflexes-tower {
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  border: 0.35rem solid var(--ink-muted);
+  border-radius: 50%;
+  background: var(--space-deep);
+}
+
+.mg-reflexes-light {
+  width: clamp(8rem, 40vw, 12rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--mg-reflexes-off);
+}
+
+.mg-reflexes[data-phase='waiting'] .mg-reflexes-light {
+  background: var(--mg-reflexes-red);
+  box-shadow: 0 0 3rem var(--mg-reflexes-red);
+}
+
+.mg-reflexes[data-phase='go'] .mg-reflexes-light {
+  background: var(--mg-reflexes-green);
+  box-shadow: 0 0 4rem var(--mg-reflexes-green);
+}
+
+.mg-reflexes[data-phase='over'] .mg-reflexes-light {
+  background: var(--signal-cyan);
+  box-shadow: 0 0 3rem var(--signal-cyan);
+}
+
+.mg-reflexes-label {
+  margin: 0;
+  min-height: 2.5rem;
+  font-size: clamp(1.5rem, 6vw, 2.25rem);
+  font-weight: 700;
+  text-align: center;
+}
+
+.mg-reflexes[data-phase='waiting'] .mg-reflexes-label {
+  color: var(--mg-reflexes-red);
+}
+
+.mg-reflexes[data-phase='go'] .mg-reflexes-label {
+  color: var(--mg-reflexes-green);
+}
+
+.mg-reflexes-rounds {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mg-reflexes-slot {
+  display: grid;
+  place-items: center;
+  min-width: 3.5rem;
+  height: 2.75rem;
+  padding: 0 0.5rem;
+  border: 2px solid var(--ink-muted);
+  border-radius: 0.6rem;
+  color: var(--ink-muted);
+  font-size: 1.1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.mg-reflexes-slot-done {
+  border-color: var(--signal-cyan);
+  color: var(--signal-cyan);
+}
+
+.mg-reflexes-slot-miss {
+  border-color: var(--flare-orange);
+  color: var(--flare-orange);
+  font-weight: 700;
+}

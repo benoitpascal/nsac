@@ -1,0 +1,119 @@
+.mg-light-memory {
+  --mg-light-memory-size: min(7rem, 26vw);
+  display: grid;
+  gap: 1rem;
+  justify-items: center;
+  padding: 1rem;
+  user-select: none;
+}
+
+.mg-light-memory-status {
+  margin: 0;
+  min-height: 1.6em;
+  font-family: 'Space Mono', monospace;
+  font-size: 1.3rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--signal-cyan);
+}
+
+.mg-light-memory-panel {
+  display: grid;
+  grid-template-columns: repeat(3, var(--mg-light-memory-size));
+  grid-template-rows: repeat(3, var(--mg-light-memory-size));
+  grid-template-areas:
+    '. light1 .'
+    'light4 round light2'
+    '. light3 .';
+  gap: 0.5rem;
+}
+
+.mg-light-memory-round {
+  grid-area: round;
+  display: grid;
+  place-items: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 1.1rem;
+  color: var(--ink-muted);
+}
+
+.mg-light-memory-light {
+  --mg-light-memory-colour: #ffffff;
+  position: relative;
+  display: grid;
+  place-items: center;
+  border: 3px solid var(--mg-light-memory-colour);
+  border-radius: 50%;
+  background: var(--mg-light-memory-colour);
+  color: rgba(5, 6, 15, 0.85);
+  opacity: 0.35;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    opacity 0.12s ease,
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.mg-light-memory-light:nth-child(1) {
+  grid-area: light1;
+}
+
+.mg-light-memory-light:nth-child(2) {
+  grid-area: light2;
+}
+
+.mg-light-memory-light:nth-child(3) {
+  grid-area: light3;
+}
+
+.mg-light-memory-light:nth-child(4) {
+  grid-area: light4;
+}
+
+.mg-light-memory-light--red {
+  --mg-light-memory-colour: #ff5a5a;
+}
+
+.mg-light-memory-light--yellow {
+  --mg-light-memory-colour: #ffd23d;
+}
+
+.mg-light-memory-light--green {
+  --mg-light-memory-colour: #3ddc84;
+}
+
+.mg-light-memory-light--blue {
+  --mg-light-memory-colour: #4d9bff;
+}
+
+.mg-light-memory-light:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.mg-light-memory-light--on {
+  opacity: 1;
+  transform: scale(1.08);
+  box-shadow: 0 0 2rem var(--mg-light-memory-colour);
+}
+
+.mg-light-memory-light--wrong {
+  opacity: 1;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 0.4rem var(--flare-orange);
+}
+
+.mg-light-memory-symbol {
+  font-size: calc(var(--mg-light-memory-size) * 0.42);
+  line-height: 1;
+}
+
+.mg-light-memory-key {
+  position: absolute;
+  bottom: 12%;
+  right: 16%;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+}

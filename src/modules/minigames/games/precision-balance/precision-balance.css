@@ -1,0 +1,197 @@
+@property --mg-precision-balance-angle {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
+
+.mg-precision-balance-root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 24rem;
+  padding: 0.75rem;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.mg-precision-balance-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.mg-precision-balance-level {
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 2px solid var(--ink-muted);
+  border-radius: 50%;
+}
+
+.mg-precision-balance-level--current {
+  border-color: var(--signal-cyan);
+  box-shadow: 0 0 0.5rem var(--signal-cyan);
+}
+
+.mg-precision-balance-level--done {
+  border-color: var(--signal-cyan);
+  background: var(--signal-cyan);
+}
+
+.mg-precision-balance-reset {
+  min-width: 3rem;
+  min-height: 3rem;
+  margin-left: 1rem;
+  border: 2px solid var(--ink-muted);
+  border-radius: 0.75rem;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.mg-precision-balance-reset:hover,
+.mg-precision-balance-reset:focus-visible {
+  border-color: var(--signal-cyan);
+}
+
+.mg-precision-balance-stage {
+  position: relative;
+  height: 19rem;
+  margin: 0 auto;
+  width: min(100%, 36rem);
+}
+
+.mg-precision-balance-beam {
+  position: absolute;
+  top: 6.5rem;
+  left: 0;
+  width: 100%;
+  height: 0.8rem;
+  border-radius: 0.4rem;
+  background: linear-gradient(var(--ink-muted), #4a5680);
+  transform: rotate(var(--mg-precision-balance-angle));
+  transition:
+    --mg-precision-balance-angle 0.7s cubic-bezier(0.3, 1.4, 0.5, 1),
+    box-shadow 0.3s;
+}
+
+.mg-precision-balance-stage--level .mg-precision-balance-beam {
+  background: linear-gradient(#b8f6ff, var(--signal-cyan));
+  box-shadow: 0 0 1.2rem var(--signal-cyan);
+}
+
+.mg-precision-balance-pivot {
+  position: absolute;
+  top: 6.9rem;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-right: 1.2rem solid transparent;
+  border-bottom: 2.4rem solid #6c7ab0;
+  border-left: 1.2rem solid transparent;
+  transform: translateX(-50%);
+}
+
+.mg-precision-balance-hook {
+  position: absolute;
+  top: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 10%;
+  height: 7rem;
+  border-radius: 0.5rem;
+  transform: translateX(-50%) rotate(calc(-1 * var(--mg-precision-balance-angle)));
+  transform-origin: 50% 0;
+  touch-action: none;
+}
+
+.mg-precision-balance-root--selecting .mg-precision-balance-hook {
+  background: rgba(77, 227, 255, 0.12);
+  cursor: pointer;
+}
+
+.mg-precision-balance-hook-label {
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+  line-height: 1.2rem;
+}
+
+.mg-precision-balance-string {
+  width: 2px;
+  height: 0.9rem;
+  background: var(--ink-muted);
+}
+
+.mg-precision-balance-weight {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.7rem;
+  height: 1.9rem;
+  border: 2px solid #ffd2c2;
+  border-radius: 0.35rem;
+  color: #1a0d05;
+  background: var(--flare-orange);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: grab;
+  touch-action: none;
+}
+
+.mg-precision-balance-weight--mass-2 {
+  width: 1.95rem;
+  height: 2.4rem;
+}
+
+.mg-precision-balance-weight--mass-3 {
+  width: 2.2rem;
+  height: 2.9rem;
+}
+
+.mg-precision-balance-weight--locked {
+  border-color: #8f9cc9;
+  color: var(--ink);
+  background: repeating-linear-gradient(45deg, #3b4670 0 0.3rem, #2c355a 0.3rem 0.6rem);
+  cursor: default;
+}
+
+.mg-precision-balance-weight--selected {
+  outline: 3px solid var(--signal-cyan);
+  outline-offset: 2px;
+}
+
+.mg-precision-balance-weight--dragged {
+  opacity: 0.3;
+}
+
+.mg-precision-balance-ghost {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(1.15);
+  cursor: grabbing;
+}
+
+.mg-precision-balance-tray {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 5rem;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  width: min(100%, 30rem);
+  border: 2px dashed var(--ink-muted);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  touch-action: none;
+}
+
+.mg-precision-balance-tray .mg-precision-balance-weight {
+  transform: scale(1.25);
+}

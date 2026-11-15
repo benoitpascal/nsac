@@ -1,0 +1,102 @@
+.mg-lights-out-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem;
+}
+
+.mg-lights-out-status {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.mg-lights-out-chip {
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(77, 227, 255, 0.12);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.mg-lights-out-grid {
+  --mg-lights-out-size: 3;
+  display: grid;
+  grid-template-columns: repeat(var(--mg-lights-out-size), 1fr);
+  gap: 0.5rem;
+  width: min(100%, 22rem);
+  padding: 0.75rem;
+  border-radius: 1rem;
+  background: #0d1430;
+  box-shadow: inset 0 0 0 2px rgba(154, 168, 209, 0.25);
+}
+
+.mg-lights-out-cell {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  min-width: 2.75rem;
+  border: 2px solid rgba(154, 168, 209, 0.35);
+  border-radius: 0.75rem;
+  background: #1a2140;
+  color: var(--ink);
+  font-size: clamp(1.1rem, 5vw, 1.8rem);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    background 0.15s,
+    box-shadow 0.15s,
+    transform 0.1s;
+}
+
+.mg-lights-out-cell::before {
+  content: '';
+  width: 30%;
+  aspect-ratio: 1;
+  border: 2px solid rgba(154, 168, 209, 0.5);
+  border-radius: 50%;
+}
+
+.mg-lights-out-cell--on {
+  border-color: #fff3b0;
+  background: radial-gradient(circle, #fff6c2 0%, #ffd84d 60%, #ffb020 100%);
+  box-shadow: 0 0 1.2rem rgba(255, 216, 77, 0.75);
+}
+
+.mg-lights-out-cell--on::before {
+  display: none;
+}
+
+.mg-lights-out-cell:active {
+  transform: scale(0.94);
+}
+
+.mg-lights-out-cell:focus-visible {
+  outline: 3px solid var(--signal-cyan);
+  outline-offset: 3px;
+}
+
+.mg-lights-out-message {
+  margin: 0;
+  color: var(--signal-cyan);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.mg-lights-out-restart {
+  min-height: 2.75rem;
+  padding: 0.5rem 1.25rem;
+  border: 2px solid var(--ink-muted);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mg-lights-out-restart:focus-visible {
+  outline: 3px solid var(--signal-cyan);
+  outline-offset: 2px;
+}

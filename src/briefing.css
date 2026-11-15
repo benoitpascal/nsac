@@ -1,0 +1,182 @@
+.briefing {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 24px;
+}
+
+.briefing__picture {
+  padding: 8px;
+}
+
+.briefing__picture img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  object-fit: cover;
+  object-position: 30% center;
+}
+
+.briefing__orders {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px;
+}
+
+.briefing__day {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--arcadia-accent-soft);
+}
+
+.briefing__day-label {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 0;
+  font-family: var(--arcadia-font);
+  font-size: 40px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.briefing__day-label .hud-icon {
+  color: var(--arcadia-accent);
+}
+
+.briefing__day-number {
+  padding: 0 12px;
+  border-radius: 6px;
+  color: var(--arcadia-deep);
+  background: var(--arcadia-accent);
+}
+
+.briefing__place {
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.briefing__title {
+  margin: 8px 0 0;
+  font-family: var(--arcadia-font);
+  font-size: 56px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.briefing__text {
+  max-width: 40em;
+  margin: 0;
+  color: var(--arcadia-ink-muted);
+  font-size: 22px;
+  line-height: 1.4;
+}
+
+.briefing__panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.objectives,
+.resources {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.objective {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--arcadia-accent-faint);
+  font-size: 20px;
+}
+
+.objective:last-child {
+  border-bottom: none;
+}
+
+.objective__box {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  flex: none;
+  border: 2px solid var(--arcadia-ink);
+  border-radius: 4px;
+}
+
+.objective--done .objective__box {
+  border-color: var(--arcadia-accent);
+  color: var(--arcadia-deep);
+  background: var(--arcadia-accent);
+}
+
+.objective__verb {
+  color: var(--arcadia-accent);
+}
+
+.objective__hint {
+  display: block;
+  margin-top: 4px;
+  color: var(--arcadia-ink-muted);
+  font-size: 16px;
+}
+
+.resource {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 6px 12px;
+  align-items: center;
+  padding: 10px 0;
+  font-size: 18px;
+}
+
+.resource .hud-icon {
+  color: var(--arcadia-accent);
+}
+
+.resource__value {
+  font-weight: 500;
+}
+
+.resource__bar {
+  grid-column: 2 / -1;
+  height: 10px;
+  border-radius: 2px;
+  background:
+    linear-gradient(90deg, var(--arcadia-accent) var(--level), transparent var(--level)),
+    var(--arcadia-accent-faint);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .briefing {
+    grid-template-columns: 1fr;
+  }
+
+  .briefing__picture img {
+    max-height: 260px;
+  }
+}

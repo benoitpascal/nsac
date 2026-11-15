@@ -1,0 +1,103 @@
+.arcadia--day-one {
+  --day-one-line-in: 0.6s;
+  --day-one-title-in: 0.7s;
+
+  background: var(--arcadia-navy) url('/arcadia/day-one-background.png') center / cover no-repeat;
+}
+
+.day-one {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: calc(110 * var(--design-px)) 16px 48px;
+}
+
+/* The title rises from behind the line, so it is clipped at the line. */
+.day-one__title-clip {
+  width: calc(1248.8 * var(--design-px));
+  max-width: 100%;
+  height: calc(283.31 * var(--design-px));
+  overflow: hidden;
+}
+
+.day-one__title {
+  display: flex;
+  gap: calc(48 * var(--design-px));
+  justify-content: center;
+  color: var(--arcadia-text);
+  margin: calc(23.2 * var(--design-px)) 0 0;
+  font-size: calc(291.05 * var(--design-px));
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+  white-space: nowrap;
+  animation: day-one-title-rise var(--day-one-title-in) ease-out var(--day-one-line-in) both;
+}
+
+.day-one__line {
+  display: block;
+  width: calc(1400 * var(--design-px));
+  max-width: 100%;
+  height: 10px;
+  margin-top: -5px;
+  animation: day-one-line-grow var(--day-one-line-in) ease-out both;
+}
+
+.day-one__status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 40px;
+  justify-content: center;
+  margin: max(32px, calc(138.7 * var(--design-px))) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.day-one__status > :nth-child(1) {
+  --status-card-from: 86px;
+  --status-card-delay: calc(var(--day-one-line-in) + 0.4s);
+}
+
+.day-one__status > :nth-child(2) {
+  --status-card-from: 118px;
+  --status-card-delay: calc(var(--day-one-line-in) + 0.55s);
+}
+
+.day-one__status > :nth-child(3) {
+  --status-card-from: 163px;
+  --status-card-delay: calc(var(--day-one-line-in) + 0.7s);
+}
+
+.day-one__next {
+  margin-top: 40px;
+  animation: day-one-fade-in 0.6s ease-out calc(var(--day-one-line-in) + 1.4s) both;
+}
+
+@keyframes day-one-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes day-one-line-grow {
+  from {
+    opacity: 0;
+    transform: scaleX(0.051);
+  }
+}
+
+@keyframes day-one-title-rise {
+  from {
+    transform: translateY(calc(208.45 * var(--design-px)));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .day-one__title,
+  .day-one__line,
+  .day-one__next {
+    animation: none;
+  }
+}
