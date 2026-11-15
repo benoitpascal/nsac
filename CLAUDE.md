@@ -11,6 +11,7 @@ pnpm preview      # Serve the production build locally
 pnpm lint         # Run ESLint on src/
 pnpm type-check   # Run tsc --noEmit
 pnpm format       # Run Prettier on src/
+pnpm test         # Run the Vitest tests in tests/
 ```
 
 ## Stack
@@ -33,8 +34,9 @@ Pages (declared in `vite.config.ts` under `build.rolldownOptions.input`):
 - `index.html` (home) loads `src/styles.css` and `src/home.css`.
 - `missions.html` (act selection) loads `src/styles.css`, `src/missions.css` and `src/act-card.css`.
 - `moon-intro.html` (Moon landing cutscene) loads `src/moon-intro.ts`, `src/styles.css` and `src/moon-intro.css`; it plays the clips of `public/game-design/` listed in `modules/moon-intro/core/intro-shots.ts`, then opens Day One.
-- `day-one.html` (Moon act intro) loads `src/styles.css`, `src/day-one.css` and `src/status-card.css`.
-- `briefing.html` (daily briefing) loads `src/styles.css`, `src/hud.css` and `src/briefing.css`.
+- `day.html` (title of the day starting, with the base conditions on the game date) loads `src/day.ts`, `src/styles.css`, `src/day-one.css` and `src/status-card.css`.
+- `mission.html` (mini-game of the current mission) loads `src/mission.ts` and `src/pages.css`.
+- `briefing.html` (station dashboard, the scenario's router: welcome, dashboard, academy, bag, debrief) loads `src/briefing.ts`, `src/styles.css`, `src/hud.css`, `src/briefing.css` and `src/guide.css`.
 - `information.html` (context, goal, how to play, controls, credits) loads `src/information.ts`, `src/styles.css`, `src/hud.css` and `src/information.css`.
 - `solar-system.html` loads `src/solar-system.ts`.
 - `planet-walk.html` loads `src/planet-walk.ts`.
@@ -45,6 +47,10 @@ Pages (declared in `vite.config.ts` under `build.rolldownOptions.input`):
 `docs/figma/` holds a frozen export of the Figma file (screen and component renders, every layer in `layers.txt`, styling in `styles.txt`, variables and styles in `tokens.json`); start from its `README.md` when implementing a mock-up without Figma access.
 
 No page hardcodes the site domain: absolute URLs (share tags of `index.html`) use the `__SITE_ORIGIN__` placeholder, which `nginx/default.conf` replaces with the domain the site is served from. In `pnpm dev` / `pnpm preview` the placeholder stays as is.
+
+### Scenario
+
+`src/modules/scenario/` holds the Moon act: content (`core/act-moon.ts`, `core/moon-texts.ts`), the saved game and its stages (`core/campaign.ts`), dialogue with choices and questions (`core/dialogue.ts`), bag (`core/loadout.ts`), scoring and debrief (`core/scoring.ts`, `core/debrief-text.ts`), saved in `localStorage` by `infra/campaign-storage.ts`. Plan: `docs/plans/scenario-moon-act.md`. Tests: `pnpm test` (Vitest, `tests/`).
 
 ### Layers
 

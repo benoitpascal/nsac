@@ -101,3 +101,12 @@
     animation: none;
   }
 }
+
+.day-one__date {
+  margin: 0;
+  color: var(--arcadia-ink-muted);
+  font-family: var(--arcadia-font-body);
+  font-size: 22px;
+  letter-spacing: 0.08em;
+  text-align: center;
+}

@@ -22,11 +22,16 @@
       <div class="planet-walk__aim" aria-hidden="true"></div>
     </main>
 
-    <a class="page-link" href="/">Back</a>
+    <a class="page-link" href="/briefing.html">Station dashboard</a>
     <aside id="walk-facts" class="walk-facts" aria-label="Gravity" aria-live="polite"></aside>
 
     <button id="pilot-prompt" class="pilot-prompt" type="button" hidden></button>
     <p id="excavator-hud" class="excavator-hud" hidden></p>
+    <p id="suit-hud" class="suit-hud" aria-live="off"></p>
+    <p id="mission-hud" class="mission-hud" hidden></p>
+    <button id="mission-finish" class="mission-finish" type="button" hidden>Finish mission</button>
+    <div id="rescue-fade" class="rescue-fade" aria-hidden="true"></div>
+    <p id="rescue-notice" class="rescue-notice" role="status" hidden>Your suit ran low: the crew brought you back to the base. 4 hours have passed.</p>
 
     <section id="station-dashboard" class="station-dashboard" aria-labelledby="station-dashboard-title" aria-live="polite" hidden>
       <header class="station-dashboard__header">

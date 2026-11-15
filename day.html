@@ -21,31 +21,33 @@
   <body class="arcadia arcadia--day-one">
     <main class="day-one">
       <div class="day-one__title-clip">
-        <h1 class="day-one__title"><span>Day</span> <span>one</span></h1>
+        <h1 class="day-one__title" id="day-title"><span>Day</span> <span>one</span></h1>
       </div>
       <img class="day-one__line" src="/arcadia/day-one-line.svg" alt="" />
       <ul class="day-one__status" aria-label="Base status">
         <li class="status-card">
           <span class="status-card__icon" aria-hidden="true"></span>
-          <span class="status-card__value">-150 °C</span>
-          <span class="status-card__label">Temperature</span>
+          <span class="status-card__value" id="day-temperature">…</span>
+          <span class="status-card__label">Outside temperature</span>
         </li>
         <li class="status-card">
           <span class="status-card__icon" aria-hidden="true"></span>
-          <span class="status-card__value">daylight</span>
+          <span class="status-card__value" id="day-sun">…</span>
           <span class="status-card__label">solar status</span>
         </li>
         <li class="status-card">
           <span class="status-card__icon" aria-hidden="true"></span>
-          <span class="status-card__value">06/06</span>
+          <span class="status-card__value" id="day-crew">…</span>
           <span class="status-card__label">Crew status</span>
         </li>
       </ul>
-      <a class="pill-button day-one__next" href="/briefing.html">
+      <p class="day-one__date" id="day-date"></p>
+      <a class="pill-button day-one__next" id="day-next" href="/briefing.html">
         <img class="pill-button__icon pill-button__icon--idle" src="/arcadia/icon-play.svg" alt="" />
         <img class="pill-button__icon pill-button__icon--active" src="/arcadia/icon-play-active.svg" alt="" />
         <span class="pill-button__label">Continue</span>
       </a>
     </main>
+    <script type="module" src="/src/day.ts"></script>
   </body>
 </html>

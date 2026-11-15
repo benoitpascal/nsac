@@ -17,6 +17,9 @@ export const EXCAVATOR = {
 /** What the robot holds: energy left, regolith on board, and regolith dropped off at the base. */
 export type ExcavatorStore = { batteryKwh: number; carriedKg: number; deliveredKg: number };
 
+/** How the fitted drums dig: kilograms per second, and power they draw (kW). */
+export type DrumRates = { digKgPerSecond: number; drumKw: number };
+
 /** What the robot did over a moment: roll or turn, dig, unload. */
 export type ExcavatorWork = { moving: boolean; digging: boolean; unloading: boolean };
 
@@ -40,17 +43,19 @@ export const batteryShare = (store: ExcavatorStore): number =>
   store.batteryKwh / EXCAVATOR.batteryKwh;
 
 /**
- * Returns the store after the given time (s): moving and turning the drums drain the battery,
+ * Returns the store after the given time (s), with the fitted drums (the standard ones by
+ * default): moving and turning the drums drain the battery,
  * digging fills the drums up to their load, unloading empties them into the base's stock.
  */
 export const stepExcavatorStore = (
   store: ExcavatorStore,
   work: ExcavatorWork,
   seconds: number,
+  drums: DrumRates = EXCAVATOR,
 ): ExcavatorStore => {
-  const drums = work.digging || work.unloading;
-  const drawKw = (work.moving ? EXCAVATOR.drivingKw : 0) + (drums ? EXCAVATOR.drumKw : 0);
-  const dug = work.digging ? EXCAVATOR.digKgPerSecond * seconds : 0;
+  const turning = work.digging || work.unloading;
+  const drawKw = (work.moving ? EXCAVATOR.drivingKw : 0) + (turning ? drums.drumKw : 0);
+  const dug = work.digging ? drums.digKgPerSecond * seconds : 0;
   const unloaded = work.unloading
     ? Math.min(EXCAVATOR.unloadKgPerSecond * seconds, store.carriedKg)
     : 0;

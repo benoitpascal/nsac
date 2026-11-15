@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mission · Project Arcadia</title>
+    <meta name="description" content="Play today's mission at the Moon base." />
+    <meta name="theme-color" content="#05060f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono&display=swap"
+    />
+    <link rel="stylesheet" href="/src/pages.css" />
+  </head>
+  <body>
+    <a class="page-link" href="/planet-walk.html">Back to the base</a>
+    <main class="minigames">
+      <section class="minigames__screen" aria-labelledby="mission-title">
+        <header class="minigames__bar">
+          <h1 id="mission-title" class="minigames__title"></h1>
+        </header>
+        <div id="mission-board" class="minigames__board"></div>
+      </section>
+    </main>
+    <script type="module" src="/src/mission.ts"></script>
+  </body>
+</html>

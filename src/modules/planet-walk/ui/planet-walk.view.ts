@@ -2,8 +2,10 @@ import { PerspectiveCamera } from 'three';
 import { FIRST_WORLD_ID, WALK_WORLDS } from '../core/walk-worlds';
 import { createAstronautAvatar } from './astronaut/astronaut-avatar';
 import { createKeyboardInput } from './controls/keyboard-input';
+import { createMissionRun } from './controls/mission-run';
 import { createMouseLook } from './controls/mouse-look';
 import { createStationControls } from './controls/station-controls';
+import { createSuitMonitor } from './controls/suit-monitor';
 import { createTouchPad } from './controls/touch-pad';
 import { createViewToggle } from './controls/view-toggle';
 import { showJumpFacts } from './jump-facts.view';
@@ -11,6 +13,8 @@ import { createWalkFrame } from './walk-frame';
 import { createWalkRenderer } from './walk-renderer';
 import { createWalkScene } from './walk-scene';
 import { mountWorldPicker } from './world-picker.view';
+import type { SuitKit } from '../core/suit/suit-supply';
+import type { MissionPlan } from './controls/mission-run';
 import type { Star } from '@/modules/solar-system/core/star';
 
 export type PlanetWalkElements = {
@@ -22,12 +26,22 @@ export type PlanetWalkElements = {
   dashboard: HTMLElement;
   touchPad: HTMLElement;
   excavatorHud: HTMLElement;
+  suitHud: HTMLElement;
+  rescueFade: HTMLElement;
+  missionHud: HTMLElement;
+  missionFinish: HTMLButtonElement;
 };
 
 /** What the walk needs from outside the page: the star catalog and the time (Unix ms). */
 export type PlanetWalkSources = {
   loadStars: () => Promise<Star[]>;
   now: () => number;
+  /** What the suit carries: bottles extend its oxygen, extra items make it drain faster. */
+  suitKit: SuitKit;
+  /** Called once the crew has brought the astronaut back to the base. */
+  onRescue: () => void;
+  /** The excavator mission to play, when the page is opened for one. */
+  mission?: MissionPlan;
 };
 
 const MAX_FRAME_SECONDS = 0.1;
@@ -54,6 +68,22 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
   mountWorldPicker(elements.worldPicker, current.id, choose);
   choose(current);
   createTouchPad(elements.touchPad, window);
+  const station = createStationControls(world, elements, () => current.id, sources.now);
+  const suit = createSuitMonitor(
+    elements.suitHud,
+    elements.rescueFade,
+    sources.suitKit,
+    sources.onRescue,
+  );
+  const mission =
+    sources.mission &&
+    createMissionRun(
+      sources.mission,
+      elements.missionHud,
+      elements.missionFinish,
+      station.driving,
+      station.actions,
+    );
   const frame = createWalkFrame({
     world,
     camera,
@@ -61,7 +91,9 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
     mouse: createMouseLook(elements.canvas),
     avatar: createAstronautAvatar(world.scene, renderer),
     view: createViewToggle(elements.viewToggle, window),
-    ...createStationControls(world, elements, () => current.id, sources.now),
+    ...station,
+    suit,
+    mission,
     gravity: () => current.gravity,
   });
   new ResizeObserver(() => {
