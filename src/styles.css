@@ -161,3 +161,26 @@ body {
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+/* Looping background video of the Figma screens (home, Day One). The still picture of the page
+   stays underneath: it shows while the video loads and replaces it when motion is reduced. */
+.page-video {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.page-video ~ main {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-video {
+    display: none;
+  }
+}
