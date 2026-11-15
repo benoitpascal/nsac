@@ -23,7 +23,8 @@ const repeatButton = (voice: Voice, lastLine: () => string) => {
  * Plays a dialogue of the mascot inside the bubble, with Back and Next in the actions row under
  * it (never inside the card, as in Figma): texts with Next and Back, choices and
  * questions as 1 to 4 buttons (also keys 1 to 4). A wrong answer is explained and greyed out.
- * The voice, when given, reads each page and each answer's explanation aloud.
+ * The voice, when given, reads each page and each answer's explanation aloud; onAnswer
+ * plays the sound of a right or a wrong answer.
  * Under it, the control row: Back (on the first page, back to the terminal menu, when given) and
  * Next, greyed out until the page's question is answered, then Exit dashboard (when given).
  * Calls onEnd after the last page, with the effect of the last option picked, if any. Returns how
@@ -37,6 +38,7 @@ export const playDialogue = (
   voice?: Voice,
   back?: () => void,
   leave?: () => void,
+  onAnswer?: (correct: boolean) => void,
 ) => {
   const trail: DialogueCursor[] = [];
   let spoken = '';
@@ -70,6 +72,7 @@ export const playDialogue = (
         spoken = answer.explanation;
         voice?.say(answer.explanation);
         feedback.classList.toggle('guide__feedback--right', answer.correct);
+        onAnswer?.(answer.correct);
         if (!answer.correct)
           return buttons[page.answers.indexOf(answer)].setAttribute('aria-disabled', 'true');
         buttons.forEach((option) => (option.disabled = true));

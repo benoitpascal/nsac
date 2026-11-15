@@ -9,7 +9,7 @@ import {
   recordResult,
 } from '@/modules/scenario/core/campaign';
 import { DASHBOARD_PAGE } from '@/modules/scenario/core/mission-route';
-import { installClickSounds, playEffect } from '@/modules/sound/infra/sound-player';
+import { installClickSounds, playEffect, playMusic } from '@/modules/sound/infra/sound-player';
 import { EXCAVATOR_GOAL_KG, scoreExcavator } from '@/modules/scenario/core/scoring';
 import { loadCampaign, saveCampaign } from '@/modules/scenario/infra/campaign-storage';
 import { createVoicePlayer } from '@/modules/scenario/infra/voice-player';
@@ -36,6 +36,8 @@ const writeValue = (key: string, value: string) => {
     // The message will simply play again next time.
   }
 };
+/** Lunar Lounge plays inside the station and fades out outside. */
+const stationMusic = playMusic('station');
 const TERMINAL_PAGE = '/briefing.html?menu';
 /** Where the tablet was opened, when the astronaut comes back from it. */
 const tabletSpot = takeTabletSpot();
@@ -105,6 +107,7 @@ mountPlanetWalk(
     startAt: playing
       ? 'terminal'
       : (tabletSpot ?? (params.get('at') === 'terminal' ? 'terminal' : 'quarters')),
+    insideStation: stationMusic.setHeard,
     openTerminal: (from) => {
       rememberTabletSpot(from);
       window.location.assign(TERMINAL_PAGE);

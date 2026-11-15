@@ -52,13 +52,13 @@ export const renderSettings = (deps: SettingsDeps) => {
     ),
     switchRow(
       'Sound effects',
-      'A click on each button, a chime when you complete a goal.',
+      'A click on each button, a sound for each answer and each goal reached.',
       !deps.sound.isMuted('effects'),
       (on) => deps.sound.setMuted('effects', !on),
     ),
     switchRow(
       'Music',
-      'Music on the home page and during the mini-games.',
+      'Music on the home page, in the station and during the mini-games.',
       !deps.sound.isMuted('music'),
       (on) => deps.sound.setMuted('music', !on),
     ),

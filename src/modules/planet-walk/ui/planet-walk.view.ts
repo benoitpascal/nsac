@@ -49,6 +49,8 @@ export type PlanetWalkSources = {
   suitKit: SuitKit;
   /** Called once the crew has brought the astronaut back to the base. */
   onRescue: () => void;
+  /** Told each frame whether the astronaut is inside the station (for its music). */
+  insideStation?: (inside: boolean) => void;
   /** The view the walk starts in, chosen in the terminal's settings. */
   startView: ViewMode;
   /**
@@ -133,6 +135,7 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
     gravity: () => current.gravity,
     startAt: sources.startAt,
     radio: createEarthRadio(elements.earthRadio, { ...sources.radio, now: sources.now }),
+    insideStation: sources.insideStation,
   });
   new ResizeObserver(() => {
     const { clientWidth, clientHeight } = elements.canvas;

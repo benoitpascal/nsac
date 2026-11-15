@@ -44,10 +44,12 @@ export const renderDashboard = (state: CampaignState, act: Act, actions: Dashboa
   stores.append(el('h2', 'station-board__title', 'Base resources'), renderGauges(state.stores));
   const panels = el('div', 'station-board__panels');
   panels.append(objectives, stores);
+  const launch = cutButton('Launch mission', 'primary', actions.launch, 'station-board__launch');
+  launch.dataset.sound = 'launch';
   const row = controlRow({
     back: actions.back,
     leave: actions.leave,
-    primary: cutButton('Launch mission', 'primary', actions.launch, 'station-board__launch'),
+    primary: launch,
   });
   const board = el('div', 'station-board');
   board.append(panels, row);

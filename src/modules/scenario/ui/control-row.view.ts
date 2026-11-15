@@ -11,6 +11,12 @@ export type ControlRowOptions = {
   primary?: HTMLButtonElement;
 };
 
+/** Names the sound the button plays when pressed (see the sound player's effects). */
+const withSound = (button: HTMLButtonElement, sound: string) => {
+  button.dataset.sound = sound;
+  return button;
+};
+
 /** Creates a button in its place that cannot be used: shown greyed out, disabled. */
 const placed = (button: HTMLButtonElement, enabled: boolean) => {
   button.disabled = !enabled;
@@ -27,7 +33,10 @@ export const fillControlRow = (row: HTMLElement, options: ControlRowOptions) => 
   const main = el('div', 'control-row__main');
   main.append(
     placed(
-      cutButton('Back', 'text', () => back?.(), 'guide__back'),
+      withSound(
+        cutButton('Back', 'text', () => back?.(), 'guide__back'),
+        'back',
+      ),
       back !== undefined,
     ),
     ...actions,
@@ -35,7 +44,10 @@ export const fillControlRow = (row: HTMLElement, options: ControlRowOptions) => 
   const exit = el('div', 'control-row__exit');
   exit.append(
     placed(
-      cutButton('Exit dashboard', 'wide', () => leave?.()),
+      withSound(
+        cutButton('Exit dashboard', 'wide', () => leave?.()),
+        'exit',
+      ),
       leave !== undefined,
     ),
     ...(primary ? [primary] : []),

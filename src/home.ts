@@ -4,11 +4,7 @@ import { readDefaultView, writeDefaultView } from '@/modules/planet-walk/infra/v
 import { createVoicePlayer } from '@/modules/scenario/infra/voice-player';
 import { renderSettings } from '@/modules/scenario/ui/settings.view';
 import { isSoundMuted, setSoundMuted } from '@/modules/sound/infra/sound-preferences';
-import {
-  followMusicSetting,
-  installClickSounds,
-  playMusic,
-} from '@/modules/sound/infra/sound-player';
+import { installClickSounds, playMusic } from '@/modules/sound/infra/sound-player';
 import { requireElement } from '@/shared/dom';
 
 const saved = loadCampaign();
@@ -44,13 +40,7 @@ const cards = requireElement<HTMLElement>('#home-settings-cards');
 const settingsDeps = {
   voice: createVoicePlayer(),
   view: { get: readDefaultView, set: writeDefaultView },
-  sound: {
-    isMuted: isSoundMuted,
-    setMuted: (channel: 'effects' | 'music', muted: boolean) => {
-      setSoundMuted(channel, muted);
-      followMusicSetting();
-    },
-  },
+  sound: { isMuted: isSoundMuted, setMuted: setSoundMuted },
 };
 const drawSettings = () => cards.replaceChildren(renderSettings(settingsDeps));
 const showSettings = (open: boolean) => {

@@ -42,6 +42,8 @@ export type BriefingDeps = {
   onState?: (state: CampaignState) => void;
   /** The mascot's voice; without it the mascot only writes. */
   voice?: Voice;
+  /** Plays the sound of a right or a wrong answer to the mascot's questions. */
+  onAnswer?: (correct: boolean) => void;
   /** Opens on the terminal's menu (when walking up to it) rather than on the mascot. */
   menuFirst?: boolean;
   /** The view the 3D base starts in, set in the terminal's settings. */
@@ -100,7 +102,16 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
     bubble.setAttribute('aria-live', 'polite');
     const actions = el('div', 'control-row');
     side.replaceChildren(bubble, actions);
-    stopDialogue = playDialogue(bubble, actions, pages, onEnd, deps.voice, showMenu, leave);
+    stopDialogue = playDialogue(
+      bubble,
+      actions,
+      pages,
+      onEnd,
+      deps.voice,
+      showMenu,
+      leave,
+      deps.onAnswer,
+    );
   };
   const restart = () => update(newCampaign(deps.now()));
   const today = () => deps.act.days[state.dayIndex];
@@ -123,9 +134,7 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
       side.replaceChildren(
         controlRow({
           back:
-            result.verdict === 'efficient'
-              ? undefined
-              : () => update(retryMission(state, mission)),
+            result.verdict === 'efficient' ? undefined : () => update(retryMission(state, mission)),
           leave,
           actions: [
             cutButton('Continue', 'wide', () => update(continueAfterDebrief(state, deps.act))),

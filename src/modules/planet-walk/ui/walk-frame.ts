@@ -37,6 +37,8 @@ export type FrameParts = {
   suit: ReturnType<typeof createSuitMonitor>;
   /** Told each frame whether the astronaut went out of the base through the airlock. */
   radio?: { update: (outside: boolean) => void };
+  /** Told each frame whether the astronaut is inside the station, under its roof. */
+  insideStation?: (inside: boolean) => void;
   mission?: ReturnType<typeof createMissionRun>;
   map: ReturnType<typeof createWalkMap>;
   gravity: () => number;
@@ -105,6 +107,7 @@ export const createWalkFrame = (parts: FrameParts) => {
     const outside = !underRoof && !drivingRobot;
     const rescued = parts.suit.update(seconds, effort, outside);
     parts.radio?.update(actions.leftBase());
+    parts.insideStation?.(underRoof);
     parts.mission?.update(rescued);
     if (rescued) {
       actions.stopDriving();
