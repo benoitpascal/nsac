@@ -4,8 +4,8 @@
 
   color: var(--arcadia-ink);
   background:
-    radial-gradient(60% 50% at 80% 10%, rgba(97, 124, 215, 0.25), transparent 70%),
-    radial-gradient(50% 50% at 10% 90%, rgba(65, 172, 245, 0.12), transparent 70%),
+    radial-gradient(60% 50% at 80% 10%, rgba(89, 115, 205, 0.22), transparent 70%),
+    radial-gradient(50% 50% at 10% 90%, rgba(53, 233, 253, 0.12), transparent 70%),
     var(--arcadia-deep);
   font-family: var(--arcadia-font-body);
 }
@@ -43,7 +43,8 @@
   align-items: center;
   margin: 0;
   padding: 10px 24px;
-  border-bottom: 1px solid var(--arcadia-accent-soft);
+  border-bottom: 2px solid;
+  border-image: linear-gradient(90deg, var(--figma-secondary-600), var(--figma-primary-800)) 1;
   font-family: var(--arcadia-font);
   font-size: clamp(32px, 3vw, 52px);
   font-weight: 400;
@@ -74,7 +75,7 @@
   background: var(--arcadia-panel);
   box-shadow:
     inset 0 0 24px var(--arcadia-accent-faint),
-    0 0 18px rgba(65, 172, 245, 0.12);
+    0 0 18px rgba(53, 233, 253, 0.12);
   clip-path: polygon(
     var(--hud-corner) 0,
     100% 0,
@@ -111,52 +112,104 @@
   justify-content: space-between;
 }
 
-.hud-back {
-  display: inline-flex;
-  gap: 10px;
-  align-items: center;
-  padding: 8px 4px;
-  color: var(--arcadia-ink);
-  font-size: 18px;
-  text-decoration: none;
-}
+/* Figma « START MISSION » button (BTN 50:519): cut corners, #141c33 at 60 %, cyan gradient
+   stroke, « Hover BTN » glow. The stroke is the element's background, the fill sits on ::before. */
+.hud-action,
+.hud-secondary {
+  --cut: 20px;
+  --stroke: 1px;
+  --cut-shape: polygon(
+    var(--cut) 0,
+    100% 0,
+    100% calc(100% - var(--cut)),
+    calc(100% - var(--cut)) 100%,
+    0 100%,
+    0 var(--cut)
+  );
 
-.hud-back:is(:hover, :focus-visible) {
-  color: var(--arcadia-accent);
-  outline: none;
-}
-
-.hud-action {
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   gap: 16px;
   align-items: center;
-  padding: 20px 40px;
-  border: 2px solid var(--arcadia-accent);
-  color: var(--arcadia-ink);
-  background: var(--arcadia-panel-strong);
-  box-shadow:
-    0 0 18px var(--arcadia-accent-soft),
-    inset 0 0 16px var(--arcadia-accent-faint);
-  clip-path: polygon(
-    var(--hud-corner) 0,
-    100% 0,
-    100% calc(100% - var(--hud-corner)),
-    calc(100% - var(--hud-corner)) 100%,
-    0 100%,
-    0 var(--hud-corner)
-  );
+  justify-content: center;
+  min-height: 66px;
+  padding: 12px 40px;
+  border: 0;
+  color: var(--figma-white);
+  background: var(--figma-gradient);
+  clip-path: var(--cut-shape);
   font-family: var(--arcadia-font);
   font-size: 32px;
-  letter-spacing: 0.12em;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1;
   text-decoration: none;
   text-transform: uppercase;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.hud-action::before,
+.hud-secondary::before {
+  position: absolute;
+  inset: var(--stroke);
+  z-index: -1;
+  content: '';
+  background:
+    linear-gradient(var(--figma-primary-1000-60), var(--figma-primary-1000-60)),
+    var(--figma-primary-1001);
+  clip-path: polygon(
+    calc(var(--cut) - var(--stroke) * 0.4) 0,
+    100% 0,
+    100% calc(100% - var(--cut) + var(--stroke) * 0.4),
+    calc(100% - var(--cut) + var(--stroke) * 0.4) 100%,
+    0 100%,
+    0 calc(var(--cut) - var(--stroke) * 0.4)
+  );
+}
+
+.hud-action::after {
+  width: 18px;
+  height: 18px;
+  order: -1;
+  content: '';
+  background: url('/arcadia/act-select/chevrons-small.svg') center / contain no-repeat;
+}
+
+.hud-action--back::after {
+  transform: rotate(180deg);
+}
+
+.hud-secondary {
+  --cut: 16px;
+
+  min-height: 56px;
+  padding: 10px 28px;
+  font-size: 26px;
 }
 
 .hud-action .hud-icon {
   color: var(--arcadia-accent);
 }
 
-.hud-action:is(:hover, :focus-visible) {
+.hud-action:is(:hover, :focus-visible):not(:disabled),
+.hud-secondary:is(:hover, :focus-visible):not(:disabled) {
+  --stroke: 2px;
+
   outline: none;
-  background: rgba(65, 172, 245, 0.2);
+  filter: var(--figma-hover-glow);
+}
+
+.hud-action:disabled,
+.hud-action[aria-disabled='true'] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hud-action,
+  .hud-secondary {
+    transition: none;
+  }
 }
