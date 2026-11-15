@@ -11,7 +11,7 @@ export type WorldAppearance = {
   /** Light coming from everywhere at once: the glow of the sky, or sunlight bouncing off the ground. */
   fill: number;
   stars: boolean;
-  /** Real stars, Milky Way, Earth and a Sun moving with the local time, as seen from the Moon's south pole. */
+  /** Real stars, Milky Way, Earth and a Sun moving with the local time, as seen from the base near the Moon's equator. */
   lunarSky?: boolean;
 };
 

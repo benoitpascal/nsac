@@ -14,6 +14,7 @@ import { WORLD_APPEARANCES } from './world-appearance';
 import { WORLD_CONDITIONS } from '../core/station/conditions';
 import { localDayShare } from '../core/station/local-time';
 import { daylight, earthFullness } from '../core/sky/lunar-sky';
+import { lunation } from '../core/sky/lunation';
 import type { WalkWorldId } from '../core/walk-worlds';
 import type { Star } from '@/modules/solar-system/core/star';
 import type { Object3D, WebGLRenderer } from 'three';
@@ -54,7 +55,7 @@ export const createWalkScene = (renderer: WebGLRenderer, loadStars: () => Promis
     const lunar = WORLD_APPEARANCES[worldId].lunarSky === true;
     const dayShare = localDayShare(WORLD_CONDITIONS[worldId], timestamp);
     if (lunar) lunarSky.update(dayShare, timestamp);
-    if (lunar) lights.follow(lunarSky.toSun, earthFullness(dayShare));
+    if (lunar) lights.follow(lunarSky.toSun, earthFullness(lunation(timestamp)));
     flashBeacons(timestamp);
     sunlit = lunar ? daylight(dayShare) : 1;
     followDaylight(sunlit);

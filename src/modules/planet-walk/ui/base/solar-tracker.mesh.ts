@@ -3,15 +3,15 @@ import type { SatelliteMaterials } from '@/modules/globe/ui/bodies/satellite/sat
 import type { Vector3 } from 'three';
 
 /**
- * A tall solar array on a mast, like NASA's Vertical Solar Array Technology (VSAT) for the Moon's
- * south pole: the Sun stays low there, so the panel stands almost upright and the mast's head
- * turns all day long to keep it facing the Sun (m).
+ * A tall solar array on a mast, like NASA's Vertical Solar Array Technology (VSAT): the mast's head
+ * turns and the panel tips back all day long to keep it facing the Sun, which crosses high over
+ * the base near the equator (m).
  */
 const MAST = { radius: 0.12, height: 6, foot: 0.45 };
 const PANEL = { width: 3, height: 3.6, thickness: 0.06, center: 4 };
 const FRAME = 0.06;
-/** The panel tips back at most this much (radians), its hinge being made for a low Sun. */
-const MAX_TILT = 0.5;
+/** The panel tips back at most this much (radians), almost flat when the Sun is overhead. */
+const MAX_TILT = 1.45;
 
 const box = (width: number, height: number, depth: number, material: SatelliteMaterials['metal']) =>
   new Mesh(new BoxGeometry(width, height, depth), material);

@@ -48,8 +48,8 @@ const feed = (material: MeshStandardMaterial) => {
 };
 
 /**
- * Builds a radio dish on its pedestal, pointed at the Earth: from the Moon's south pole the Earth
- * hangs low over the horizon, so the dish looks almost sideways, and never has to move.
+ * Builds a radio dish on its pedestal, pointed at the Earth: the Earth never moves in the Moon's
+ * sky, high in the west over the base, so the dish never has to move either.
  */
 export const createEarthDish = () => {
   const white = new MeshStandardMaterial({ color: WHITE, roughness: 0.5, side: DoubleSide });

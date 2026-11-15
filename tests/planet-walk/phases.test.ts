@@ -1,9 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { moonAndEarthPhases } from '@/modules/planet-walk/core/sky/phases';
-import { WORLD_CONDITIONS } from '@/modules/planet-walk/core/station/conditions';
-import { localDayShare } from '@/modules/planet-walk/core/station/local-time';
+import { lunation } from '@/modules/planet-walk/core/sky/lunation';
 
-const phasesOn = (date: number) => moonAndEarthPhases(localDayShare(WORLD_CONDITIONS.moon, date));
+const phasesOn = (date: number) => moonAndEarthPhases(lunation(date));
 
 describe('Moon and Earth phases', () => {
   it('shows a full Earth at new Moon (new Moon of 13 October 2023, 18:55 UTC)', () => {

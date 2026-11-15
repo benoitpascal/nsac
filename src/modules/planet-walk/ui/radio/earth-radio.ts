@@ -1,6 +1,5 @@
 import { moonAndEarthPhases } from '../../core/sky/phases';
-import { WORLD_CONDITIONS } from '../../core/station/conditions';
-import { localDayShare } from '../../core/station/local-time';
+import { lunation } from '../../core/sky/lunation';
 
 /** How long (ms) the radio message stays on screen. */
 const SHOWN_FOR_MS = 16000;
@@ -13,7 +12,7 @@ const dateFormat = new Intl.DateTimeFormat('en-GB', {
 
 /** Returns the radio message for that date: the Earth's real phase, and the Moon's seen from home. */
 export const earthRadioMessage = (timestamp: number) => {
-  const { earth, moon } = moonAndEarthPhases(localDayShare(WORLD_CONDITIONS.moon, timestamp));
+  const { earth, moon } = moonAndEarthPhases(lunation(timestamp));
   return [
     'Base to commander, do you copy?',
     "I know it might feel like a game. But it's not completely one.",

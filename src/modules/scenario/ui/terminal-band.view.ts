@@ -14,7 +14,10 @@ export type TerminalBandElements = {
 };
 
 const HOUR_MS = 3_600_000;
-const TIME = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit' });
+const DATE = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+const HOUR = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit' });
+/** The base's date and time, as « 15 Nov 2026 · 16:00 ». */
+const TIME = { format: (at: number) => `${DATE.format(at)} · ${HOUR.format(at)}` };
 
 /**
  * The header of the base terminal (Figma « Ecran - Bandeau » and « Main Mission Progress »): the

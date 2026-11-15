@@ -1,7 +1,7 @@
-import { Group, Vector3 } from 'three';
+import { Group, Matrix4, Vector3 } from 'three';
 import {
+  celestialNorth,
   earthDirection,
-  skyTurn,
   sunDirection,
   sunEclipticLongitude,
 } from '../../core/sky/lunar-sky';
@@ -23,23 +23,34 @@ const EARTH_AXIAL_TILT = (23.44 * Math.PI) / 180;
 const MILKY_WAY_INTENSITY = 0.12;
 const MS_PER_DAY = 86_400_000;
 
+/** Lays the sky's ecliptic frame (Sun among the stars, ecliptic north) onto the walker's sky. */
+const skyFrame = (sunLongitude: number, toSun: Vector3, north: Vector3, target: Matrix4) => {
+  const sunAmongStars = new Vector3(Math.cos(sunLongitude), 0, -Math.sin(sunLongitude));
+  const eclipticNorth = new Vector3(0, 1, 0);
+  const starsBasis = new Matrix4().makeBasis(
+    sunAmongStars,
+    eclipticNorth,
+    new Vector3().crossVectors(sunAmongStars, eclipticNorth),
+  );
+  const skyBasis = new Matrix4().makeBasis(toSun, north, new Vector3().crossVectors(toSun, north));
+  return target.multiplyMatrices(skyBasis, starsBasis.transpose());
+};
+
 /**
- * The sky over the Moon's south pole: the real stars and the Milky Way turning slowly around the
- * zenith, the Sun circling low around the horizon, and the Earth hanging still above the hills,
- * lit by the same Sun as the ground, so that its phase always matches the time of day.
+ * The sky over the base, near the Moon's equator: the real stars and the Milky Way rising in the
+ * east and setting in the west once a lunar day, the Sun crossing high overhead, and the Earth
+ * hanging still high in the west, lit by the same Sun as the ground.
  */
 export const createLunarSkyDome = (renderer: WebGLRenderer, loadStars: () => Promise<Star[]>) => {
   const dome = new Group();
   dome.name = 'lunar-sky';
-  /** Turns the starry sky around the zenith. */
-  const turning = new Group();
-  /** Puts the ecliptic's south pole at the zenith, as seen from the Moon's south pole. */
-  const southUp = new Group();
-  southUp.rotation.x = Math.PI;
-  turning.add(southUp);
-  southUp.add(createMilkyWay(SKY.milkyWay, MILKY_WAY_INTENSITY));
+  /** The stars and the Milky Way, turned as the Moon turns under them. */
+  const stars = new Group();
+  stars.matrixAutoUpdate = false;
+  stars.add(createMilkyWay(SKY.milkyWay, MILKY_WAY_INTENSITY));
   const sunGlare = createSunGlare(SKY.sun);
-  dome.add(turning, sunGlare);
+  dome.add(stars, sunGlare);
+  const north = new Vector3().copy(celestialNorth());
 
   /** Direction to the Sun, shared with the sunlight and the Earth's shading. */
   const toSun = new Vector3(0, 1, 0);
@@ -47,7 +58,7 @@ export const createLunarSkyDome = (renderer: WebGLRenderer, loadStars: () => Pro
   const earthSpot = new Vector3().copy(earthDirection()).multiplyScalar(SKY.earth);
 
   void loadStars()
-    .then((stars) => southUp.add(createStarSky(stars)))
+    .then((catalogue) => stars.add(createStarSky(catalogue)))
     .catch((error: unknown) =>
       console.warn('Stars unavailable, the sky stays without them', error),
     );
@@ -68,7 +79,8 @@ export const createLunarSkyDome = (renderer: WebGLRenderer, loadStars: () => Pro
       toSun.copy(sunDirection(dayShare));
       sunGlare.position.copy(toSun).multiplyScalar(SKY.sun);
       sunGlare.visible = toSun.y > -0.02;
-      turning.rotation.y = sunEclipticLongitude(timestamp) - skyTurn(dayShare) + Math.PI / 2;
+      skyFrame(sunEclipticLongitude(timestamp), toSun, north, stars.matrix);
+      stars.matrixWorldNeedsUpdate = true;
       earth?.update({ surface: ((timestamp / MS_PER_DAY) % 1) * 2 * Math.PI, cloudsOffset: 0 });
     },
     /** Keeps the sky around the eye, so that it looks infinitely far. */

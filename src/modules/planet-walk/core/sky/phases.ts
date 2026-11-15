@@ -30,10 +30,10 @@ export const phaseName = (cycle: number): PhaseName => {
 
 /**
  * Returns the phase of the Moon seen from the Earth and of the Earth seen from the Moon at that
- * point of the base's local day (0 at midnight, which falls at new Moon): they are always
- * opposite, so when the Earth sees a thin crescent Moon, the Moon sees an almost full Earth.
+ * point of the Moon's cycle (0 new Moon, 0.5 full Moon): they are always opposite, so when the
+ * Earth sees a thin crescent Moon, the Moon sees an almost full Earth.
  */
-export const moonAndEarthPhases = (dayShare: number) => ({
-  moon: phaseName(dayShare),
-  earth: phaseName(dayShare + 0.5),
+export const moonAndEarthPhases = (lunationShare: number) => ({
+  moon: phaseName(lunationShare),
+  earth: phaseName(lunationShare + 0.5),
 });

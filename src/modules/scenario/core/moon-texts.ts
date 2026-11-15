@@ -4,6 +4,10 @@ const LCROSS = {
   label: 'NASA · LCROSS finds water on the Moon (2009)',
   url: 'https://www.nasa.gov/news-release/lcross-impact-data-indicates-water-on-moon/',
 };
+const APOLLO_11 = {
+  label: 'NASA · Apollo 11, Sea of Tranquility (1969)',
+  url: 'https://www.nasa.gov/mission/apollo-11/',
+};
 const ORION_SHELTER = {
   label: 'NASA · Orion radiation protection plan',
   url: 'https://www.nasa.gov/missions/artemis/orion/scientists-and-engineers-evaluate-orion-radiation-protection-plan/',
@@ -42,7 +46,8 @@ export const DAY_ONE_OPENING: GuidePage[] = [
         reply: [
           {
             kind: 'text',
-            text: "We're near the Moon's south pole. Some craters there never see the Sun, and their cold ground hides ice!",
+            text: "We're near the Moon's equator, in the Sea of Tranquility, not far from where Apollo 11 landed in 1969. From here, the Earth never moves: it hangs high in the sky, day and night!",
+            source: APOLLO_11,
           },
         ],
         goto: 'stay-alive',
@@ -124,7 +129,7 @@ export const EXCAVATOR_ACADEMY: GuidePage[] = [
   },
   {
     kind: 'text',
-    text: 'In 2009, NASA crashed the LCROSS rocket stage into a dark crater near the south pole. The cloud it raised contained water ice!',
+    text: 'In 2009, NASA crashed the LCROSS rocket stage into a dark crater near the south pole. The cloud it raised contained water ice! Our ground here holds much less, but our drums can still dig a little out.',
     source: LCROSS,
   },
   {

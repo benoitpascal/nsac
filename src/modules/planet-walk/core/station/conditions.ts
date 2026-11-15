@@ -1,3 +1,5 @@
+import { LUNAR_SITE } from '../sky/lunar-site';
+import { NEW_MOON_MS, SYNODIC_HOURS } from '../sky/lunation';
 import type { WalkWorldId } from '../walk-worlds';
 
 /** What the base lives with on a world's surface. */
@@ -21,11 +23,11 @@ export type WorldConditions = {
  */
 export const WORLD_CONDITIONS: Record<WalkWorldId, WorldConditions> = {
   moon: {
-    // A lunar day lasts one synodic month (29.53 days). The base faces the Earth, so its midnight
-    // falls at new Moon: here the new Moon of 6 January 2000, 18:14 UTC, so the sky follows the
-    // real phases.
-    solarDayHours: 708.734,
-    midnightMs: Date.UTC(2000, 0, 6, 18, 14),
+    // A lunar day lasts one synodic month (29.53 days). At the sub-Earth point midnight falls at
+    // new Moon; the base, 23.47° further east, gets its midnight that share of a month earlier.
+    solarDayHours: SYNODIC_HOURS,
+    midnightMs:
+      NEW_MOON_MS - (LUNAR_SITE.longitudeDegrees / 360) * SYNODIC_HOURS * 3_600_000,
     dayCelsius: 120,
     nightCelsius: -170,
     sunlightWm2: 1361,
