@@ -1,5 +1,5 @@
 # Project Arcadia — every layer of the Figma file "PROJECT-ARCADIA", page "Page 1".
-# Export of 2026-11-15 (updated from the original file, 901 layers). One line per layer, children indented by two spaces.
+# Export of 2026-11-15 (synced from the Figma file, 939 layers). One line per layer, children indented by two spaces.
 # Format: <layer name> [<type> <node id>] <x>,<y> <width>x<height> [HIDDEN] [op=<opacity>] [fill=…] [text="…"] [props={…}] [→ prototype interactions]
 # - Top-level positions are canvas coordinates; child positions are relative to their parent frame.
 # - fill: #hex/alpha, img:<first 8 chars of the Figma image hash>, video, gradient_*(stops).
@@ -7,24 +7,9 @@
 #   see the main component (props = values overridden on the instance).
 # - Detailed styling (strokes, radius, effects, auto-layout, typography) lives in styles.txt.
 
-Frame 15 [frame 48:289] -3558,795 1720x960 → ON_CLICK:NAVIGATE 48:297
+Ecran ordi [frame 48:289] -771,-4534 1720x960
   Lunar_excursion_control_terminal_de608d8b_2K (1) 1 [rectangle 48:282] 0,0 1720x960 fill=img:1e9ea72f
-  Rectangle 9 [rectangle 48:290] 530,172 691x405 fill=#0b0f1c
-  image 14 [rectangle 48:291] 564,229 370x287 fill=img:9a02138d
-  Frame 14 [frame 48:292] 973,373 215x62
-    Ellipse 2 [ellipse 48:293] 0,0 62x62 fill=#35e9fd
-    Ellipse 4 [ellipse 48:294] 77,0 62x62 fill=#35e9fd
-    Ellipse 3 [ellipse 48:295] 154,0 62x62 fill=#35e9fd
-Frame 16 [frame 48:297] -1546,795 1720x960
-  Lunar_excursion_control_terminal_de608d8b_2K (1) 1 [rectangle 48:298] -1421,-522 4561x2546 fill=img:1e9ea72f
-  Group 5 [group 48:305] -15,-66 1831x1075
-    Rectangle 9 [rectangle 48:299] -15,-66 1831x1075 fill=#0b0f1c
-    image 14 [rectangle 48:300] 76,85 980x761 fill=img:9a02138d
-    Frame 14 [frame 48:301] 1158,466 571x164
-      Ellipse 2 [ellipse 48:302] 0,0 164x164 fill=#35e9fd
-      Ellipse 4 [ellipse 48:303] 204,0 164x164 fill=#35e9fd
-      Ellipse 3 [ellipse 48:304] 407,0 164x164 fill=#35e9fd
-Slide 16:9 - 1 [frame 1:2] 3986,-1691 1920x1080 fill=#ffffff
+Slide 16:9 - 1 [frame 1:2] 13576,-829 1920x1080 fill=#ffffff
   base_lunaire_8K_CORRIGEE 1 [rectangle 1:3] -47,-26 2014x1133 fill=img:298f2c2a
   Vector 1 [vector 1:7] 247,658 1427x0
   Mask group [group 1:103] 346,263 1249x395
@@ -76,34 +61,12 @@ Page accueil [frame 1:8] -10292,-1024 1920x1080 fill=#0f3465
   Logotype [instance 7:270] 551,140 818x387 props={"Propriété 1":"Light"}
   image 5 [rectangle 13:947] 1302,263 672x1007 HIDDEN
   image 4 [rectangle 13:949] -56,233 607x911 HIDDEN fill=img:c75ccda1
-Page accueil [frame 21:998] -8018,-3060 1920x1080 fill=#0f3465
-  image 1 [rectangle 21:999] 0,0 1919x1080 fill=img:55f4a018
-  Union [boolean_operation 21:1000] 208,1006 1309x29 fill=#ffffff/10%
-  BTN [instance 21:1003] 776,723 367x88 props={"Instance":"4:11","Texte":"start playin","Propriété 1":"Par défaut"} → ON_HOVER:CHANGE_TO 7:264, ON_CLICK:NAVIGATE 1:104
-  BTN [instance 21:1004] 776,847 367x88 props={"Texte":"options","Instance":"4:10","Propriété 1":"Par défaut"} → ON_HOVER:CHANGE_TO 7:264
-  Logotype [instance 21:1005] 551,140 818x387 props={"Propriété 1":"Light"}
-  image 5 [rectangle 21:1006] 1302,263 672x1007
-  image 4 [rectangle 21:1007] -56,233 607x911 fill=img:c75ccda1
-Page accueil [frame 13:962] -10150,-3060 1920x1080 fill=#0f3465
-  image 1 [rectangle 13:963] 0,0 1919x1080 fill=img:55f4a018
-  Union [boolean_operation 13:964] 208,1006 1309x29 HIDDEN fill=#ffffff/10%
-  BTN [instance 13:967] 776,723 367x88 HIDDEN props={"Instance":"4:11","Texte":"start playin","Propriété 1":"Par défaut"} → ON_HOVER:CHANGE_TO 7:264, ON_CLICK:NAVIGATE 1:104
-  BTN [instance 13:968] 776,847 367x88 HIDDEN props={"Instance":"4:10","Texte":"options","Propriété 1":"Par défaut"} → ON_HOVER:CHANGE_TO 7:264
-  Logotype [instance 13:969] 551,140 818x387 HIDDEN props={"Propriété 1":"Light"}
-  image 5 [rectangle 13:970] 1302,263 672x1007
-  image 4 [rectangle 13:971] -47,192 607x911 fill=img:c75ccda1
-image 4 [rectangle 13:942] -5324,-2891 607x911 fill=img:c75ccda1
+image 4 [rectangle 13:942] 12332,-1475 607x911 fill=img:c75ccda1
 BTN [instance 4:43] 2162,2779 198x66 op=60% fill=#002b76/50% props={"Instance":"4:11","Texte BTN":"OPTIONS"} → ON_HOVER:CHANGE_TO 4:31
 Logotype [component 4:62] 3965,1671 633x395
   ARCADIA [text 1:24] 0,207 633x189 fill=#ffffff text="ARCADIA"
   PROJECT [text 1:23] 160,89 303x122 fill=#ffffff text="PROJECT"
   Union [boolean_operation 3:5] 89,0 471x180 fill=gradient_radial(#f7f5f5>#0873d3)
-Logotype [instance 4:63] 3851,344 633x395 props={}
-ARCADIA [text 4:76] 4627,542 620x73 fill=#ffffff text="ARCADIA"
-PROJECT [text 4:77] 4767,460 341x74 fill=#ffffff text="PROJECT"
-Union [boolean_operation 4:78] 4718,381 454x173 fill=gradient_radial(#f7f5f5>#0873d3)
-PROJECT [text 4:82] 5151,0 454x102 fill=#ffffff text="PROJECT"
-PROJECT [text 4:81] 5346,176 356x102 fill=#ffffff text="PROJECT"
 Frame 3 [frame 1:122] 1880,3163 202x82
   BOUTON [text 1:123] 33,17 136x48 fill=#ffffff text="BOUTON"
 Slide 16:9 - 3 [frame 1:104] -8219,-1024 1920x1080 fill=#0f3465
@@ -136,15 +99,7 @@ Icons-play [component 4:11] 1148,-893 24x24
   Vector [vector 4:7] 5,3 17x19 fill=#f7f5f5
 Icons-gear [component 4:10] 1148,-797 24x24
   Vector [vector 4:9] 2,2 20x20 fill=#f7f5f5
-image 3 [rectangle 4:84] 1767,-3073 1672x941 fill=img:549f55ea
-Vector 7 [vector 4:89] 4747,713 11x29 fill=#f7f5f5
-Union [boolean_operation 4:88] 4757,654 20x80 fill=#f7f5f5
-Union [boolean_operation 4:97] 4705,155 36x89 fill=#f7f5f5
-Calque_1 [frame 4:98] 4855,316 69x155
-  Vector [vector 4:99] 14,0 41x107 fill=#ffffff
-  Vector [vector 4:100] 0,80 20x46 fill=#ffffff
-  Vector [vector 4:101] 49,80 20x46 fill=#ffffff
-  Vector [vector 4:102] 29,113 10x42 fill=#ffffff
+image 3 [rectangle 4:84] 13364,-2990 1672x941 fill=img:549f55ea
 Logotype [component 7:124] 3370,1645 616x292
   Group [group 7:105] 0,214 616x78
   Vector [vector 7:113] 149,146 319x39 fill=#ffffff
@@ -172,7 +127,7 @@ BTN [component_set 7:263] 2603,2478 407x236
       COMMENCER [text 7:267] 80,25 164x22 fill=#f7f5f5 text="COMMENCER"
 Icons neutre [component 13:344] 1035,-1404 40x40
   Rectangle 3 [rectangle 13:343] 0,0 40x40 fill=#d9d9d9
-NOVA CLUB. 1 [rectangle 13:436] -1546,2099 1686x2170 fill=img:3ac562b8
+NOVA CLUB. 1 [rectangle 13:436] 4767,5504 1686x2170 fill=img:3ac562b8
 Status Act [component_set 13:537] -246,-403 152x220
   Propriété 1=Actif [component 13:632] 20,170 69x30 fill=#7de8b9
     DEMO [text 13:633] 16,8 37x14 fill=#232f2a text="DEMO"
@@ -224,10 +179,8 @@ Mission card Locked [component_set 13:752] 312,-720 240x980
 Vector [vector 13:776] 642,210 16x20 fill=#ed5f79
 bxs:lock [frame 13:750] 766,48 24x24
   Vector [vector 13:751] 4,2 16x20 fill=#ed5f79
-image 6 [rectangle 21:1039] -956,-17 296x296 fill=img:eadda188
-image 7 [rectangle 21:1042] -1644,-205 587x523 fill=img:0d87008b
-image 8 [rectangle 21:1045] -3699,2298 1529x860 fill=img:9a02138d
-image 15 [rectangle 48:285] -3699,2298 1529x860 fill=img:9a02138d
+image 6 [rectangle 21:1039] 7271,-3226 296x296 fill=img:eadda188
+image 7 [rectangle 21:1042] 6583,-3414 587x523 fill=img:0d87008b
 Typo [frame 21:1048] -1546,4422 1099x638 fill=#ffffff
     --font-title: 'Bebas Neue’;   --font-body: 'Outfit', sans-serif; } [text 21:1047] 0,0 269x158 fill=#000000 text="\n\n\n  --font-title: 'Bebas Neue’;\n  --font-body: 'Outfit', sans-serif;\n\n}"
 image 10 [rectangle 21:1072] -8372,2517 1672x941 fill=img:efec9a2a
@@ -237,48 +190,16 @@ Frame 12 [frame 21:1074] -10453,2447 1920x1080 fill=#0b0f1c
   Union [boolean_operation 21:1086] 305,1006 1309x29 fill=#f7f5f5
 Frame 13 [frame 21:1096] -8502,2481 13x13
   Union [boolean_operation 21:1095] 3,3 7x7 fill=#35e9fd
-image 16 [rectangle 48:308] 403,523 1672x941 fill=img:f25c0e74
-image 17 [rectangle 48:311] 336,1597 1774x887 fill=img:d9b13511
-Rectangle 10 [rectangle 48:313] -8317,2653 477x688 fill=#35e9fd
-Ecran - selection acte [frame 48:330] -6592,2318 1919x1080 fill=#0b0f1c
-  image 19 [rectangle 50:492] 0,179 1919x901 fill=img:16b3b5e2
-  Mask group [group 50:478] 0,0 1919x179
-    Masque [rectangle 50:476] 0,0 1919x179 fill=gradient_radial(#5e5e5e>#c4c4c4)
-    Motifs [rectangle 21:1093] 0,0 1919x179 fill=pattern
-  image 9 [rectangle 21:1050] 0,0 1919x1080 HIDDEN fill=img:847a69a7
-  Frame 20 [frame 50:446] 155,525 1608x335
-    Choice planet lock [instance 63:561] 0,0 480x335 props={"Description":"Moon Mission Preparation","Instance":"63:673","Afficher Lock":true,"Planet":"EARTH","Act":"ACT 1","Propriété 1":"Hover"}
-    Icons - chevrons - start [instance 50:409] 508,153 28x28 props={}
-    Choice planet DEMO [instance 50:424] 564,0 480x335 props={"Afficher Lock":true,"Description":"Moon Mission Preparation","Instance":"50:538","Planet":"EARTH","Act":"ACT 1","Propriété 1":"Par défaut"} → ON_HOVER:CHANGE_TO 63:598
-    Icons - chevrons - start [instance 50:443] 1072,153 28x28 props={}
-    Choice planet lock [instance 50:433] 1128,0 480x335 props={"Afficher Lock":true,"Description":"Moon Mission Preparation","Instance":"63:673","Planet":"MARS","Act":"ACT 3","Propriété 1":"Par défaut"} → ON_HOVER:CHANGE_TO 50:377
-  image 12 [rectangle 21:1080] 1550,0 369x179 fill=img:46094acd
-  Vector 12 [vector 50:413] 142,179 1776x0
-  Group 7 [group 50:497] 142,920 198x66
-    Rectangle 8 [vector 50:498] 142,920 198x66 fill=#141c33/60%
-    Frame 21 [frame 50:499] 190,941 101x22
-      Icons - chevrons - start [instance 50:500] 18,2 18x18 props={}
-      BACK [text 50:501] 34,0 67x22 fill=#f7f5f5 text="BACK"
-  BTN [instance 50:529] 1415,920 361x66 props={"Propriété 1":"Par défaut"}
-  Choose the act you want to play [text 63:756] 738,471 443x20 fill=#f7f5f5 text="Choose the act you want to play"
-  Frame 22 [frame 63:783] 150,268 823x142
-    Objectif [text 63:764] 0,0 823x34 fill=#35e9fd text="Objectif"
-    (placeholder lorem ipsum) [text 63:765] 0,76 823x66 fill=#f7f5f5 text="Office ipsum you must be muted. We jumping growth able ladder invite pushback. Reach right watches six air elephant individual strategies wiggle bake. Power your files meat staircase moments. Standup intersection beforehand eye value-added. Masking wider pushback."
-  Group 8 [group 63:803] 184,481 1552x0
-  Logotype [instance 63:935] 77,28 229x108 props={"Propriété 1":"Light"}
-Ecran - selection acte [frame 63:804] -6592,3726 1919x1080 fill=#0b0f1c
-  (same layers as 48:330, ids 63:805 to 63:828; Logotype instance 63:915)
-Mars [component 63:905] -8088,4103 1043x1508
-  Mars [rectangle 21:1077] 0,0 1043x1508 fill=img:624c8684
-Moon [component 63:904] -9274,4104 1044x1507
-  Moon [rectangle 21:1083] 0,0 1044x1507 fill=img:f04fc4bf
-Earth [component 63:903] -10280,4103 1043x1508
-  image 20 [rectangle 50:495] 0,0 1043x1508 fill=img:46094acd
-Icons - chevrons - start [component 43:273] -6475,7405 28x28
+Icons - chevrons - start [component 43:273] -9198,7528 28x28
   Vector [vector 43:271] 16,0 28x16 fill=#35e9fd
   Vector [vector 43:272] 28,0 28x16 fill=#35e9fd
-Propriété 1=Hover [instance 50:368] -5952,9036 480x335 props={"Afficher Lock":true,"Description":"Moon Mission Preparation","Instance":"63:673","Planet":"EARTH","Act":"ACT 1","Propriété 1":"Par défaut"} → ON_HOVER:CHANGE_TO 50:377
-Choice planet lock [component_set 50:376] -6150,7418 567x1183
+image 16 [rectangle 48:308] 403,523 1672x941 fill=img:f25c0e74
+image 24 [rectangle 63:1596] -1120,5561 1672x941 fill=img:f25c0e74
+image 18 [vector 48:322] -3825,3916 1672x941 fill=img:f25c0e74
+image 17 [rectangle 48:311] 336,1597 1774x887 fill=img:d9b13511
+Rectangle 10 [rectangle 48:313] -8317,2653 477x688 fill=#35e9fd
+Rectangle 15 [rectangle 50:334] -4041,3795 179x61 fill=#d9d9d9
+Choice planet lock [component_set 50:376] -10688,7528 567x1183
   Propriété 1=Par défaut [component 50:347] 44,57 480x335 → ON_HOVER:CHANGE_TO 50:377
     IMG [vector 50:336] 0,0 480x335 fill=img:16b3b5e2
     Filtre [vector 50:348] 0,0 480x335 fill=gradient_linear(#0b0f1c>#314682)
@@ -300,8 +221,7 @@ Choice planet lock [component_set 50:376] -6150,7418 567x1183
       Moon Mission Preparation [text 50:384] 0,84 278x17 fill=#f7f5f5 text="Moon Mission Preparation"
     Stroke [vector 50:422] 0,0 480x335
     Lock [instance 50:547] 212,132 57x71 props={"Propriété 1":"Variante3"}
-Lock [instance 63:676] -6482,7987 78x98 props={"Propriété 1":"Variante3"}
-Choice planet DEMO [component_set 63:587] -5522,7418 567x1265
+Choice planet DEMO [component_set 63:587] -10060,7528 567x1265
   Propriété 1=Par défaut [component 63:588] 44,57 480x335 → ON_HOVER:CHANGE_TO 63:598
     IMG [vector 63:589] 0,0 480x335 fill=img:16b3b5e2
     Filtre [vector 63:590] 0,0 480x335 fill=gradient_linear(#0b0f1c>#314682)
@@ -353,27 +273,98 @@ Lock [component_set 63:613] -4259,2858 118x374
   Propriété 1=Variante3 [component 63:673] 20,256 78x98
     Subtract [boolean_operation 63:668] 6,34 66x55 fill=#35e9fd
     Rectangle 17 [rectangle 63:638] 14,9 50x35
-Planet [component_set 63:886] -6354,5114 409x616
-  Propriété 1=Earth [component 63:885] 20,20 369x179
-    Earth [instance 63:912] -48,-152 620x896 props={}
-  Propriété 1=Moon [component 63:887] 20,219 369x179
-    image 12 [rectangle 63:888] 0,0 369x179 fill=img:46094acd
-  Propriété 1=Mars [component 63:889] 20,418 369x179
-    image 12 [rectangle 63:890] 0,0 369x179 fill=img:46094acd
-Rectangle 15 [rectangle 50:334] -4041,3795 179x61 fill=#d9d9d9
-image 18 [vector 48:322] -3825,3916 1672x941 fill=img:f25c0e74
-Bulle futuriste bleue au néon 1 [rectangle 66:422] -4067,-4306 1774x887 fill=img:a1f3ee5a
-mascotte 1 [rectangle 66:423] -2253,-4187 1366x768 fill=img:6ece7b5d
-Sans-titre-2 1 [rectangle 66:424] -4067,-3379 1366x768 fill=img:c9a8eb81
-walk-on-moon 1 [rectangle 66:425] -412,-6299 832x480 fill=video
-looking-toward-earth 1 [rectangle 66:426] 460,-6299 832x480 fill=video
-looking-toward-base 1 [rectangle 66:427] 1332,-6299 832x480 fill=video
-Gemini_Generated_Image_5c39ch5c39ch5c39 1 [rectangle 66:428] 2204,-6587 1376x768 fill=img:920f276a
-Gemini_Generated_Image_oxwf1yoxwf1yoxwf 1 [rectangle 66:429] -412,-5779 1408x768 fill=img:9de9c5e6
-Gemini_Generated_Image_tdk1yutdk1yutdk1 1 [rectangle 66:430] 1036,-5779 1408x768 fill=img:f7b50351
-Gemini_Generated_Image_xce3ejxce3ejxce3 1 [rectangle 66:431] 2484,-5779 1408x768 fill=img:67a217b2
-earth-from-moon 1 [rectangle 66:432] 3932,-5779 1376x768 fill=img:487be6cb
-Gemini_Generated_Image_p7ykq1p7ykq1p7yk 1 [rectangle 66:433] -412,-4971 1376x768 fill=img:ec74442d
-Pas de géant sur la Lune 1 [rectangle 66:434] 1004,-4971 1402x1122 fill=img:a30ac3b2
-Astronaute lunaire face à la Terre 1 [rectangle 66:435] 2446,-4971 1402x1122 fill=img:08745edf
-image 21 [rectangle 66:437] -3270,-5667 1920x1080 fill=img:3412efae
+Bulle futuriste bleue au néon 1 [rectangle 66:422] 13853,-5556 1774x887 fill=img:a1f3ee5a
+mascotte 1 [rectangle 66:423] 15667,-5437 2003x1126 fill=img:6ece7b5d
+Sans-titre-2 1 [rectangle 66:424] 13853,-4629 1366x768 fill=img:c9a8eb81
+walk-on-moon 1 [rectangle 66:425] 17508,-7548 832x480 fill=video
+looking-toward-earth 1 [rectangle 66:426] 18380,-7548 832x480 fill=video
+looking-toward-base 1 [rectangle 66:427] 19252,-7548 832x480 fill=video
+Gemini_Generated_Image_5c39ch5c39ch5c39 1 [rectangle 66:428] 20124,-7836 1376x768 fill=img:920f276a
+Gemini_Generated_Image_oxwf1yoxwf1yoxwf 1 [rectangle 66:429] 17508,-7028 1408x768 fill=img:9de9c5e6
+Gemini_Generated_Image_tdk1yutdk1yutdk1 1 [rectangle 66:430] 18956,-7028 1408x768 fill=img:f7b50351
+Gemini_Generated_Image_xce3ejxce3ejxce3 1 [rectangle 66:431] 20404,-7028 1408x768 fill=img:67a217b2
+earth-from-moon 1 [rectangle 66:432] 21852,-7028 1376x768 fill=img:487be6cb
+Gemini_Generated_Image_p7ykq1p7ykq1p7yk 1 [rectangle 66:433] 17508,-6220 1376x768 fill=img:ec74442d
+Pas de géant sur la Lune 1 [rectangle 66:434] 18924,-6220 1402x1122 fill=img:a30ac3b2
+Astronaute lunaire face à la Terre 1 [rectangle 66:435] 20366,-6220 1402x1122 fill=img:08745edf
+image 21 [rectangle 66:437] 14650,-6916 1920x1080 fill=img:3412efae
+Ecran - selection acte [component_set 63:1074] -10761,4471 1959x2489
+  Propriété 1=Variante2 [component 63:1075] 20,124 1919x1080 fill=#0b0f1c
+    Planet BG [frame 63:1419] 0,179 1919x901
+      Earth [instance 63:1420] 371,-672 2500x3615 op=20% props={}
+    Mask group [group 63:1077] 0,0 1919x179
+    image 9 [rectangle 63:1080] 0,0 1919x1080 HIDDEN fill=img:847a69a7
+    Frame 20 [frame 63:1081] 155,525 1608x335
+      Choice planet lock [instance 63:1082] 0,0 480x335 props={"Description":"Moon Mission Preparation","Instance":"63:673","Afficher Lock":true,"Planet":"EARTH","Act":"ACT 1","Propriété 1":"Hover"}
+      Icons - chevrons - start [instance 63:1083] 508,153 28x28 props={}
+      Choice planet DEMO [instance 63:1084] 564,0 480x335 props={"Afficher Lock":true,"Description":"Moon Mission Preparation","Instance":"50:538","Planet":"MOON","Act":"ACT 2","Propriété 1":"Par défaut"} → ON_HOVER:CHANGE_TO 63:598
+      Icons - chevrons - start [instance 63:1085] 1072,153 28x28 props={}
+      Choice planet lock [instance 63:1086] 1128,0 480x335 props={"Afficher Lock":true,"Description":"Moon Mission Preparation","Instance":"63:673","Planet":"MARS","Act":"ACT 3","Propriété 1":"Par défaut"} → ON_HOVER:CHANGE_TO 50:377
+    Group 7 [group 63:1087] 142,920 198x66
+      Rectangle 8 [vector 63:1088] 142,920 198x66 fill=#141c33/60%
+      Frame 21 [frame 63:1089] 190,941 101x22
+        Icons - chevrons - start [instance 63:1090] 18,2 18x18 props={}
+        BACK [text 63:1091] 34,0 67x22 fill=#f7f5f5 text="BACK"
+    BTN [instance 63:1092] 1415,920 361x66 props={"Propriété 1":"Par défaut"}
+    Choose the act you want to play [text 63:1093] 738,471 443x20 fill=#f7f5f5 text="Choose the act you want to play"
+    Frame 22 [frame 63:1094] 150,268 823x142
+      Objectif [text 63:1095] 0,0 823x34 fill=#35e9fd text="Objectif"
+      Office ipsum you must be muted. We jumping growth able ladder invite pushback. Reach right watches six air elephant individual strategies wiggle bake. Power your files meat staircase moments. Standup intersection beforehand eye value-added. Masking wider pushback. [text 63:1096] 0,76 823x66 fill=#f7f5f5 text="Office ipsum you must be muted. We jumping growth able ladder invite pushback. Reach right watches six air elephant individual strategies wiggle bake. Power your files meat staircase moments. Standup intersection beforehand eye value-added. Masking wider pushback."
+    Group 8 [group 63:1097] 184,481 1552x0
+    Logotype [instance 63:1100] 77,27 229x108 props={"Propriété 1":"Light"}
+    Planet [instance 63:1101] 1550,0 369x179 props={"Propriété 1":"Earth"}
+    Vector 12 [vector 63:1102] 142,179 1776x0
+  Propriété 1=Variante2 [component 63:1463] 20,1234 1919x1080 fill=#0b0f1c
+    Planet BG [frame 63:1464] 0,179 1919x901
+      Moon [instance 63:1465] 371,-672 2500x3615 op=20% props={}
+    Mask group [group 63:1466] 0,0 1919x179
+    image 9 [rectangle 63:1469] 0,0 1919x1080 HIDDEN fill=img:847a69a7
+    Frame 20 [frame 63:1470] 155,525 1608x335
+      Choice planet lock [instance 63:1471] 0,0 480x335 props={"Afficher Lock":true,"Description":"Moon Mission Preparation","Instance":"63:673","Planet":"EARTH","Act":"ACT 1","Propriété 1":"Par défaut"} → ON_HOVER:CHANGE_TO 50:377
+      Icons - chevrons - start [instance 63:1472] 508,153 28x28 props={}
+      Choice planet DEMO [instance 63:1473] 564,0 480x335 props={"Description":"Moon Mission Preparation","Afficher Lock":true,"Instance":"50:538","Planet":"MOON","Act":"ACT 2","Propriété 1":"Variante3"}
+      Icons - chevrons - start [instance 63:1474] 1072,153 28x28 props={}
+      Choice planet lock [instance 63:1475] 1128,0 480x335 props={"Afficher Lock":true,"Description":"Moon Mission Preparation","Instance":"63:673","Planet":"MARS","Act":"ACT 3","Propriété 1":"Par défaut"} → ON_HOVER:CHANGE_TO 50:377
+    Group 7 [group 63:1476] 142,920 198x66
+      Rectangle 8 [vector 63:1477] 142,920 198x66 fill=#141c33/60%
+      Frame 21 [frame 63:1478] 190,941 101x22
+        Icons - chevrons - start [instance 63:1479] 18,2 18x18 props={}
+        BACK [text 63:1480] 34,0 67x22 fill=#f7f5f5 text="BACK"
+    BTN [instance 63:1481] 1415,920 361x66 props={"Propriété 1":"Hover"}
+    Choose the act you want to play [text 63:1482] 738,471 443x20 fill=#f7f5f5 text="Choose the act you want to play"
+    Frame 22 [frame 63:1483] 150,268 823x142
+      Objectif [text 63:1484] 0,0 823x34 fill=#35e9fd text="Objectif"
+      Office ipsum you must be muted. We jumping growth able ladder invite pushback. Reach right watches six air elephant individual strategies wiggle bake. Power your files meat staircase moments. Standup intersection beforehand eye value-added. Masking wider pushback. [text 63:1485] 0,76 823x66 fill=#f7f5f5 text="Office ipsum you must be muted. We jumping growth able ladder invite pushback. Reach right watches six air elephant individual strategies wiggle bake. Power your files meat staircase moments. Standup intersection beforehand eye value-added. Masking wider pushback."
+    Group 8 [group 63:1486] 184,481 1552x0
+    Logotype [instance 63:1489] 77,27 229x108 props={"Propriété 1":"Light"}
+    Planet [instance 63:1490] 1550,0 369x179 props={"Propriété 1":"MOON"}
+    Vector 12 [vector 63:1491] 142,179 1776x0
+Ecran - selection acte [instance 63:1316] -6583,2447 1919x1080 fill=#0b0f1c props={}
+Frame 26 [frame 63:1911] -5366,5715 915x53
+  Frame 23 [frame 63:1912] 0,0 915x18
+    Avancée de la mission principale [text 63:1913] 0,0 411x18 fill=#ffffff text="Avancée de la mission principale"
+    10% [text 63:1914] 868,0 47x18 fill=#ffffff text="10%"
+  Frame 24 [frame 63:1915] 0,33 915x20
+    Rectangle 18 [rectangle 63:1916] 0,0 65x20 fill=#41acf5
+    Rectangle 19 [rectangle 63:1917] 65,0 851x20 fill=#0e1934
+image 22 [rectangle 66:626] 14650,-8111 1920x1080 fill=img:c635409e
+image 23 [vector 66:1017] -3558,5100 1435x807 fill=img:9277194c
+Frame 25 [frame 63:1910] -2990,5217 500x29
+  Frame 23 [frame 63:1908] 0,0 500x10
+    Avancée de la mission principale [text 63:1601] 0,0 225x10 fill=#ffffff text="Avancée de la mission principale"
+    10% [text 63:1600] 474,0 26x10 fill=#ffffff text="10%"
+  Frame 24 [frame 63:1909] 0,18 500x11
+    Rectangle 18 [rectangle 63:1598] 0,0 35x11 fill=#41acf5
+    Rectangle 19 [rectangle 63:1599] 35,0 465x11 fill=#0e1934
+Ellipse 5 [ellipse 63:1920] -2076,4613 260x260 fill=#d9d9d9
+Icon-direction [component 63:1923] -1950,4781 24x24
+  Vector [vector 63:1922] 4,7 16x17 fill=#f24822
+Rectangle 20 [rectangle 75:647] -3632,4224 327x241 fill=#d9d9d9
+image 25 [rectangle 66:1245] 12635,-8148 1920x1080 fill=img:0c0c23ec
+image 26 [rectangle 66:1248] 12635,-6873 1920x1080 fill=img:0b9100ad
+Info HUD [component 75:652] -5301,4426 89x43
+  JOUR 01 [text 75:648] 10,10 69x23 fill=#ffffff text="JOUR 01"
+Info HUD [instance 75:653] -5274,4540 89x43 props={"Texte":"JOUR 01"}
+Info HUD [instance 75:655] -5147,4540 97x43 props={"Texte":"08:28 AM"}
+08:28 AM [text 75:650] -4947,4528 77x23 fill=#ffffff text="08:28 AM"
+Ecran -  [frame 79:700] -8091,4422 1920x1080 fill=#ffffff
