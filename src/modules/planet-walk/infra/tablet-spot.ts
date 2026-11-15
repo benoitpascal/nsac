@@ -22,7 +22,9 @@ export const takeTabletSpot = (): TabletSpot | undefined => {
     if (
       typeof spot === 'object' &&
       spot !== null &&
-      ['x', 'z', 'heading'].every((key) => typeof (spot as Record<string, unknown>)[key] === 'number')
+      ['x', 'z', 'heading'].every(
+        (key) => typeof (spot as Record<string, unknown>)[key] === 'number',
+      )
     )
       return spot as TabletSpot;
   } catch {

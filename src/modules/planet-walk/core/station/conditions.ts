@@ -26,8 +26,7 @@ export const WORLD_CONDITIONS: Record<WalkWorldId, WorldConditions> = {
     // A lunar day lasts one synodic month (29.53 days). At the sub-Earth point midnight falls at
     // new Moon; the base, 23.47° further east, gets its midnight that share of a month earlier.
     solarDayHours: SYNODIC_HOURS,
-    midnightMs:
-      NEW_MOON_MS - (LUNAR_SITE.longitudeDegrees / 360) * SYNODIC_HOURS * 3_600_000,
+    midnightMs: NEW_MOON_MS - (LUNAR_SITE.longitudeDegrees / 360) * SYNODIC_HOURS * 3_600_000,
     dayCelsius: 120,
     nightCelsius: -170,
     sunlightWm2: 1361,
