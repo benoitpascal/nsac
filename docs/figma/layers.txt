@@ -1,5 +1,5 @@
 # Project Arcadia — every layer of the Figma file "PROJECT-ARCADIA", page "Page 1".
-# Export of 2026-11-15 (synced from the Figma file, 939 layers). One line per layer, children indented by two spaces.
+# Export of 2026-11-15 (synced from the Figma file, 983 layers). One line per layer, children indented by two spaces.
 # Format: <layer name> [<type> <node id>] <x>,<y> <width>x<height> [HIDDEN] [op=<opacity>] [fill=…] [text="…"] [props={…}] [→ prototype interactions]
 # - Top-level positions are canvas coordinates; child positions are relative to their parent frame.
 # - fill: #hex/alpha, img:<first 8 chars of the Figma image hash>, video, gradient_*(stops).
@@ -340,7 +340,15 @@ Ecran - selection acte [component_set 63:1074] -10761,4471 1959x2489
     Planet [instance 63:1490] 1550,0 369x179 props={"Propriété 1":"MOON"}
     Vector 12 [vector 63:1491] 142,179 1776x0
 Ecran - selection acte [instance 63:1316] -6583,2447 1919x1080 fill=#0b0f1c props={}
-Frame 26 [frame 63:1911] -5366,5715 915x53
+Ecran - Bandeau [component 79:707] -7889,6093 1919x140
+  Mask group [group 63:1809] 0,0 1919x140
+  Logotype [instance 63:1832] 60,32 163x77 props={"Propriété 1":"Light"}
+  Planet [instance 63:1833] 1550,0 369x141 props={"Propriété 1":"MOON"}
+  Vector 12 [vector 63:1834] 142,140 1776x0
+  Frame 29 [frame 79:744] 1589,43 272x50
+    Info HUD [instance 79:736] 0,0 112x50 props={"Texte":"JOUR 01"}
+    Info HUD [instance 79:740] 149,0 123x50 props={"Texte":"08:28 AM"}
+Frame 26 [frame 63:1911] -7536,4272 915x53
   Frame 23 [frame 63:1912] 0,0 915x18
     Avancée de la mission principale [text 63:1913] 0,0 411x18 fill=#ffffff text="Avancée de la mission principale"
     10% [text 63:1914] 868,0 47x18 fill=#ffffff text="10%"
@@ -348,7 +356,7 @@ Frame 26 [frame 63:1911] -5366,5715 915x53
     Rectangle 18 [rectangle 63:1916] 0,0 65x20 fill=#41acf5
     Rectangle 19 [rectangle 63:1917] 65,0 851x20 fill=#0e1934
 image 22 [rectangle 66:626] 14650,-8111 1920x1080 fill=img:c635409e
-image 23 [vector 66:1017] -3558,5100 1435x807 fill=img:9277194c
+image 23 [vector 66:1017] -5864,4781 1435x807 fill=img:9277194c
 Frame 25 [frame 63:1910] -2990,5217 500x29
   Frame 23 [frame 63:1908] 0,0 500x10
     Avancée de la mission principale [text 63:1601] 0,0 225x10 fill=#ffffff text="Avancée de la mission principale"
@@ -362,9 +370,18 @@ Icon-direction [component 63:1923] -1950,4781 24x24
 Rectangle 20 [rectangle 75:647] -3632,4224 327x241 fill=#d9d9d9
 image 25 [rectangle 66:1245] 12635,-8148 1920x1080 fill=img:0c0c23ec
 image 26 [rectangle 66:1248] 12635,-6873 1920x1080 fill=img:0b9100ad
-Info HUD [component 75:652] -5301,4426 89x43
-  JOUR 01 [text 75:648] 10,10 69x23 fill=#ffffff text="JOUR 01"
-Info HUD [instance 75:653] -5274,4540 89x43 props={"Texte":"JOUR 01"}
-Info HUD [instance 75:655] -5147,4540 97x43 props={"Texte":"08:28 AM"}
+Info HUD [component 75:652] -5301,4426 112x50
+  JOUR 01 [text 75:648] 10,10 92x30 fill=#ffffff text="JOUR 01"
+Info HUD [instance 75:653] -5274,4540 112x50 props={"Texte":"JOUR 01"}
+Info HUD [instance 75:655] -5147,4540 123x50 props={"Texte":"08:28 AM"}
 08:28 AM [text 75:650] -4947,4528 77x23 fill=#ffffff text="08:28 AM"
-Ecran -  [frame 79:700] -8091,4422 1920x1080 fill=#ffffff
+Ecran - Dashboard [frame 79:700] -8091,4422 1920x1080 fill=gradient_linear(#0b0f1c>#141c33)
+  Frame 28 [frame 79:705] 854,1080 854x904
+    Ellipse 6 [ellipse 79:706] 267,-650 1352x1352 op=13% fill=#5973cd
+  Robot 1 [rectangle 79:701] 104,305 457x682 fill=img:52b6db2c
+  Frame 27 [frame 79:704] 1230,0 690x472
+    Ellipse 6 [ellipse 79:703] 227,-757 1102x1102 op=14% fill=#5973cd
+  Ecran - Bandeau [instance 79:708] 0,0 1919x140 props={}
+Rectangle 21 [vector 79:751] -5635,4111 48x48 fill=#35e9fd
+Rectangle 22 [vector 79:753] -5609,4111 48x48 fill=#35e9fd
+Rectangle 23 [vector 79:754] -5583,4111 48x48 fill=#35e9fd
