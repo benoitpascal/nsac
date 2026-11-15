@@ -18,6 +18,7 @@ export default defineConfig({
         dayOne: fromRoot('./day-one.html'),
         briefing: fromRoot('./briefing.html'),
         information: fromRoot('./information.html'),
+        base: fromRoot('./base.html'),
       },
     },
   },
