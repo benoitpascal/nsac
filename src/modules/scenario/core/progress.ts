@@ -20,3 +20,14 @@ export const actProgress = (act: Act, state: CampaignState) => {
   ).length;
   return Math.min(1, (before + today) / total);
 };
+
+export type Objective = { id: string; text: string; done: boolean; current: boolean };
+
+/** Today's objectives: the day's missions, ticked once played, the picked one marked current. */
+export const dayObjectives = (act: Act, state: CampaignState): Objective[] =>
+  (act.days[state.dayIndex]?.missions ?? []).map((mission) => ({
+    id: mission.id,
+    text: mission.goal,
+    done: state.doneMissionIds.includes(mission.id),
+    current: mission.id === state.missionId,
+  }));

@@ -2,8 +2,8 @@ import { el } from './dom';
 import type { BaseStores } from '../core/base-stores';
 
 const GAUGES = [
-  { key: 'air', name: 'Air', icon: 'oxygen' },
   { key: 'power', name: 'Power', icon: 'bolt' },
+  { key: 'air', name: 'Oxygen', icon: 'oxygen' },
   { key: 'water', name: 'Water', icon: 'drop' },
   { key: 'food', name: 'Food', icon: 'food' },
 ] as const;

@@ -7,6 +7,7 @@ import { requireElement } from '@/shared/dom';
 const band = createTerminalBand(
   {
     day: requireElement<HTMLElement>('#band-day'),
+    sun: requireElement<HTMLElement>('#band-sun'),
     time: requireElement<HTMLTimeElement>('#band-time'),
     progress: requireElement<HTMLElement>('#mission-progress'),
     progressValue: requireElement<HTMLElement>('#mission-progress-value'),

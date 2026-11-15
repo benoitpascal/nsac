@@ -4,7 +4,6 @@ import {
   confirmLoadout,
   continueAfterDebrief,
   currentMission,
-  dayDate,
   finishAcademy,
   missionsLeft,
   newCampaign,
@@ -99,7 +98,7 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
       );
     if (state.stage === 'debrief') return showDebrief(mission);
     side.replaceChildren(
-      renderDashboard(state, dayDate(state), mission, {
+      renderDashboard(state, deps.act, {
         launch,
         explore: () => deps.navigate(EXPLORE_PAGE),
         newGame: restart,
