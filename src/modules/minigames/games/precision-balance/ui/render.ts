@@ -1,4 +1,4 @@
-import { isLevelSolved, tiltDegrees } from '../core/torque';
+import { isBalanced, isLevelSolved, tiltDegrees } from '../core/torque';
 import { sameHook } from '../core/types';
 import { createWeightElement } from './weight.view';
 import type { BalanceElements } from './layout';
@@ -26,6 +26,16 @@ const renderLevels = (elements: BalanceElements, session: Session) =>
     level.classList.toggle(`${PREFIX}-level--current`, index === session.levelIndex);
   });
 
+/** What to do next: a level is only solved when every weight hangs and the arm is level. */
+const hintFor = (session: Session) => {
+  const inTray = session.weights.some((weight) => weight.hook === null);
+  const level = isBalanced(session.weights);
+  if (!inTray) return level ? 'Level! Well done.' : 'The arm tilts. Move a weight to level it.';
+  return level
+    ? 'Level, but weights are still in the tray. Hang them all!'
+    : 'Drag the orange weights onto the arm. Grey ones are fixed.';
+};
+
 /** Shows the session: tilt of the arm, hung weights, tray, level dots and the level glow. */
 export const renderSession = (
   elements: BalanceElements,
@@ -40,5 +50,6 @@ export const renderSession = (
   );
   elements.root.classList.toggle(`${PREFIX}-root--selecting`, selected !== null);
   elements.stage.classList.toggle(`${PREFIX}-stage--level`, isLevelSolved(session.weights));
+  elements.hint.textContent = hintFor(session);
   renderLevels(elements, session);
 };
