@@ -16,6 +16,7 @@
     />
     <link rel="stylesheet" href="/src/styles.css" />
     <link rel="stylesheet" href="/src/day-one.css" />
+    <link rel="stylesheet" href="/src/solar-alert.css" />
     <link rel="stylesheet" href="/src/status-card.css" />
   </head>
   <body class="arcadia arcadia--day-one">
@@ -48,6 +49,30 @@
         <span class="pill-button__label">Continue</span>
       </a>
     </main>
+
+    <div id="solar-alert" class="solar-alert" role="alertdialog" aria-labelledby="solar-alert-title" hidden>
+      <section class="solar-alert__panel">
+        <p class="solar-alert__tag">⚠ Alert</p>
+        <h2 id="solar-alert-title" class="solar-alert__title">Intense solar activity detected</h2>
+        <p class="solar-alert__text">
+          A solar storm is coming. Its fast particles are a kind of radiation: they can harm the crew and stop all
+          work outside.
+        </p>
+        <p class="solar-alert__shelter" data-for="optimal">Good thing your shelter is ready!</p>
+        <p class="solar-alert__shelter" data-for="partial">Your shelter is ready, just about.</p>
+        <p class="solar-alert__shelter" data-for="failed">Your shelter is not finished…</p>
+        <p class="solar-alert__shelter" data-for="none">The base has no shelter yet…</p>
+        <p class="solar-alert__source">
+          Based on real solar storms recorded by NASA, like the one seen on 10 September 2017 (archived data):
+          <a href="https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/13101/-1" target="_blank" rel="noopener">NASA DONKI</a>.
+        </p>
+      </section>
+      <section class="solar-alert__end">
+        <p class="solar-alert__soon">To be continued…</p>
+        <p class="solar-alert__teaser">Continue your mission in the full version of the game.</p>
+        <a class="pill-button" href="/"><span class="pill-button__label">Back to home</span></a>
+      </section>
+    </div>
     <script type="module" src="/src/day.ts"></script>
   </body>
 </html>

@@ -16,6 +16,25 @@ export type DayTitleElements = {
   crew: HTMLElement;
   date: HTMLElement;
   next: HTMLAnchorElement;
+  alert: HTMLElement;
+};
+
+/** Sounds a short alarm: two alternating tones, quiet enough not to startle. */
+const soundAlarm = () => {
+  try {
+    const audio = new AudioContext();
+    const tone = audio.createOscillator();
+    const volume = audio.createGain();
+    volume.gain.value = 0.08;
+    tone.type = 'square';
+    for (let beep = 0; beep < 6; beep += 1)
+      tone.frequency.setValueAtTime(beep % 2 ? 660 : 880, audio.currentTime + beep * 0.35);
+    tone.connect(volume).connect(audio.destination);
+    tone.start();
+    tone.stop(audio.currentTime + 2.1);
+  } catch {
+    // No sound available: the alert still shows.
+  }
 };
 
 const dateFormat = new Intl.DateTimeFormat('en-GB', {
@@ -51,7 +70,13 @@ export const showDayTitle = (
   elements.sun.textContent = isDaytime(share) ? 'daylight' : 'night';
   elements.crew.textContent = `${STATION.crew} / ${STATION.crew}`;
   elements.date.textContent = dateFormat.format(date);
-  elements.next.addEventListener('click', () => {
-    if (ending) save(startNextDay(state, act));
+  const next = ending ? startNextDay(state, act) : state;
+  elements.next.addEventListener('click', (event) => {
+    if (ending) save(next);
+    if (!act.days[index]?.alert) return;
+    event.preventDefault();
+    soundAlarm();
+    elements.alert.dataset.shelter = next.shelterQuality ?? 'none';
+    elements.alert.hidden = false;
   });
 };

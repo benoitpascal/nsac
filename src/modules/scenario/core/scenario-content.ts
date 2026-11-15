@@ -66,6 +66,8 @@ export type Day = {
   missions: Mission[];
   planning?: boolean;
   closing: 'printer' | 'night';
+  /** A solar storm alert raised on this day's title screen, which ends the demo. */
+  alert?: boolean;
 };
 
 export type Act = { id: string; days: Day[]; ending: GuidePage[] };

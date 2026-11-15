@@ -14,6 +14,7 @@ showDayTitle(
     crew: requireElement('#day-crew'),
     date: requireElement('#day-date'),
     next: requireElement<HTMLAnchorElement>('#day-next'),
+    alert: requireElement<HTMLElement>('#solar-alert'),
   },
   state,
   MOON_ACT,

@@ -1,0 +1,151 @@
+/* Day 3 solar alert: red warning over the base, then fade to black and « To be continued ». */
+
+.solar-alert {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(60, 4, 14, 0.55);
+  animation: solar-alert-pulse 1s ease-in-out 6 alternate;
+}
+
+.solar-alert[hidden] {
+  display: none;
+}
+
+.solar-alert__panel {
+  max-width: 44rem;
+  padding: 32px 40px;
+  border: 2px solid var(--arcadia-danger);
+  color: var(--arcadia-text);
+  background: rgba(20, 8, 16, 0.92);
+  box-shadow: 0 0 40px rgba(237, 95, 121, 0.45);
+  font-family: var(--arcadia-font-body);
+  animation: solar-alert-shake 0.4s ease-in-out 3;
+}
+
+.solar-alert__tag {
+  margin: 0;
+  color: var(--arcadia-danger);
+  font-family: var(--arcadia-font);
+  font-size: 28px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.solar-alert__title {
+  margin: 4px 0 16px;
+  font-family: var(--arcadia-font);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.solar-alert__text,
+.solar-alert__shelter {
+  margin: 0 0 12px;
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+.solar-alert__shelter {
+  display: none;
+  font-weight: 500;
+}
+
+.solar-alert[data-shelter='optimal'] [data-for='optimal'],
+.solar-alert[data-shelter='partial'] [data-for='partial'],
+.solar-alert[data-shelter='failed'] [data-for='failed'],
+.solar-alert[data-shelter='none'] [data-for='none'] {
+  display: block;
+}
+
+.solar-alert__source {
+  margin: 16px 0 0;
+  color: var(--arcadia-ink-muted);
+  font-size: 15px;
+}
+
+.solar-alert__source a {
+  color: var(--arcadia-accent);
+}
+
+/* After the alert, the screen fades to black and the end card comes up. */
+.solar-alert::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  animation: solar-alert-fade 2s ease-in 7s forwards;
+}
+
+.solar-alert__end {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  gap: 16px;
+  place-content: center;
+  justify-items: center;
+  padding: 16px;
+  color: var(--arcadia-text);
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  animation: solar-alert-end 1.5s ease-out 9s forwards;
+}
+
+.solar-alert__soon {
+  margin: 0;
+  font-family: var(--arcadia-font);
+  font-size: clamp(56px, 9vw, 140px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.solar-alert__teaser {
+  margin: 0 0 16px;
+  font-size: 22px;
+}
+
+@keyframes solar-alert-pulse {
+  to {
+    background: rgba(120, 10, 30, 0.7);
+  }
+}
+
+@keyframes solar-alert-shake {
+  25% {
+    transform: translateX(-6px);
+  }
+
+  75% {
+    transform: translateX(6px);
+  }
+}
+
+@keyframes solar-alert-fade {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes solar-alert-end {
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solar-alert,
+  .solar-alert__panel {
+    animation: none;
+  }
+}

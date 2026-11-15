@@ -60,7 +60,7 @@ export const MOON_ACT: Act = {
         },
       ],
     },
-    { title: 'Day three', opening: [], closing: 'night', missions: [] },
+    { title: 'Day three', opening: [], closing: 'night', missions: [], alert: true },
   ],
   ending: MOON_ENDING,
 };
