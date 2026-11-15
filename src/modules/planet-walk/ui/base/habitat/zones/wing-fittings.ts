@@ -1,6 +1,6 @@
 import { DoubleSide, MeshStandardMaterial, PointLight } from 'three';
 import { MODULE } from '../habitat-dimensions';
-import { bulkhead } from '../habitat-hull';
+import { bulkhead } from '../bulkhead';
 import { hatchFrame } from '../habitat-hull-details';
 
 const WALL_COLOR = 0xeeeeea;

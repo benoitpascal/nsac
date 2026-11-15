@@ -9,6 +9,9 @@ export const HUB = {
   roof: 0.25,
 };
 
+/** The upper storey on the hall's roof (m): its walls, its sloping top, its trim and light bars. */
+export const STOREY = { height: 2.4, cap: 0.8, capShrink: 0.8, trim: 0.22 };
+
 /** Half the angle a doorway takes in the round wall, seen from the center. */
 export const DOOR_HALF_ANGLE = Math.asin(HATCH.width / 2 / HUB.radius);
 
@@ -36,20 +39,23 @@ const wallPosts = (): HabitatBlock[] =>
     return { x, z, width: POST, depth: POST, bottom, top: HUB.height };
   });
 
-const roof = (width: number, depth: number): HabitatBlock => ({
-  x: 0,
-  z: 0,
-  width,
-  depth,
-  bottom: HUB.height,
-  top: HUB.height + HUB.roof,
-});
+/** A cross of two boxes covering the octagon, between the given heights (m). */
+const octagonCover = (bottom: number, top: number): HabitatBlock[] =>
+  [
+    [2 * HUB.radius, ROOF_SHORT_SIDE],
+    [ROOF_SHORT_SIDE, 2 * HUB.radius],
+  ].map(([width, depth]) => ({ x: 0, z: 0, width, depth, bottom, top }));
 
-/** Collision boxes of the round hall: its wall with four doorways, its flat roof and its console. */
+const ROOF_TOP = HUB.height + HUB.roof;
+
+/**
+ * Collision boxes of the hall: its wall with four doorways, its flat roof, the upper storey standing
+ * on it, and its console.
+ */
 export const HUB_BLOCKS: HabitatBlock[] = [
   ...wallPosts(),
-  roof(2 * HUB.radius, ROOF_SHORT_SIDE),
-  roof(ROOF_SHORT_SIDE, 2 * HUB.radius),
+  ...octagonCover(HUB.height, ROOF_TOP),
+  ...octagonCover(ROOF_TOP, ROOF_TOP + STOREY.height + STOREY.cap),
   { x: 0, z: 0, width: CONSOLE.size, depth: CONSOLE.size, bottom: 0, top: CONSOLE.height },
 ];
 
