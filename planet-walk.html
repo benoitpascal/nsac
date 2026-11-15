@@ -12,10 +12,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;700&display=swap"
     />
     <link rel="stylesheet" href="/src/pages.css" />
-    <link rel="stylesheet" href="/src/mission.css" />
   </head>
   <body>
     <main class="planet-walk-page" aria-label="Planet walk">
@@ -23,20 +22,62 @@
       <div class="planet-walk__aim" aria-hidden="true"></div>
     </main>
 
-    <a id="walk-back" class="page-link" href="/">Back</a>
-    <aside id="mission-panel" class="mission-panel" aria-labelledby="mission-panel-title" aria-live="polite" hidden>
-      <h2 id="mission-panel-title" class="mission-panel__title">Day 01 · Today's goals</h2>
-      <ul class="mission-panel__list"></ul>
-    </aside>
-    <dialog id="mission-end" class="mission-end" aria-labelledby="mission-end-title">
-      <h2 id="mission-end-title" class="mission-end__title"></h2>
-      <p class="mission-end__text"></p>
-      <div class="mission-end__actions"></div>
-    </dialog>
-    <aside id="walk-facts" class="walk-facts" aria-label="Gravity" aria-live="polite"></aside>
+    <a class="page-link walk-link" href="/briefing.html">Station dashboard</a>
+    <!-- Outdoor HUD, after the Figma reference « image 18 » (docs/figma/references/image-16.webp). -->
+    <header class="walk-topbar">
+      <a class="walk-topbar__logo" href="/"><img src="/arcadia/logotype.svg" alt="Project Arcadia, home" /></a>
+      <p class="walk-topbar__tag">Moon base</p>
+      <p class="walk-topbar__clock">
+        <span id="walk-day" class="walk-topbar__day"></span>
+        <span id="walk-sun" class="walk-topbar__sun" role="img" aria-label="Daytime"></span>
+        <span id="walk-time" class="walk-topbar__time"></span>
+      </p>
+    </header>
+
+    <div class="walk-left">
+      <section id="mission-hud" class="walk-goals" aria-labelledby="walk-goals-title" hidden>
+        <h2 id="walk-goals-title" class="walk-goals__title">
+          <img class="walk-goals__icon" src="/arcadia/icon-target.svg" alt="" />Today's goal
+        </h2>
+        <ul class="walk-goals__list"></ul>
+      </section>
+    </div>
 
     <button id="pilot-prompt" class="pilot-prompt" type="button" hidden></button>
     <p id="excavator-hud" class="excavator-hud" hidden></p>
+
+    <div id="suit-hud" class="walk-vitals" aria-label="Your suit">
+      <p class="walk-vitals__ring" aria-label="Suit battery">
+        <img class="walk-vitals__bolt" src="/arcadia/icon-bolt.svg" alt="" />
+        <span class="walk-vitals__ring-label">Energy</span>
+        <strong class="walk-vitals__ring-value" data-suit="battery">100%</strong>
+      </p>
+      <p class="walk-vitals__bar" aria-label="Suit oxygen">
+        <span class="walk-vitals__bar-label">O<sub>2</sub></span>
+        <span class="walk-vitals__track"><span class="walk-vitals__fill" data-suit-fill="oxygen"></span></span>
+        <span class="walk-vitals__bar-value" data-suit="oxygen">100%</span>
+      </p>
+    </div>
+
+    <div id="walk-hud" class="walk-hud" hidden>
+      <div class="walk-compass" aria-hidden="true">
+        <div id="walk-compass" class="walk-compass__tape"></div>
+      </div>
+      <div class="walk-map">
+        <canvas
+          id="walk-map"
+          class="walk-map__canvas"
+          width="260"
+          height="260"
+          role="img"
+          aria-label="Map around you: the yellow diamond is the dig zone, the red square the drop-off zone, the cyan dot the robot, the house the base hall"
+        ></canvas>
+        <img id="walk-map-arrow" class="walk-map__arrow" src="/arcadia/icon-direction.svg" alt="" />
+      </div>
+    </div>
+    <button id="mission-finish" class="page-link walk-link walk-link--second mission-finish" type="button" hidden>Finish mission</button>
+    <div id="rescue-fade" class="rescue-fade" aria-hidden="true"></div>
+    <p id="rescue-notice" class="rescue-notice" role="status" hidden>Your suit ran low: the crew brought you back to the base. 4 hours have passed.</p>
 
     <section id="station-dashboard" class="station-dashboard" aria-labelledby="station-dashboard-title" aria-live="polite" hidden>
       <header class="station-dashboard__header">
@@ -60,19 +101,6 @@
         <button class="touch-pad__button touch-pad__button--right" type="button" data-key="ShiftLeft" aria-label="Run">Run</button>
         <button class="touch-pad__button touch-pad__button--bottom" type="button" data-key="KeyV" aria-label="Change the view">View</button>
       </div>
-    </div>
-
-    <div class="walk-controls">
-      <div id="world-picker" class="speed-picker" role="group" aria-label="World to walk on"></div>
-      <button id="view-toggle" class="speed-picker__option" type="button" aria-pressed="false">First person</button>
-      <p class="walk-controls__help">
-        Walk with Z and S (hold Shift to run), turn with Q and D (W A S D on a QWERTY keyboard) or the arrows, jump
-        with Space. Drag the view to look around, press V to change the view. Press E at the base's airlock
-        door to go in or out, and at the terminal in the middle of the base to open the station dashboard,
-        where you can take over the excavator robot: Space digs in the grey zone and unloads in the orange
-        drop-off zone by the workshops; driving, digging and unloading drain its battery, and it stops for
-        good when the battery is empty.
-      </p>
     </div>
 
     <script type="module" src="/src/planet-walk.ts"></script>

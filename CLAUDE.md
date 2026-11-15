@@ -11,6 +11,7 @@ pnpm preview      # Serve the production build locally
 pnpm lint         # Run ESLint on src/
 pnpm type-check   # Run tsc --noEmit
 pnpm format       # Run Prettier on src/
+pnpm test         # Run the Vitest tests in tests/
 ```
 
 ## Stack
@@ -31,19 +32,25 @@ pnpm format       # Run Prettier on src/
 Pages (declared in `vite.config.ts` under `build.rolldownOptions.input`):
 
 - `index.html` (home) loads `src/styles.css` and `src/home.css`.
-- `missions.html` (act selection) loads `src/styles.css`, `src/missions.css` and `src/act-card.css`.
+- `missions.html` (act selection: objective, three planet cards, Back / Start mission; the header and background show the hovered or picked planet) loads `src/missions.ts`, `src/styles.css`, `src/missions.css` and `src/act-choice.css`; its images live in `public/arcadia/act-select/`.
 - `moon-intro.html` (Moon landing cutscene) loads `src/moon-intro.ts`, `src/styles.css` and `src/moon-intro.css`; it plays the clips of `public/game-design/` listed in `modules/moon-intro/core/intro-shots.ts`, then opens Day One.
-- `day-one.html` (Moon act intro) loads `src/styles.css`, `src/day-one.css` and `src/status-card.css`.
-- `briefing.html` (daily briefing) loads `src/styles.css`, `src/hud.css` and `src/briefing.css`.
+- `day.html` (title of the day starting, with the base conditions on the game date) loads `src/day.ts`, `src/styles.css`, `src/day-one.css` and `src/status-card.css`.
+- `mission.html` (mini-game of the current mission) loads `src/mission.ts` and `src/pages.css`.
+- `briefing.html` (base terminal, the scenario's router: the mascot's discussion — day opening and pick of a job, academy, bag, debrief, end of the day — and the dashboard when a mission is ready) loads `src/briefing.ts`, `src/styles.css`, `src/hud.css`, `src/briefing.css` and `src/guide.css`.
 - `information.html` (context, goal, how to play, controls, credits) loads `src/information.ts`, `src/styles.css`, `src/hud.css` and `src/information.css`.
-- `base.html` (Moon base management: 5 demo days, crew jobs, solar storm, end-of-act summary) loads `src/base.ts`, `src/styles.css`, `src/hud.css` and `src/base.css`.
 - `solar-system.html` loads `src/solar-system.ts`.
-- `planet-walk.html` loads `src/planet-walk.ts` and `src/mission.css`. With `?mission=day-one` (from the briefing) it plays the day one robot mission, then leads to `base.html`.
+- `planet-walk.html` loads `src/planet-walk.ts`. With `?mission=1` and a robot mission ready in the saved game, it starts at the excavator's controls.
 - `minigames.html` loads `src/minigames.ts`.
 
 `src/styles.css` holds the Project Arcadia design tokens and shared components (logotype, pill button) of the pages built from the Figma mock-ups; their images live in `public/arcadia/`. Layout sizes follow the 1920 × 1080 mock-ups through `--design-px`; buttons and cards keep fixed sizes to stay readable and tappable. `briefing.html` and `information.html` have no Figma frame: they follow the reference images « image 10 » and « image 9 », so `src/hud.css` gives them cut-corner panels, and their icons are drawn by hand in the `public/arcadia/hud-icons.svg` sprite (`currentColor`, used through `<svg><use>`). The three last pages share `src/pages.css`.
 
+`docs/figma/` holds a frozen export of the Figma file (screen and component renders, every layer in `layers.txt`, styling in `styles.txt`, variables and styles in `tokens.json`); start from its `README.md` when implementing a mock-up without Figma access.
+
 No page hardcodes the site domain: absolute URLs (share tags of `index.html`) use the `__SITE_ORIGIN__` placeholder, which `nginx/default.conf` replaces with the domain the site is served from. In `pnpm dev` / `pnpm preview` the placeholder stays as is.
+
+### Scenario
+
+`src/modules/scenario/` holds the Moon act: content (`core/act-moon.ts`, `core/moon-texts.ts`), the saved game and its stages (`core/campaign.ts`), dialogue with choices, questions and option effects (`core/dialogue.ts`), bag for outdoor missions (`core/loadout.ts`), printer and night rules (`core/printer.ts`), end-of-day dialogue (`core/day-closing.ts`), scoring and debrief (`core/scoring.ts`, `core/debrief-text.ts`), saved in `localStorage` by `infra/campaign-storage.ts`. Plan: `docs/plans/scenario-moon-act.md`. Tests: `pnpm test` (Vitest, `tests/`).
 
 ### Layers
 
@@ -114,7 +121,7 @@ _URLs à vérifier lors de l'intégration (endpoints exacts, CORS, quotas)._
 - [x] Stack et déploiement : Vite + TypeScript, servi en statique par nginx (Docker), CI/CD GitHub Actions. **Un push sur `main` déploie en prod, sur `dev` en staging** : travailler sur des branches.
 - [ ] Rendu : DOM pour la grille et l'interface ; Three.js en option pour le décor (à trancher)
 - [ ] Intégration des données (live et/ou dataset embarqué)
-- [ ] Prototype jouable : **en cours** sur la branche `scenario`. Parcours de démo de l'acte 2 (cahier global HORIZON §7) : briefing → mission robot du jour 1 (`planet-walk.html?mission=day-one`) → gestion de la base sur 5 jours (`base.html`, moteur déterministe dans `src/modules/moon-base/core/`) → bilan. Valeurs d'équilibrage dans `DATA.md`
+- [ ] Prototype jouable : **en cours**. Parcours de démo de l'acte 2 : sélection d'acte → cinématique → jour 1 (terminal de la base avec la mascotte, robot et imprimante 3D dans l'ordre choisi, impression des briques la nuit) → jour 2 (planification, construction de l'abri) → jour 3 (alerte solaire DONKI). Moteur dans `src/modules/scenario/`, valeurs dans `DATA.md`
 - [ ] Page « Sources & science » pour le jury
 - [ ] Démo / pitch
 

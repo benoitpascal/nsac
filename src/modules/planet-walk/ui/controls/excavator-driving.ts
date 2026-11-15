@@ -63,9 +63,9 @@ export const createExcavatorDriving = (setup: ExcavatorDrivingSetup) => {
       obstacles: readonly Obstacle[],
     ) => {
       const before = vehicle;
-      const drums = driven && hasCharge(store) && input.jump;
-      digging = drums && place() === 'dig' && !isFull(store);
-      const unloading = drums && place() === 'drop' && store.carriedKg > 0;
+      const spinning = driven && hasCharge(store) && input.jump;
+      digging = spinning && place() === 'dig' && !isFull(store);
+      const unloading = spinning && place() === 'drop' && store.carriedKg > 0;
       const working = digging || unloading;
       const steering = steerWith(storm.controls, input);
       if (driven && hasCharge(store))

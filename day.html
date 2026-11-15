@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Day one · Project Arcadia</title>
+    <meta name="description" content="Your first day at the Moon base." />
+    <meta name="theme-color" content="#0f3465" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400&display=swap"
+    />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <link rel="stylesheet" href="/src/day-one.css" />
+    <link rel="stylesheet" href="/src/solar-alert.css" />
+    <link rel="stylesheet" href="/src/status-card.css" />
+  </head>
+  <body class="arcadia arcadia--day-one">
+    <main class="day-one">
+      <div class="day-one__title-clip">
+        <h1 class="day-one__title" id="day-title"><span>Day</span> <span>one</span></h1>
+      </div>
+      <img class="day-one__line" src="/arcadia/day-one-line.svg" alt="" />
+      <ul class="day-one__status" aria-label="Base status">
+        <li class="status-card">
+          <span class="status-card__icon" aria-hidden="true"></span>
+          <span class="status-card__value" id="day-temperature">…</span>
+          <span class="status-card__label">Outside temperature</span>
+        </li>
+        <li class="status-card">
+          <span class="status-card__icon" aria-hidden="true"></span>
+          <span class="status-card__value" id="day-sun">…</span>
+          <span class="status-card__label">solar status</span>
+        </li>
+        <li class="status-card">
+          <span class="status-card__icon" aria-hidden="true"></span>
+          <span class="status-card__value" id="day-crew">…</span>
+          <span class="status-card__label">Crew status</span>
+        </li>
+      </ul>
+      <p class="day-one__date" id="day-date"></p>
+      <a class="pill-button day-one__next" id="day-next" href="/briefing.html">
+        <img class="pill-button__icon pill-button__icon--idle" src="/arcadia/icon-play.svg" alt="" />
+        <img class="pill-button__icon pill-button__icon--active" src="/arcadia/icon-play-active.svg" alt="" />
+        <span class="pill-button__label">Continue</span>
+      </a>
+    </main>
+
+    <div id="solar-alert" class="solar-alert" role="alertdialog" aria-labelledby="solar-alert-title" hidden>
+      <section class="solar-alert__panel">
+        <p class="solar-alert__tag">⚠ Alert</p>
+        <h2 id="solar-alert-title" class="solar-alert__title">Intense solar activity detected</h2>
+        <p class="solar-alert__text">
+          A solar storm is coming. Its fast particles are a kind of radiation: they can harm the crew and stop all
+          work outside.
+        </p>
+        <p class="solar-alert__shelter" data-for="optimal">Good thing your shelter is ready!</p>
+        <p class="solar-alert__shelter" data-for="partial">Your shelter is ready, just about.</p>
+        <p class="solar-alert__shelter" data-for="failed">Your shelter is not finished…</p>
+        <p class="solar-alert__shelter" data-for="none">The base has no shelter yet…</p>
+        <p class="solar-alert__source">
+          Based on real solar storms recorded by NASA, like the one seen on 10 September 2017 (archived data):
+          <a href="https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/13101/-1" target="_blank" rel="noopener">NASA DONKI</a>.
+        </p>
+      </section>
+      <section class="solar-alert__end">
+        <p class="solar-alert__soon">To be continued…</p>
+        <p class="solar-alert__teaser">Continue your mission in the full version of the game.</p>
+        <a class="pill-button" href="/"><span class="pill-button__label">Back to home</span></a>
+      </section>
+    </div>
+    <script type="module" src="/src/day.ts"></script>
+  </body>
+</html>

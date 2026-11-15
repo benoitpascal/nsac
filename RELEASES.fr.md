@@ -3,6 +3,16 @@
 ## [Unreleased]
 
 ### Nouveautés
+Le premier jour, vous choisissez par quelle tâche commencer : creuser le régolithe avec le robot ou calibrer l'imprimante 3D. Le soir, décidez si l'imprimante travaille la nuit pour transformer votre régolithe en briques. Cela coûte de l'électricité, et une imprimante bien calibrée fait plus de briques.
+
+L'écran de choix de l'acte fait peau neuve : de grandes cartes planète, un court objectif, et la planète que vous pointez s'affiche en haut de l'écran. Choisissez la Lune, puis appuyez sur Start mission.
+
+Une mascotte robot vous guide désormais chaque jour sur la Lune. Elle vous accueille, vous pose des questions, vous apprend comment fonctionnent de vraies machines de la NASA, vous aide à préparer votre sac, puis vous dit combien d'air, d'électricité et d'eau votre mission a coûté.
+
+Chaque journée commence par un écran titre qui montre les vraies conditions de la base à cette date. Le premier jour, c'est le jour où vous commencez à jouer.
+
+Hors de la base, surveillez l'oxygène et la batterie de votre combinaison. Courir et travailler les vident plus vite. Si l'un des deux devient trop bas, l'équipage vous ramène à l'intérieur, mais vous perdez quelques heures.
+
 Bienvenue dans Project Arcadia ! Le jeu s'ouvre désormais sur un tout nouvel écran d'accueil : un astronaute contemple la Terre, la Lune et Mars. Appuie sur « Start playing » pour choisir ton acte. La Lune est ouverte en démo, la Terre et Mars restent verrouillées pour l'instant. Choisis la Lune et assiste à ton arrivée : l'atterrisseur se pose, puis ton premier pas sur le sol poussiéreux, un regard vers la Terre qui brille dans le ciel noir, puis tu te retournes et découvres ta base. Pressé ? Appuie sur « Skip ». Vient ensuite le premier jour : le titre se lève au-dessus de la base et ses premiers relevés apparaissent, la température dehors, le soleil et l'état de ton équipage. Lis ensuite ton briefing du jour : les objectifs, ton oxygène, ton énergie, ton eau et ton régolithe (la poussière et les cailloux qui recouvrent la Lune), puis lance la mission quand tu es prêt.
 
 Nouveau sur l'écran d'accueil : un bouton « Information » raconte l'histoire de la mission, ce que tu dois faire, comment jouer, quelles touches utiliser et qui a créé le jeu.

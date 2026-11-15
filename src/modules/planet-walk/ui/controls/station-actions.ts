@@ -4,7 +4,7 @@ import type { Walker } from '../../core/walker';
 
 const ACTION_KEY = 'KeyE';
 const PROMPTS = {
-  openDashboard: 'Open the dashboard',
+  openDashboard: 'Open the station dashboard',
   closeDashboard: 'Close the dashboard',
   leaveExcavator: 'Leave the excavator',
 };
@@ -40,6 +40,10 @@ export const createStationActions = (spots: StationSpots, prompt: HTMLButtonElem
     stopDriving: () => {
       if (activity === 'driving') activity = 'walking';
     },
+    /** Hands the keys over to the excavator robot, when a mission starts. */
+    takeExcavator: () => {
+      activity = 'driving';
+    },
     /** Hands the keys over to the excavator robot, from the dashboard. */
     driveExcavator: () => {
       if (activity === 'dashboard') activity = 'driving';
@@ -48,7 +52,8 @@ export const createStationActions = (spots: StationSpots, prompt: HTMLButtonElem
     update: (walker: Walker): Walker => {
       const action = pending;
       pending = undefined;
-      if (action) activity = activityAfter(action);
+      if (action?.kind === 'openDashboard') window.location.assign('/briefing.html');
+      else if (action) activity = activityAfter(action);
       const moved = action?.kind === 'passDoor' ? passDoor(walker, action.passage) : walker;
       available = availableAction(activity, moved, spots);
       prompt.hidden = !available;

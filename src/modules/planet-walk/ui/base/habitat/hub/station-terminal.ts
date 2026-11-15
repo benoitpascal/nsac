@@ -16,7 +16,8 @@ const SCREEN = { width: 0.8, height: 0.5, tilt: 0.35, lift: 0.35, inset: 0.12 };
 const CASING_DEPTH = 0.06;
 const QUARTER_TURN = Math.PI / 2;
 /** The control center's name, shown on each side of a sign hanging above the screens (m). */
-const NAME_SIGN = { height: 3.2, distance: 0.85 };
+/** The hall's name above the terminal, on each side: narrow enough that the four do not cross. */
+const NAME_SIGN = { height: 3.2, distance: 0.85, width: 1.6 };
 
 /** A glowing screen in its dark casing, leaning back, facing +z. */
 const screenOnSide = (glow: MeshStandardMaterial, casing: MeshStandardMaterial) => {
@@ -60,7 +61,7 @@ export const createStationTerminal = () => {
   for (let side = 0; side < 4; side += 1) {
     const holder = new Group();
     holder.rotation.y = side * QUARTER_TURN;
-    const name = createZoneSign(HALL_NAME);
+    const name = createZoneSign(HALL_NAME, NAME_SIGN.width);
     name.position.set(0, NAME_SIGN.height, NAME_SIGN.distance);
     holder.add(screenOnSide(glow, casing), name);
     terminal.add(holder);

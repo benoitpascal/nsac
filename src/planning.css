@@ -1,0 +1,84 @@
+.planning {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px;
+  font-family: var(--arcadia-font-body);
+}
+
+.planning__title {
+  margin: 0;
+  font-family: var(--arcadia-font);
+  font-size: 40px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+
+.planning__cargo {
+  margin: 0;
+  color: var(--arcadia-ink-muted);
+  font-size: 18px;
+}
+
+.planning__actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plan-action {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+}
+
+.plan-action--locked {
+  opacity: 0.55;
+}
+
+.plan-action__badge {
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 6px;
+  color: #232f2a;
+  background: var(--arcadia-success);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.plan-action__title {
+  margin: 0;
+  font-family: var(--arcadia-font);
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+.plan-action__text,
+.plan-action__cost,
+.plan-action__gain,
+.plan-action__missing {
+  margin: 0;
+  font-size: 17px;
+}
+
+.plan-action__gain {
+  color: var(--arcadia-success);
+}
+
+.plan-action__missing {
+  color: var(--arcadia-danger);
+}
+
+.plan-action__launch {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.plan-action__launch:disabled {
+  cursor: not-allowed;
+}

@@ -39,7 +39,7 @@
 
 .information__tab[aria-selected='true'] {
   border-color: var(--arcadia-accent);
-  background: rgba(65, 172, 245, 0.22);
+  background: rgba(53, 233, 253, 0.22);
   box-shadow: 0 0 16px var(--arcadia-accent-soft);
 }
 

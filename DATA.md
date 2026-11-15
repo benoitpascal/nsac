@@ -15,6 +15,19 @@ This page lets judges trace every number in the game back to its source. Each ro
 
 ## Game values
 
+### Scenario (game choices, not measured values)
+
+- Base gauges start at air 100 %, power 85 %, water 60 %.
+- Bag (for missions where the astronaut goes outside): 4 slots (one tool, at least one oxygen bottle, up to 4 bottles and 3 spare robot batteries). A fully used bottle costs 3 air points; each robot charge of 0.03 kWh used costs 4 power points; every 10 kg of regolith delivered brings 1 water point (ice in the regolith).
+- Drums: standard 1 kg/s at 0.9 kW, wide 1.6 kg/s at 1.4 kW.
+- Excavator mission: driven by remote control from inside the base, so no bag and no suit air; goal 50 kg; each robot charge of 0.03 kWh used costs 4 power points; efficient at 3 power points or below.
+- Printer calibration (laser mirrors mini-game): 2 power points plus 0.1 per missing score point; efficient from a score of 70. The score sets the printer quality: optimal (≥ 70), partial (≥ 40), failed (below), as in the validated scenario.
+- Printing bricks at the end of day one (player's choice): 20 power points; 1 brick per 10 kg of regolith, times 100 % / 60 % / 30 % for an optimal / partial / failed calibration; the rest of the regolith is wasted. Keeping the regolith costs nothing but gives no bricks.
+- Night: 5 points of air, power and water every night.
+- Suit: oxygen drains 0.28 %/s at rest with one bottle (×1.6 walking, ×2.6 running, ×2 busy, +10 % per extra item, divided by the number of bottles); battery 0.12 %/s × effort; both refill 8 %/s inside. Rescue at 9 %, costing 4 hours.
+- Day screens use the base's local-time model (`planet-walk/core/station/local-time.ts`, NASA fact-sheet extremes +120 °C / −170 °C): day one is the date the game started, day N is N − 1 days later.
+
+
 | Game element | In-game value | Real value + source | Status | Why simplified |
 |---|---|---|---|---|
 | Mission time scale | _TBD_ | Real events span days to months | Simplified | Real DONKI dates are compressed into a few minutes of play |
@@ -24,7 +37,6 @@ This page lets judges trace every number in the game back to its source. Each ro
 | Moon act length | 5 demo days out of a 30-day campaign | No crewed Moon stay has lasted more than about 75 h (Apollo 17); 30 days is a scenario hypothesis from the HORIZON design book | Invented | The design book asks for 5–7 representative days in the demo |
 | Base crew needs per day | 6 people: 5 kg oxygen, 11 kg food | 0.84 kg O₂ and 1.8 kg food per person per day (same NASA life-support figures as the planet-walk station), × 6, rounded | Simplified | Rounded so children can add them up |
 | Base power | Battery 200 kWh, base uses 150 kWh/day, panels make 220 kWh/day (50 kWh on the day 2 shadow) | No real base; south-pole lighting depends on relief, as the design book notes | Invented | Balancing: power is the main limit on how many astronauts can work |
-| Jobs (lab, greenhouse, oxygen machine, solar panels) | Power cost and yield per astronaut-day in `src/modules/moon-base/core/jobs.ts`; experts give more | Not from NASA data. The oxygen machine stands for water electrolysis; water is not tracked | Invented | Tuned by simulation (`endDay` over every job combination, beam search): best plan about 150 points; simple steady plans 96–112; all-lab plans run out of oxygen and food on day 5 |
 | Knowledge needed for Mars | 100 points, checked when the ship leaves after day 5 | No real equivalent | Invented | A steady balanced plan wins (112), a too careful one just misses (96) |
 | Fatigue | +1 per working day, −2 per rest day, exhausted at 4; no rest in the cramped storm shelter | No NASA scale | Invented | Forces rest days and rotation, and keeps the storm from being a free rest day |
 | Day 4 solar storm | Based on DONKI episode EP-2017-09-10 (SEP seen by GOES and SOHO, 10 Sep 2017) | Real archived event observed near Earth; told in game as "imagined here reaching your base" | Real archived, effect simplified | Sheltering stops all work except a regolith-shielded lab; staying out sends the whole crew to rest the next day (radiation dose). No dose is computed |
@@ -42,6 +54,8 @@ This page lets judges trace every number in the game back to its source. Each ro
 | Moon walk: jump wind-up and landing | The legs bend for 0.25 s before a jump leaves the ground; landing bends them deeper the faster the astronaut comes down, longer under weaker gravity | Real jumps start with a knee bend and end with one; Apollo suits limited how far the knees bent | Simplified | Timings and depths tuned by eye; take-off speed (3 m/s) unchanged, so jump height and time in the air stay the same |
 | Moon walk: crew lander | Two-stage lander: gold-foil descent stage on four legs, faceted silver cabin on top | Look taken from the game's intro video, close to Apollo's Lunar Module; NASA's real Artemis III lander is SpaceX's Starship HLS, a tall steel ship (source link to verify) | Simplified | Shapes and sizes drawn by eye to match the intro, not a model of a real lander |
 | Moon walk: astronaut's suit | Apollo-style suit: dusty cloth, gold sun visor, dark gloves, chest control unit, tall backpack | Look taken from the game's intro video, close to the Apollo A7L suit | Simplified | Drawn from simple shapes, not a model of a real suit |
+| Moon walk: HUD compass | Heading tape N, NE, E… with « north » = the way the astronaut faces at the start | The Moon has no global magnetic field, so a magnetic compass would not work there; at the south pole almost every way is « north » | Invented | Game convention so the kids can talk about directions; not the Moon's true north |
+| Moon walk: HUD energy and O₂ | Energy ring = suit battery, O₂ bar = suit oxygen (the mock-up's water and food bars are left out: the suit does not model them) | Real suits track oxygen and battery among other consumables | Simplified | Keeps the HUD to the resources the game simulates |
 | _TBD_ | | | | |
 
 ## Facts shown to players (verified 2026-11-13)

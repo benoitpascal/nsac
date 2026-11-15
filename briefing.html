@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Daily briefing · Project Arcadia</title>
+    <title>Base terminal · Project Arcadia</title>
     <meta name="description" content="Your orders for the day at the Moon base." />
     <meta name="theme-color" content="#121d3b" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -17,109 +17,19 @@
     <link rel="stylesheet" href="/src/styles.css" />
     <link rel="stylesheet" href="/src/hud.css" />
     <link rel="stylesheet" href="/src/briefing.css" />
+    <link rel="stylesheet" href="/src/guide.css" />
+    <link rel="stylesheet" href="/src/planning.css" />
   </head>
   <body class="arcadia arcadia--hud">
     <div class="hud">
       <header class="hud__header">
         <a class="logotype hud__logotype" href="/"><img src="/arcadia/logotype.svg" alt="Project Arcadia, home" /></a>
-        <h1 class="hud__title">Daily briefing</h1>
+        <h1 class="hud__title">Base terminal</h1>
         <p class="hud__tag">Act II · Moon</p>
       </header>
 
-      <main class="briefing">
-        <div class="hud-panel briefing__picture">
-          <img src="/arcadia/day-one-background.png" alt="The Moon base, with its domes, greenhouse and solar panels" />
-        </div>
-
-        <section class="hud-panel briefing__orders" aria-labelledby="briefing-title">
-          <div class="briefing__day">
-            <p class="briefing__day-label">
-              <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#calendar" /></svg>
-              Day <span class="briefing__day-number">01</span>
-            </p>
-            <p class="briefing__place">Moon base · Sector Alpha</p>
-          </div>
-
-          <h2 id="briefing-title" class="briefing__title">Briefing</h2>
-          <p class="briefing__text">
-            Your crew has landed. Finish setting up the base and gather what it needs, so it can keep going on its
-            own.
-          </p>
-
-          <div class="briefing__panels">
-            <section class="hud-panel" aria-labelledby="objectives-title">
-              <h3 id="objectives-title" class="hud-panel__heading">
-                <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#target" /></svg>
-                Today's goals
-              </h3>
-              <ul class="objectives">
-                <li class="objective objective--done">
-                  <span class="objective__box">
-                    <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#check" /></svg>
-                  </span>
-                  <span><span class="objective__verb">Send out</span> the digging robot.</span>
-                  <span class="visually-hidden">(done)</span>
-                </li>
-                <li class="objective">
-                  <span class="objective__box"></span>
-                  <span>
-                    Collect 50 kg of regolith.
-                    <small class="objective__hint">Regolith is the dust and broken rock that covers the Moon.</small>
-                  </span>
-                </li>
-                <li class="objective">
-                  <span class="objective__box"></span>
-                  <span>Check the oxygen level at the station terminal.</span>
-                </li>
-              </ul>
-            </section>
-
-            <section class="hud-panel" aria-labelledby="resources-title">
-              <h3 id="resources-title" class="hud-panel__heading">
-                <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#cube" /></svg>
-                Resources
-              </h3>
-              <ul class="resources">
-                <li class="resource" style="--level: 0%">
-                  <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#rock" /></svg>
-                  <span class="resource__name">Regolith</span>
-                  <span class="resource__value">0 / 50 kg</span>
-                  <span class="resource__bar" role="meter" aria-label="Regolith" aria-valuenow="0" aria-valuemin="0" aria-valuemax="50"></span>
-                </li>
-                <li class="resource" style="--level: 100%">
-                  <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#oxygen" /></svg>
-                  <span class="resource__name">Oxygen</span>
-                  <span class="resource__value">100 %</span>
-                  <span class="resource__bar" role="meter" aria-label="Oxygen" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></span>
-                </li>
-                <li class="resource" style="--level: 85%">
-                  <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#bolt" /></svg>
-                  <span class="resource__name">Power</span>
-                  <span class="resource__value">85 %</span>
-                  <span class="resource__bar" role="meter" aria-label="Power" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></span>
-                </li>
-                <li class="resource" style="--level: 60%">
-                  <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#drop" /></svg>
-                  <span class="resource__name">Water</span>
-                  <span class="resource__value">60 %</span>
-                  <span class="resource__bar" role="meter" aria-label="Water" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></span>
-                </li>
-              </ul>
-            </section>
-          </div>
-        </section>
-      </main>
-
-      <footer class="hud__footer">
-        <a class="hud-back" href="/day-one.html">
-          <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#back" /></svg>
-          Back
-        </a>
-        <a class="hud-action" href="/planet-walk.html?mission=day-one">
-          <svg class="hud-icon" aria-hidden="true"><use href="/arcadia/hud-icons.svg#chevrons" /></svg>
-          Launch mission
-        </a>
-      </footer>
+      <main id="guide" class="guide"></main>
     </div>
+    <script type="module" src="/src/briefing.ts"></script>
   </body>
 </html>

@@ -3,6 +3,16 @@
 ## [Unreleased]
 
 ### What's new
+On day one, you choose which job to start with: digging regolith with the robot, or tuning the 3D printer. At the end of the day, decide whether the printer works overnight to turn your regolith into bricks. It costs power, and a well-tuned printer makes more bricks.
+
+The act selection screen has a new look: big planet cards, a short objective, and the planet you point at shows up at the top of the screen. Pick the Moon, then press Start mission.
+
+A friendly robot mascot now guides you through each day on the Moon. It welcomes you, asks you questions, teaches you how real NASA machines work, helps you pack your bag, then tells you how much air, power and water your mission cost.
+
+Each day starts with its own title card showing the real conditions at the base on that date. Day one is the day you start playing.
+
+Outside the base, watch your suit's oxygen and battery. Running and working use them faster. If one gets too low, the crew brings you back inside, but you lose a few hours.
+
 Welcome to Project Arcadia! The game now opens on a brand-new home screen: an astronaut gazes at the Earth, the Moon and Mars. Press « Start playing » to choose your act. The Moon is open as a demo, while Earth and Mars are still locked for now. Pick the Moon and watch your landing: the lander touches down, then your first step on the dusty ground, a look back at the Earth shining in the black sky, then you turn around and discover your base. Short on time? Press « Skip ». Then comes Day One: the title rises over the base and its first readings appear, the temperature outside, the sunlight and how your crew is doing. Then read your daily briefing: today's goals, your oxygen, power, water and regolith (the dust and broken rock that covers the Moon), and launch the mission when you are ready.
 
 New on the home screen: an « Information » button tells you the story of the mission, what you have to do, how to play, which keys to use and who made the game.
