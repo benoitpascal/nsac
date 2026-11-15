@@ -1,13 +1,21 @@
 import { isBalanced, isLevelSolved, tiltDegrees } from '../core/torque';
 import { sameHook } from '../core/types';
+import { renderHelp } from './help.view';
 import { createWeightElement } from './weight.view';
+import type { Hint } from '../core/hint';
 import type { BalanceElements } from './layout';
 import type { Session } from '../core/session';
 
 const PREFIX = 'mg-precision-balance';
 
-const renderHooks = (elements: BalanceElements, session: Session, selected: number | null) => {
+const renderHooks = (
+  elements: BalanceElements,
+  session: Session,
+  selected: number | null,
+  hint: Hint | null,
+) => {
   elements.hooks.forEach(({ hook, element }) => {
+    element.classList.toggle(`${PREFIX}-hook--hint`, hint !== null && sameHook(hint.hook, hook));
     const label = document.createElement('span');
     label.className = `${PREFIX}-hook-label`;
     label.textContent = String(hook.distance);
@@ -15,7 +23,12 @@ const renderHooks = (elements: BalanceElements, session: Session, selected: numb
     const string = document.createElement('span');
     string.className = `${PREFIX}-string`;
     const hanging =
-      weight === undefined ? [] : [string, createWeightElement(weight, weight.id === selected)];
+      weight === undefined
+        ? []
+        : [
+            string,
+            createWeightElement(weight, weight.id === selected, weight.id === hint?.weightId),
+          ];
     element.replaceChildren(label, ...hanging);
   });
 };
@@ -36,20 +49,26 @@ const hintFor = (session: Session) => {
     : 'Drag the orange weights onto the arm. Grey ones are fixed.';
 };
 
-/** Shows the session: tilt of the arm, hung weights, tray, level dots and the level glow. */
+/**
+ * Shows the session: tilt of the arm, hung weights, tray, level dots, the level glow, the Hint
+ * button once it is allowed and the hint being shown, if any.
+ */
 export const renderSession = (
   elements: BalanceElements,
   session: Session,
   selected: number | null,
+  hint: Hint | null,
 ) => {
   elements.beam.style.setProperty(`--${PREFIX}-angle`, `${tiltDegrees(session.weights)}deg`);
-  renderHooks(elements, session, selected);
+  renderHooks(elements, session, selected, hint);
   const trayWeights = session.weights.filter((weight) => weight.hook === null);
   elements.tray.replaceChildren(
-    ...trayWeights.map((weight) => createWeightElement(weight, weight.id === selected)),
+    ...trayWeights.map((weight) =>
+      createWeightElement(weight, weight.id === selected, weight.id === hint?.weightId),
+    ),
   );
   elements.root.classList.toggle(`${PREFIX}-root--selecting`, selected !== null);
   elements.stage.classList.toggle(`${PREFIX}-stage--level`, isLevelSolved(session.weights));
-  elements.hint.textContent = hintFor(session);
+  renderHelp(elements, session, hint, hintFor(session));
   renderLevels(elements, session);
 };

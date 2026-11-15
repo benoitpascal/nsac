@@ -1,14 +1,16 @@
 import '../precision-balance.css';
 import { LEVEL_COUNT } from '../core/level-generator';
+import { askHint } from '../core/help';
 import { computeScore } from '../core/score';
 import { minimumMoves, nextLevel, playMove, resetLevel, startSession } from '../core/session';
 import { isLevelSolved } from '../core/torque';
 import { buildLayout } from './layout';
-import { bindPointer } from './pointer';
+import { bindControls } from './controls';
 import { renderSession } from './render';
 import type { MiniGameResult, StopGame } from '../../../core/minigame';
+import type { Hint } from '../core/hint';
+import type { Session } from '../core/session';
 import type { Hook } from '../core/types';
-import type { DropTarget } from './drop-target';
 
 /** Time (ms) the level glow stays before the next level shows up. */
 const LEVEL_PAUSE_MS = 1200;
@@ -23,50 +25,46 @@ export const startPrecisionBalance = (
   const startedAt = performance.now();
   let session = startSession(Math.random);
   let selected: number | null = null;
+  let hint: Hint | null = null;
   let pause: number | undefined;
-  const render = () => renderSession(elements, session, selected);
+  const render = () => renderSession(elements, session, selected, hint);
+  /** Shows a new state of the game, with the hint to show (none by default). */
+  const show = (next: Session, shown: Hint | null = null) => {
+    session = next;
+    hint = shown;
+    selected = null;
+    render();
+  };
   const advance = () => {
     pause = undefined;
     const next = nextLevel(session);
-    if (next !== null) {
-      session = next;
-      render();
-      return;
-    }
+    if (next !== null) return show(next);
     const seconds = (performance.now() - startedAt) / MS_PER_SECOND;
-    finish({ won: true, score: computeScore(session.moves, minimumMoves(session), seconds) });
+    const score = computeScore(session.moves, minimumMoves(session), seconds, session.hints);
+    finish({ won: true, score });
   };
   const place = (id: number, hook: Hook | null) => {
     if (pause !== undefined) return;
-    session = playMove(session, id, hook);
-    selected = null;
-    render();
+    const moved = playMove(session, id, hook);
+    show(moved, moved === session ? hint : null);
     if (isLevelSolved(session.weights)) pause = window.setTimeout(advance, LEVEL_PAUSE_MS);
   };
-  const weightOf = (id: number) => session.weights.find((weight) => weight.id === id);
-  const dropOn = (id: number, target: DropTarget) => {
-    if (target.kind === 'hook') place(id, target.hook);
-    else if (target.kind === 'tray') place(id, null);
-  };
-  bindPointer(elements.root, {
-    canGrab: (id) => pause === undefined && weightOf(id)?.locked === false,
-    onDrop: dropOn,
-    onTapTarget: (target) => {
-      if (selected !== null) dropOn(selected, target);
-    },
-    onTapWeight: (id) => {
-      const hook = weightOf(id)?.hook ?? null;
-      if (selected !== null && selected !== id && hook !== null) return place(selected, hook);
-      if (weightOf(id)?.locked !== false) return;
-      selected = selected === id ? null : id;
+  bindControls(elements.root, {
+    paused: () => pause !== undefined,
+    weights: () => session.weights,
+    selected: () => selected,
+    select: (id) => {
+      selected = id;
       render();
     },
+    place,
   });
   elements.reset.addEventListener('click', () => {
-    if (pause !== undefined) return;
-    session = resetLevel(session);
-    selected = null;
-    render();
+    if (pause === undefined) show(resetLevel(session));
+  });
+  elements.help.addEventListener('click', () => {
+    const asked = pause === undefined && hint === null ? askHint(session) : null;
+    if (asked !== null) show(asked.session, asked.hint);
   });
   render();
   return () => window.clearTimeout(pause);

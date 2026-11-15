@@ -57,6 +57,60 @@
   border-color: var(--signal-cyan);
 }
 
+.mg-precision-balance-help {
+  min-height: 3rem;
+  padding: 0 1rem;
+  border: 2px solid var(--flare-orange);
+  border-radius: 0.75rem;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.06);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.mg-precision-balance-help:hover,
+.mg-precision-balance-help:focus-visible {
+  border-color: var(--signal-cyan);
+}
+
+.mg-precision-balance-help:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.mg-precision-balance-hook--hint::after {
+  content: '';
+  position: absolute;
+  inset: -0.4rem;
+  border: 3px dashed var(--signal-cyan);
+  border-radius: 0.75rem;
+  pointer-events: none;
+  animation: mg-precision-balance-blink 1s ease-in-out infinite alternate;
+}
+
+.mg-precision-balance-weight--hint {
+  outline: 3px dashed var(--signal-cyan);
+  outline-offset: 3px;
+  animation: mg-precision-balance-blink 1s ease-in-out infinite alternate;
+}
+
+@keyframes mg-precision-balance-blink {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mg-precision-balance-hook--hint::after,
+  .mg-precision-balance-weight--hint {
+    animation: none;
+  }
+}
+
 .mg-precision-balance-stage {
   position: relative;
   height: 19rem;

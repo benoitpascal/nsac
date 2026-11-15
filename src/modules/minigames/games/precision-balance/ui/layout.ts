@@ -1,3 +1,4 @@
+import { HINT_PENALTY } from '../core/score';
 import { HOOK_DISTANCES, SIDES } from '../core/types';
 import type { Hook } from '../core/types';
 
@@ -12,6 +13,8 @@ export type BalanceElements = {
   hint: HTMLElement;
   levels: readonly HTMLElement[];
   reset: HTMLButtonElement;
+  /** Shows the next helpful move; hidden until the player has missed a few times. */
+  help: HTMLButtonElement;
 };
 
 const PREFIX = 'mg-precision-balance';
@@ -43,7 +46,12 @@ export const buildLayout = (container: HTMLElement, levelCount: number): Balance
   reset.type = 'button';
   reset.textContent = '↺';
   reset.setAttribute('aria-label', 'Reset level');
-  bar.append(...levels, reset);
+  const help = create('button', 'help');
+  help.type = 'button';
+  help.textContent = `Hint (−${HINT_PENALTY} points)`;
+  help.title = `Shows where to hang a weight. Each hint costs ${HINT_PENALTY} points.`;
+  help.hidden = true;
+  bar.append(...levels, reset, help);
   const stage = create('div', 'stage');
   const beam = create('div', 'beam');
   const hooks = SIDES.flatMap((side) =>
@@ -57,5 +65,5 @@ export const buildLayout = (container: HTMLElement, levelCount: number): Balance
   hint.setAttribute('role', 'status');
   root.append(bar, stage, hint, tray);
   container.replaceChildren(root);
-  return { root, stage, beam, hooks, tray, hint, levels, reset };
+  return { root, stage, beam, hooks, tray, hint, levels, reset, help };
 };
