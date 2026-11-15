@@ -13,6 +13,9 @@ import type { Object3D, WebGLRenderer } from 'three';
 import { createSatelliteMaterials } from '@/modules/globe/ui/bodies/satellite/satellite.materials';
 
 /** Returns where a spot given from the habitat's hall stands in the world. */
+/** Where the astronaut stands after leaving the terminal: in front of its desk, facing it (m, from the hall's center). */
+const TERMINAL_FRONT = { x: 0, z: -1.6, heading: Math.PI };
+
 const fromHall = (spot: Spot): Spot => ({
   x: BASE_SITE.x + HABITAT_SPOT.x + spot.x,
   z: BASE_SITE.z + HABITAT_SPOT.z + spot.z,
@@ -70,6 +73,7 @@ export const createSpaceBase = (renderer: WebGLRenderer) => {
   const stationSpots: StationSpots = {
     console: fromHall({ x: 0, z: 0 }),
     wakeUp: { ...fromHall(wakeUp), heading: wakeUp.heading },
+    terminalFront: { ...fromHall(TERMINAL_FRONT), heading: TERMINAL_FRONT.heading },
     passages: passages.map(({ from, to, label }) => ({
       from: fromHall(from),
       to: fromHall(to),

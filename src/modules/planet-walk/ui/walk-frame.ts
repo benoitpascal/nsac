@@ -33,6 +33,8 @@ export type FrameParts = {
   mission?: ReturnType<typeof createMissionRun>;
   map: ReturnType<typeof createWalkMap>;
   gravity: () => number;
+  /** Where the astronaut appears: woken up in the crew quarters, or in front of the terminal. */
+  startAt: 'quarters' | 'terminal';
 };
 
 const STAND_STILL = { forward: 0, run: false, turn: 0, jump: false, turnBy: 0 };
@@ -53,7 +55,8 @@ const walkerObstacle = ({ x, z, height }: Walker): Obstacle => ({
  */
 export const createWalkFrame = (parts: FrameParts) => {
   const { world, camera, keyboard, mouse, avatar, view, actions, driving } = parts;
-  let walker = startWalker(world.stationSpots.wakeUp);
+  const spots = world.stationSpots;
+  let walker = startWalker(parts.startAt === 'terminal' ? spots.terminalFront : spots.wakeUp);
   let cameraDistance = Infinity;
   return (seconds: number) => {
     const moves = { ...keyboard.read(), turnBy: mouse.takeTurn() };

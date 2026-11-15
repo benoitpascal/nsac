@@ -1,4 +1,5 @@
 import { dayDate, startNextDay } from '../core/campaign';
+import { WAKE_UP_PAGE } from '../core/mission-route';
 import type { CampaignState } from '../core/campaign';
 import type { Act } from '../core/scenario-content';
 import { WORLD_CONDITIONS } from '@/modules/planet-walk/core/station/conditions';
@@ -71,6 +72,8 @@ export const showDayTitle = (
   elements.crew.textContent = `${STATION.crew} / ${STATION.crew}`;
   elements.date.textContent = dateFormat.format(date);
   const next = ending ? startNextDay(state, act) : state;
+  // The game starts by waking up in the crew quarters, then walking to the terminal.
+  if (!ending && index === 0 && state.stage === 'briefing') elements.next.href = WAKE_UP_PAGE;
   elements.next.addEventListener('click', (event) => {
     if (ending) save(next);
     if (!act.days[index]?.alert) return;

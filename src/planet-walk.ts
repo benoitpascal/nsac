@@ -69,6 +69,7 @@ mountPlanetWalk(
     loadStars: loadStarCatalog,
     now: clock.now,
     suitKit: { oxygenBottles: 1, extraItems: 0 },
+    startAt: playing || params.get('at') === 'terminal' ? 'terminal' : 'quarters',
     onRescue: () => {
       clock.skip(4 * HOUR_MS);
       if (campaign) saveCampaign((campaign = loseRescueHours(campaign)));

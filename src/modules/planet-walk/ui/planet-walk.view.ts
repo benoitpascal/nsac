@@ -42,6 +42,8 @@ export type PlanetWalkSources = {
   suitKit: SuitKit;
   /** Called once the crew has brought the astronaut back to the base. */
   onRescue: () => void;
+  /** Where the astronaut appears: woken up in the crew quarters, or in front of the terminal. */
+  startAt: 'quarters' | 'terminal';
   /** The excavator mission to play, when the page is opened for one. */
   mission?: MissionPlan;
 };
@@ -107,6 +109,7 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
     mission,
     map,
     gravity: () => current.gravity,
+    startAt: sources.startAt,
   });
   new ResizeObserver(() => {
     const { clientWidth, clientHeight } = elements.canvas;
