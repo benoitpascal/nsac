@@ -25,9 +25,11 @@ export const playDialogue = (
   const footer = (cursor: DialogueCursor, withNext: boolean) => {
     const row = el('div', 'guide__actions');
     if (trail.length > 0)
-      row.append(button('Back', 'guide__back', () => render(trail.pop() ?? startDialogue())));
+      row.append(
+        button('Back', 'hud-secondary guide__back', () => render(trail.pop() ?? startDialogue())),
+      );
     if (withNext) {
-      const next = button('Next', 'pill-button guide__next', () =>
+      const next = button('Next', 'hud-action guide__next', () =>
         go(nextPage(pages, cursor), cursor),
       );
       row.append(next);
@@ -45,7 +47,7 @@ export const playDialogue = (
         if (!answer.correct)
           return buttons[page.answers.indexOf(answer)].setAttribute('aria-disabled', 'true');
         buttons.forEach((option) => (option.disabled = true));
-        bubble.append(footer(cursor, true));
+        bubble.querySelector('.guide__actions')?.replaceWith(footer(cursor, true));
       }),
     );
     list.append(...buttons);

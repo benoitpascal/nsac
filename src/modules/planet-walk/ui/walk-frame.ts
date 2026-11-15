@@ -12,6 +12,7 @@ import type { createMouseLook } from './controls/mouse-look';
 import type { createStationActions } from './controls/station-actions';
 import type { createSuitMonitor } from './controls/suit-monitor';
 import type { createViewToggle } from './controls/view-toggle';
+import type { createWalkMap } from './controls/walk-map';
 import type { createStationDashboard } from './dashboard/station-dashboard';
 import type { createWalkScene } from './walk-scene';
 import type { PerspectiveCamera } from 'three';
@@ -30,6 +31,7 @@ export type FrameParts = {
   hud: ReturnType<typeof createExcavatorHud>;
   suit: ReturnType<typeof createSuitMonitor>;
   mission?: ReturnType<typeof createMissionRun>;
+  map: ReturnType<typeof createWalkMap>;
   gravity: () => number;
 };
 
@@ -86,6 +88,8 @@ export const createWalkFrame = (parts: FrameParts) => {
     const lamp = underRoof ? 0 : (1 - world.daylight()) ** 2;
     avatar.follow(walker, drivingRobot || view.mode() === 'third', lamp, seconds, parts.gravity());
     const followed = drivingRobot ? { ...driving.vehicle(), height: 0, verticalSpeed: 0 } : walker;
+    // The robot is driven from inside, but its camera films the outside.
+    parts.map.update(followed, drivingRobot || !underRoof);
     const [mode, walls] = drivingRobot
       ? (['third', world.obstacles] as const)
       : [view.mode(), withRobot];

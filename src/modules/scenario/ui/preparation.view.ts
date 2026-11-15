@@ -50,7 +50,7 @@ export const renderPreparation = (stores: BaseStores, onGo: (loadout: Loadout) =
       choice.setAttribute('aria-pressed', String(loadout.tool === id));
       tools.append(choice);
     }
-    const go = button('Go!', 'pill-button preparation__go', () => onGo(loadout));
+    const go = button('Go!', 'hud-action preparation__go', () => onGo(loadout));
     go.disabled = problem !== undefined;
     panel.replaceChildren(
       el('h2', 'preparation__title', `Pack your bag · ${slotsUsed(loadout)} / ${BAG.slots} slots`),

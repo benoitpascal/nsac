@@ -41,12 +41,12 @@ const mission = campaign && currentMission(MOON_ACT, campaign);
 const playing =
   params.has('mission') && campaign?.stage === 'ready' && mission?.game.kind === 'walk';
 
+requireElement<HTMLElement>('#walk-day').textContent =
+  `Day ${String((campaign?.dayIndex ?? 0) + 1).padStart(2, '0')}`;
+
 mountPlanetWalk(
   {
     canvas: requireElement<HTMLCanvasElement>('#planet-walk'),
-    worldPicker: requireElement<HTMLElement>('#world-picker'),
-    factsPanel: requireElement<HTMLElement>('#walk-facts'),
-    viewToggle: requireElement<HTMLButtonElement>('#view-toggle'),
     pilotPrompt: requireElement<HTMLButtonElement>('#pilot-prompt'),
     dashboard: requireElement<HTMLElement>('#station-dashboard'),
     touchPad: requireElement<HTMLElement>('#touch-pad'),
@@ -55,6 +55,15 @@ mountPlanetWalk(
     rescueFade: requireElement<HTMLElement>('#rescue-fade'),
     missionHud: requireElement<HTMLElement>('#mission-hud'),
     missionFinish: requireElement<HTMLButtonElement>('#mission-finish'),
+    map: {
+      hud: requireElement<HTMLElement>('#walk-hud'),
+      canvas: requireElement<HTMLCanvasElement>('#walk-map'),
+      compass: requireElement<HTMLElement>('#walk-compass'),
+    },
+    clock: {
+      time: requireElement<HTMLElement>('#walk-time'),
+      sun: requireElement<HTMLElement>('#walk-sun'),
+    },
   },
   {
     loadStars: loadStarCatalog,

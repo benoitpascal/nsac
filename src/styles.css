@@ -1,25 +1,49 @@
 :root {
-  --arcadia-white: #f7f5f5;
-  --arcadia-navy: #0f3465;
+  /* Figma variables of the PROJECT-ARCADIA file (docs/figma/tokens.json). */
+  --figma-primary-1001: #0b0f1c;
+  --figma-primary-800: #141c33;
+  --figma-primary-1000-60: rgba(20, 28, 51, 0.6);
+  --figma-primary-600: #33325e;
+  --figma-primary-400: #5973cd;
+  --figma-secondary-600: #35e9fd;
+  --figma-secondary-dark: #208b97;
+  --figma-white: #f7f5f5;
+  --figma-success: #7de8b9;
+  --figma-alert: #f9cd5f;
+  --figma-danger: #ed5f79;
+  --figma-search: #b596fa;
+  /* Paint style « Dégradé », used for strokes. */
+  --figma-gradient: linear-gradient(
+    180deg,
+    var(--figma-secondary-600),
+    var(--figma-secondary-dark)
+  );
+  /* Effect style « Hover BTN ». */
+  --figma-hover-glow: drop-shadow(0 0 13.4px rgba(53, 233, 253, 0.3))
+    drop-shadow(0 0 20px rgba(182, 247, 254, 0.6));
+
+  --arcadia-white: var(--figma-white);
+  --arcadia-navy: var(--figma-primary-1001);
   --arcadia-button: rgba(0, 43, 118, 0.5);
   --arcadia-glow: rgba(255, 255, 255, 0.25);
-  --arcadia-success: #7de8b9;
+  --arcadia-success: var(--figma-success);
   --arcadia-on-success: #232f2a;
-  --arcadia-danger: #ed5f79;
+  --arcadia-danger: var(--figma-danger);
   --arcadia-on-danger: #2c0f14;
+  --arcadia-alert: var(--figma-alert);
   --arcadia-font: 'Bebas Neue', system-ui, sans-serif;
   --arcadia-font-body: 'Outfit', system-ui, sans-serif;
   --arcadia-text: #fff;
-  --arcadia-card: rgba(20, 28, 51, 0.6);
+  --arcadia-card: var(--figma-primary-1000-60);
   --arcadia-icon-placeholder: #d9d9d9;
-  --arcadia-deep: #121d3b;
-  --arcadia-panel: rgba(11, 22, 46, 0.78);
-  --arcadia-panel-strong: rgba(18, 29, 59, 0.92);
-  --arcadia-accent: #41acf5;
-  --arcadia-accent-soft: rgba(65, 172, 245, 0.45);
-  --arcadia-accent-faint: rgba(65, 172, 245, 0.16);
-  --arcadia-ink: #eaf1ff;
-  --arcadia-ink-muted: #dde6fa;
+  --arcadia-deep: var(--figma-primary-1001);
+  --arcadia-panel: var(--figma-primary-1000-60);
+  --arcadia-panel-strong: rgba(20, 28, 51, 0.92);
+  --arcadia-accent: var(--figma-secondary-600);
+  --arcadia-accent-soft: rgba(53, 233, 253, 0.45);
+  --arcadia-accent-faint: rgba(53, 233, 253, 0.12);
+  --arcadia-ink: var(--figma-white);
+  --arcadia-ink-muted: rgba(247, 245, 245, 0.75);
 
   /* One design pixel of the 1920 × 1080 mock-ups, scaled to the viewport. */
   --design-px: min(calc(100vw / 1920), calc(100dvh / 1080));

@@ -42,14 +42,14 @@ export const renderDashboard = (
   const panels = el('div', 'briefing__panels');
   panels.append(goal, stores);
   let confirming = false;
-  const reset = button('New game', 'guide__back', () => {
+  const reset = button('New game', 'hud-secondary guide__back', () => {
     if (confirming) return actions.newGame();
     confirming = true;
     reset.textContent = 'Sure? Start over';
   });
   const row = el('div', 'guide__actions');
   row.append(
-    button('Back to the base', 'hud-back', actions.explore),
+    button('Back to the base', 'hud-action hud-action--back', actions.explore),
     reset,
     button('Launch mission', 'hud-action', actions.launch),
   );

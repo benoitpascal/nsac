@@ -74,7 +74,7 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
       const row = el('div', 'guide__actions');
       if (result.verdict !== 'efficient')
         row.append(
-          button('Retry the mission', 'hud-back', () => update(retryMission(state, mission))),
+          button('Retry the mission', 'hud-secondary', () => update(retryMission(state, mission))),
         );
       row.append(
         button('Continue', 'hud-action', () => update(continueAfterDebrief(state, deps.act))),
@@ -116,7 +116,7 @@ export const mountBriefing = (root: HTMLElement, deps: BriefingDeps) => {
     const mission = currentMission(deps.act, state);
     if (state.stage === 'actEnd' || !mission)
       return talk(deps.act.ending, () =>
-        side.replaceChildren(button('New game', 'pill-button', restart)),
+        side.replaceChildren(button('New game', 'hud-action', restart)),
       );
     showMissionStage(mission);
   };
