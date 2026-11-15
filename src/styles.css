@@ -91,6 +91,10 @@ body {
   height: 100%;
 }
 
+.pill-button[hidden] {
+  display: none;
+}
+
 .pill-button {
   --pill-border: 2px;
 

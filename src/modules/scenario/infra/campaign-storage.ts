@@ -58,3 +58,12 @@ export const saveCampaign = (state: CampaignState) => {
     console.warn('[scenario] storage unavailable');
   }
 };
+
+/** Forgets the saved game, so that the next screen starts a new one. */
+export const clearCampaign = () => {
+  try {
+    localStorage.removeItem(KEY);
+  } catch {
+    console.warn('[scenario] storage unavailable');
+  }
+};

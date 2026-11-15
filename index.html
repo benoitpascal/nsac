@@ -32,7 +32,12 @@
         <img src="/arcadia/logotype.svg" alt="Project Arcadia" />
       </h1>
       <nav class="home__menu" aria-label="Main menu">
-        <a class="pill-button" href="/missions.html">
+        <a id="home-continue" class="pill-button" href="/briefing.html" hidden>
+          <img class="pill-button__icon pill-button__icon--idle" src="/arcadia/icon-play.svg" alt="" />
+          <img class="pill-button__icon pill-button__icon--active" src="/arcadia/icon-play-active.svg" alt="" />
+          <span id="home-continue-label" class="pill-button__label">Continue</span>
+        </a>
+        <a id="home-start" class="pill-button" href="/missions.html">
           <img class="pill-button__icon pill-button__icon--idle" src="/arcadia/icon-play.svg" alt="" />
           <img class="pill-button__icon pill-button__icon--active" src="/arcadia/icon-play-active.svg" alt="" />
           <span class="pill-button__label">Start playing</span>
@@ -48,5 +53,6 @@
       </nav>
       <img class="home__divider" src="/arcadia/divider.svg" alt="" />
     </main>
+    <script type="module" src="/src/home.ts"></script>
   </body>
 </html>
