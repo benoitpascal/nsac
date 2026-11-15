@@ -1,0 +1,89 @@
+# Project Arcadia — visual styling extracted from the Figma file (export of 2026-11-15).
+# Node ids match layers.txt. Colors are #rrggbb, alpha as @NN% (effects) or /NN% (fills).
+# Effect "glass(N)" is Figma's GLASS effect (frosted background, blur radius N): in CSS use
+# backdrop-filter: blur(Npx) on a semi-transparent background.
+
+## Typography — every distinct text style, with the texts using it
+
+Bebas Neue Regular 291.1px lh=auto ls=0% color=#ffffff align=left
+    "DAY" / "ONE" — 1:4, 1:5, 13:384, 13:385, 13:392, 13:393, 13:400, 13:401, 1:12, 1:13
+Bebas Neue Regular 269.3px lh=auto ls=-4% color=#ffffff
+    "ARCADIA" 1:24 (text logotype draft)
+Bebas Neue Book 122px lh=auto ls=0% color=#ffffff
+    "PROJECT" 1:23 (text logotype draft)
+Michroma Regular 97.1px ls=-4% / 52.4px ls=-4% color=#ffffff
+    "ARCADIA" 4:76, "PROJECT" 4:77 (font exploration)
+Orbitron Regular 81.4px ls=0% color=#ffffff
+    "PROJECT" 4:82 (font exploration)
+Oxanium Regular 81.4px ls=0% color=#ffffff
+    "PROJECT" 4:81 (font exploration)
+Bebas Neue Bold 32px lh=auto ls=16% color=#f7f5f5 — Figma text style "Texte UI BTN"
+    "COMMENCER" 7:187 (BTN default, opacity 60%), 7:267 (BTN hover, opacity 100%)
+Bebas Neue Bold 32px lh=auto ls=16% color=#ffffff
+    "START MISSION" 50:486, "BOUTON" 48:319
+Bebas Neue Regular 40px ls=20% color=#ffffff
+    "BOUTON" 1:123
+Bebas Neue Book 20px ls=7%
+    "DEMO" 13:633 color=#232f2a, "Locked" 13:631 color=#2c0f14 (Status Act badges)
+Bebas Neue Book 38px ls=0% color=#f7f5f5 align=center
+    "ACT 1" 13:529, 13:744, 13:759, 13:768 (mission cards)
+Bebas Neue Regular 52px ls=5% color=#f7f5f5
+    "MOON" 13:530, 13:745, 13:760, 13:769 (mission cards)
+Bebas Neue Book 32.1px ls=4% color=#f7f5f5
+    "ACT 1" 50:338, 50:382 (Choice planet)
+Bebas Neue Bold 42.8px ls=16% color=#f7f5f5
+    "EARTH" 50:339, 50:383 (Choice planet)
+Outfit Light 24.1px ls=0% color=#f7f5f5
+    "Moon Mission Preparation" 50:340, 50:384 (Choice planet)
+Outfit Regular 32px ls=16% color=#ffffff align=center
+    "-150 °C" 13:340 (status Card value)
+Outfit Regular 18px ls=20% color=#ffffff align=center opacity=60%
+    "TEMPERATURE" 13:347 (status Card label)
+Bebas Neue Regular 20px ls=7% color=#000000
+    21:1047 — note in frame "Typo": --font-title: 'Bebas Neue'; --font-body: 'Outfit', sans-serif;
+
+## Components and key frames — strokes, radius, effects, auto-layout (flex)
+
+Card [13:416] radius=24 | fill=#141c33/60% (variable "primary 1000 - 60%") | effects=glass(13) + drop_shadow(13.3 0,0 #ffffff@25%) (style "Effet cards") | flex=vertical gap=24 pad=40/40/40/40 justify=center align=center
+  Frame 5 [13:349] flex=vertical gap=16 pad=0 justify=min align=min
+BTN, default [7:185] fill=#002b76/50% | stroke=#f7f5f5 overlay 2px outside | radius=45 | effects=glass(4) + drop_shadow(13.3 0,0 #ffffff@25%) (style "Effet BTN") | flex=horizontal gap=16 pad=24/40/24/40 justify=center align=center | label opacity 60%
+BTN, hover "Variante2" [7:265] same as default but stroke 4px and an extra drop_shadow(13.1 0,0 #ffffff@30%) | label opacity 100% | transition: smart animate 300 ms
+Icons-play [4:11], Icons-gear [4:10] 24x24, clip, fill=#f7f5f5 (variable "White")
+Status Act, Actif [13:632] fill=#7de8b9 (variable "statue/Success") | radius=71 | flex=horizontal gap=10 pad=8/16/8/16 justify=center align=center
+Status Act, Locked [13:630] fill=#ed5f79 (variable "statue/Danger") | radius=71 | flex=horizontal gap=10 pad=8/16/8/16 justify=center align=center
+Mission card (DEMO and Locked), default [13:545 / 13:753]
+  Frame 10 flex=vertical gap=32 justify=min align=center
+  Frame 9 (picture) 180x260 radius=24 clip
+  Frame 7 flex=vertical gap=8 align=center; Frame 6 flex=vertical gap=2 align=center
+  Locked: dark overlay Rectangle 5 #141c33 at 0% opacity (default) → 40% (hover)
+Mission card hover "Variante2" [13:738 / 13:762] picture zoomed to 196x284 (offset -8,-12), Frame 10 gap=28, extra marker under the card (green 10x10 square for DEMO, red lock icon for Locked) | transition: smart animate
+Choice planet, default [50:347] 480x335 | IMG with picture fill | Filtre gradient_linear #0b0f1c → #314682 | Stroke gradient_linear(#35e9fd → #208b97) 2px inside (paint style "Dégradé")
+  Frame 19 flex=vertical gap=18.7; Frame 18 flex=vertical gap=13.4
+Choice planet, hover [50:377] stroke 4px | IMG effects=drop_shadow(13.4 0,0 #35e9fd@30%) + drop_shadow(20 0,0 #b6f7fe@60%)
+Logotype, Light [7:230] effects=drop_shadow(17.8 0,0 #ffffff@60%) + drop_shadow(38 11,7 #1db5ff@60%)
+Logotype, White [7:232] no effect
+Logotype text draft [4:62] Union fill=gradient_radial(#f7f5f5 → #0873d3); Ellipse 1 [1:29] stroke=gradient_linear(#f7f5f5 → #2b84ff) 5.6px; Star 1 [1:31] drop_shadow(3.7 0,3.7 #01a0ee@59%)
+Icons - chevrons - start [43:273] two chevrons fill=#35e9fd (variable "Secondary color 600")
+Divider "Union" [3:4] fill=#ffffff/10% | glass(4) | two 1px white strokes (Vector 3 / Vector 4)
+
+Slide 16:9 - 4 (act selection) [13:547] clip
+  image 1 [13:548] layer_blur(134.7)
+  Filtre [13:640] gradient_radial(#ffffff → #141c33) opacity 60% blend=multiply
+Day One 3 [13:378] Vector 1 [13:380] white line stroke 10px; Frame 1 [13:383] flex=horizontal gap=48 align=center
+Ecran - selection acte [48:330] background #0b0f1c (variable "Primary color 1001")
+  Frame 20 [50:446] flex=horizontal gap=28 align=center (3 Choice planet cards separated by chevrons)
+  Vector 12 [50:413] header line stroke=gradient_linear(#35e9fd → #141c33) 2px
+  Rectangle 8 [43:274] "START MISSION" cut-corner button, fill=#141c33/60%, stroke=gradient_linear(#35e9fd → #208b97) 1px inside
+  Frame 21 [50:487] flex=horizontal gap=16 align=center
+Frame 15 [48:289] terminal screen: Rectangle 9 radius=14 fill=#0b0f1c; image 14 radius=42; Frame 14 flex=horizontal gap=15 (3 cyan dots #35e9fd)
+
+## Prototype interactions
+
+Page accueil BTN "start playin" — click → Slide 16:9 - 3 (smart animate 500 ms); hover → BTN Variante2 (300 ms)
+Slide 16:9 - 3 — after timeout → Slide 16:9 - 4 (cards fade in)
+Slide 16:9 - 4 Mission card MOON — click → Slide 16:9 - 5; every card: hover → its Variante2
+Slide 16:9 - 5 — after timeout → Day One 1 (fade to #0a0e1a)
+Day One 1 — after timeout → Day One 2 (smart animate 500 ms)
+Day One 2 — after timeout → Day One 3 (smart animate 1200 ms; DAY ONE rises, line draws, cards fade in)
+Ecran - selection acte — chevrons: click → scroll to the MOON card; Choice planet: hover → Hover variant
+Frame 15 — click → Frame 16 (zoom into the terminal screen)

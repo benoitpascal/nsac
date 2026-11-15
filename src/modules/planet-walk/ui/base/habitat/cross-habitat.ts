@@ -17,8 +17,8 @@ const QUARTER_TURN = Math.PI / 2;
 const WING_START = HUB.radius + CONNECTOR.length;
 /** Where the astronaut stands to open a door, from the door (m): further out past the outer door's frame. */
 const DOOR_STEP = { inside: 0.9, outside: 0.9, outer: 1.3 };
-/** The sign naming a wing, above its doorway inside the hall (m). */
-const HALL_SIGN = { height: 2.65, radius: HUB.radius - 0.2 };
+/** The sign above each doorway of the hall (m): in front of the corridor that starts in the wall. */
+const HALL_SIGN = { height: 2.8, radius: HUB.radius - HUB.wall - 0.12 };
 
 /** The four wings around the hall and their turn; the one towards +x holds the airlock. */
 const ARMS = [
