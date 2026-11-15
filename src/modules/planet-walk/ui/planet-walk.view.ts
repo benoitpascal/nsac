@@ -40,6 +40,7 @@ const SKY_REACH_M = 6000;
  * and out of the base through its airlock door, read the station dashboard at its terminal and
  * drive the excavator robot from there: keys or on-screen buttons to walk, turn, jump and act (E),
  * dragging to turn and look up or down, and a panel telling how the world's gravity changes a jump.
+ * Returns what a mission reads from the walk: the excavator's store and what the astronaut is doing.
  */
 export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWalkSources) => {
   const renderer = createWalkRenderer(elements.canvas);
@@ -54,6 +55,7 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
   mountWorldPicker(elements.worldPicker, current.id, choose);
   choose(current);
   createTouchPad(elements.touchPad, window);
+  const station = createStationControls(world, elements, () => current.id, sources.now);
   const frame = createWalkFrame({
     world,
     camera,
@@ -61,7 +63,7 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
     mouse: createMouseLook(elements.canvas),
     avatar: createAstronautAvatar(world.scene, renderer),
     view: createViewToggle(elements.viewToggle, window),
-    ...createStationControls(world, elements, () => current.id, sources.now),
+    ...station,
     gravity: () => current.gravity,
   });
   new ResizeObserver(() => {
@@ -77,4 +79,5 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
     world.setTime(sources.now());
     renderer.render(world.scene, camera);
   });
+  return { excavator: station.driving.store, activity: station.actions.activity };
 };

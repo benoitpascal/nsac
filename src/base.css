@@ -1,0 +1,308 @@
+/* Moon base management screen: status, day event, crew jobs, forecast and dialogs. */
+
+.base {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  grid-template-areas:
+    'status event'
+    'status crew'
+    'forecast crew';
+  gap: 24px;
+  align-items: start;
+}
+
+.base-status {
+  grid-area: status;
+  padding: 24px;
+}
+
+.base-event {
+  grid-area: event;
+  padding: 24px;
+}
+
+.base-crew {
+  grid-area: crew;
+  padding: 24px;
+}
+
+.base-forecast {
+  grid-area: forecast;
+  padding: 24px;
+}
+
+.base-event[data-event='storm'] {
+  border-color: #ffb36b;
+}
+
+.base-status__day {
+  margin: 0;
+  font-family: var(--arcadia-font);
+  font-size: 44px;
+  letter-spacing: 0.08em;
+}
+
+.base-status__note,
+.base-resource__hint,
+.base-astronaut__specialty,
+.base-astronaut__fatigue,
+.base-event__source,
+.base-choice__cost {
+  color: var(--arcadia-ink-muted);
+  font-size: 15px;
+}
+
+.base-status__note {
+  margin: 0 0 16px;
+}
+
+.base-resources,
+.base-crew__list,
+.base-forecast__lines,
+.base-report__lines,
+.base-end__days {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.base-resource {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+  font-size: 18px;
+}
+
+.base-resource__value {
+  font-weight: 500;
+}
+
+.base-bar {
+  grid-column: 1 / -1;
+  height: 10px;
+  background:
+    linear-gradient(90deg, var(--arcadia-accent) var(--level), transparent var(--level)),
+    var(--arcadia-accent-faint);
+}
+
+.base-bar--goal {
+  background:
+    linear-gradient(90deg, var(--arcadia-success) var(--level), transparent var(--level)),
+    var(--arcadia-accent-faint);
+}
+
+.base-resource__hint {
+  grid-column: 1 / -1;
+}
+
+.base-event__text,
+.base-event__shield {
+  margin: 12px 0 0;
+  font-size: 19px;
+  line-height: 1.4;
+}
+
+.base-event__choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.base-choice,
+.base-job {
+  border: 1px solid var(--arcadia-accent-soft);
+  color: var(--arcadia-ink);
+  background: var(--arcadia-panel-strong);
+  font: inherit;
+  cursor: pointer;
+}
+
+.base-choice {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  text-align: left;
+}
+
+.base-choice[aria-pressed='true'],
+.base-job[aria-pressed='true'] {
+  border-color: var(--arcadia-accent);
+  color: var(--arcadia-deep);
+  background: var(--arcadia-accent);
+}
+
+.base-choice[aria-pressed='true'] .base-choice__cost {
+  color: var(--arcadia-deep);
+}
+
+.base-choice:focus-visible,
+.base-job:focus-visible {
+  outline: 2px solid var(--arcadia-white);
+  outline-offset: 2px;
+}
+
+.base-event__source {
+  margin: 16px 0 0;
+}
+
+.base-event__link {
+  color: var(--arcadia-accent);
+}
+
+.base-astronaut {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) minmax(0, 3fr);
+  gap: 8px 16px;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--arcadia-accent-faint);
+}
+
+.base-astronaut__who {
+  display: grid;
+}
+
+.base-astronaut__name {
+  font-family: var(--arcadia-font);
+  font-size: 26px;
+  letter-spacing: 0.06em;
+}
+
+.base-astronaut__jobs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.base-job {
+  min-width: 96px;
+  min-height: 44px;
+  padding: 8px 12px;
+  font-size: 16px;
+}
+
+.base-job:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.base-forecast__line {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.base-forecast__problem {
+  margin: 16px 0 0;
+  padding: 12px;
+  border-left: 4px solid var(--arcadia-danger);
+  background: rgba(237, 95, 121, 0.12);
+}
+
+.base-forecast__problem::before {
+  content: '⚠ ';
+}
+
+.hud-action:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.base-dialog {
+  width: min(40rem, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  padding: 28px 32px;
+  border: 1px solid var(--arcadia-accent);
+  color: var(--arcadia-ink);
+  background: var(--arcadia-panel-strong);
+  font-family: var(--arcadia-font-body);
+}
+
+.base-dialog::backdrop {
+  background: rgba(5, 10, 25, 0.7);
+}
+
+.base-dialog[data-outcome='noOxygen'],
+.base-dialog[data-outcome='noFood'],
+.base-dialog[data-outcome='notReady'] {
+  border-color: #ffb36b;
+}
+
+.base-dialog__title {
+  margin: 0 0 16px;
+  font-family: var(--arcadia-font);
+  font-size: 40px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+
+.base-report__line,
+.base-end__day {
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.base-report__next {
+  margin-top: 24px;
+  font-size: 24px;
+}
+
+.base-end__story,
+.base-end__tip,
+.base-end__fact {
+  margin: 0 0 12px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.base-end__heading {
+  margin: 20px 0 8px;
+  font-family: var(--arcadia-font);
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+
+.base-end__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+@media (max-width: 900px) {
+  .base {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'status' 'event' 'crew' 'forecast';
+  }
+
+  .base-astronaut {
+    grid-template-columns: 1fr;
+  }
+}
+
+button.hud-back {
+  border: none;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.base-jobs-help {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 20px;
+  padding: 0 0 16px;
+  border-bottom: 1px solid var(--arcadia-accent-soft);
+  list-style: none;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.base-jobs-help__name {
+  color: var(--arcadia-accent);
+}

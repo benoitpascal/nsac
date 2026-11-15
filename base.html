@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moon base · Project Arcadia</title>
+    <meta name="description" content="Run the Moon base day after day and get the crew ready for Mars." />
+    <meta name="theme-color" content="#121d3b" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;500&display=swap"
+    />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <link rel="stylesheet" href="/src/hud.css" />
+    <link rel="stylesheet" href="/src/base.css" />
+  </head>
+  <body class="arcadia arcadia--hud">
+    <div class="hud">
+      <header class="hud__header">
+        <a class="logotype hud__logotype" href="/"><img src="/arcadia/logotype.svg" alt="Project Arcadia, home" /></a>
+        <h1 class="hud__title">Moon base</h1>
+        <p class="hud__tag">Act II · Moon</p>
+      </header>
+
+      <main class="base">
+        <section id="base-status" class="hud-panel base-status" aria-label="Base status" aria-live="polite"></section>
+        <section id="base-event" class="hud-panel base-event" aria-live="polite"></section>
+        <section class="hud-panel base-crew" aria-labelledby="base-crew-title">
+          <h2 id="base-crew-title" class="hud-panel__heading">Crew jobs</h2>
+          <ul id="base-jobs-help" class="base-jobs-help"></ul>
+          <ul id="base-crew" class="base-crew__list"></ul>
+        </section>
+        <section id="base-forecast" class="hud-panel base-forecast" aria-live="polite"></section>
+      </main>
+
+      <footer class="hud__footer">
+        <a class="hud-back" href="/briefing.html">Briefing</a>
+        <button id="base-end-day" class="hud-action" type="button">End the day</button>
+      </footer>
+    </div>
+
+    <dialog id="base-report" class="base-dialog"></dialog>
+    <dialog id="base-act-end" class="base-dialog base-dialog--end"></dialog>
+
+    <script type="module" src="/src/base.ts"></script>
+  </body>
+</html>
