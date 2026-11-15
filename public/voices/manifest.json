@@ -26,7 +26,7 @@
     "470d0856949ecb34": "Why is ice in the regolith so precious for the base?",
     "981f012d602caefb": "Right! With electricity we split water into oxygen to breathe and hydrogen.",
     "2b52817760f6cce5": "Fridges are easy here. The ice is much more useful: it is water, and water gives oxygen.",
-    "5a145992643d2394": "To drive: Z Q S D or the arrows. In the grey zone, hold Space to dig. In the orange zone, hold Space to unload.",
+    "04c241841daae132": "To drive: the arrow keys, or W A S D (Z Q S D on a French keyboard). In the yellow zone, hold Space to dig. In the red zone, hold Space to unload.",
     "7c76fcb24a1c9e78": "You drive the robot from inside the base, by remote control. Careful: rolling and spinning the drums drain its battery, and it cannot recharge today. Plan your moves!",
     "b1b9e9d2c1611280": "Our 3D printer melts regolith into bricks with a laser beam. Before it can print, its laser must be aimed just right.",
     "c42cbb2717afd509": "Why make bricks here instead of bringing them from Earth?",
@@ -55,7 +55,7 @@
     "55194b8135d48efb": "Your suit ran low, so the crew brought you back inside. Next time, watch your oxygen and battery and come back earlier.",
     "fbbcc1e1f7b44cfb": "Real astronauts plan every move, because air and power are precious far from Earth.",
     "de65763495e8612a": "Mission accomplished, but it cost the base a lot.",
-    "91cf6d6c6c6d0c2e": "Most of the power went into driving and digging. Fewer moves and fuller loads between the grey and orange zones save the robot battery.",
+    "7576f86a397e0f54": "Most of the power went into driving and digging. Fewer moves and fuller loads between the yellow and red zones save the robot battery.",
     "60a31c32427d51b0": "The mission is not finished this time. That is okay: let us see what happened.",
     "bd789e4c26e05a2e": "Every mirror flip used the laser, and a rough tuning means fewer bricks. Think about the beam path before flipping.",
     "9848f54a651466ac": "The shelter is finished, with no brick wasted. The crew has a safe place now.",
@@ -64,6 +64,9 @@
     "655c18eb36fcc2ad": "The printer starts. Bricks will help us build a shelter. Tonight the crew still breathes, drinks, eats and uses power: 5 points of air, water, food and power.",
     "9bd23b119910f95f": "We save power, but we will have no bricks tomorrow. Tonight the crew still breathes, drinks, eats and uses power: 5 points of air, water, food and power.",
     "6c4863948da0f9f2": "The day's work is done. Tonight the crew still breathes, drinks, eats and uses power: 5 points of air, water, food and power.",
-    "fa4fa0b9f3e5293f": "Base to commander, do you copy? I know it might feel like a game. But it's not completely one. Look up: the Earth is high in the sky. From our base, it stays right there, day and night."
+    "fa4fa0b9f3e5293f": "Base to commander, do you copy? I know it might feel like a game. But it's not completely one. Look up: the Earth is high in the sky. From our base, it stays right there, day and night.",
+    "bd089d50b717bad6": "Good morning, commander! Welcome to the Moon base. Take a walk around the base to see how it works. When you are ready, come to the station dashboard to start your mission.",
+    "1fa9965f4df39d15": "That is enough regolith! Drive to the red zone and hold Space to unload it.",
+    "ef9a86a4ecdcfd96": "Well done, the regolith is at the base! Now press E to leave the robot and save its battery."
   }
 }

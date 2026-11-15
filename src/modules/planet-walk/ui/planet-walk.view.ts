@@ -7,6 +7,8 @@ import { createMouseLook } from './controls/mouse-look';
 import { createStationControls } from './controls/station-controls';
 import { createSuitMonitor } from './controls/suit-monitor';
 import { createEarthRadio } from './radio/earth-radio';
+import { createRadioMessage } from './radio/radio-message';
+import { WAKE_UP_LINES } from '../core/radio/base-radio-lines';
 import { createTouchPad } from './controls/touch-pad';
 import { createViewToggle } from './controls/view-toggle';
 import { createWalkClock } from './controls/walk-clock';
@@ -23,6 +25,7 @@ import type { MissionPlan } from './controls/mission-run';
 import type { WalkClockElements } from './controls/walk-clock';
 import type { WalkMapElements } from './controls/walk-map';
 import type { Star } from '@/modules/solar-system/core/star';
+import type { Voice } from '@/modules/scenario/core/voice';
 
 export type PlanetWalkElements = {
   canvas: HTMLCanvasElement;
@@ -62,6 +65,10 @@ export type PlanetWalkSources = {
   openTerminal: (from?: StartSpot) => void;
   /** The radio message heard the first time outside the base, and whether it was heard already. */
   radio: Omit<EarthRadioOptions, 'now'>;
+  /** The mascot's voice, which reads the base's radio messages unless the player turned it off. */
+  voice: Voice;
+  /** Whether the base greets the astronaut on the radio as the walk starts (on waking up). */
+  greet?: boolean;
   /** The excavator mission to play, when the page is opened for one. */
   mission?: MissionPlan;
 };
@@ -73,6 +80,8 @@ const BUILDING_MIN_AREA_M2 = 1.5;
 const isBuilding = ({ minX, maxX, minZ, maxZ }: Obstacle) =>
   (maxX - minX) * (maxZ - minZ) >= BUILDING_MIN_AREA_M2;
 const MS_PER_SECOND = 1000;
+/** Lets the base appear on screen before the greeting comes on the radio (ms). */
+const GREETING_DELAY_MS = 1500;
 /** Far enough to see the stars, the Sun and the Earth beyond the hills (m). */
 const SKY_REACH_M = 6000;
 
@@ -104,10 +113,12 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
     sources.suitKit,
     sources.onRescue,
   );
+  const radio = createRadioMessage(elements.earthRadio, sources.voice);
   const mission =
     sources.mission &&
     createMissionRun(
       sources.mission,
+      radio,
       elements.missionHud,
       elements.missionFinish,
       station.driving,
@@ -134,7 +145,7 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
     map,
     gravity: () => current.gravity,
     startAt: sources.startAt,
-    radio: createEarthRadio(elements.earthRadio, { ...sources.radio, now: sources.now }),
+    radio: createEarthRadio(radio, { ...sources.radio, now: sources.now }),
     insideStation: sources.insideStation,
   });
   new ResizeObserver(() => {
@@ -143,6 +154,8 @@ export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWal
     camera.aspect = clientWidth / Math.max(clientHeight, 1);
     camera.updateProjectionMatrix();
   }).observe(elements.canvas);
+  if (sources.greet)
+    window.setTimeout(() => radio.say('📻 Radio · Base', WAKE_UP_LINES), GREETING_DELAY_MS);
   let previous = performance.now();
   renderer.setAnimationLoop((time: number) => {
     frame(Math.min((time - previous) / MS_PER_SECOND, MAX_FRAME_SECONDS));

@@ -20,6 +20,8 @@ import { requireElement } from '@/shared/dom';
 const HOUR_MS = 3_600_000;
 /** The game day (YYYY-MM-DD) the Earth radio message was last heard; Start playing clears it. */
 const EARTH_RADIO_KEY = 'arcadia.earthRadio';
+/** The game and day the base last greeted the astronaut waking up, so it greets once a day. */
+const GREETING_KEY = 'arcadia.wakeUpGreeting';
 
 const readValue = (key: string) => {
   try {
@@ -67,6 +69,12 @@ const clock = startClock();
 const mission = campaign && currentMission(MOON_ACT, campaign);
 const playing =
   params.has('mission') && campaign?.stage === 'ready' && mission?.game.kind === 'walk';
+const startAt = playing
+  ? 'terminal'
+  : (tabletSpot ?? (params.get('at') === 'terminal' ? 'terminal' : 'quarters'));
+const gameDay = `${campaign?.startedAt ?? 0}-${campaign?.dayIndex ?? 0}`;
+const greet = startAt === 'quarters' && readValue(GREETING_KEY) !== gameDay;
+if (greet) writeValue(GREETING_KEY, gameDay);
 
 requireElement<HTMLElement>('#walk-day').textContent =
   `Day ${String((campaign?.dayIndex ?? 0) + 1).padStart(2, '0')}`;
@@ -101,12 +109,11 @@ mountPlanetWalk(
     radio: {
       heard: (day) => readValue(EARTH_RADIO_KEY) === day,
       markHeard: (day) => writeValue(EARTH_RADIO_KEY, day),
-      voice: createVoicePlayer(),
     },
+    voice: createVoicePlayer(),
+    greet,
     startView: readDefaultView(),
-    startAt: playing
-      ? 'terminal'
-      : (tabletSpot ?? (params.get('at') === 'terminal' ? 'terminal' : 'quarters')),
+    startAt,
     insideStation: stationMusic.setHeard,
     openTerminal: (from) => {
       rememberTabletSpot(from);

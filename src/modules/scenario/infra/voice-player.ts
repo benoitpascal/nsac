@@ -38,7 +38,16 @@ export const createVoicePlayer = (): Voice => {
     const key = voiceKey(text);
     if ((muted && !evenMuted) || !recorded.has(key)) return;
     audio.src = `/voices/${key}.mp3`;
-    audio.play().catch(() => undefined);
+    audio.play().catch((error: unknown) => {
+      // The browser blocks sound until the player touches the page (a line said as a page opens):
+      // say it at their first key or click, unless another line came in the meantime.
+      if (!(error instanceof DOMException) || error.name !== 'NotAllowedError') return;
+      const retry = () => {
+        if (wanted === text) play(text, evenMuted);
+      };
+      window.addEventListener('pointerdown', retry, { once: true });
+      window.addEventListener('keydown', retry, { once: true });
+    });
   };
   fetch('/voices/manifest.json')
     .then((response) => response.json() as Promise<{ lines: Record<string, string> }>)
