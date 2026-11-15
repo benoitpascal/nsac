@@ -1,0 +1,52 @@
+/* Cut-corner buttons of the Figma screens: Back, Start mission, Back to game. */
+.cut-button {
+  display: inline-flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  height: 66px;
+  color: var(--arcadia-white);
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: filter 0.2s ease;
+}
+
+.cut-button__chevrons {
+  width: 17.7px;
+  height: 17.7px;
+}
+
+.cut-button--back {
+  width: 198px;
+  background: url('/arcadia/act-select/back-button.svg') center / 100% 100% no-repeat;
+}
+
+.cut-button--back .cut-button__chevrons {
+  transform: rotate(180deg);
+}
+
+.cut-button--start,
+.cut-button--wide {
+  width: 361px;
+  background: url('/arcadia/act-select/start-button.svg') center / 100% 100% no-repeat;
+}
+
+.cut-button--start[aria-disabled='true'] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cut-button:not([aria-disabled='true']):is(:hover, :focus-visible),
+.cut-button--start:not([aria-disabled='true']) {
+  outline: none;
+  filter: drop-shadow(0 0 13.4px rgba(53, 233, 253, 0.3)) drop-shadow(0 0 20px rgba(182, 247, 254, 0.6));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cut-button {
+    transition: none;
+  }
+}

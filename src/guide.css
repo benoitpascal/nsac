@@ -179,3 +179,9 @@
 .guide__voice-button:focus-visible {
   border-color: var(--arcadia-accent);
 }
+
+.terminal-exit {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}

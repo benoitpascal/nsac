@@ -136,57 +136,11 @@
   opacity: 0.4;
 }
 
-.cut-button {
-  display: inline-flex;
-  gap: 16px;
-  align-items: center;
-  justify-content: center;
-  height: 66px;
-  color: var(--arcadia-white);
-  font-size: 32px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: filter 0.2s ease;
-}
-
-.cut-button__chevrons {
-  width: 17.7px;
-  height: 17.7px;
-}
-
-.cut-button--back {
-  width: 198px;
-  background: url('/arcadia/act-select/back-button.svg') center / 100% 100% no-repeat;
-}
-
-.cut-button--back .cut-button__chevrons {
-  transform: rotate(180deg);
-}
-
-.cut-button--start {
-  width: 361px;
-  background: url('/arcadia/act-select/start-button.svg') center / 100% 100% no-repeat;
-}
-
-.cut-button--start[aria-disabled='true'] {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.cut-button:not([aria-disabled='true']):is(:hover, :focus-visible),
-.cut-button--start:not([aria-disabled='true']) {
-  outline: none;
-  filter: var(--acts-glow);
-}
-
 @media (prefers-reduced-motion: reduce) {
   .act-choice,
   .act-choice__text,
   .act-choice__lock,
-  .act-choice__badge,
-  .cut-button {
+  .act-choice__badge {
     transition: none;
   }
 }
