@@ -1,0 +1,54 @@
+.arcadia--moon-intro {
+  overflow: hidden;
+  background: #000;
+}
+
+.moon-intro__stage {
+  position: fixed;
+  inset: 0;
+}
+
+.moon-intro__shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.moon-intro__shot.is-active {
+  opacity: 1;
+}
+
+.moon-intro__shot--still.is-active {
+  animation: moon-intro-drift var(--still-duration, 4s) linear both;
+}
+
+.moon-intro__skip {
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+  font-size: 24px;
+}
+
+@keyframes moon-intro-drift {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moon-intro__shot {
+    transition: none;
+  }
+
+  .moon-intro__shot--still.is-active {
+    animation: none;
+  }
+}

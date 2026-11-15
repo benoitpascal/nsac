@@ -1,4 +1,4 @@
-import { PerspectiveCamera, WebGLRenderer } from 'three';
+import { PerspectiveCamera } from 'three';
 import { FIRST_WORLD_ID, WALK_WORLDS } from '../core/walk-worlds';
 import { createAstronautAvatar } from './astronaut/astronaut-avatar';
 import { createKeyboardInput } from './controls/keyboard-input';
@@ -8,8 +8,10 @@ import { createTouchPad } from './controls/touch-pad';
 import { createViewToggle } from './controls/view-toggle';
 import { showJumpFacts } from './jump-facts.view';
 import { createWalkFrame } from './walk-frame';
+import { createWalkRenderer } from './walk-renderer';
 import { createWalkScene } from './walk-scene';
 import { mountWorldPicker } from './world-picker.view';
+import type { Star } from '@/modules/solar-system/core/star';
 
 export type PlanetWalkElements = {
   canvas: HTMLCanvasElement;
@@ -22,8 +24,16 @@ export type PlanetWalkElements = {
   excavatorHud: HTMLElement;
 };
 
+/** What the walk needs from outside the page: the star catalog and the time (Unix ms). */
+export type PlanetWalkSources = {
+  loadStars: () => Promise<Star[]>;
+  now: () => number;
+};
+
 const MAX_FRAME_SECONDS = 0.1;
 const MS_PER_SECOND = 1000;
+/** Far enough to see the stars, the Sun and the Earth beyond the hills (m). */
+const SKY_REACH_M = 6000;
 
 /**
  * Lets the user walk an astronaut on a chosen world, seen from behind or through its eyes, go in
@@ -32,12 +42,10 @@ const MS_PER_SECOND = 1000;
  * dragging to turn and look up or down, and a panel telling how the world's gravity changes a jump.
  * Returns what a mission reads from the walk: the excavator's store and what the astronaut is doing.
  */
-export const mountPlanetWalk = (elements: PlanetWalkElements) => {
-  const renderer = new WebGLRenderer({ canvas: elements.canvas, antialias: true });
-  renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.shadowMap.enabled = true;
-  const camera = new PerspectiveCamera(70, 1, 0.05, 2000);
-  const world = createWalkScene(renderer);
+export const mountPlanetWalk = (elements: PlanetWalkElements, sources: PlanetWalkSources) => {
+  const renderer = createWalkRenderer(elements.canvas);
+  const camera = new PerspectiveCamera(70, 1, 0.05, SKY_REACH_M);
+  const world = createWalkScene(renderer, sources.loadStars);
   let current = WALK_WORLDS.find((candidate) => candidate.id === FIRST_WORLD_ID) ?? WALK_WORLDS[0];
   const choose = (next: typeof current) => {
     current = next;
@@ -47,7 +55,7 @@ export const mountPlanetWalk = (elements: PlanetWalkElements) => {
   mountWorldPicker(elements.worldPicker, current.id, choose);
   choose(current);
   createTouchPad(elements.touchPad, window);
-  const station = createStationControls(world, elements, () => current.id);
+  const station = createStationControls(world, elements, () => current.id, sources.now);
   const frame = createWalkFrame({
     world,
     camera,
@@ -68,6 +76,7 @@ export const mountPlanetWalk = (elements: PlanetWalkElements) => {
   renderer.setAnimationLoop((time: number) => {
     frame(Math.min((time - previous) / MS_PER_SECOND, MAX_FRAME_SECONDS));
     previous = time;
+    world.setTime(sources.now());
     renderer.render(world.scene, camera);
   });
   return { excavator: station.driving.store, activity: station.actions.activity };

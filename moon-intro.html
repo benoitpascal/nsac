@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Landing on the Moon · Project Arcadia</title>
+    <meta name="description" content="Your first steps on the Moon." />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <link rel="stylesheet" href="/src/moon-intro.css" />
+  </head>
+  <body class="arcadia arcadia--moon-intro">
+    <main class="moon-intro" aria-label="Landing on the Moon">
+      <div id="moon-intro-stage" class="moon-intro__stage"></div>
+      <button id="moon-intro-skip" class="pill-button moon-intro__skip" type="button">
+        <img class="pill-button__icon pill-button__icon--idle" src="/arcadia/icon-play.svg" alt="" />
+        <img class="pill-button__icon pill-button__icon--active" src="/arcadia/icon-play-active.svg" alt="" />
+        <span class="pill-button__label">Skip</span>
+      </button>
+    </main>
+    <script type="module" src="/src/moon-intro.ts"></script>
+  </body>
+</html>

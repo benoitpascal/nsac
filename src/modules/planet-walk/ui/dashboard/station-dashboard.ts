@@ -12,6 +12,8 @@ export type StationDashboardSetup = {
   section: HTMLElement;
   actions: ReturnType<typeof createStationActions>;
   worldId: () => WalkWorldId;
+  /** The base's time (Unix ms), shared with the sky. */
+  now: () => number;
   excavator: () => ExcavatorStore;
 };
 
@@ -45,7 +47,7 @@ export const createStationDashboard = (setup: StationDashboardSetup) => {
   let sinceRefresh = REFRESH_SECONDS;
   return {
     update: (seconds: number, digging: boolean) => {
-      const now = Date.now();
+      const now = setup.now();
       const generationKw = solarPowerKw(setup.worldId(), now);
       stores = stepStores(stores, { generationKw, digging }, seconds);
       const open = setup.actions.activity() === 'dashboard';

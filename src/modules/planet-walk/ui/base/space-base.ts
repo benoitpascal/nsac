@@ -1,6 +1,7 @@
 import { Box3, Group, Vector3 } from 'three';
 import { BASE_SITE, HABITAT_SPOT, LAYOUT } from './base-layout';
 import { createRegolithSites } from './excavator/regolith-sites';
+import { createSolarField } from './solar-field';
 import { createCrossHabitat } from './habitat/cross-habitat';
 import { createLandingPad } from './landing-pad.mesh';
 import { LANDMARKS } from './landmarks/landmark-layout';
@@ -61,10 +62,11 @@ export const createSpaceBase = (renderer: WebGLRenderer) => {
   const { habitat, solids, passages } = createCrossHabitat();
   habitat.position.set(HABITAT_SPOT.x, 0, HABITAT_SPOT.z);
   const { sites, solids: siteSolids, ...regolith } = createRegolithSites();
-  base.add(pad, habitat, ...sites);
+  const solar = createSolarField(materials);
+  base.add(pad, habitat, solar.field, ...sites);
   base.position.set(BASE_SITE.x, 0, BASE_SITE.z);
   base.updateMatrixWorld(true);
-  const obstacles = [...buildings, ...solids, ...siteSolids].map(obstacleOf);
+  const obstacles = [...buildings, ...solids, ...siteSolids, ...solar.solids].map(obstacleOf);
   const stationSpots: StationSpots = {
     console: fromHall({ x: 0, z: 0 }),
     passages: passages.map(({ from, to, label }) => ({
@@ -73,5 +75,5 @@ export const createSpaceBase = (renderer: WebGLRenderer) => {
       label,
     })),
   };
-  return { base, obstacles, stationSpots, ...regolith };
+  return { base, obstacles, stationSpots, aimSolarPanels: solar.aim, ...regolith };
 };

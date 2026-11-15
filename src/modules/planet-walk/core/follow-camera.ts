@@ -7,6 +7,8 @@ const STEP_M = 0.1;
 const MARGIN_M = 0.3;
 const MIN_DISTANCE_M = 0.6;
 const LOWEST_EYE_M = 0.2;
+/** Halvings of the last step, to find where the wall starts to within a few millimeters. */
+const REFINE_STEPS = 5;
 
 const isInside = (obstacle: Obstacle, point: Point) =>
   point.x > obstacle.minX &&
@@ -27,14 +29,23 @@ export const clearDistance = (
   direction: Point,
   distance: number,
 ): number => {
-  for (let step = STEP_M; step <= distance; step += STEP_M) {
+  const blockedAt = (step: number) => {
     const point = {
       x: target.x + direction.x * step,
       y: target.y + direction.y * step,
       z: target.z + direction.z * step,
     };
-    if (point.y < LOWEST_EYE_M || obstacles.some((obstacle) => isInside(obstacle, point)))
-      return Math.max(step - MARGIN_M, MIN_DISTANCE_M);
+    return point.y < LOWEST_EYE_M || obstacles.some((obstacle) => isInside(obstacle, point));
+  };
+  for (let step = STEP_M; step <= distance; step += STEP_M) {
+    if (!blockedAt(step)) continue;
+    let [free, blocked] = [step - STEP_M, step];
+    for (let refine = 0; refine < REFINE_STEPS; refine++) {
+      const middle = (free + blocked) / 2;
+      if (blockedAt(middle)) blocked = middle;
+      else free = middle;
+    }
+    return Math.max(free - MARGIN_M, MIN_DISTANCE_M);
   }
   return distance;
 };

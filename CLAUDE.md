@@ -32,6 +32,7 @@ Pages (declared in `vite.config.ts` under `build.rolldownOptions.input`):
 
 - `index.html` (home) loads `src/styles.css` and `src/home.css`.
 - `missions.html` (act selection) loads `src/styles.css`, `src/missions.css` and `src/act-card.css`.
+- `moon-intro.html` (Moon landing cutscene) loads `src/moon-intro.ts`, `src/styles.css` and `src/moon-intro.css`; it plays the clips of `public/game-design/` listed in `modules/moon-intro/core/intro-shots.ts`, then opens Day One.
 - `day-one.html` (Moon act intro) loads `src/styles.css`, `src/day-one.css` and `src/status-card.css`.
 - `briefing.html` (daily briefing) loads `src/styles.css`, `src/hud.css` and `src/briefing.css`.
 - `information.html` (context, goal, how to play, controls, credits) loads `src/information.ts`, `src/styles.css`, `src/hud.css` and `src/information.css`.
